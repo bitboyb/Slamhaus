@@ -3,6 +3,7 @@
 #include <fstream>
 #include <filesystem>
 #include "parser.hpp"
+#include "asset.hpp"
 
 int main() 
 {
@@ -23,6 +24,7 @@ int main()
     std::string htmlContent = ParseMarkdown(markdown);
     std::string cssContent = LoadCSS("assets/css/style.css");
     std::string finalHtml = ApplyTemplate(htmlContent, "templates/base.html", cssContent);
+    CopyAssets("assets/images", "output/assets/images");
 
     std::ofstream outFile("output/index.html");
     if (!outFile) 

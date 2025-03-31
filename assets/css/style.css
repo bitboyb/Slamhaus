@@ -8,25 +8,33 @@ body, h1, h2, h3, p, ul, ol, li {
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #121212;
+    color: #e0e0e0;
     padding: 20px;
+}
+
+/* List styling */
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
 }
 
 /* Header styling */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #1f1f1f;
+    color: #e0e0e0;
     padding: 10px 0;
     text-align: center;
+    border-bottom: 2px solid #BB86FC;
 }
 
 /* Main content area styling */
 main {
-    background-color: #fff;
+    background-color: #1e1e1e;
     padding: 20px;
     margin-top: 20px;
     border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Footer styling */
@@ -34,26 +42,49 @@ footer {
     margin-top: 20px;
     text-align: center;
     font-size: 0.9em;
-    color: #777;
+    color: #a0a0a0;
+    border-top: 2px solid #03DAC6;
+    padding-top: 10px;
 }
 
 /* Heading styles */
 h1 {
     font-size: 2em;
     margin-bottom: 10px;
+    color: #BB86FC;
 }
 
 h2 {
     font-size: 1.75em;
     margin-bottom: 8px;
+    color: #03DAC6;
 }
 
 h3 {
     font-size: 1.5em;
     margin-bottom: 6px;
+    color: #BB86FC;
 }
 
 /* Paragraph styling */
 p {
     margin-bottom: 10px;
+}
+
+/* Link styling */
+a {
+    color: #03DAC6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive image styling */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
 }

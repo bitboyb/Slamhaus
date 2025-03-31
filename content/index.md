@@ -1,7 +1,29 @@
 # Slamhaus!
 
-## Let's Go!
+This site is powered by **Slamhaus** that supports a variety of features.
 
-This is a simple example of a Slamhaus site!
+## Features
 
-### We Got This!
+- Custom headings support
+- Bullet lists
+- Numbered lists
+- Inline images
+- Inline links
+
+### Numbered List Example
+
+1. First feature
+2. Second feature
+3. Third feature
+
+### Link Example
+
+For more details, check out the [documentation](https://google.com).
+
+### Image Example
+
+Here’s an image from our assets:
+
+![Awesome Image](assets/images/awesome-image.jpg)
+
+Enjoy exploring the site!
