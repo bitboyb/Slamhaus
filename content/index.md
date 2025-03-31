@@ -18,7 +18,7 @@ This site is powered by **Slamhaus** that supports a variety of features.
 
 ### Link Example
 
-For more details, check out the [documentation](https://google.com).
+For more details, check out the [documentation](documentation.md).
 
 ### Image Example
 
