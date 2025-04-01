@@ -1,3 +1,5 @@
+<!-- Navigation -->
+
 - [Home](index.md)
 - [Documentation](documentation.md)
 - [About](about.md)
