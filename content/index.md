@@ -1,53 +1,26 @@
 # Slamhaus!
 
-This site is powered by **Slamhaus** that supports a variety of features.  
-For example, you can use *italic text*, **bold text**, and ***bold italic text*** in your content.
+Welcome to **Slamhaus** — a static site generator built with a C++ backend and a Markdown-powered frontend. It’s fast, lightweight, and designed with **game dev-inspired syntax** in mind.
+
+## Why Slamhaus?
+
+- ⚙️ **Built in Modern C++** – performance-first design  
+- 📝 **Markdown as Frontend** – no templates, just write  
+- 🎮 **Game Dev-style Syntax** – clear and expressive  
+- 💡 **Minimal Codebase** – easy to read, extend, and hack  
 
 ## Features
 
-- Custom headings support
-- Bullet lists
-- Numbered lists
-- Inline images
-- Inline links
-- **Bold**, *Italic*, and ***Bold Italic*** text formatting
+- Custom heading levels
+- Bullet & numbered lists
+- Inline links and images
+- Videos with size hints
+- Code highlighting with C++-like feel
+- Tables, horizontal rules, and more
+- Lightweight CSS-injection support
+- No dependencies beyond the standard library
 
-### Numbered List Example
+## Links
 
-1. First feature
-2. Second feature
-3. Third feature
+Check out the [documentation](documentation.md) to learn how Slamhaus works.
 
-### Link Example
-
-For more details, check out the [documentation](documentation.md).
-
-### Code Snippets
-
-Just like regular markdown, we support code snippets like `std::vector` &...
-
-```cpp
-#include <iostream>
-
-int main() {
-    std::cout << "Hello World!";
-    return 0;
-}
-```
-
-### Tables
-
-| Month    | Savings |
-| -------- | ------- |
-| January  | $250    |
-| February | $80     |
-| March    | $420    |
-
-
-### Image Example
-
-Here’s an image from our assets:
-
-![width:max Awesome Image](assets/images/awesome-image.jpg)
-
-Enjoy exploring the site!

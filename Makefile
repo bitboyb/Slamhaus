@@ -12,7 +12,7 @@ SRC := $(shell find src -type f -name '*.cpp')
 # Convert each src/xxx.cpp into build/xxx.o
 OBJ := $(patsubst src/%, build/%, $(SRC:.cpp=.o))
 
-EXEC = slamzehausdown
+EXEC = slamhaus
 
 all: $(EXEC)
 
