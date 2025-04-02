@@ -212,6 +212,71 @@ namespace Parser
             inOl = false;
         }
     }
+
+    /*std::string ParseCodeBlock(std::istream& input)
+    {
+        std::ostringstream code;
+        std::string line;
+
+        while (std::getline(input, line))
+        {
+            if (line.rfind("```", 0) == 0)
+            {
+                break;
+            }
+            code << line << '\n';
+        }
+
+        return "<pre><code>" + code.str() + "</code></pre>\n";
+    }
+
+    std::string ParseTable(std::istream& input, const std::string& firstLine)
+    {
+        std::ostringstream html;
+        std::vector<std::string> lines = { firstLine };
+        std::string line;
+
+        while (std::getline(input, line))
+        {
+            if (line.empty() || line[0] != '|')
+            {
+                break;
+            }
+            lines.push_back(line);
+        }
+
+        html << "<table>\n";
+
+        for (size_t i = 0; i < lines.size(); ++i)
+        {
+            html << "<tr>";
+            std::istringstream row(lines[i]);
+            std::string cell;
+
+            if (lines[i][0] == '|')
+            {
+                std::getline(row, cell, '|');
+            }
+
+            while (std::getline(row, cell, '|'))
+            {
+                cell = std::regex_replace(cell, std::regex(R"(^\s+|\s+$)"), "");
+                if (i == 0)
+                {
+                    html << "<th>" << ProcessInline(cell) << "</th>";
+                }
+                else
+                {
+                    html << "<td>" << ProcessInline(cell) << "</td>";
+                }
+            }
+
+            html << "</tr>\n";
+        }
+
+        html << "</table>\n";
+        return html.str();
+    }*/
     
     std::string ParseMarkdown(const std::string& markdown)
     {
