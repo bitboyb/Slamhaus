@@ -375,6 +375,23 @@ namespace Parser
                 CloseLists(html, inUl, inOl);
                 continue;
             }
+
+            if (line.rfind("!iframe[", 0) == 0 && line.back() == ']')
+            {
+                CloseLists(html, inUl, inOl);
+                size_t start = line.find('[');
+                size_t end = line.find(']');
+                if (start != std::string::npos && end != std::string::npos && end > start)
+                {
+                    std::string url = line.substr(start + 1, end - start - 1);
+                    html << "<div class=\"embed-container\">\n"
+                         << "<iframe src=\"" << url << "\" "
+                         << "frameborder=\"0\" allowfullscreen "
+                         << "referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>\n"
+                         << "</div>\n";
+                }
+                continue;
+            }      
             
             if ((std::regex_match(line, std::regex(R"(^-{3,}\s*$)"))) || (line == "---"))
             {
