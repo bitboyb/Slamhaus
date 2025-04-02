@@ -6,8 +6,6 @@
 namespace Parser 
 {
     std::string ParseMarkdown(const std::string& markdown);
-
-    std::string LoadCSS(const std::string &cssPath);
     
     std::string ApplyTemplate(const std::string &content, 
                               const std::string &templatePath, 

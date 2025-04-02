@@ -1,5 +1,5 @@
 #include <iostream>
-#include "generator.hpp"
+#include "core/generator.hpp"
 
 int main()
 {

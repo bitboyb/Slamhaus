@@ -8,20 +8,6 @@
 
 namespace Parser 
 {
-    // Loads a CSS file into a string.
-    std::string LoadCSS(const std::string &cssPath)
-    {
-        std::ifstream cssFile(cssPath);
-        if (!cssFile)
-        {
-            std::cerr << "Error opening CSS file: " << cssPath << std::endl;
-            return "";
-        }
-        std::ostringstream cssStream;
-        cssStream << cssFile.rdbuf();
-        return cssStream.str();
-    }
-
     // Applies the template from a file, replacing the placeholders.
     std::string ApplyTemplate(const std::string &content,
                             const std::string &templatePath,

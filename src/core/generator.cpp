@@ -1,5 +1,5 @@
 #include "generator.hpp"
-#include "parser.hpp"
+#include "../interpreter/parser.hpp"
 #include "asset.hpp"
 #include <filesystem>
 #include <fstream>
@@ -88,13 +88,27 @@ namespace Generator
         }
         return tmplStr;
     }
+
+    std::string LoadCSS(const std::string &cssPath)
+    {
+        std::ifstream cssFile(cssPath);
+        if (!cssFile)
+        {
+            std::cerr << "Error opening CSS file: " << cssPath << std::endl;
+            return "";
+        }
+        std::ostringstream cssStream;
+        cssStream << cssFile.rdbuf();
+        return cssStream.str();
+    }
     
     void GenerateSite(const std::string &contentDir, 
                       const std::string &outputDir, 
                       const std::string &cssPath)
     {
         std::filesystem::create_directories(outputDir);
-        std::string cssContent = Parser::LoadCSS(cssPath);
+        // std::string cssContent = Parser::LoadCSS(cssPath);
+        std::string cssContent = LoadCSS(cssPath);
     
         std::string templateString = BuildTemplate();
     
