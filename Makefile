@@ -2,20 +2,21 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -I./src
 LDFLAGS = 
 
-SRC = $(wildcard src/*.cpp)
-OBJ = $(patsubst src/%.cpp, build/%.o, $(SRC))
-EXEC = ssg
+# Find all .cpp files under src.
+SRC := $(shell find src -type f -name '*.cpp')
+# Convert each src/xxx.cpp into build/xxx.o
+OBJ := $(patsubst src/%, build/%, $(SRC:.cpp=.o))
+EXEC = slamzehausdown
 
 all: $(EXEC)
 
 $(EXEC): $(OBJ)
 	$(CXX) $(OBJ) -o $(EXEC) $(LDFLAGS)
 
-build/%.o: src/%.cpp | build
+# Pattern rule: for any file src/anything.cpp, compile to build/anything.o
+build/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build:
-	mkdir -p build
-
 clean:
-	rm -f build/*.o $(EXEC)
+	rm -rf build $(EXEC)

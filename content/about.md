@@ -19,4 +19,4 @@ Our dedicated team is passionate about clean design and simple, effective web de
 
 For additional details, check out our [Documentation](documentation.md) or return to the [Home Page](index.md).
 
-![Team Image](assets/images/awesome-image.jpg)
+![Team Image](content/assets/images/awesome-image.jpg)
