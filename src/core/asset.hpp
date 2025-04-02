@@ -8,5 +8,4 @@ namespace Asset
     void CopyAssets(const std::string &sourceDir, const std::string &destDir);
 }
 
-
 #endif // ASSET_HPP

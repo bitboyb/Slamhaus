@@ -8,53 +8,76 @@
 
 namespace Parser 
 {
-    // Applies the template from a file, replacing the placeholders.
-    std::string ApplyTemplate(const std::string &content,
-                            const std::string &templatePath,
-                            const std::string &cssContent)
+
+    std::string ReadTemplateFile(const std::string &templatePath)
     {
         std::ifstream tmplFile(templatePath);
         if (!tmplFile)
         {
             std::cerr << "Error opening template file: " << templatePath << std::endl;
-            return content;
+            return "";
         }
         std::ostringstream tmplStream;
         tmplStream << tmplFile.rdbuf();
-        std::string tmplStr = tmplStream.str();
+        return tmplStream.str();
+    }
 
-        const std::string cssPlaceholder = "{{ css }}";
-        size_t pos = tmplStr.find(cssPlaceholder);
+    void ReplacePlaceholder(std::string &tmplStr, const std::string &placeholder, const std::string &value)
+    {
+        size_t pos = tmplStr.find(placeholder);
         if (pos != std::string::npos)
         {
-            tmplStr.replace(pos, cssPlaceholder.length(), cssContent);
+            tmplStr.replace(pos, placeholder.length(), value);
         }
-        else
-        {
-            std::cerr << "Warning: CSS placeholder not found in template." << std::endl;
-        }
-
-        const std::string contentPlaceholder = "{{ content }}";
-        pos = tmplStr.find(contentPlaceholder);
-        if (pos != std::string::npos)
-        {
-            tmplStr.replace(pos, contentPlaceholder.length(), content);
-        }
-        else
+        else if (placeholder == "{{ content }}")
         {
             std::cerr << "Warning: Content placeholder not found in template. Appending content." << std::endl;
-            tmplStr += content;
+            tmplStr += value;
         }
+        else
+        {
+            std::cerr << "Warning: " << placeholder << " placeholder not found in template." << std::endl;
+        }
+    }
+
+    std::string ApplyTemplate(const std::string &content,
+                              const std::string &templatePath,
+                              const std::string &cssContent)
+    {
+        std::string tmplStr = ReadTemplateFile(templatePath);
+        if (tmplStr.empty())
+        {
+            return content;
+        }
+        ReplacePlaceholder(tmplStr, "{{ css }}", cssContent);
+        ReplacePlaceholder(tmplStr, "{{ content }}", content);
         return tmplStr;
     }
 
-    // Processes inline elements: images, links, inline code, bold, italic, and bold italic.
-    std::string ProcessInline(const std::string &text)
+    std::string ReplaceInlineCode(const std::string &text)
     {
-        std::string out = text;
-        size_t pos = 0;
+        return std::regex_replace(text, std::regex(R"(`([^`]+)`)") , "<code>$1</code>");
+    }
 
-        // Process images with optional size attributes in alt text.
+    std::string ReplaceBoldItalic(const std::string &text)
+    {
+        return std::regex_replace(text, std::regex(R"(\*\*\*(.+?)\*\*\*)"), "<strong><em>$1</em></strong>");
+    }
+
+    std::string ReplaceBold(const std::string &text)
+    {
+        return std::regex_replace(text, std::regex(R"(\*\*(.+?)\*\*)"), "<strong>$1</strong>");
+    }
+
+    std::string ReplaceItalic(const std::string &text)
+    {
+        return std::regex_replace(text, std::regex(R"(\*(.+?)\*)"), "<em>$1</em>");
+    }
+
+    static std::string ProcessImages(const std::string &input)
+    {
+        std::string out = input;
+        size_t pos = 0;
         while ((pos = out.find("![", pos)) != std::string::npos)
         {
             size_t endAlt = out.find("]", pos + 2);
@@ -66,9 +89,8 @@ namespace Parser
                     std::string rawAlt = out.substr(pos + 2, endAlt - (pos + 2));
                     std::string url = out.substr(endAlt + 2, endUrl - (endAlt + 2));
                     std::istringstream iss(rawAlt);
-                    std::string token;
-                    std::string description;
-                    std::string styleAttr;
+                    std::string token, description, styleAttr;
+
                     while (iss >> token)
                     {
                         size_t colonPos = token.find(':');
@@ -78,15 +100,7 @@ namespace Parser
                             std::string value = token.substr(colonPos + 1);
                             if ((key == "height") || (key == "width"))
                             {
-                                // If value is "max", set to 100%
-                                if (value == "max")
-                                {
-                                    styleAttr += key + ":100%; ";
-                                }
-                                else
-                                {
-                                    styleAttr += key + ":" + value + "; ";
-                                }
+                                styleAttr += key + ":" + (value == "max" ? "100%" : value) + "; ";
                                 continue;
                             }
                         }
@@ -119,9 +133,13 @@ namespace Parser
                 pos += 2;
             }
         }
+        return out;
+    }
 
-        pos = 0;
-        // Process links.
+    static std::string ProcessLinks(const std::string &input)
+    {
+        std::string out = input;
+        size_t pos = 0;
         while ((pos = out.find("[", pos)) != std::string::npos)
         {
             size_t endText = out.find("]", pos + 1);
@@ -147,30 +165,18 @@ namespace Parser
             }
         }
 
-        // Process inline code: `code`
-        {
-            std::regex inlineCodeRegex(R"(`([^`]+)`)");
-            out = std::regex_replace(out, inlineCodeRegex, "<code>$1</code>");
-        }
+        return out;
+    }
 
-        // Process bold italic: ***text***
-        {
-            std::regex boldItalicRegex(R"(\*\*\*(.+?)\*\*\*)");
-            out = std::regex_replace(out, boldItalicRegex, "<strong><em>$1</em></strong>");
-        }
-
-        // Process bold: **text**
-        {
-            std::regex boldRegex(R"(\*\*(.+?)\*\*)");
-            out = std::regex_replace(out, boldRegex, "<strong>$1</strong>");
-        }
-
-        // Process italics: *text*
-        {
-            std::regex italicRegex(R"(\*(.+?)\*)");
-            out = std::regex_replace(out, italicRegex, "<em>$1</em>");
-        }
-
+    std::string ProcessInline(const std::string &text)
+    {
+        std::string out = text;
+        out = ProcessImages(out);
+        out = ProcessLinks(out);
+        out = ReplaceInlineCode(out);
+        out = ReplaceBoldItalic(out);
+        out = ReplaceBold(out);
+        out = ReplaceItalic(out);
         return out;
     }
 
@@ -181,6 +187,7 @@ namespace Parser
         {
             pos++;
         }
+
         return ((pos > 0) && (pos + 1 < line.size()) && (line[pos] == '.') && (line[pos + 1] == ' '));
     }
 
@@ -237,9 +244,11 @@ namespace Parser
         std::ostringstream tableHtml;
         tableHtml << "<table>\n";
         bool headerFound = false;
+
         if (tableLines.size() >= 2)
         {
             std::regex sepRegex(R"(^\|[\-\:\s\|]+$)");
+
             if (std::regex_match(tableLines[1], sepRegex))
             {
                 headerFound = true;
@@ -279,37 +288,31 @@ namespace Parser
     std::string HighlightCode(const std::string& code)
     {
         std::string result = code;
-    
         result = std::regex_replace(
             result,
             std::regex(R"(\b(if|else|for|while|return|break|continue|switch|case|default|class|struct|const|void|int|float|double|bool|char|unsigned|signed)\b)"),
             "<span class=\"keyword\">$1</span>"
         );
-    
         result = std::regex_replace(
             result,
             std::regex(R"_STR("([^"]*)")_STR"),
             "\"<span class=\"string\">$1</span>\""
         );
-    
         result = std::regex_replace(
             result,
             std::regex(R"(\b\d+(\.\d+)?\b)"),
             "<span class=\"number\">$&</span>"
         );
-    
         result = std::regex_replace(
             result,
             std::regex(R"(//[^\n]*)"),
             "<span class=\"comment\">$&</span>"
         );
-    
         result = std::regex_replace(
             result,
             std::regex(R"(\b([A-Za-z_]\w*)\s*(?=\())"),
             "<span class=\"function\">$1</span>"
         );
-    
         return result;
     }    
 
@@ -317,21 +320,16 @@ namespace Parser
     {
         std::ostringstream codeBlock;
         std::string line;
-    
         while (std::getline(iss, line))
         {
             if (line.rfind("```", 0) == 0)
             {
                 break;
             }
-    
             codeBlock << line << "\n";
         }
-    
         return "<pre><code>" + HighlightCode(codeBlock.str()) + "</code></pre>\n";
     }
-    
-    
 
     std::string ParseMarkdown(const std::string &markdown)
     {
@@ -341,7 +339,6 @@ namespace Parser
         bool inUl = false;
         bool inOl = false;
         bool inCodeBlock = false;
-        
         while (std::getline(iss, line))
         {
             if (line.rfind("```", 0) == 0)
@@ -355,13 +352,11 @@ namespace Parser
                 }
                 continue;
             }
-            
             if (line.empty())
             {
                 CloseLists(html, inUl, inOl);
                 continue;
             }
-
             if (line.rfind("!iframe[", 0) == 0 && line.back() == ']')
             {
                 CloseLists(html, inUl, inOl);
@@ -378,21 +373,18 @@ namespace Parser
                 }
                 continue;
             }      
-            
             if ((std::regex_match(line, std::regex(R"(^-{3,}\s*$)"))) || (line == "---"))
             {
                 CloseLists(html, inUl, inOl);
                 html << "<hr>\n";
                 continue;
             }
-            
             if ((!line.empty()) && (line[0] == '|'))
             {
                 CloseLists(html, inUl, inOl);
                 html << ParseTable(iss, line);
                 continue;
             }
-            
             if (line.find("# ") == 0)
             {
                 CloseLists(html, inUl, inOl);
@@ -455,5 +447,4 @@ namespace Parser
         }
         return result;
     }
-
 }

@@ -26,18 +26,14 @@ namespace Generator
             return std::string((std::istreambuf_iterator<char>(in)),
                                std::istreambuf_iterator<char>());
         };
-    
         std::string defineMarkdown = readFile("content/include/define.md");
         std::string headerMarkdown = readFile("content/include/header.md");
         std::string navMarkdown = readFile("content/include/nav.md");
         std::string footerMarkdown = readFile("content/include/footer.md");
-    
-        
-        std::string siteName = Parser::ParseMarkdown(defineMarkdown);
+        std::string siteName = Parser::StripParagraphTags(defineMarkdown);
         std::string headerContent = Parser::ParseMarkdown(headerMarkdown);
         std::string navContent = Parser::ParseMarkdown(navMarkdown);
         std::string footerContent = Parser::ParseMarkdown(footerMarkdown);
-    
         std::string tmpl =
             "<!DOCTYPE html>\n"
             "<html>\n"
@@ -107,13 +103,9 @@ namespace Generator
                       const std::string &cssPath)
     {
         std::filesystem::create_directories(outputDir);
-        // std::string cssContent = Parser::LoadCSS(cssPath);
         std::string cssContent = LoadCSS(cssPath);
-    
         std::string templateString = BuildTemplate();
-    
         Asset::CopyAssets("content/assets/", outputDir + "/assets");
-    
         for (const auto &entry : std::filesystem::recursive_directory_iterator(contentDir))
         {
             if (entry.is_regular_file() && entry.path().extension() == ".md")
@@ -125,12 +117,10 @@ namespace Generator
                     std::cout << "Skipping partial file: " << entry.path() << std::endl;
                     continue;
                 }
-    
                 std::filesystem::path relPath = std::filesystem::relative(entry.path(), contentDir);
                 relPath.replace_extension(".html");
                 std::filesystem::path outputPath = std::filesystem::path(outputDir) / relPath;
                 std::filesystem::create_directories(outputPath.parent_path());
-    
                 std::ifstream mdFile(entry.path());
                 if (!mdFile)
                 {
@@ -143,7 +133,6 @@ namespace Generator
                 std::string htmlContent = Parser::ParseMarkdown(markdown);
                 std::string finalHtml = ApplyTemplateFromString(htmlContent, templateString, cssContent);
                 finalHtml = AdjustLinks(finalHtml);
-    
                 std::ofstream outFile(outputPath);
                 if (!outFile)
                 {

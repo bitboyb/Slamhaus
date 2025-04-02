@@ -10,6 +10,8 @@ namespace Parser
     std::string ApplyTemplate(const std::string &content, 
                               const std::string &templatePath, 
                               const std::string &cssContent);
+
+    std::string StripParagraphTags(const std::string &html);
 }
 
 #endif // PARSER_HPP
