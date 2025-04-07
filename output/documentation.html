@@ -171,12 +171,12 @@ pre {
 }
 
 /* Syntax Highlighting */
-code .keyword  { color: #bb86fc; font-weight: bold; }
+/* code .keyword  { color: #bb86fc; font-weight: bold; }
 code .string   { color: #8be9fd; }
 code .number   { color: #f78c6c; }
 code .comment  { color: #616161; font-style: italic; }
 code .function { color: #ffd580; }
-code .type     { color: #ffcb6b; }
+code .type     { color: #ffcb6b; } */
 
 /* Tables */
 table {
@@ -347,7 +347,7 @@ sudo apt install g++
 ├── content/       → main site content in Markdown
 ├── include/
 │   ├── define.md  → title of the site
-│   ├── header.md  → content <span class="<span class="string">keyword</span>">for</span> the top of each page
+│   ├── header.md  → content for the top of each page
 │   ├── nav.md     → site navigation
 │   └── footer.md  → footer content
 └── slamhaus       → compiled executable
@@ -356,15 +356,15 @@ sudo apt install g++
 <h2>Syntax</h2>
 <p>Slamhaus supports extended Markdown syntax, including some custom features.</p>
 <h3>Headings & Lists</h3>
-<pre><code># Heading <span class="number">1</span>
-## Heading <span class="number">2</span>
-### Heading <span class="number">3</span>
+<pre><code># Heading 1
+## Heading 2
+### Heading 3
 
 - Bullet list item
 - Another item
 
-<span class="number">1</span>. Numbered item
-<span class="number">2</span>. Another one
+1. Numbered item
+2. Another one
 </code></pre>
 <h3>Inline Formatting</h3>
 <p><em>Italic</em>, <strong>Bold</strong>, and <strong><em>Bold Italic</em></strong></p>
@@ -378,18 +378,18 @@ sudo apt install g++
 <pre><code>![width:max height:300px Cool Banner](assets/images/awesome-image.jpg)
 </code></pre>
 <h3>Video Embeds</h3>
-<pre><code>!video[width:<span class="number">100</span>% height:350px Demo Clip](assets/videos/demo.mp4)
+<pre><code>!video[width:100% height:350px Demo Clip](assets/videos/demo.mp4)
 </code></pre>
 <h3>iFrame Embeds</h3>
-<pre><code>!iframe[https:<span class="comment">//www.youtube.com/embed/dQw4w9WgXcQ]</span>
+<pre><code>!iframe[https://www.youtube.com/embed/dQw4w9WgXcQ]
 </code></pre>
 <hr>
 <h3>Code Highlighting</h3>
 <pre><code>#include <iostream>
 
-<span class="<span class="string">keyword</span>">int</span> <span class="function">main</span>() {
-    std::cout << "<span class="string">Hello from Slamhaus!</span>";
-    <span class="<span class="string">keyword</span>">return</span> <span class="number">0</span>;
+int main() {
+    std::cout << "Hello from Slamhaus!";
+    return 0;
 }
 </code></pre>
 <h3>Inline Code Snippets</h3>

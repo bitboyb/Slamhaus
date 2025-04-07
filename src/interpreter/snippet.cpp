@@ -54,6 +54,6 @@ namespace Snippet
             }
             codeBlock << line << "\n";
         }
-        return "<pre><code>" + HighlightCode(codeBlock.str()) + "</code></pre>\n";
+        return "<pre><code>" + codeBlock.str() + "</code></pre>\n";
     }
 }

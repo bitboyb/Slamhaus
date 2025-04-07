@@ -19,8 +19,8 @@ namespace Template
     }
 
     void ReplacePlaceholder(std::string &tmplStr, 
-        const std::string &placeholder, 
-        const std::string &value)
+                            const std::string &placeholder, 
+                            const std::string &value)
     {
         size_t pos = tmplStr.find(placeholder);
         if (pos != std::string::npos)

@@ -164,12 +164,12 @@ pre {
 }
 
 /* Syntax Highlighting */
-code .keyword  { color: #bb86fc; font-weight: bold; }
+/* code .keyword  { color: #bb86fc; font-weight: bold; }
 code .string   { color: #8be9fd; }
 code .number   { color: #f78c6c; }
 code .comment  { color: #616161; font-style: italic; }
 code .function { color: #ffd580; }
-code .type     { color: #ffcb6b; }
+code .type     { color: #ffcb6b; } */
 
 /* Tables */
 table {

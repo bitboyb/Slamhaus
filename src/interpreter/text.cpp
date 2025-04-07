@@ -29,7 +29,6 @@ namespace Text
         {
             pos++;
         }
-
         return ((pos > 0) && (pos + 1 < line.size()) && (line[pos] == '.') && (line[pos + 1] == ' '));
     }
 
