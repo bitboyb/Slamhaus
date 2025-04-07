@@ -5,6 +5,8 @@
 
 namespace Parser 
 {
+    std::string ProcessInline(const std::string &text);
+    
     std::string ParseMarkdown(const std::string& markdown);
     
     std::string ApplyTemplate(const std::string &content, 
