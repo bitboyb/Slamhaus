@@ -24,48 +24,107 @@ namespace Parser
         std::istringstream iss(markdown);
         std::string line;
         std::ostringstream html;
-        bool inUl = false;
-        bool inOl = false;
-        bool inCodeBlock = false;
-
-        bool inColumn = false;
-        bool inCSS = false;
-
+        bool inUl = false, inOl = false, inCodeBlock = false;
+        bool inColumn = false, inCSS = false;
         std::ostringstream columnBuffer;
         std::vector<std::string> columnParts;
-
         std::ostringstream cssBuffer;
 
         while (std::getline(iss, line))
         {
+            // Section markers:
             if (Style::IsSectionOpenLine(line))
             {
                 Text::CloseLists(html, inUl, inOl);
                 html << "<section>\n";
                 continue;
             }
-
             if (Style::IsSectionCloseLine(line))
             {
                 html << "</section>\n";
                 continue;
             }
-
-            if (Style::IsColumnOpenLine(line))
+            // CSS markers:
+            if (Style::IsCSSOpenLine(line))
             {
                 Text::CloseLists(html, inUl, inOl);
-                inColumn = true;
-                columnParts.clear();
-                columnBuffer.str("");
-                columnBuffer.clear();
+                // Check if this is immediate CSS mode: if the line contains "]()".
+                if (line.find("]()") != std::string::npos)
+                {
+                    std::string trimmed = Style::Trim(line);
+                    size_t start = trimmed.find('[');
+                    size_t end = trimmed.find(']', start + 1);
+                    if (start != std::string::npos && end != std::string::npos && end > start)
+                    {
+                        std::string cssContent = trimmed.substr(start + 1, end - start - 1);
+                        html << "<style>\n" << cssContent << "\n</style>\n";
+                    }
+                    // Immediately skip further lines until the close marker.
+                    while (std::getline(iss, line))
+                    {
+                        if (Style::IsCSSCloseLine(line))
+                            break;
+                    }
+                    continue;
+                }
+                else
+                {
+                    inCSS = true;
+                    cssBuffer.str("");
+                    cssBuffer.clear();
+                    // Optionally extract any inline CSS from the marker
+                    std::string trimmed = Style::Trim(line);
+                    size_t start = trimmed.find('[');
+                    size_t end = trimmed.find(']', start + 1);
+                    if (start != std::string::npos && end != std::string::npos && end > start)
+                    {
+                        std::string initialCSS = trimmed.substr(start + 1, end - start - 1);
+                        cssBuffer << initialCSS << "\n";
+                    }
+                    continue;
+                }
+            }
+            if (Style::IsCSSCloseLine(line))
+            {
+                html << "<style>\n" << cssBuffer.str() << "\n</style>\n";
+                inCSS = false;
                 continue;
             }
-
+            if (inCSS)
+            {
+                cssBuffer << line << "\n";
+                continue;
+            }
+            
+            // Column markers:
+            if (Style::IsColumnOpenLine(line))
+            {
+                if (inColumn && !columnBuffer.str().empty())
+                {
+                    columnParts.push_back(columnBuffer.str());
+                    columnBuffer.str("");
+                    columnBuffer.clear();
+                }
+                else if (!inColumn)
+                {
+                    Text::CloseLists(html, inUl, inOl);
+                    inColumn = true;
+                    columnParts.clear();
+                    columnBuffer.str("");
+                    columnBuffer.clear();
+                }
+                continue;
+            }
             if (Style::IsColumnCloseLine(line))
             {
                 if (!columnBuffer.str().empty())
                 {
                     columnParts.push_back(columnBuffer.str());
+                }
+                // Instead of using inline processing, run the full markdown parser on each column.
+                for (auto &col : columnParts)
+                {
+                    col = Parser::ParseMarkdown(col);
                 }
                 html << Style::ApplyColumns(static_cast<int>(columnParts.size()), columnParts);
                 inColumn = false;
@@ -73,23 +132,6 @@ namespace Parser
                 columnBuffer.clear();
                 continue;
             }
-
-            if (Style::IsCSSOpenLine(line))
-            {
-                Text::CloseLists(html, inUl, inOl);
-                inCSS = true;
-                cssBuffer.str("");
-                cssBuffer.clear();
-                continue;
-            }
-
-            if (Style::IsCSSCloseLine(line))
-            {
-                html << "<style>\n" << cssBuffer.str() << "\n</style>\n";
-                inCSS = false;
-                continue;
-            }
-
             if (inColumn)
             {
                 if (line == "---")
@@ -104,14 +146,8 @@ namespace Parser
                 }
                 continue;
             }
-
-            if (inCSS)
-            {
-                cssBuffer << line << "\n";
-                continue;
-            }
-
-            // Existing features
+            
+            // Existing markdown processing for other elements:
             if (Embed::IsCodeBlockLine(line))
             {
                 if (!inCodeBlock)
@@ -225,10 +261,10 @@ namespace Parser
                 Text::AppendParagraph(html, line);
             }
         }
-
         Text::CloseLists(html, inUl, inOl);
         return html.str();
-    }  
+    }
+
 
     std::string StripParagraphTags(const std::string &html)
     {

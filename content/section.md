@@ -21,3 +21,5 @@ This content is inside a custom section block. You can align it or anchor it as 
 :/column
 
 :css[.highlight { background: yellow; padding: 0.5em; border-radius: 4px; }]()
+Custom CSS injection support!
+:/css
