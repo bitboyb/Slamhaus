@@ -4,7 +4,7 @@
 #include <string>
 
 namespace Parser 
-{
+{   
     std::string ProcessInline(const std::string &text);
     
     std::string ParseMarkdown(const std::string& markdown);

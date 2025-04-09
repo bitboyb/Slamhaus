@@ -14,7 +14,6 @@ namespace Embed
     bool IsSvgLine(const std::string &line);
 
     std::string ProcessImages(const std::string &input);
-    std::string ProcessLinks(const std::string &input);
     std::string ProcessIFrame(const std::string &input);
     std::string ProcessVideos(const std::string &input);
     std::string ProcessAudio(const std::string &input);

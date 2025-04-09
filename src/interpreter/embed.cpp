@@ -107,38 +107,6 @@ namespace Embed
         return out;
     }
 
-    std::string ProcessLinks(const std::string &input)
-    {
-        std::string out = input;
-        size_t pos = 0;
-        while ((pos = out.find("[", pos)) != std::string::npos)
-        {
-            size_t endText = out.find("]", pos + 1);
-            if ((endText != std::string::npos) && ((endText + 1) < out.size()) && (out[endText + 1] == '('))
-            {
-                size_t endUrl = out.find(")", endText + 2);
-                if (endUrl != std::string::npos)
-                {
-                    std::string linkText = out.substr(pos + 1, endText - pos - 1);
-                    std::string url = out.substr(endText + 2, endUrl - (endText + 2));
-                    std::string linkTag = "<a href=\"" + url + "\">" + linkText + "</a>";
-                    out.replace(pos, endUrl - pos + 1, linkTag);
-                    pos += linkTag.size();
-                }
-                else
-                {
-                    pos = endText + 1;
-                }
-            }
-            else
-            {
-                pos++;
-            }
-        }
-
-        return out;
-    }
-
     std::string ProcessIFrame(const std::string &input) 
     {
         std::string out = input;
