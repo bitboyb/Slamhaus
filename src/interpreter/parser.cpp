@@ -1,4 +1,5 @@
 #include "parser.hpp"
+#include "style.hpp"
 #include "text.hpp"
 #include "embed.hpp"
 #include "snippet.hpp"
@@ -26,9 +27,91 @@ namespace Parser
         bool inUl = false;
         bool inOl = false;
         bool inCodeBlock = false;
-    
+
+        bool inColumn = false;
+        bool inCSS = false;
+
+        std::ostringstream columnBuffer;
+        std::vector<std::string> columnParts;
+
+        std::ostringstream cssBuffer;
+
         while (std::getline(iss, line))
         {
+            if (Style::IsSectionOpenLine(line))
+            {
+                Text::CloseLists(html, inUl, inOl);
+                html << "<section>\n";
+                continue;
+            }
+
+            if (Style::IsSectionCloseLine(line))
+            {
+                html << "</section>\n";
+                continue;
+            }
+
+            if (Style::IsColumnOpenLine(line))
+            {
+                Text::CloseLists(html, inUl, inOl);
+                inColumn = true;
+                columnParts.clear();
+                columnBuffer.str("");
+                columnBuffer.clear();
+                continue;
+            }
+
+            if (Style::IsColumnCloseLine(line))
+            {
+                if (!columnBuffer.str().empty())
+                {
+                    columnParts.push_back(columnBuffer.str());
+                }
+                html << Style::ApplyColumns(static_cast<int>(columnParts.size()), columnParts);
+                inColumn = false;
+                columnBuffer.str("");
+                columnBuffer.clear();
+                continue;
+            }
+
+            if (Style::IsCSSOpenLine(line))
+            {
+                Text::CloseLists(html, inUl, inOl);
+                inCSS = true;
+                cssBuffer.str("");
+                cssBuffer.clear();
+                continue;
+            }
+
+            if (Style::IsCSSCloseLine(line))
+            {
+                html << "<style>\n" << cssBuffer.str() << "\n</style>\n";
+                inCSS = false;
+                continue;
+            }
+
+            if (inColumn)
+            {
+                if (line == "---")
+                {
+                    columnParts.push_back(columnBuffer.str());
+                    columnBuffer.str("");
+                    columnBuffer.clear();
+                }
+                else
+                {
+                    columnBuffer << line << "\n";
+                }
+                continue;
+            }
+
+            if (inCSS)
+            {
+                cssBuffer << line << "\n";
+                continue;
+            }
+
+            // Existing features
             if (Embed::IsCodeBlockLine(line))
             {
                 if (!inCodeBlock)
@@ -142,6 +225,7 @@ namespace Parser
                 Text::AppendParagraph(html, line);
             }
         }
+
         Text::CloseLists(html, inUl, inOl);
         return html.str();
     }  
