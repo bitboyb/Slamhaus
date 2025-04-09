@@ -109,17 +109,17 @@ namespace Text
         html << "<li>" << Parser::ProcessInline(line) << "</li>\n";
     }
 
-    void CloseLists(std::ostringstream &html, bool &inUl, bool &inOl)
+    void CloseLists(std::ostringstream &html, Parser::ParseState &pState)
     {
-        if (inUl)
+        if (pState.inUl)
         {
             html << "</ul>\n";
-            inUl = false;
+            pState.inUl = false;
         }
-        if (inOl)
+        if (pState.inOl)
         {
             html << "</ol>\n";
-            inOl = false;
+            pState.inOl = false;
         }
     }
 

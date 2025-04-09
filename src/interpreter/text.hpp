@@ -1,6 +1,7 @@
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
+#include "parser.hpp"
 #include <string>
 
 namespace Text
@@ -26,8 +27,7 @@ namespace Text
     void AppendListItem(std::ostringstream &html, 
                         const std::string &line);
     void CloseLists(std::ostringstream &html, 
-                    bool &inUl, 
-                    bool &inOl);
+                    Parser::ParseState& pState);
     std::string ParseTable(std::istream &iss, 
                            const std::string &firstLine);
 }

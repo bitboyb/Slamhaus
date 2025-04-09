@@ -11,7 +11,7 @@ namespace Parser
     std::string ProcessInline(const std::string &text)
     {
         std::string out = text;
-        out = Embed::ProcessLinks(out);
+        out = Text::ProcessLinks(out);
         out = Snippet::ReplaceInlineCode(out);
         out = Text::ReplaceBoldItalic(out);
         out = Text::ReplaceBold(out);
@@ -24,8 +24,8 @@ namespace Parser
         std::istringstream iss(markdown);
         std::string line;
         std::ostringstream html;
-        bool inUl = false, inOl = false, inCodeBlock = false;
-        bool inColumn = false;
+
+        Parser::ParseState pState;
     
         std::ostringstream columnBuffer;
         std::vector<std::string> columnParts;
@@ -34,7 +34,7 @@ namespace Parser
         {
             if (Style::IsSectionOpenLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << "<section>\n";
                 continue;
             }
@@ -46,16 +46,16 @@ namespace Parser
             
             if (Style::IsColumnOpenLine(line))
             {
-                if (inColumn && !columnBuffer.str().empty())
+                if (pState.inColumn && !columnBuffer.str().empty())
                 {
                     columnParts.push_back(columnBuffer.str());
                     columnBuffer.str("");
                     columnBuffer.clear();
                 }
-                else if (!inColumn)
+                else if (!pState.inColumn)
                 {
-                    Text::CloseLists(html, inUl, inOl);
-                    inColumn = true;
+                    Text::CloseLists(html, pState);
+                    pState.inColumn = true;
                     columnParts.clear();
                     columnBuffer.str("");
                     columnBuffer.clear();
@@ -73,12 +73,12 @@ namespace Parser
                     col = Parser::ParseMarkdown(col);
                 }
                 html << Style::ApplyColumns(static_cast<int>(columnParts.size()), columnParts);
-                inColumn = false;
+                pState.inColumn = false;
                 columnBuffer.str("");
                 columnBuffer.clear();
                 continue;
             }
-            if (inColumn)
+            if (pState.inColumn)
             {
                 if (line == "---")
                 {
@@ -94,100 +94,100 @@ namespace Parser
             }
             if (Embed::IsCodeBlockLine(line))
             {
-                if (!inCodeBlock)
+                if (!pState.inCodeBlock)
                 {
-                    Text::CloseLists(html, inUl, inOl);
-                    inCodeBlock = true;
+                    Text::CloseLists(html, pState);
+                    pState.inCodeBlock = true;
                     html << Snippet::ParseCodeBlock(iss, line);
-                    inCodeBlock = false;
+                    pState.inCodeBlock = false;
                 }
                 continue;
             }
             if (line.empty())
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 continue;
             }
             if (Embed::IsIFrameLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Embed::ProcessIFrame(line);
                 continue;
             }
             if (Embed::IsAudioLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Embed::ProcessAudio(line);
                 continue;
             }
             if (Embed::IsPictureLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Embed::ProcessPictures(line);
                 continue;
             }
             if (Embed::IsSvgLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Embed::ProcessSvg(line);
                 continue;
             }
             if (Text::IsHorizontalRuleLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << "<hr>\n";
                 continue;
             }
             if (Text::IsTableLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Text::ParseTable(iss, line);
                 continue;
             }
             if (Embed::IsImageLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Embed::ProcessImages(line);
                 continue;
             }
             if (Embed::IsVideoLine(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 html << Embed::ProcessVideos(line);
                 continue;
             }
             if (Text::IsHeading1(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 Text::AppendHeading(html, 1, line.substr(2));
             }
             else if (Text::IsHeading2(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 Text::AppendHeading(html, 2, line.substr(3));
             }
             else if (Text::IsHeading3(line))
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 Text::AppendHeading(html, 3, line.substr(4));
             }
             else if (Text::IsUnorderedListLine(line))
             {
-                if (!inUl)
+                if (!pState.inUl)
                 {
-                    Text::CloseLists(html, inUl, inOl);
+                    Text::CloseLists(html, pState);
                     html << "<ul>\n";
-                    inUl = true;
+                    pState.inUl = true;
                 }
                 Text::AppendListItem(html, line.substr(2));
             }
             else if (Text::IsNumberedListLine(line))
             {
-                if (!inOl)
+                if (!pState.inOl)
                 {
-                    Text::CloseLists(html, inUl, inOl);
+                    Text::CloseLists(html, pState);
                     html << "<ol>\n";
-                    inOl = true;
+                    pState.inOl = true;
                 }
                 size_t pos = line.find(". ");
                 if (pos != std::string::npos)
@@ -201,11 +201,11 @@ namespace Parser
             }
             else
             {
-                Text::CloseLists(html, inUl, inOl);
+                Text::CloseLists(html, pState);
                 Text::AppendParagraph(html, line);
             }
         }
-        Text::CloseLists(html, inUl, inOl);
+        Text::CloseLists(html, pState);
         return html.str();
     }    
 

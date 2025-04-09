@@ -4,7 +4,15 @@
 #include <string>
 
 namespace Parser 
-{   
+{
+    struct ParseState 
+    {
+        bool inUl = false;
+        bool inOl = false;
+        bool inCodeBlock = false;
+        bool inColumn = false;
+    };
+    
     std::string ProcessInline(const std::string &text);
     
     std::string ParseMarkdown(const std::string& markdown);
