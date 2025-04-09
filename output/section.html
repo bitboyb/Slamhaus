@@ -276,6 +276,27 @@ tr:hover {
     border-radius: 0.5rem;
 }
 
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* Each column styling */
+  .columns-container .column {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #444;
+  }
+  
+  /* Media query to collapse columns on narrow screens */
+  @media (max-width: 768px) {
+    .columns-container.responsive-columns {
+      flex-direction: column;
+    }
+  }
+  
+
     </style>
 </head>
 <body>
@@ -302,31 +323,31 @@ tr:hover {
 <h2>Centered Section</h2>
 <p>This content is inside a custom section block. You can align it or anchor it as needed.</p>
 </section>
-<div class="columns-container" style="display: flex; gap: 1rem;"><div class="column" style="flex: 1; resize: horizontal; overflow: auto; padding: 0.5rem; border: 1px solid #444;"><h3>Feature A</h3>
+<div class="columns-container responsive-columns"><div class="column"><h3>Feature A</h3>
 <ul>
 <li>Fast</li>
 <li>Lightweight</li>
 <li>Easy to use</li>
 </ul>
-</div><div class="column" style="flex: 1; resize: horizontal; overflow: auto; padding: 0.5rem; border: 1px solid #444;"><h3>Feature B</h3>
+</div><div class="column"><h3>Feature B</h3>
 <ul>
 <li>Custom Markdown syntax</li>
 <li>WASM support</li>
 <li>Responsive layout</li>
 </ul>
-</div></div><div class="columns-container" style="display: flex; gap: 1rem;"><div class="column" style="flex: 1; resize: horizontal; overflow: auto; padding: 0.5rem; border: 1px solid #444;"><h3>Feature A</h3>
+</div></div><div class="columns-container responsive-columns"><div class="column"><h3>Feature A</h3>
 <ul>
 <li>Fast</li>
 <li>Lightweight</li>
 <li>Easy to use</li>
 </ul>
-</div><div class="column" style="flex: 1; resize: horizontal; overflow: auto; padding: 0.5rem; border: 1px solid #444;"><h3>Feature B</h3>
+</div><div class="column"><h3>Feature B</h3>
 <ul>
 <li>Custom Markdown syntax</li>
 <li>WASM support</li>
 <li>Responsive layout</li>
 </ul>
-</div><div class="column" style="flex: 1; resize: horizontal; overflow: auto; padding: 0.5rem; border: 1px solid #444;"><h3>Feature C</h3>
+</div><div class="column"><h3>Feature C</h3>
 <ul>
 <li>Custom Markdown syntax</li>
 <li>WASM support</li>

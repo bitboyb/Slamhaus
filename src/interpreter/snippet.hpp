@@ -5,10 +5,10 @@
 
 namespace Snippet
 {
+    bool IsCodeBlockLine(const std::string &line);
+
     std::string ReplaceInlineCode(const std::string &text);
-
     std::string HighlightCode(const std::string& code);
-
     std::string ParseCodeBlock(std::istream &iss, 
                                const std::string &openingLine);
 }

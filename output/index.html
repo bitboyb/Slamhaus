@@ -276,6 +276,27 @@ tr:hover {
     border-radius: 0.5rem;
 }
 
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* Each column styling */
+  .columns-container .column {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #444;
+  }
+  
+  /* Media query to collapse columns on narrow screens */
+  @media (max-width: 768px) {
+    .columns-container.responsive-columns {
+      flex-direction: column;
+    }
+  }
+  
+
     </style>
 </head>
 <body>

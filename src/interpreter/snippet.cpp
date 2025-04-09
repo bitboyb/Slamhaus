@@ -5,6 +5,11 @@
 
 namespace Snippet
 {
+    bool IsCodeBlockLine(const std::string &line) 
+    {
+        return line.rfind("```", 0) == 0;
+    }
+    
     std::string ReplaceInlineCode(const std::string &text)
     {
         return std::regex_replace(text, std::regex(R"(`([^`]+)`)") , "<code>$1</code>");

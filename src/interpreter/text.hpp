@@ -10,6 +10,7 @@ namespace Text
     std::string ReplaceBold(const std::string &text);
     std::string ReplaceItalic(const std::string &text);
     std::string ProcessLinks(const std::string &input);
+    std::string ProcessInline(const std::string &text);
 
     bool IsNumberedListLine(const std::string &line);
     bool IsUnorderedListLine(const std::string &line);

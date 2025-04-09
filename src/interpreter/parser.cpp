@@ -8,17 +8,6 @@
 
 namespace Parser 
 {
-    std::string ProcessInline(const std::string &text)
-    {
-        std::string out = text;
-        out = Text::ProcessLinks(out);
-        out = Snippet::ReplaceInlineCode(out);
-        out = Text::ReplaceBoldItalic(out);
-        out = Text::ReplaceBold(out);
-        out = Text::ReplaceItalic(out);
-        return out;
-    }
-    
     std::string ParseMarkdown(const std::string &markdown)
     {
         std::istringstream iss(markdown);
@@ -43,7 +32,6 @@ namespace Parser
                 html << "</section>\n";
                 continue;
             }
-            
             if (Style::IsColumnOpenLine(line))
             {
                 if (pState.inColumn && !columnBuffer.str().empty())
@@ -92,7 +80,7 @@ namespace Parser
                 }
                 continue;
             }
-            if (Embed::IsCodeBlockLine(line))
+            if (Snippet::IsCodeBlockLine(line))
             {
                 if (!pState.inCodeBlock)
                 {

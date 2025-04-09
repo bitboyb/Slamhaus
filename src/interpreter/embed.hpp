@@ -5,7 +5,6 @@
 
 namespace Embed
 {
-    bool IsCodeBlockLine(const std::string &line);
     bool IsIFrameLine(const std::string &line);
     bool IsImageLine(const std::string &line);
     bool IsVideoLine(const std::string &line);

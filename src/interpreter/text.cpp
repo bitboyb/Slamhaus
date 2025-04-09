@@ -1,4 +1,5 @@
 #include "parser.hpp"
+#include "snippet.hpp"
 #include <regex>
 #include <sstream>
 #include <iostream>
@@ -54,6 +55,17 @@ namespace Text
         return out;
     }
 
+    std::string ProcessInline(const std::string &text)
+    {
+        std::string out = text;
+        out = Text::ProcessLinks(out);
+        out = Snippet::ReplaceInlineCode(out);
+        out = Text::ReplaceBoldItalic(out);
+        out = Text::ReplaceBold(out);
+        out = Text::ReplaceItalic(out);
+        return out;
+    }
+
     bool IsNumberedListLine(const std::string &line)
     {
         size_t pos = 0;
@@ -96,17 +108,17 @@ namespace Text
 
     void AppendHeading(std::ostringstream &html, int level, const std::string &line)
     {
-        html << "<h" << level << ">" << Parser::ProcessInline(line) << "</h" << level << ">\n";
+        html << "<h" << level << ">" << Text::ProcessInline(line) << "</h" << level << ">\n";
     }
 
     void AppendParagraph(std::ostringstream &html, const std::string &line)
     {
-        html << "<p>" << Parser::ProcessInline(line) << "</p>\n";
+        html << "<p>" << Text::ProcessInline(line) << "</p>\n";
     }
 
     void AppendListItem(std::ostringstream &html, const std::string &line)
     {
-        html << "<li>" << Parser::ProcessInline(line) << "</li>\n";
+        html << "<li>" << Text::ProcessInline(line) << "</li>\n";
     }
 
     void CloseLists(std::ostringstream &html, Parser::ParseState &pState)

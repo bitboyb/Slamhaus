@@ -8,18 +8,18 @@ namespace Style
     std::string ApplyColumns(int number, const std::vector<std::string>& text)
     {
         std::ostringstream oss;
-        oss << "<div class=\"columns-container\" style=\"display: flex; gap: 1rem;\">";
+        oss << "<div class=\"columns-container responsive-columns\">";
         for (int i = 0; i < number; i++)
         {
             std::string content = (i < static_cast<int>(text.size()) ? text[i] : "");
-            oss << "<div class=\"column\" style=\"flex: 1; resize: horizontal; overflow: auto; padding: 0.5rem; border: 1px solid #444;\">";
+            oss << "<div class=\"column\">";
             oss << content;
             oss << "</div>";
         }
         oss << "</div>";
         return oss.str();
     }
-
+    
     std::string ApplyStyle(std::string &text, std::string &css)
     {
         std::ostringstream oss;
