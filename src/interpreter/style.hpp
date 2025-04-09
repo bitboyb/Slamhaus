@@ -16,8 +16,6 @@ namespace Style
 
     bool IsColumnText(const std::string &line);
 
-    bool IsCSSLine(const std::string &line);
-
     bool IsColumnOpenLine(const std::string &line);
 
     bool IsColumnCloseLine(const std::string &line);
@@ -25,10 +23,6 @@ namespace Style
     bool IsSectionOpenLine(const std::string &line);
 
     bool IsSectionCloseLine(const std::string &line);
-
-    bool IsCSSOpenLine(const std::string &line);
-    
-    bool IsCSSCloseLine(const std::string &line);
 }
 
 #endif // STYLE_HPP

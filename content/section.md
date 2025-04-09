@@ -20,6 +20,20 @@ This content is inside a custom section block. You can align it or anchor it as 
 - Responsive layout
 :/column
 
-:css[.highlight { background: yellow; padding: 0.5em; border-radius: 4px; }]()
-Custom CSS injection support!
-:/css
+:column[size:3](#ftesteatures)
+:column[left]()
+### Feature A
+- Fast
+- Lightweight
+- Easy to use
+:column[middle]()
+### Feature B
+- Custom Markdown syntax
+- WASM support
+- Responsive layout
+:column[right]()
+### Feature C
+- Custom Markdown syntax
+- WASM support
+- Responsive layout
+:/column

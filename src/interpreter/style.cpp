@@ -55,15 +55,4 @@ namespace Style
     {
         return Trim(line) == ":/section";
     }
-
-    bool IsCSSOpenLine(const std::string &line)
-    {
-        std::string trimmed = Trim(line);
-        return trimmed.rfind(":css[", 0) == 0;
-    }
-
-    bool IsCSSCloseLine(const std::string &line)
-    {
-        return Trim(line) == ":/css";
-    }
 }
