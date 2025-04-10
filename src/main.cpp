@@ -4,7 +4,7 @@
 int main()
 {
     std::cout << "Generating site..." << std::endl;
-    Generator::GenerateSite("content", "output", "content/assets/css/style.css");
+    Generator::GenerateSite("content", "output", "content/assets/theme/style.css");
     std::cout << "Site generated successfully!" << std::endl;
     return 0;
 }

@@ -36,4 +36,4 @@ This content is inside a custom section block. You can align it or anchor it as 
 - Custom Markdown syntax
 - WASM support
 - Responsive layout
-:/column
+:/column2

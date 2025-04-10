@@ -121,13 +121,13 @@ Slamhaus supports extended Markdown syntax, including some custom features.
 ### Images with Styling
 
 ```markdown
-![width:max height:300px Cool Banner](assets/images/awesome-image.jpg)
+![width:max height:300px Cool Banner](assets/media/awesome-image.jpg)
 ```
 
 ### Video Embeds
 
 ```markdown
-!video[width:100% height:350px Demo Clip](assets/videos/demo.mp4)
+!video[width:100% height:350px Demo Clip](assets/media/demo.mp4)
 ```
 
 ### iFrame Embeds

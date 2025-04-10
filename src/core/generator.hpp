@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef GENERATOR_HPP
 #define GENERATOR_HPP
 

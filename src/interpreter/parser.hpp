@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
@@ -14,8 +16,8 @@ namespace Parser
     };
     
     std::string ParseMarkdown(const std::string& markdown);
-
     std::string StripParagraphTags(const std::string &html);
+    std::string ExtractSiteTitle(const std::string &markdown);
 }
 
 #endif // PARSER_HPP

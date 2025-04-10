@@ -1,6 +1,8 @@
 #include "generator.hpp"
 #include "../interpreter/parser.hpp"
 #include "asset.hpp"
+#include "config.hpp"
+#include "meta.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -14,7 +16,7 @@ namespace Generator
         return std::regex_replace(html, mdLinkRegex, "href=\"$1.html\"");
     }
     
-    std::string BuildTemplate()
+    std::string BuildTemplate(Config::ConfigINI &ini)
     {
         auto readFile = [](const std::string &path) -> std::string 
         {
@@ -26,11 +28,11 @@ namespace Generator
             return std::string((std::istreambuf_iterator<char>(in)),
                                std::istreambuf_iterator<char>());
         };
-        std::string defineMarkdown = readFile("content/include/define.md");
+
         std::string headerMarkdown = readFile("content/include/header.md");
         std::string navMarkdown = readFile("content/include/nav.md");
         std::string footerMarkdown = readFile("content/include/footer.md");
-        std::string siteName = Parser::StripParagraphTags(defineMarkdown);
+        std::string siteName = ini.siteName;
         std::string headerContent = Parser::ParseMarkdown(headerMarkdown);
         std::string navContent = Parser::ParseMarkdown(navMarkdown);
         std::string footerContent = Parser::ParseMarkdown(footerMarkdown);
@@ -39,7 +41,8 @@ namespace Generator
             "<html>\n"
             "<head>\n"
             "    <meta charset=\"UTF-8\">\n"
-            "    <title>" + siteName + "</title>\n"
+            "    <title>{{ title }}</title>\n"
+            "    {{ favicon }}\n"
             "    <style>\n"
             "    {{ css }}\n"
             "    </style>\n"
@@ -65,7 +68,9 @@ namespace Generator
     
     std::string ApplyTemplateFromString(const std::string &content, 
                                         const std::string &templateString, 
-                                        const std::string &cssContent)
+                                        const std::string &cssContent,
+                                        const std::string &pageTitle,
+                                        const std::string &faviconPath)
     {
         std::string tmplStr = templateString;
         size_t pos = tmplStr.find("{{ css }}");
@@ -82,6 +87,24 @@ namespace Generator
         {
             tmplStr += content;
         }
+        pos = tmplStr.find("{{ title }}");
+        if (pos != std::string::npos)
+        {
+            tmplStr.replace(pos, 11, pageTitle);
+        }
+        pos = tmplStr.find("{{ favicon }}");
+        if (pos != std::string::npos)
+        {
+            if (!faviconPath.empty())
+            {
+                std::string tag = "<link rel=\"icon\" type=\"image/x-icon\" href=\"" + faviconPath + "\">";
+                tmplStr.replace(pos, 13, tag);
+            }
+            else
+            {
+                tmplStr.replace(pos, 13, "");
+            }
+        }          
         return tmplStr;
     }
 
@@ -104,15 +127,16 @@ namespace Generator
     {
         std::filesystem::create_directories(outputDir);
         std::string cssContent = LoadCSS(cssPath);
-        std::string templateString = BuildTemplate();
+        Config::ConfigINI ini = Config::GetConfig();
+        std::vector<std::string> generatedPages;
+        std::string templateString = BuildTemplate(ini);
         Asset::CopyAssets("content/assets/", outputDir + "/assets");
         for (const auto &entry : std::filesystem::recursive_directory_iterator(contentDir))
         {
             if (entry.is_regular_file() && entry.path().extension() == ".md")
             {
                 std::string filename = entry.path().filename().string();
-                if (filename == "define.md" || filename == "header.md" ||
-                    filename == "nav.md"    || filename == "footer.md")
+                if (filename == "header.md" || filename == "nav.md"    || filename == "footer.md")
                 {
                     std::cout << "Skipping partial file: " << entry.path() << std::endl;
                     continue;
@@ -131,7 +155,8 @@ namespace Generator
                                      std::istreambuf_iterator<char>());
     
                 std::string htmlContent = Parser::ParseMarkdown(markdown);
-                std::string finalHtml = ApplyTemplateFromString(htmlContent, templateString, cssContent);
+                std::string siteTite = Parser::ExtractSiteTitle(markdown);
+                std::string finalHtml = ApplyTemplateFromString(htmlContent, templateString, cssContent, siteTite, ini.faviconPath);
                 finalHtml = AdjustLinks(finalHtml);
                 std::ofstream outFile(outputPath);
                 if (!outFile)
@@ -141,8 +166,12 @@ namespace Generator
                 }
                 outFile << finalHtml;
                 std::cout << "Generated: " << outputPath << std::endl;
+                std::string htmlFilename = relPath.filename().string();
+                generatedPages.push_back(relPath.generic_string());
+
             }
         }
+        Meta::GenerateSiteMetaFiles(ini.siteName, cssContent, outputDir, generatedPages);
     }    
 }
 

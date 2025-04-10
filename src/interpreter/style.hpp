@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef STYLE_HPP
 #define STYLE_HPP
 
@@ -15,13 +17,9 @@ namespace Style
     std::string Trim(const std::string& str);
 
     bool IsColumnText(const std::string &line);
-
     bool IsColumnOpenLine(const std::string &line);
-
     bool IsColumnCloseLine(const std::string &line);
-
     bool IsSectionOpenLine(const std::string &line);
-
     bool IsSectionCloseLine(const std::string &line);
 }
 

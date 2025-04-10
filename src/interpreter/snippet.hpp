@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef SNIPPET_HPP
 #define SNIPPET_HPP
 

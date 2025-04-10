@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef EMBED_HPP
 #define EMBED_HPP
 

@@ -206,4 +206,18 @@ namespace Parser
         }
         return result;
     }
+
+    std::string ExtractSiteTitle(const std::string &markdown)
+    {
+        std::istringstream iss(markdown);
+        std::string line;
+        while (std::getline(iss, line))
+        {
+            if (Text::IsHeading1(line))
+            {
+                return line.substr(2); // Skip "# "
+            }
+        }
+        return "Untitled Page";
+    }
 }

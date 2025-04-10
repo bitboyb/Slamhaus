@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef TEXT_HPP
 #define TEXT_HPP
 

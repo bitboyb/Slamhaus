@@ -17,6 +17,11 @@ namespace Asset
             for (const auto &entry : std::filesystem::recursive_directory_iterator(sourceDir)) 
             {
                 const auto &srcPath = entry.path();
+                if (entry.is_regular_file() && srcPath.extension() == ".css")
+                {
+                    std::cout << "Skipping .css file: " << srcPath << std::endl;
+                    continue;
+                }
                 auto relPath = std::filesystem::relative(srcPath, sourceDir);
                 auto destPath = std::filesystem::path(destDir) / relPath;
                 std::filesystem::create_directories(destPath.parent_path());

@@ -3,11 +3,6 @@
 
 namespace Embed
 {
-    bool IsCodeBlockLine(const std::string &line) 
-    {
-        return line.rfind("```", 0) == 0;
-    }
-
     bool IsIFrameLine(const std::string &line) 
     {
         return line.rfind("!iframe[", 0) == 0 && !line.empty() && line.back() == ']';
