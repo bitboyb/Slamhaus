@@ -254,6 +254,8 @@ Slamhaus supports extended Markdown syntax, including custom tags for layouts, r
 
 ### 💡 Code Highlighting
 
+Just like regular markdown you can write code snippets and inline code.
+
 ```cpp
 #include <iostream>
 
@@ -263,9 +265,7 @@ int main() {
 }
 ```
 
----
-
-### 🔤 Inline Code
+#### 🔤 Inline Code
 
 Write inline like `std::vector<int>` or `#include <string>` inside regular paragraphs.
 
@@ -290,7 +290,6 @@ Write inline like `std::vector<int>` or `#include <string>` inside regular parag
 
 Slamhaus gives you layout-level control with easy-to-read tags:
 
-#### Columns
 ```markdown
 :column[size:3](#custom-layout)
 :column[left]()
@@ -308,9 +307,8 @@ Slamhaus gives you layout-level control with easy-to-read tags:
 :/column
 ```
 
-#### Sections
 ```markdown
-:section[bg:dark text:light](#about)
+:section[align:center](#about)
 
 ### About Slamhaus
 
@@ -318,6 +316,74 @@ Your Markdown content goes here, styled with custom section settings.
 
 :/section
 ```
+
+---
+
+### 🔘 Interactive Buttons
+
+Use `?button[]()` to create styled, scriptable buttons in your content — no raw HTML required.
+
+```markdown
+?button[action:"mailto:hello@example.com" text:"Email Us"](#email-btn)
+
+?button[action:"/contact" text:"Go to Contact"](#contact-btn)
+
+?button[action:"myFunction" text:"Click Me"](#js-btn)
+```
+
+- `action` — A URL (`mailto:`, `https://`, relative like `index.html`) or the name of a JavaScript function.
+- `text` — Optional label text for the button (defaults to `"Submit"`).
+- `(#id)` — Optional HTML ID for styling, anchors, or scripting.
+
+---
+
+Absolutely — here’s the updated version of the **🧠 Page & Site Metadata** section, rewritten to reflect the actual supported keys in `$site[]()` and to match your clean documentation style:
+
+---
+
+### 🧠 Page & Site Metadata
+
+Add metadata to your pages with `$site[]()` and `$page[]()` blocks. These inject SEO- and share-friendly tags into the final HTML `<head>`.
+
+#### `$page[]()` — Per-Page Metadata
+
+```markdown
+$page[
+  title:"About Slamhaus"
+  description:"An intro to Slamhaus, a Markdown-powered static site generator."
+  keywords:"slamhaus, markdown, static site, dev docs"
+]()
+```
+
+| Key           | Description                                              |
+|----------------|----------------------------------------------------------|
+| `title`        | Page-specific title (usually appended to site title)     |
+| `description`  | Meta description for SEO and search/social previews      |
+| `keywords`     | Comma-separated list of keywords for search engines      |
+
+---
+
+#### `$site[]()` — Global Site Metadata
+
+```markdown
+$site[
+  title:"Slamhaus"
+  description:"A Markdown-powered static site generator for developers."
+  url:"https://slamhaus.dev"
+  favicon:"/assets/icons/favicon.ico"
+]()
+```
+
+| Key         | Description                                                                 |
+|--------------|-----------------------------------------------------------------------------|
+| `title`      | Site-wide title used in `<title>` and OpenGraph tags                       |
+| `description`| Default meta description if no page-level one is set                        |
+| `url`        | Canonical site URL for SEO and social embeds                                |
+| `favicon`    | Path to your site’s favicon (used in `<link rel="icon">` elsewhere)         |
+
+These values are typically defined once (e.g. in your homepage or `index.md`) and reused globally across all pages.
+
+> 💡 You can override values from your `config.ini`, or inject these manually in special pages or custom templates.
 
 ---
 

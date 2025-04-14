@@ -302,8 +302,29 @@ tr:hover {
       flex-direction: column;
     }
   }
-  
 
+  /* Buttons */
+  button, .slam-button {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: 0.6em 1.2em;
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+  }
+  
+  button:hover, .slam-button:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+  }
+  
     </style>
 </head>
 <body>
@@ -459,6 +480,7 @@ sudo apt install g++
 </code></pre>
 <hr>
 <h3>💡 Code Highlighting</h3>
+<p>Just like regular markdown you can write code snippets and inline code.</p>
 <pre><code>#include <iostream>
 
 int main() {
@@ -466,8 +488,7 @@ int main() {
     return 0;
 }
 </code></pre>
-<hr>
-<h3>🔤 Inline Code</h3>
+<h4>🔤 Inline Code</h4>
 <p>Write inline like <code>std::vector<int></code> or <code>#include <string></code> inside regular paragraphs.</p>
 <hr>
 <h3>📊 Tables</h3>
@@ -483,7 +504,6 @@ int main() {
 <hr>
 <h3>🧩 Custom Layouts: Columns & Sections</h3>
 <p>Slamhaus gives you layout-level control with easy-to-read tags:</p>
-<p>#### Columns</p>
 <pre><code>:column[size:3](#custom-layout)
 :column[left]()
 
@@ -499,8 +519,7 @@ int main() {
 
 :/column
 </code></pre>
-<p>#### Sections</p>
-<pre><code>:section[bg:dark text:light](#about)
+<pre><code>:section[align:center](#about)
 
 ### About Slamhaus
 
@@ -508,6 +527,56 @@ Your Markdown content goes here, styled with custom section settings.
 
 :/section
 </code></pre>
+<hr>
+<h3>🔘 Interactive Buttons</h3>
+<p>Use <code>?button<a href=""></a></code> to create styled, scriptable buttons in your content — no raw HTML required.</p>
+<pre><code>?button[action:"mailto:hello@example.com" text:"Email Us"](#email-btn)
+
+?button[action:"/contact" text:"Go to Contact"](#contact-btn)
+
+?button[action:"myFunction" text:"Click Me"](#js-btn)
+</code></pre>
+<ul>
+<li><code>action</code> — A URL (<code>mailto:</code>, <code>https://</code>, relative like <code>index.html</code>) or the name of a JavaScript function.</li>
+<li><code>text</code> — Optional label text for the button (defaults to <code>"Submit"</code>).</li>
+<li><code>(#id)</code> — Optional HTML ID for styling, anchors, or scripting.</li>
+</ul>
+<hr>
+<p>Absolutely — here’s the updated version of the <strong>🧠 Page & Site Metadata</strong> section, rewritten to reflect the actual supported keys in <code>$site<a href=""></a></code> and to match your clean documentation style:</p>
+<hr>
+<h3>🧠 Page & Site Metadata</h3>
+<p>Add metadata to your pages with <code>$site<a href=""></a></code> and <code>$page<a href=""></a></code> blocks. These inject SEO- and share-friendly tags into the final HTML <code><head></code>.</p>
+<h4><code>$page<a href=""></a></code> — Per-Page Metadata</h4>
+<pre><code>$page[
+  title:"About Slamhaus"
+  description:"An intro to Slamhaus, a Markdown-powered static site generator."
+  keywords:"slamhaus, markdown, static site, dev docs"
+]()
+</code></pre>
+<table>
+<tr><th>Key</th><th>Description</th></tr>
+<tr><td>`title`</td><td>Page-specific title (usually appended to site title)</td></tr>
+<tr><td>`description`</td><td>Meta description for SEO and search/social previews</td></tr>
+<tr><td>`keywords`</td><td>Comma-separated list of keywords for search engines</td></tr>
+</table>
+<hr>
+<h4><code>$site<a href=""></a></code> — Global Site Metadata</h4>
+<pre><code>$site[
+  title:"Slamhaus"
+  description:"A Markdown-powered static site generator for developers."
+  url:"https://slamhaus.dev"
+  favicon:"/assets/icons/favicon.ico"
+]()
+</code></pre>
+<table>
+<tr><th>Key</th><th>Description</th></tr>
+<tr><td>`title`</td><td>Site-wide title used in `<title>` and OpenGraph tags</td></tr>
+<tr><td>`description`</td><td>Default meta description if no page-level one is set</td></tr>
+<tr><td>`url`</td><td>Canonical site URL for SEO and social embeds</td></tr>
+<tr><td>`favicon`</td><td>Path to your site’s favicon (used in `<link rel="icon">` elsewhere)</td></tr>
+</table>
+<p>These values are typically defined once (e.g. in your homepage or <code>index.md</code>) and reused globally across all pages.</p>
+<p>> 💡 You can override values from your <code>config.ini</code>, or inject these manually in special pages or custom templates.</p>
 <hr>
 <h2>⚡️ Enjoy Building</h2>
 <p>Slamhaus is built for developers who want <strong>power, simplicity, and creative control</strong> — all in one compact C++ engine.  </p>

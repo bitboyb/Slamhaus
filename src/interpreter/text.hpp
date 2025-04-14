@@ -21,6 +21,7 @@ namespace Text
     bool IsHeading1(const std::string &line);
     bool IsHeading2(const std::string &line);
     bool IsHeading3(const std::string &line);
+    bool IsHeading4(const std::string &line);
 
     void AppendHeading(std::ostringstream &html, 
                        int level, 

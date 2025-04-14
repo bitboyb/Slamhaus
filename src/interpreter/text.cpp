@@ -106,6 +106,11 @@ namespace Text
         return line.find("### ") == 0;
     }
 
+    bool IsHeading4(const std::string &line) 
+    {
+        return line.find("#### ") == 0;
+    }
+
     void AppendHeading(std::ostringstream &html, int level, const std::string &line)
     {
         html << "<h" << level << ">" << Text::ProcessInline(line) << "</h" << level << ">\n";

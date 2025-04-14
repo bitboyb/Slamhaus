@@ -111,18 +111,12 @@ namespace Parser
             {
 
             }
-            if (Element::IsScriptOpenLine(line))
-            {
-
-            }
-            if (Element::IsScriptCloseLine(line))
-            {
-
-            }
             if (Element::IsButtonLine(line))
             {
-
-            }
+                Text::CloseLists(html, pState);
+                html << Element::ProcessButton(line) << "\n";
+                continue;
+            }            
             if (Snippet::IsCodeBlockLine(line))
             {
                 if (!pState.inCodeBlock)
@@ -201,6 +195,11 @@ namespace Parser
             {
                 Text::CloseLists(html, pState);
                 Text::AppendHeading(html, 3, line.substr(4));
+            }
+            else if (Text::IsHeading4(line))
+            {
+                Text::CloseLists(html, pState);
+                Text::AppendHeading(html, 4, line.substr(5));
             }
             else if (Text::IsUnorderedListLine(line))
             {

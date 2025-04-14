@@ -299,8 +299,29 @@ tr:hover {
       flex-direction: column;
     }
   }
-  
 
+  /* Buttons */
+  button, .slam-button {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: 0.6em 1.2em;
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+  }
+  
+  button:hover, .slam-button:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+  }
+  
     </style>
 </head>
 <body>
@@ -324,10 +345,13 @@ tr:hover {
     <main>
        <section id="contact">
 <h1>Get In Touch!</h1>
-<p>Piledriver Playhouse is a co-dev force built for the underdogs. We back small businesses and indie devs with over a decade of hardcore experience in game dev and tech. Our mission? Deliver low-cost, high-impact tools and services that help you launch faster, smarter, and stronger.</p>
+<p>Press the button to email!</p>
+<button type="button" onclick="window.location.href='mailto:info@piledriver-playhouse.com'" id="emailButton">Email Us</button>
 <p><br></p>
 <hr>
 <p><br></p>
+<button type="button" onclick="window.location.href='index.html'" id="home-btn">Go Home!</button>
+<button type="button" onclick="window.location.href='https://www.google.com/'" id="google-btn">Google</button>
 </section>
 
     </main>

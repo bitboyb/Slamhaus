@@ -299,8 +299,29 @@ tr:hover {
       flex-direction: column;
     }
   }
-  
 
+  /* Buttons */
+  button, .slam-button {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: 0.6em 1.2em;
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+  }
+  
+  button:hover, .slam-button:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+  }
+  
     </style>
 </head>
 <body>
@@ -330,13 +351,13 @@ tr:hover {
 <p>        document.getElementById("test").innerHTML = "Hello From Script!";</p>
 <p>    }</p>
 <p>?/script</p>
-<p>?button<a href="#test-button">type:function text:"press me!" value=helloFunction</a></p>
+<!-- Invalid button syntax -->
 </section>
 <section id="test">
 <p>Nothing yet...</p>
 </section>
 <section id="button-example">
-<p>?button<a href="#google-button">type:url text:"go to google!" value:https://www.google.com</a></p>
+<!-- Invalid button syntax -->
 </section>
 <section id="form-example">
 <p>?form<a href="#email-form">action:"mailto:test@email.com" method="post"</a></p>
@@ -349,8 +370,8 @@ tr:hover {
 <p>?check<a href="#check-cheese">value:cheese</a></p>
 <p>?check<a href="#check-pickles">value:pickles</a></p>
 <p>?check<a href="#check-sauce">value:sauce</a></p>
-<p>?button<a href="#reset-button">type:form text:"Reset Form" value:"Reset"</a></p>
-<p>?button<a href="#submit-button">type:form text:"Submit!" value:"Submit"</a></p>
+<!-- Invalid button syntax -->
+<!-- Invalid button syntax -->
 <p>?/form</p>
 </section>
 
