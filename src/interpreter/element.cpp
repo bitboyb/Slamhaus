@@ -11,10 +11,25 @@ namespace Element
         const auto strEnd = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
         return (strBegin < strEnd) ? std::string(strBegin, strEnd) : "";
     }
-
-    bool IsCodeLine(const std::string &line)
+    
+    bool IsScriptOpenLine(const std::string &line)
     {
         return line.rfind("?code[", 0) == 0 && !line.empty() && line.back() == ']';
+    }
+
+    bool IsScriptCloseLine(const std::string &line)
+    {
+        return Trim(line) == "?/code";
+    }
+
+    bool IsFormOpenLine(const std::string &line)
+    {
+        return line.rfind("?form[", 0) == 0 && !line.empty() && line.back() == ']';
+    }
+
+    bool IsFormCloseLine(const std::string &line)
+    {
+        return Trim(line) == "?/form";
     }
 
     bool IsButtonLine(const std::string &line)
@@ -25,40 +40,5 @@ namespace Element
     bool IsInputLine(const std::string &line)
     {
         return line.rfind("?input[", 0) == 0 && !line.empty() && line.back() == ']';
-    }
-
-    bool IsFormLine(const std::string &line)
-    {
-        return line.rfind("?form[", 0) == 0 && !line.empty() && line.back() == ']';
-    }
-
-    bool IsCodeCloseLine(const std::string &line)
-    {
-        return Trim(line) == "?/code";
-    }
-
-    bool IsFormCloseLine(const std::string &line)
-    {
-        return Trim(line) == "?/form";
-    }
-
-    std::string ProcessCode(const std::string &input)
-    {
-        
-    }
-
-    std::string ProcessButton(const std::string &input)
-    {
-
-    }
-
-    std::string ProcessInputLine(const std::string &input)
-    {
-
-    }
-
-    std::string ProcessFormLine(const std::string &input)
-    {
-
     }
 }

@@ -1,4 +1,5 @@
 #include "parser.hpp"
+#include "element.hpp"
 #include "style.hpp"
 #include "text.hpp"
 #include "embed.hpp"
@@ -79,6 +80,26 @@ namespace Parser
                     columnBuffer << line << "\n";
                 }
                 continue;
+            }
+            if (Element::IsFormOpenLine(line))
+            {
+
+            }
+            if (Element::IsFormCloseLine(line))
+            {
+
+            }
+            if (Element::IsScriptOpenLine(line))
+            {
+
+            }
+            if (Element::IsScriptCloseLine(line))
+            {
+
+            }
+            if (Element::IsButtonLine(line))
+            {
+
             }
             if (Snippet::IsCodeBlockLine(line))
             {
