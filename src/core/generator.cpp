@@ -1,5 +1,6 @@
 #include "generator.hpp"
 #include "../interpreter/parser.hpp"
+#include "../interpreter/seo.hpp"
 #include "asset.hpp"
 #include "config.hpp"
 #include "meta.hpp"
@@ -37,12 +38,13 @@ namespace Generator
         std::string navContent = Parser::ParseMarkdown(navMarkdown);
         std::string footerContent = Parser::ParseMarkdown(footerMarkdown);
         std::string tmpl =
-            "<!DOCTYPE html>\n"
+        "<!DOCTYPE html>\n"
             "<html>\n"
             "<head>\n"
             "    <meta charset=\"UTF-8\">\n"
             "    <title>{{ title }}</title>\n"
             "    {{ favicon }}\n"
+            "    {{ meta }}\n"
             "    <style>\n"
             "    {{ css }}\n"
             "    </style>\n"
@@ -69,8 +71,8 @@ namespace Generator
     std::string ApplyTemplateFromString(const std::string &content, 
                                         const std::string &templateString, 
                                         const std::string &cssContent,
-                                        const std::string &pageTitle,
-                                        const std::string &faviconPath)
+                                        const std::string &faviconPath,
+                                        const std::string &seoMeta)
     {
         std::string tmplStr = templateString;
         size_t pos = tmplStr.find("{{ css }}");
@@ -90,7 +92,7 @@ namespace Generator
         pos = tmplStr.find("{{ title }}");
         if (pos != std::string::npos)
         {
-            tmplStr.replace(pos, 11, pageTitle);
+            tmplStr.replace(pos, 11, SEO::GetSiteTitle());
         }
         pos = tmplStr.find("{{ favicon }}");
         if (pos != std::string::npos)
@@ -104,7 +106,12 @@ namespace Generator
             {
                 tmplStr.replace(pos, 13, "");
             }
-        }          
+        }
+        pos = tmplStr.find("{{ meta }}");
+        if (pos != std::string::npos)
+        {
+            tmplStr.replace(pos, 10, seoMeta);
+        }
         return tmplStr;
     }
 
@@ -155,8 +162,26 @@ namespace Generator
                                      std::istreambuf_iterator<char>());
     
                 std::string htmlContent = Parser::ParseMarkdown(markdown);
-                std::string siteTite = Parser::ExtractSiteTitle(markdown);
-                std::string finalHtml = ApplyTemplateFromString(htmlContent, templateString, cssContent, siteTite, ini.faviconPath);
+                SEO::Reset();
+                SEO::Extract(markdown);
+                if (SEO::GetSiteTitle().empty()) 
+                {
+                    SEO::SetSiteTitle(ini.siteName);
+                }
+                if (SEO::GetSiteDescription().empty()) 
+                {
+                    SEO::SetSiteDescription(ini.description);
+                }
+                if (SEO::GetSiteFavicon().empty()) 
+                {
+                    SEO::SetSiteFavicon(ini.faviconPath);
+                }
+                if (SEO::GetSiteUrl().empty()) 
+                {
+                    SEO::SetSiteUrl(ini.siteUrl);
+                }
+                std::string seoMeta = SEO::GetMetaTags();
+                std::string finalHtml = ApplyTemplateFromString(htmlContent, templateString, cssContent, SEO::GetSiteFavicon(), seoMeta);
                 finalHtml = AdjustLinks(finalHtml);
                 std::ofstream outFile(outputPath);
                 if (!outFile)

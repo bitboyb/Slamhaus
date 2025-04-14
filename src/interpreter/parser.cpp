@@ -1,5 +1,7 @@
 #include "parser.hpp"
 #include "element.hpp"
+#include "id.hpp"
+#include "seo.hpp"
 #include "style.hpp"
 #include "text.hpp"
 #include "embed.hpp"
@@ -19,13 +21,29 @@ namespace Parser
     
         std::ostringstream columnBuffer;
         std::vector<std::string> columnParts;
+        std::vector<std::string> columnOpenLines;
     
         while (std::getline(iss, line))
         {
+            if (SEO::IsSiteLine(line))
+            {
+                SEO::ProcessSiteLine(line);
+                continue;
+            }
+            if (SEO::IsPageLine(line))
+            {
+                SEO::ProcessPageLine(line);
+                continue;
+            }
             if (Style::IsSectionOpenLine(line))
             {
                 Text::CloseLists(html, pState);
-                html << "<section>\n";
+                std::string htmlLine = "<section>";
+                if (ID::isIDTag(line))
+                {
+                    htmlLine = ID::ApplyIDTag(htmlLine, line);
+                }
+                html << htmlLine << "\n";
                 continue;
             }
             if (Style::IsSectionCloseLine(line))
@@ -38,6 +56,7 @@ namespace Parser
                 if (pState.inColumn && !columnBuffer.str().empty())
                 {
                     columnParts.push_back(columnBuffer.str());
+                    columnOpenLines.push_back(line);
                     columnBuffer.str("");
                     columnBuffer.clear();
                 }
@@ -46,11 +65,14 @@ namespace Parser
                     Text::CloseLists(html, pState);
                     pState.inColumn = true;
                     columnParts.clear();
+                    columnOpenLines.clear();
                     columnBuffer.str("");
                     columnBuffer.clear();
+                    columnOpenLines.push_back(line);
                 }
                 continue;
             }
+            
             if (Style::IsColumnCloseLine(line))
             {
                 if (!columnBuffer.str().empty())
@@ -61,7 +83,7 @@ namespace Parser
                 {
                     col = Parser::ParseMarkdown(col);
                 }
-                html << Style::ApplyColumns(static_cast<int>(columnParts.size()), columnParts);
+                html << Style::ApplyColumns(static_cast<int>(columnParts.size()), columnParts, columnOpenLines);
                 pState.inColumn = false;
                 columnBuffer.str("");
                 columnBuffer.clear();

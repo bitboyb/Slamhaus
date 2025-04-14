@@ -9,7 +9,8 @@
 namespace Style
 {
     std::string ApplyColumns(int number, 
-                             const std::vector<std::string>& text);
+                             const std::vector<std::string>& text, 
+                             const std::vector<std::string>& openLines);
 
     std::string ApplyStyle(std::string &text, 
                            std::string &css);

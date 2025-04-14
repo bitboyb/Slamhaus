@@ -1,3 +1,5 @@
+$page[description:"Indie game dev firepower, technical audio mastery, and elite coding muscle — built to amplify your team and crush deadlines." keywords:"indie game development, technical audio, game programming, unity, unreal engine, co-development, tools development, gameplay systems"]()
+
 :section[align:center](#intro)
 
 # Piledriver Playhouse!

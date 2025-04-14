@@ -1,26 +1,37 @@
 #include "style.hpp"
+#include "id.hpp"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
 
 namespace Style
 {
-    std::string ApplyColumns(int number, const std::vector<std::string>& text)
+    std::string ApplyColumns(int number, 
+                             const std::vector<std::string>& text, 
+                             const std::vector<std::string>& openLines)
     {
         std::ostringstream oss;
         oss << "<div class=\"columns-container responsive-columns\">";
         for (int i = 0; i < number; i++)
         {
             std::string content = (i < static_cast<int>(text.size()) ? text[i] : "");
-            oss << "<div class=\"column\">";
+            std::string openLine = (i < static_cast<int>(openLines.size()) ? openLines[i] : "");
+    
+            std::string colTag = "<div class=\"column\">";
+            if (ID::isIDTag(openLine))
+            {
+                colTag = ID::ApplyIDTag(colTag, openLine);
+            }
+            oss << colTag;
             oss << content;
             oss << "</div>";
         }
         oss << "</div>";
         return oss.str();
-    }
+    }    
     
-    std::string ApplyStyle(std::string &text, std::string &css)
+    std::string ApplyStyle(std::string &text, 
+                           std::string &css)
     {
         std::ostringstream oss;
         oss << "<div style=\"" << css << "\">" << text << "</div>";

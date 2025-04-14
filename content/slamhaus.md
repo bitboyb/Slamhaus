@@ -1,3 +1,5 @@
+$page[description:"Homepage for Slamhaus — a markdown-powered static site generator built for indie developers, technical writers, and game engine teams." keywords:"slamhaus, static site generator, markdown engine, game dev tools, documentation generator, c++ static site, custom markdown syntax, developer documentation, gamedev website, engine docs"]()
+
 :section[align:center](#slamhaus-intro)
 
 # Slamhaus!

@@ -2,8 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Slamhaus!</title>
+    <title>Piledriver Playhouse!</title>
     <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
+        <meta name="description" content="Homepage for Slamhaus — a markdown-powered static site generator built for indie developers, technical writers, and game engine teams.">
+    <meta property="og:description" content="Homepage for Slamhaus — a markdown-powered static site generator built for indie developers, technical writers, and game engine teams.">
+    <meta name="keywords" content="slamhaus, static site generator, markdown engine, game dev tools, documentation generator, c++ static site, custom markdown syntax, developer documentation, gamedev website, engine docs">
+    <meta property="og:title" content="Piledriver Playhouse!">
+    <link rel="canonical" href="https://www.pilerdriver-playhouse.com/">
+    <meta property="og:url" content="https://www.pilerdriver-playhouse.com/">
+
     <style>
     /* Fonts */
 @font-face {
@@ -318,16 +325,16 @@ tr:hover {
 
     </nav>
     <main>
-       <section>
+       <section id="slamhaus-intro">
 <h1>Slamhaus!</h1>
-<div class="columns-container responsive-columns"><div class="column"><h3>🧱 Markdown In, Website Out</h3>
+<div class="columns-container responsive-columns"><div id="intro-columns-0" class="column"><h3>🧱 Markdown In, Website Out</h3>
 <p>Write clean, readable content in Markdown and generate responsive websites with zero boilerplate.</p>
 </div><div class="column"><h3>🎮 Game Dev at Heart</h3>
 <p>Built with C++ in a modern game dev style — clear separation, performance-focused, and designed to feel familiar to engine developers.</p>
 </div><div class="column"><h3>🪄 Extended Syntax, Your Way</h3>
 <p>Use custom Markdown-style blocks like :section<a href=""></a>, :column<a href=""></a>, and :css<a href=""></a> to structure and style your content directly.</p>
 </div></div><p><br></p>
-<div class="columns-container responsive-columns"><div class="column"><h3>🎨 Simple Styling, No Fuss</h3>
+<div class="columns-container responsive-columns"><div id="intro-columns-1" class="column"><h3>🎨 Simple Styling, No Fuss</h3>
 <p>Includes clean, minimal CSS themes out of the box — easy to tweak, extend, or replace with your own.</p>
 </div><div class="column"><h3>🧩 Free & Open Forever</h3>
 <p>MIT licensed. No strings attached. Clone it, fork it, gut it — hell, sell it if you want. Slamhaus is yours to break, build, or bend to your will, forever.</p>
@@ -337,7 +344,7 @@ tr:hover {
 <p><br></p>
 <hr>
 <p><br></p>
-<section>
+<section id="getting-started">
 <h2>🚀 Getting Started</h2>
 <p>This guide will help you get Slamhaus up and running in minutes.  </p>
 <p>All you need is a <strong>C++17-compatible compiler</strong> and the will to build something awesome.</p>
@@ -400,15 +407,13 @@ sudo apt install g++
 │   ├── nav.md             → Navigation bar structure
 │   └── footer.md          → Footer content (links, copyright, etc.)
 │
-├── index.md               → Your site’s entry point (home page)
-│
-└── slamhaus               → The Slamhaus executable — run it to build your site
+└── index.md               → Your site’s entry point (home page)
 </code></pre>
 </section>
 <p><br></p>
 <hr>
 <p><br></p>
-<section>
+<section id="syntax">
 <h2>🛠 Syntax</h2>
 <p>Slamhaus supports extended Markdown syntax, including custom tags for layouts, rich media, and styling — all baked right into the engine.</p>
 <hr>

@@ -1,3 +1,5 @@
+$page[description:"Full-stack development, small biz tech, and game co-dev — we build lean, launch-ready solutions for creators, startups, and indie studios." keywords:"game co-development, web apps, mobile MVP, indie dev support, small business tech, game prototyping, freelance developers, agile development"]()
+
 :section[align:center](#services)
 
 # What We Can Do For You!

@@ -1,3 +1,6 @@
+$page[ description:"Learn about Piledriver Playhouse — a co-dev powerhouse supporting indie game developers and small studios with open source tools, technical expertise, and launch-ready support." keywords:"piledriver playhouse, indie game development, open source tools, co-development, technical game dev, startup support, small studio tools, game dev services, solo dev support"]()
+
+
 :section[align:center](#about-us)
 
 # About Us!

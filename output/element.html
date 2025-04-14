@@ -322,12 +322,36 @@ tr:hover {
 
     </nav>
     <main>
-       <section id="contact">
-<h1>Get In Touch!</h1>
-<p>Piledriver Playhouse is a co-dev force built for the underdogs. We back small businesses and indie devs with over a decade of hardcore experience in game dev and tech. Our mission? Deliver low-cost, high-impact tools and services that help you launch faster, smarter, and stronger.</p>
-<p><br></p>
-<hr>
-<p><br></p>
+       <section id="element-example">
+<h1>Element Examples</h1>
+<h2>Scripts</h2>
+<p>?script<a href="#my-script"></a></p>
+<p>    function helloFunction() {</p>
+<p>        document.getElementById("test").innerHTML = "Hello From Script!";</p>
+<p>    }</p>
+<p>?/script</p>
+<p>?button<a href="#test-button">type:function text:"press me!" value=helloFunction</a></p>
+</section>
+<section id="test">
+<p>Nothing yet...</p>
+</section>
+<section id="button-example">
+<p>?button<a href="#google-button">type:url text:"go to google!" value:https://www.google.com</a></p>
+</section>
+<section id="form-example">
+<p>?form<a href="#email-form">action:"mailto:test@email.com" method="post"</a></p>
+<p>Full Name</p>
+<p>?text<a href="#form-name"></a></p>
+<p>Protein Option</p>
+<p>?radio<a href="#radio-veggie">value:veggie</a></p>
+<p>?radio<a href="#radio-beef">value:beef</a></p>
+<p>Extras</p>
+<p>?check<a href="#check-cheese">value:cheese</a></p>
+<p>?check<a href="#check-pickles">value:pickles</a></p>
+<p>?check<a href="#check-sauce">value:sauce</a></p>
+<p>?button<a href="#reset-button">type:form text:"Reset Form" value:"Reset"</a></p>
+<p>?button<a href="#submit-button">type:form text:"Submit!" value:"Submit"</a></p>
+<p>?/form</p>
 </section>
 
     </main>

@@ -33,7 +33,9 @@ namespace Embed
         return line.rfind("!svg[", 0) == 0;
     }
 
-    void ExtractContentAndStyle(const std::string &raw, std::string &content, std::string &style) 
+    void ExtractContentAndStyle(const std::string &raw, 
+                                std::string &content, 
+                                std::string &style) 
     {
         std::istringstream iss(raw);
         content.clear();

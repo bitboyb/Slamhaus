@@ -7,7 +7,8 @@
 
 namespace ID
 {
-    std::string ApplyIDTag(const std::string& line);
+    std::string ExtractIDTag(const std::string& line);
+    std::string ApplyIDTag(const std::string& htmlLine, const std::string& markdownLine);
 
     bool isIDTag(const std::string &line);
 }
