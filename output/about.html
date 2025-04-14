@@ -133,22 +133,81 @@ footer {
 }
 
 /* Navigation */
+/* Navigation base */
 nav {
     margin-top: 1rem;
     text-align: center;
     font-size: 1.1rem;
+    background-color: #141414;
+    border-bottom: 2px solid #bb86fc;
+    padding: 0.5rem 0;
 }
 nav ul {
     list-style: none;
     padding-left: 0;
+    margin: 0;
 }
 nav li {
     display: inline-block;
+    position: relative;
     margin: 0 1rem;
 }
-nav a {
+
+/* Top-level links */
+nav a,
+nav .subnavbtn {
     font-weight: bold;
+    color: #03dac6;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    display: inline-block;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
 }
+
+/* Hover effect */
+nav a:hover,
+nav .subnav:hover .subnavbtn {
+    background-color: #262626;
+}
+
+/* Dropdown container */
+nav li ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: #1f1f1f;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    min-width: 180px;
+    z-index: 1000;
+    padding: 0.25rem 0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Show dropdown on hover */
+nav li:hover > ul {
+    display: block;
+}
+
+/* Dropdown links */
+nav li ul li {
+    display: block;
+    margin: 0;
+}
+nav li ul li a {
+    padding: 0.6rem 1rem;
+    display: block;
+    color: #e0e0e0;
+    white-space: nowrap;
+    font-weight: normal;
+}
+nav li ul li a:hover {
+    background-color: #2b2b2b;
+    color: #bb86fc;
+}
+
 
 /* Images */
 img {
@@ -335,15 +394,7 @@ tr:hover {
 
     </header>
     <nav>
-       <p><!-- Navigation --></p>
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a href="slamhaus.html">Slamhaus</a></li>
-<li><a href="contact.html">Contact Us</a></li>
-</ul>
-
+       <ul></li><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="slamhaus.html">Slamhaus</a><ul><li><a href="slamhaus.html#getting-started">Getting Started</a></ul></li></li><li><a href="contact.html">Contact Us</a></ul>
     </nav>
     <main>
        <section id="about-us">

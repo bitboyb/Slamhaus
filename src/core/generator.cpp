@@ -16,6 +16,63 @@ namespace Generator
         std::regex mdLinkRegex(R"(href="([^"]+)\.md")");
         return std::regex_replace(html, mdLinkRegex, "href=\"$1.html\"");
     }
+
+    std::string ParseNavigation(const std::string& navMarkdown)
+    {
+        std::istringstream stream(navMarkdown);
+        std::string line;
+        std::string html;
+        std::vector<size_t> indentStack;
+        while (std::getline(stream, line))
+        {
+            size_t indent = line.find_first_not_of(" ");
+            if (indent == std::string::npos)
+            {
+                continue;
+            }
+            size_t depth = indent / 4;
+            while (indentStack.size() > depth)
+            {
+                html += "</ul></li>";
+                indentStack.pop_back();
+            }
+            if (line.find("- [") != std::string::npos)
+            {
+                size_t linkStart = line.find("[") + 1;
+                size_t linkEnd = line.find("]");
+                size_t hrefStart = line.find("(") + 1;
+                size_t hrefEnd = line.find(")");
+                std::string text = line.substr(linkStart, linkEnd - linkStart);
+                std::string href = line.substr(hrefStart, hrefEnd - hrefStart);
+                if (href.find(".md") != std::string::npos &&
+                    href.substr(href.size() - 3) == ".md")
+                {
+                    href.replace(href.size() - 3, 3, ".html");
+                }
+                else if (href.find(".md#") != std::string::npos)
+                {
+                    size_t pos = href.find(".md#");
+                    href.replace(pos, 3, ".html");
+                }
+                if (indentStack.size() == depth)
+                {
+                    html += "</li>";
+                }
+                else
+                {
+                    html += "<ul>";
+                    indentStack.push_back(depth);
+                }
+                html += "<li><a href=\"" + href + "\">" + text + "</a>";
+            }
+        }
+        while (!indentStack.empty())
+        {
+            html += "</ul></li>";
+            indentStack.pop_back();
+        }
+        return "<ul>" + html + "</ul>";
+    }    
     
     std::string BuildTemplate(Config::ConfigINI &ini)
     {
@@ -35,7 +92,7 @@ namespace Generator
         std::string footerMarkdown = readFile("content/include/footer.md");
         std::string siteName = ini.siteName;
         std::string headerContent = Parser::ParseMarkdown(headerMarkdown);
-        std::string navContent = Parser::ParseMarkdown(navMarkdown);
+        std::string navContent = Generator::ParseNavigation(navMarkdown);
         std::string footerContent = Parser::ParseMarkdown(footerMarkdown);
         std::string tmpl =
         "<!DOCTYPE html>\n"
