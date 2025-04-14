@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Documentation</title>
+    <title>Slamhaus!</title>
     <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
     <style>
     /* Fonts */
@@ -310,49 +310,83 @@ tr:hover {
        <p><!-- Navigation --></p>
 <ul>
 <li><a href="index.html">Home</a></li>
-<li><a href="slamhaus.html">Slamhaus</a></li>
-<li><a href="section.html">Section Test</a></li>
 <li><a href="about.html">About</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="slamhaus.html">Slamhaus</a></li>
+<li><a href="contact.html">Contact Us</a></li>
 </ul>
 
     </nav>
     <main>
-       <h1>Documentation</h1>
-<h2>Getting Started</h2>
-<p>Slamhaus is a minimalist, C++-powered static site generator with a Markdown frontend. This guide will help you get up and running quickly. It requires a <strong>C++17-compatible compiler</strong>.</p>
+       <section>
+<h1>Slamhaus!</h1>
+<div class="columns-container responsive-columns"><div class="column"><h3>🧱 Markdown In, Website Out</h3>
+<p>Write clean, readable content in Markdown and generate responsive websites with zero boilerplate.</p>
+</div><div class="column"><h3>🎮 Game Dev at Heart</h3>
+<p>Built with C++ in a modern game dev style — clear separation, performance-focused, and designed to feel familiar to engine developers.</p>
+</div><div class="column"><h3>🪄 Extended Syntax, Your Way</h3>
+<p>Use custom Markdown-style blocks like :section<a href=""></a>, :column<a href=""></a>, and :css<a href=""></a> to structure and style your content directly.</p>
+</div></div><p><br></p>
+<div class="columns-container responsive-columns"><div class="column"><h3>🎨 Simple Styling, No Fuss</h3>
+<p>Includes clean, minimal CSS themes out of the box — easy to tweak, extend, or replace with your own.</p>
+</div><div class="column"><h3>🧩 Free & Open Forever</h3>
+<p>MIT licensed. No strings attached. Clone it, fork it, gut it — hell, sell it if you want. Slamhaus is yours to break, build, or bend to your will, forever.</p>
+</div><div class="column"><h3>🧠 Built for Tinkerers</h3>
+<p>Whether you're a solo dev, a technical writer, or making a custom docs site for your game engine — Slamhaus gives you full control without the clutter.</p>
+</div></div></section>
+<p><br></p>
 <hr>
-<h3>Linux (I use Arch, btw...)</h3>
+<p><br></p>
+<section>
+<h2>🚀 Getting Started</h2>
+<p>This guide will help you get Slamhaus up and running in minutes.  </p>
+<p>All you need is a <strong>C++17-compatible compiler</strong> and the will to build something awesome.</p>
+<hr>
+<h3>🐧 Linux (Arch-based — <em>I use Arch, btw…</em>)</h3>
+<p>If you're on Arch, you've probably got this handled — but just in case:</p>
 <pre><code>sudo pacman -S base-devel
 # Or just the compiler:
 sudo pacman -S gcc
 </code></pre>
 <hr>
-<h3>Linux (Debian-based: Ubuntu, Pop!\_OS, etc.)</h3>
+<h3>🐧 Linux (Debian-based — Ubuntu, Pop!\_OS, etc.)</h3>
+<p>For most Debian-based distros, this will install everything you need:</p>
 <pre><code>sudo apt update
 sudo apt install g++
 </code></pre>
 <hr>
-<h3>macOS</h3>
-<p>Install <a href="https://developer.apple.com/xcode/">Xcode Command Line Tools</a>.</p>
+<h3>🍎 macOS</h3>
+<p>Xcode's Command Line Tools come with <code>clang</code>, <code>make</code>, and all the good stuff.  </p>
+<p>Just run this in your terminal:</p>
 <pre><code>xcode-select --install
 </code></pre>
+<p>Alternatively, install via Homebrew:</p>
+<pre><code>brew install gcc make
+</code></pre>
 <hr>
-<h3>Windows</h3>
-<p>Install <a href="https://www.mingw-w64.org/">MinGW-w64</a> or use <a href="https://learn.microsoft.com/en-us/windows/wsl/">WSL</a> to set up a Linux environment.</p>
+<h3>🪟 Windows</h3>
+<p>Two solid options:</p>
+<ul>
+<li>✅ <strong>MinGW-w64</strong> — <a href="https://www.mingw-w64.org/">Download here</a></li>
+<li>🐧 <strong>WSL (Windows Subsystem for Linux)</strong> — <a href="https://learn.microsoft.com/en-us/windows/wsl/">Set it up here</a></li>
+</ul>
+<p>We recommend WSL for a smoother Unix-style dev experience on Windows.</p>
 <hr>
-<h2>Building Slamhaus</h2>
-<p>Navigate to the project directory and compile it using the included Makefile:</p>
+<h3>🛠 Building Slamhaus</h3>
+<p>Once you're in your project directory, run:</p>
 <pre><code>make
 </code></pre>
-<p>This will generate the <code>slamhaus</code> executable inside your project folder.</p>
+<p>This builds the <code>slamhaus</code> executable right in your project folder.</p>
+<p>> 💡 <em>No <code>make</code>? Try <code>mingw32-make</code> on Windows or install <code>make</code> via your package manager.</em></p>
 <hr>
-<h2>Running Slamhaus</h2>
-<p>After building, you can generate your website:</p>
+<h3>🔥 Running Slamhaus</h3>
+<p>After building, generate your static site like so:</p>
 <pre><code>./slamhaus
 </code></pre>
-<p>This will take content from the <code>content/</code> folder and output a fully static site into the <code>build/</code> folder.</p>
+<p>Your content in <code>content/</code> is processed into a fully static site inside <code>build/</code>.  </p>
+<p>Fast, portable, and ready to deploy anywhere.</p>
 <hr>
-<h2>Project Structure</h2>
+<h3>🗂 Project Structure</h3>
 <pre><code>.
 ├── content/               → Your main site content in Markdown
 │   └── assets/            → Everything visual and stylistic
@@ -368,13 +402,17 @@ sudo apt install g++
 │
 ├── index.md               → Your site’s entry point (home page)
 │
-└── slamhaus              → The Slamhaus executable — run it to build your site
-
+└── slamhaus               → The Slamhaus executable — run it to build your site
 </code></pre>
+</section>
+<p><br></p>
 <hr>
-<h2>Syntax</h2>
-<p>Slamhaus supports extended Markdown syntax, including some custom features.</p>
-<h3>Headings & Lists</h3>
+<p><br></p>
+<section>
+<h2>🛠 Syntax</h2>
+<p>Slamhaus supports extended Markdown syntax, including custom tags for layouts, rich media, and styling — all baked right into the engine.</p>
+<hr>
+<h3>📚 Headings & Lists</h3>
 <pre><code># Heading 1
 ## Heading 2
 ### Heading 3
@@ -385,25 +423,37 @@ sudo apt install g++
 1. Numbered item
 2. Another one
 </code></pre>
-<h3>Inline Formatting</h3>
+<hr>
+<h3>✍️ Inline Formatting</h3>
 <p><em>Italic</em>, <strong>Bold</strong>, and <strong><em>Bold Italic</em></strong></p>
 <pre><code>*Italic*, **Bold**, and ***Bold Italic***
 </code></pre>
-<h3>Links</h3>
-<p><a href="index.html">Go to Slamhaus</a></p>
+<hr>
+<h3>🔗 Links</h3>
 <pre><code>[Go to Slamhaus](index.md)
 </code></pre>
-<h3>Images with Styling</h3>
+<hr>
+<h3>🖼️ Images with Styling</h3>
 <pre><code>![width:max height:300px Cool Banner](assets/media/awesome-image.jpg)
 </code></pre>
-<h3>Video Embeds</h3>
+<hr>
+<h3>🎞️ Video Embeds</h3>
 <pre><code>!video[width:100% height:350px Demo Clip](assets/media/demo.mp4)
 </code></pre>
-<h3>iFrame Embeds</h3>
+<hr>
+<h3>🔉 Audio Embeds</h3>
+<pre><code>!audio[controls loop](assets/media/sample-audio.mp3)
+</code></pre>
+<hr>
+<h3>🖼️ SVG Support</h3>
+<pre><code>!svg[width:64 height:64](assets/icons/logo.svg)
+</code></pre>
+<hr>
+<h3>🧱 iFrame Embeds</h3>
 <pre><code>!iframe[https://www.youtube.com/embed/dQw4w9WgXcQ]
 </code></pre>
 <hr>
-<h3>Code Highlighting</h3>
+<h3>💡 Code Highlighting</h3>
 <pre><code>#include <iostream>
 
 int main() {
@@ -411,23 +461,54 @@ int main() {
     return 0;
 }
 </code></pre>
-<h3>Inline Code Snippets</h3>
-<p>Write inline like <code>std::vector<int></code> or <code>#include <string></code> in your paragraphs.</p>
 <hr>
-<h3>Tables</h3>
+<h3>🔤 Inline Code</h3>
+<p>Write inline like <code>std::vector<int></code> or <code>#include <string></code> inside regular paragraphs.</p>
+<hr>
+<h3>📊 Tables</h3>
 <pre><code>| Feature       | Supported |
 | ------------- | --------- |
 | Images        | ✅
 | Videos        | ✅
-| Tables        | ✅
+| Audio         | ✅
+| SVG           | ✅
 | iFrames       | ✅
 | Code Blocks   | ✅
 </code></pre>
 <hr>
-<h2>Enjoy Building</h2>
-<p>Slamhaus is designed for developers who want power, simplicity, and total control — all in one neat C++ project.</p>
-<p>Start hacking away and turn your Markdown into a beautifully styled site.</p>
-<p>Happy hacking!</p>
+<h3>🧩 Custom Layouts: Columns & Sections</h3>
+<p>Slamhaus gives you layout-level control with easy-to-read tags:</p>
+<p>#### Columns</p>
+<pre><code>:column[size:3](#custom-layout)
+:column[left]()
+
+### Left Column Content
+
+:column[middle]()
+
+### Middle Column Content
+
+:column[right]()
+
+### Right Column Content
+
+:/column
+</code></pre>
+<p>#### Sections</p>
+<pre><code>:section[bg:dark text:light](#about)
+
+### About Slamhaus
+
+Your Markdown content goes here, styled with custom section settings.
+
+:/section
+</code></pre>
+<hr>
+<h2>⚡️ Enjoy Building</h2>
+<p>Slamhaus is built for developers who want <strong>power, simplicity, and creative control</strong> — all in one compact C++ engine.  </p>
+<p>Whether you’re crafting documentation, building a devlog, or launching a full portfolio, Slamhaus gets out of your way and lets you ship.</p>
+<p><strong>Start hacking. Stay fast. Build loud.</strong></p>
+</section>
 
     </main>
     <footer>

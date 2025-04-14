@@ -1,6 +1,7 @@
 <!-- Navigation -->
 
 - [Home](index.md)
-- [Documentation](documentation.md)
-- [Section Test](section.md)
 - [About](about.md)
+- [Services](services.md)
+- [Slamhaus](slamhaus.md)
+- [Contact Us](contact.md)

@@ -1,29 +1,36 @@
-# About Slamhaus
+:section[align:center](#about-us)
 
-Welcome to **Slamhaus**—a simple, powerful static site generator that converts Markdown into beautifully templated HTML pages.
+# About Us!
 
-## Our Mission
+Piledriver Playhouse is a co-dev force built for the underdogs. We back small businesses and indie devs with over a decade of hardcore experience in game dev and tech. Our mission? Deliver low-cost, high-impact tools and services that help you launch faster, smarter, and stronger.
 
-- Empower users with an easy-to-use Markdown workflow.
-- Automatically convert Markdown to responsive HTML.
-- Provide customizable templates and asset management.
-- Support inter-page linking for a seamless website experience.
+<br>
 
-## Meet the Team
+---
 
-Our dedicated team is passionate about clean design and simple, effective web development. We believe in open-source collaboration and continuous improvement.
+<br>
 
-!iframe[https://www.youtube.com/embed/bG9zs0c_v0Y?si=UTakjB8v-WE_MMjx]
+## Our Core Tenants
 
-## Learn More
+:column[size:3](#about-us-columns)
+:column[left]()
 
-For additional details, check out our [Documentation](documentation.md) or return to the [Home Page](index.md).
+### 🌍 Open Source, No Gatekeeping
 
-![width:max Team Image](assets/media/awesome-image.jpg)
+We build with open hands. Wherever we can, we drop the barriers and share our code — cutting costs, boosting speed, and making pro-grade tech available to all.
 
-!audio[](assets/media/example-audio.mp3)
+:column[middle]()
 
-!svg[width:max](assets/media/example-vector.svg)
+### 🚀 Boosting Underdogs
 
-!video[width:max](assets/media/example-video.mp4)
+Fresh grads, solo devs, tiny teams — we see you. Whether you’re breaking into the industry or trying to break out, we’ve got your back with tools, jobs, and launch-ready support.
 
+:column[right]()
+
+### 🛠️ Business on Beast Mode
+
+Tech doesn’t have to bleed your budget. We help small businesses punch above their weight — with lean, mean systems that work with you, not against you.
+
+:/column
+
+:/section

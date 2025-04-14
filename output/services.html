@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Documentation</title>
+    <title>What We Can Do For You!</title>
     <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
     <style>
     /* Fonts */
@@ -310,124 +310,52 @@ tr:hover {
        <p><!-- Navigation --></p>
 <ul>
 <li><a href="index.html">Home</a></li>
-<li><a href="slamhaus.html">Slamhaus</a></li>
-<li><a href="section.html">Section Test</a></li>
 <li><a href="about.html">About</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="slamhaus.html">Slamhaus</a></li>
+<li><a href="contact.html">Contact Us</a></li>
 </ul>
 
     </nav>
     <main>
-       <h1>Documentation</h1>
-<h2>Getting Started</h2>
-<p>Slamhaus is a minimalist, C++-powered static site generator with a Markdown frontend. This guide will help you get up and running quickly. It requires a <strong>C++17-compatible compiler</strong>.</p>
+       <section>
+<h1>What We Can Do For You!</h1>
+<p>At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers. Whether you're an indie dev, a startup, or a small business punching above your weight, we bring over a decade of hands-on experience in game development and tech to the table. We build lean, launch-ready solutions that cut through the noise — low cost, high impact, no nonsense.</p>
+<h2>Services</h2>
+<div class="columns-container responsive-columns"><div class="column"><h3>🌐 Websites, Apps & Mobile Builds</h3>
+<p>Need a landing page, web app, or mobile MVP? We craft slick, scalable products that work across devices — fast, functional, and fully yours. No templates. No fluff.</p>
+</div><div class="column"><h3>🧰 SME Tech Solutions</h3>
+<p>Running a small biz? We streamline your stack, automate the boring bits, and cut tech costs so you can focus on what actually matters — your growth.</p>
+</div><div class="column"><h3>🎮 Game Co-Dev & Prototyping</h3>
+<p>We help you go from idea to playable fast. Whether it’s mechanics testing, systems design, or last-mile polish — we jump in, sprint hard, and level up your project.</p>
+</div></div></section>
+<p><br></p>
 <hr>
-<h3>Linux (I use Arch, btw...)</h3>
-<pre><code>sudo pacman -S base-devel
-# Or just the compiler:
-sudo pacman -S gcc
-</code></pre>
+<p><br></p>
+<section>
+<h2>Pricing</h2>
+<p>We offer a 1-hour free consult every month to our friends and partners. Got a small job? We’ll try to knock it out on the spot.</p>
+<p>No hidden costs. Just a flat day rate + any extras (like hosting). If things go sideways, we cover the damage — because experience pays off, and we’ve got plenty of it.</p>
+<div class="columns-container responsive-columns"><div class="column"><h3>🐣 Junior Dev</h3>
+<p><strong>£160 / day</strong></p>
+<p>Great for simpler projects, bug hunts, or support tasks. Fast, efficient, and budget-friendly.</p>
+</div><div class="column"><h3>🧩 Mid-Level Dev</h3>
+<p><strong>£200 / day</strong></p>
+<p>Solid generalists with real-world problem-solving power. Ideal for full-feature builds and integrations.</p>
+</div><div class="column"><h3>🧠 Senior Dev</h3>
+<p><strong>£250 / day</strong></p>
+<p>High-level experts ready to architect, troubleshoot, or lead complex systems. You get the A-team.</p>
+</div></div><p><br></p>
 <hr>
-<h3>Linux (Debian-based: Ubuntu, Pop!\_OS, etc.)</h3>
-<pre><code>sudo apt update
-sudo apt install g++
-</code></pre>
+<p><br></p>
+<h2>🤝 If We Don’t Do It, We Know Who Does</h2>
+<p>We’re not trying to do everything — we stick to what we’re great at. But if your project needs something outside our wheelhouse, don’t stress. We’ve got a trusted network of badass specialists, from artists and animators to hardware hackers and cloud wizards. If we can’t handle it, we’ll connect you with someone who can — no gatekeeping, no markup, just solid people doing solid work.</p>
+<p><br></p>
 <hr>
-<h3>macOS</h3>
-<p>Install <a href="https://developer.apple.com/xcode/">Xcode Command Line Tools</a>.</p>
-<pre><code>xcode-select --install
-</code></pre>
-<hr>
-<h3>Windows</h3>
-<p>Install <a href="https://www.mingw-w64.org/">MinGW-w64</a> or use <a href="https://learn.microsoft.com/en-us/windows/wsl/">WSL</a> to set up a Linux environment.</p>
-<hr>
-<h2>Building Slamhaus</h2>
-<p>Navigate to the project directory and compile it using the included Makefile:</p>
-<pre><code>make
-</code></pre>
-<p>This will generate the <code>slamhaus</code> executable inside your project folder.</p>
-<hr>
-<h2>Running Slamhaus</h2>
-<p>After building, you can generate your website:</p>
-<pre><code>./slamhaus
-</code></pre>
-<p>This will take content from the <code>content/</code> folder and output a fully static site into the <code>build/</code> folder.</p>
-<hr>
-<h2>Project Structure</h2>
-<pre><code>.
-├── content/               → Your main site content in Markdown
-│   └── assets/            → Everything visual and stylistic
-│       ├── icons/         → A starter icon pack to get your site rolling
-│       ├── media/         → Images, videos, and other media files
-│       └── theme/         → CSS and fonts for styling your site
-│
-├── include/               → Reusable elements injected across pages
-│   ├── config.ini         → Your site’s config: title, theme, build settings, etc.
-│   ├── header.md          → Content for the top of every page
-│   ├── nav.md             → Navigation bar structure
-│   └── footer.md          → Footer content (links, copyright, etc.)
-│
-├── index.md               → Your site’s entry point (home page)
-│
-└── slamhaus              → The Slamhaus executable — run it to build your site
-
-</code></pre>
-<hr>
-<h2>Syntax</h2>
-<p>Slamhaus supports extended Markdown syntax, including some custom features.</p>
-<h3>Headings & Lists</h3>
-<pre><code># Heading 1
-## Heading 2
-### Heading 3
-
-- Bullet list item
-- Another item
-
-1. Numbered item
-2. Another one
-</code></pre>
-<h3>Inline Formatting</h3>
-<p><em>Italic</em>, <strong>Bold</strong>, and <strong><em>Bold Italic</em></strong></p>
-<pre><code>*Italic*, **Bold**, and ***Bold Italic***
-</code></pre>
-<h3>Links</h3>
-<p><a href="index.html">Go to Slamhaus</a></p>
-<pre><code>[Go to Slamhaus](index.md)
-</code></pre>
-<h3>Images with Styling</h3>
-<pre><code>![width:max height:300px Cool Banner](assets/media/awesome-image.jpg)
-</code></pre>
-<h3>Video Embeds</h3>
-<pre><code>!video[width:100% height:350px Demo Clip](assets/media/demo.mp4)
-</code></pre>
-<h3>iFrame Embeds</h3>
-<pre><code>!iframe[https://www.youtube.com/embed/dQw4w9WgXcQ]
-</code></pre>
-<hr>
-<h3>Code Highlighting</h3>
-<pre><code>#include <iostream>
-
-int main() {
-    std::cout << "Hello from Slamhaus!";
-    return 0;
-}
-</code></pre>
-<h3>Inline Code Snippets</h3>
-<p>Write inline like <code>std::vector<int></code> or <code>#include <string></code> in your paragraphs.</p>
-<hr>
-<h3>Tables</h3>
-<pre><code>| Feature       | Supported |
-| ------------- | --------- |
-| Images        | ✅
-| Videos        | ✅
-| Tables        | ✅
-| iFrames       | ✅
-| Code Blocks   | ✅
-</code></pre>
-<hr>
-<h2>Enjoy Building</h2>
-<p>Slamhaus is designed for developers who want power, simplicity, and total control — all in one neat C++ project.</p>
-<p>Start hacking away and turn your Markdown into a beautifully styled site.</p>
-<p>Happy hacking!</p>
+<p><br></p>
+<h2>🌱 Growing Beyond Us? We Support That.</h2>
+<p>We get it — sometimes you want to bring the talent in-house and build from within. While we hate to see good folks move on, we’re all about personal growth and a healthy, thriving ecosystem. If you're ready to take that next step, we’re happy to recommend developers, designers, or teams who align with your goals and values. No hard feelings — just mutual respect and a stronger industry for everyone.</p>
+</section>
 
     </main>
     <footer>
