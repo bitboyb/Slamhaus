@@ -4,6 +4,8 @@
 #define PARSER_HPP
 
 #include <string>
+#include <vector>
+#include <sstream>
 
 namespace Parser 
 {
@@ -13,6 +15,13 @@ namespace Parser
         bool inOl = false;
         bool inCodeBlock = false;
         bool inColumn = false;
+    };
+
+    struct ColumnState
+    {
+        std::ostringstream columnBuffer;
+        std::vector<std::string> columnParts;
+        std::vector<std::string> columnOpenLines;
     };
     
     std::string ParseMarkdown(const std::string& markdown);

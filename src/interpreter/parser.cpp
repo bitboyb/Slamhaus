@@ -18,10 +18,11 @@ namespace Parser
         std::ostringstream html;
 
         Parser::ParseState pState;
+        Parser::ColumnState cState;
     
-        std::ostringstream columnBuffer;
-        std::vector<std::string> columnParts;
-        std::vector<std::string> columnOpenLines;
+        // std::ostringstream cState.columnBuffer;
+        //std::vector<std::string> cState.columnParts;
+        // std::vector<std::string> cState.columnOpenLines;
     
         while (std::getline(iss, line))
         {
@@ -53,53 +54,53 @@ namespace Parser
             }
             if (Style::IsColumnOpenLine(line))
             {
-                if (pState.inColumn && !columnBuffer.str().empty())
+                if (pState.inColumn && !cState.columnBuffer.str().empty())
                 {
-                    columnParts.push_back(columnBuffer.str());
-                    columnOpenLines.push_back(line);
-                    columnBuffer.str("");
-                    columnBuffer.clear();
+                    cState.columnParts.push_back(cState.columnBuffer.str());
+                    cState.columnOpenLines.push_back(line);
+                    cState.columnBuffer.str("");
+                    cState.columnBuffer.clear();
                 }
                 else if (!pState.inColumn)
                 {
                     Text::CloseLists(html, pState);
                     pState.inColumn = true;
-                    columnParts.clear();
-                    columnOpenLines.clear();
-                    columnBuffer.str("");
-                    columnBuffer.clear();
-                    columnOpenLines.push_back(line);
+                    cState.columnParts.clear();
+                    cState.columnOpenLines.clear();
+                    cState.columnBuffer.str("");
+                    cState.columnBuffer.clear();
+                    cState.columnOpenLines.push_back(line);
                 }
                 continue;
             }
             
             if (Style::IsColumnCloseLine(line))
             {
-                if (!columnBuffer.str().empty())
+                if (!cState.columnBuffer.str().empty())
                 {
-                    columnParts.push_back(columnBuffer.str());
+                    cState.columnParts.push_back(cState.columnBuffer.str());
                 }
-                for (auto &col : columnParts)
+                for (auto &col : cState.columnParts)
                 {
                     col = Parser::ParseMarkdown(col);
                 }
-                html << Style::ApplyColumns(static_cast<int>(columnParts.size()), columnParts, columnOpenLines);
+                html << Style::ApplyColumns(static_cast<int>(cState.columnParts.size()), cState.columnParts, cState.columnOpenLines);
                 pState.inColumn = false;
-                columnBuffer.str("");
-                columnBuffer.clear();
+                cState.columnBuffer.str("");
+                cState.columnBuffer.clear();
                 continue;
             }
             if (pState.inColumn)
             {
                 if (line == "---")
                 {
-                    columnParts.push_back(columnBuffer.str());
-                    columnBuffer.str("");
-                    columnBuffer.clear();
+                    cState.columnParts.push_back(cState.columnBuffer.str());
+                    cState.columnBuffer.str("");
+                    cState.columnBuffer.clear();
                 }
                 else
                 {
-                    columnBuffer << line << "\n";
+                    cState.columnBuffer << line << "\n";
                 }
                 continue;
             }
