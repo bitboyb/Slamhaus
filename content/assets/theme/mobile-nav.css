@@ -1,0 +1,92 @@
+/* Add this: Hamburger Toggle (Mobile) */
+.nav-toggle {
+    display: none;
+}
+.nav-toggle-label {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    z-index: 200;
+}
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background: #03dac6;
+    height: 4px;
+    width: 100%;
+    border-radius: 2px;
+    position: absolute;
+    transition: all 0.3s ease;
+}
+.nav-toggle-label span {
+    top: 50%;
+    transform: translateY(-50%);
+}
+.nav-toggle-label span::before {
+    content: "";
+    top: -10px;
+}
+.nav-toggle-label span::after {
+    content: "";
+    top: 10px;
+}
+
+/* Active toggle effect */
+.nav-toggle:checked + .nav-toggle-label span {
+    background: transparent;
+}
+.nav-toggle:checked + .nav-toggle-label span::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+.nav-toggle:checked + .nav-toggle-label span::after {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+/* Responsive nav menu */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        background: #181818;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-top: 2px solid #03dac6;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem 0;
+    }
+
+    nav li {
+        width: 100%;
+        margin: 0.25rem 0;
+        text-align: center;
+    }
+
+    /* 👇 Add this to show the hamburger icon */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    /* 👇 Add this to ensure nav has height for the icon */
+    nav {
+        min-height: 60px;
+    }
+}

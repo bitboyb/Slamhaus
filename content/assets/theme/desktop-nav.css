@@ -1,0 +1,90 @@
+/* Navigation */
+nav {
+    font-size: 1.1rem;
+    background-color: #141414;
+    border-bottom: 2px solid #03dac6;
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+/* Top-level menu */
+.nav-menu > ul {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+/* Top-level items */
+.nav-menu > ul > li {
+    position: relative;
+    list-style: none;
+}
+
+/* Dropdown menu */
+.nav-menu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1f1f1f;
+    padding: 0.5rem 0;
+    min-width: 180px;
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
+    z-index: 1000;
+}
+
+.nav-menu ul ul li {
+    white-space: nowrap;     /* Force single line */
+    overflow: hidden;        /* Prevent overflow spill */
+    text-overflow: ellipsis; /* Add "..." if too long */
+    max-width: 100%;         /* Avoid overflow if parent is limited */
+}
+
+/* Show dropdown on hover */
+.nav-menu > ul > li:hover > ul {
+    display: block;
+}
+
+/* Active state */
+/* Make nav links look like buttons */
+.nav-menu a {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: 0.6em 1.2em;
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* On hover, invert and glow more */
+.nav-menu a:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+    text-shadow: none;
+}
+
+/* Remove the dropdown arrow spacing bump when not needed */
+.nav-menu > ul > li:not(:has(ul)) > a {
+    padding-right: 1.2em; /* keeps visual consistency with arrows */
+}
+
+.nav-menu > ul > li > a::after {
+    content: " ▼";
+    font-size: 0.7em;
+    color: #03dac6;
+}
+.nav-menu > ul > li:not(:has(ul)) > a::after {
+    content: "";
+}

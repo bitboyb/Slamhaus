@@ -12,33 +12,7 @@
     <meta property="og:url" content="https://www.piledriver-playhouse.com/">
 
     <style>
-    /* --- style.css --- */
-/* Fonts */
-@font-face {
-    font-family: 'SpaceMono';
-    src: url('assets/theme/SpaceMono-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'SpaceMono';
-    src: url('assets/theme/SpaceMono-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'SpaceMono';
-    src: url('assets/theme/SpaceMono-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'SpaceMono';
-    src: url('assets/theme/SpaceMono-BoldItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
-}
-
+    /* --- body.css --- */
 /* Reset */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -143,6 +117,7 @@ main {
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
 }
 
+/* --- footer.css --- */
 /* Footer */
 footer {
     margin-top: 2rem;
@@ -153,6 +128,7 @@ footer {
     padding-top: 1rem;
 }
 
+/* --- embed.css --- */
 /* Images */
 img {
     max-width: 100%;
@@ -203,72 +179,6 @@ tr:hover {
     background-color: #232323;
 }
 
-/* ========== Animations ========== */
-
-/* Fade and slide in */
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Neon glow pulse */
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(187, 134, 252, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 18px rgba(187, 134, 252, 0.6);
-  }
-}
-
-/* Flashy color wave */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* ========== Animated Utility Classes ========== */
-
-/* On load */
-.animate-in {
-  animation: fadeSlideUp 0.8s ease-out forwards;
-  opacity: 0; /* Initial state */
-}
-
-/* Pulsing glow */
-.glow-pulse {
-  animation: pulseGlow 1.5s ease-in-out infinite;
-}
-
-/* Neon shimmer */
-.shimmer {
-  background: linear-gradient(90deg, #bb86fc, #03dac6, #ffcb6b, #bb86fc);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 2.5s linear infinite;
-}
-
-/* Flashy hover box */
-.box-flash {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-.box-flash:hover {
-  box-shadow: 0 0 24px rgba(255, 203, 107, 0.6);
-  transform: scale(1.02);
-}
-
-
 /* Embeds */
 .embed-container {
     position: relative;
@@ -291,140 +201,96 @@ tr:hover {
     border-radius: 0.5rem;
 }
 
-/* Columns container styling */
-.columns-container {
-    display: flex;
-    gap: 1rem;
-  }
+/* --- components.css --- */
+/* Buttons */
+button, .slam-button {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: 0.6em 1.2em;
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+}
   
-  /* Each column styling */
-  .columns-container .column {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #444;
-  }
-  
-  /* Media query to collapse columns on narrow screens */
-  @media (max-width: 768px) {
-    .columns-container.responsive-columns {
-      flex-direction: column;
+button:hover, .slam-button:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+}
+
+/* --- animation.css --- */
+/* ========== Animations ========== */
+
+/* Fade and slide in */
+@keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
-
-  /* Buttons */
-  button, .slam-button {
-    background-color: #1f1f1f;
-    color: #03dac6;
-    border: 2px solid #03dac6;
-    padding: 0.6em 1.2em;
-    font-family: 'SpaceMono', monospace;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
-    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
-    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+  
+  /* Neon glow pulse */
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(187, 134, 252, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 18px rgba(187, 134, 252, 0.6);
+    }
   }
   
-  button:hover, .slam-button:hover {
-    background-color: #03dac6;
-    color: #0e0e0e;
-    transform: scale(1.05);
-    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+  /* Flashy color wave */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
   
-/* Navigation */
-nav {
-    font-size: 1.1rem;
-    background-color: #141414;
-    border-bottom: 2px solid #03dac6;
-    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1);
-    position: relative;
-    z-index: 100;
-}
+  /* ========== Animated Utility Classes ========== */
+  
+  /* On load */
+  .animate-in {
+    animation: fadeSlideUp 0.8s ease-out forwards;
+    opacity: 0; /* Initial state */
+  }
+  
+  /* Pulsing glow */
+  .glow-pulse {
+    animation: pulseGlow 1.5s ease-in-out infinite;
+  }
+  
+  /* Neon shimmer */
+  .shimmer {
+    background: linear-gradient(90deg, #bb86fc, #03dac6, #ffcb6b, #bb86fc);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2.5s linear infinite;
+  }
+  
+  /* Flashy hover box */
+  .box-flash {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .box-flash:hover {
+    box-shadow: 0 0 24px rgba(255, 203, 107, 0.6);
+    transform: scale(1.02);
+  }
 
-/* Top-level menu */
-.nav-menu > ul {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    padding: 1rem 0;
-}
-
-/* Top-level items */
-.nav-menu > ul > li {
-    position: relative;
-    list-style: none;
-}
-
-/* Dropdown menu */
-.nav-menu ul ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #1f1f1f;
-    padding: 0.5rem 0;
-    min-width: 180px;
-    box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
-    z-index: 1000;
-}
-
-.nav-menu ul ul li {
-    white-space: nowrap;     /* Force single line */
-    overflow: hidden;        /* Prevent overflow spill */
-    text-overflow: ellipsis; /* Add "..." if too long */
-    max-width: 100%;         /* Avoid overflow if parent is limited */
-}
-
-/* Show dropdown on hover */
-.nav-menu > ul > li:hover > ul {
-    display: block;
-}
-
-/* Active state */
-/* Make nav links look like buttons */
-.nav-menu a {
-    background-color: #1f1f1f;
-    color: #03dac6;
-    border: 2px solid #03dac6;
-    padding: 0.6em 1.2em;
-    font-family: 'SpaceMono', monospace;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
-    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
-    display: inline-block;
-    text-align: center;
-    white-space: nowrap;
-}
-
-/* On hover, invert and glow more */
-.nav-menu a:hover {
-    background-color: #03dac6;
-    color: #0e0e0e;
-    transform: scale(1.05);
-    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
-    text-shadow: none;
-}
-
-/* Remove the dropdown arrow spacing bump when not needed */
-.nav-menu > ul > li:not(:has(ul)) > a {
-    padding-right: 1.2em; /* keeps visual consistency with arrows */
-}
-
-.nav-menu > ul > li > a::after {
-    content: " ▼";
-    font-size: 0.7em;
-    color: #03dac6;
-}
-.nav-menu > ul > li:not(:has(ul)) > a::after {
-    content: "";
-}
-
-
+/* --- mobile-nav.css --- */
 /* Add this: Hamburger Toggle (Mobile) */
 .nav-toggle {
     display: none;
@@ -518,6 +384,145 @@ nav {
     }
 }
 
+
+/* --- style.css --- */
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: 1rem;
+}
+  
+  /* Each column styling */
+.columns-container .column {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #444;
+}
+  
+  /* Media query to collapse columns on narrow screens */
+@media (max-width: 768px) {
+    .columns-container.responsive-columns {
+      flex-direction: column;
+    }
+}
+
+/* --- fonts.css --- */
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* --- desktop-nav.css --- */
+/* Navigation */
+nav {
+    font-size: 1.1rem;
+    background-color: #141414;
+    border-bottom: 2px solid #03dac6;
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+/* Top-level menu */
+.nav-menu > ul {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+/* Top-level items */
+.nav-menu > ul > li {
+    position: relative;
+    list-style: none;
+}
+
+/* Dropdown menu */
+.nav-menu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1f1f1f;
+    padding: 0.5rem 0;
+    min-width: 180px;
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
+    z-index: 1000;
+}
+
+.nav-menu ul ul li {
+    white-space: nowrap;     /* Force single line */
+    overflow: hidden;        /* Prevent overflow spill */
+    text-overflow: ellipsis; /* Add "..." if too long */
+    max-width: 100%;         /* Avoid overflow if parent is limited */
+}
+
+/* Show dropdown on hover */
+.nav-menu > ul > li:hover > ul {
+    display: block;
+}
+
+/* Active state */
+/* Make nav links look like buttons */
+.nav-menu a {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: 0.6em 1.2em;
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* On hover, invert and glow more */
+.nav-menu a:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+    text-shadow: none;
+}
+
+/* Remove the dropdown arrow spacing bump when not needed */
+.nav-menu > ul > li:not(:has(ul)) > a {
+    padding-right: 1.2em; /* keeps visual consistency with arrows */
+}
+
+.nav-menu > ul > li > a::after {
+    content: " ▼";
+    font-size: 0.7em;
+    color: #03dac6;
+}
+.nav-menu > ul > li:not(:has(ul)) > a::after {
+    content: "";
+}
 
 
     </style>
