@@ -20,10 +20,6 @@ namespace Parser
         Parser::ParseState pState;
         Parser::ColumnState cState;
     
-        // std::ostringstream cState.columnBuffer;
-        //std::vector<std::string> cState.columnParts;
-        // std::vector<std::string> cState.columnOpenLines;
-    
         while (std::getline(iss, line))
         {
             if (SEO::IsSiteLine(line))
