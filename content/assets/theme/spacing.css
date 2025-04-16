@@ -1,0 +1,31 @@
+:root {
+    /* Gaps */
+    --gap-xs: 0.25rem;
+    --gap-sm: 0.5rem;
+    --gap-md: 1rem;
+    --gap-lg: 2rem;
+  
+    /* Padding */
+    --pad-xs: 0.25rem;
+    --pad-sm: 0.5rem;
+    --pad-md: 1rem;
+    --pad-lg: 2rem;
+  
+    /* Margin */
+    --margin-xs: 0.25rem;
+    --margin-sm: 0.5rem;
+    --margin-md: 1rem;
+    --margin-lg: 2rem;
+  
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
+
+    /* Button */
+    --pad-button-y: 0.6em;
+    --pad-button-x: 1.2em;
+    --radius-button: 6px;
+}
+  

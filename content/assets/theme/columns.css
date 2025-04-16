@@ -1,0 +1,19 @@
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: var(--gap-md);
+}
+  
+/* Each column styling */
+.columns-container .column {
+    flex: 1;
+    padding: var(--pad-sm);
+    border: 1px solid var(--color-03);
+}
+  
+/* Media query to collapse columns on narrow screens */
+@media (max-width: 768px) {
+    .columns-container.responsive-columns {
+        flex-direction: column;
+    }
+}

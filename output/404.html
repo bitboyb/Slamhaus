@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page Not Found</title>
   <style>
+/* --- columns.css --- */
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: var(--gap-md);
+}
+  
+/* Each column styling */
+.columns-container .column {
+    flex: 1;
+    padding: var(--pad-sm);
+    border: 1px solid var(--color-03);
+}
+  
+/* Media query to collapse columns on narrow screens */
+@media (max-width: 768px) {
+    .columns-container.responsive-columns {
+        flex-direction: column;
+    }
+}
+
+
 /* --- body.css --- */
 /* Reset */
 *, *::before, *::after {
@@ -19,107 +41,140 @@ body, h1, h2, h3, p, ul, ol, li {
 body {
     font-family: 'SpaceMono', monospace, sans-serif;
     line-height: 1.75;
-    background-color: #0e0e0e;
-    color: #e0e0e0;
-    padding: 1rem;
+    background-color: var(--color-00);
+    color: var(--color-13);
+    padding: var(--pad-md);
     max-width: 100%;
-    font-size: 1.1rem; /* Increase base font size */
+    font-size: 1.1rem;
 }
 
 /* Headings */
 h1, h2, h3 {
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--margin-sm);
     text-align: center;
 }
 h1 {
     font-size: 2rem;
-    color: #bb86fc;
+    color: var(--color-06);
 }
 h2 {
     font-size: 1.75rem;
-    color: #03dac6;
+    color: var(--color-05);
 }
 h3 {
     font-size: 1.5rem;
-    color: #ffcb6b;
+    color: var(--color-14);
 }
 h4, h5, h6 {
     font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #cccccc;
+    margin-bottom: var(--margin-sm);
+    color: var(--color-15);
 }
 h4 {
     font-size: 1.25rem;
-    color: #82aaff; /* subtle blue tone */
+    color: var(--color-16);
 }
-
 h5 {
     font-size: 1.1rem;
-    color: #c792ea; /* soft violet */
+    color: var(--color-17);
 }
-
 h6 {
     font-size: 1rem;
-    color: #f07178; /* pinkish highlight */
+    color: var(--color-18);
 }
 
 /* Paragraphs */
 p {
-    margin-bottom: 1rem;
+    margin-bottom: var(--margin-md);
 }
 
 /* Links */
 a {
-    color: #03dac6;
+    color: var(--color-05);
     text-decoration: none;
     border-bottom: 1px dotted transparent;
     transition: border 0.3s;
 }
 a:hover {
-    border-bottom: 1px dotted #03dac6;
+    border-bottom: 1px dotted var(--color-05);
 }
 
 /* Lists */
 ul {
     list-style-type: disc;
-    margin-bottom: 1rem;
-    padding-left: 2rem;
+    margin-bottom: var(--margin-md);
+    padding-left: var(--pad-lg);
 }
 ol {
     list-style-type: decimal;
-    margin-bottom: 1rem;
-    padding-left: 2.8rem;
+    margin-bottom: var(--margin-md);
+    padding-left: calc(var(--pad-lg) + 0.8rem);
 }
 
 /* Header */
 header {
-    background-color: #141414;
-    padding: 1rem;
+    background-color: var(--color-19);
+    padding: var(--pad-md);
     text-align: center;
-    border-bottom: 2px solid #bb86fc;
+    border-bottom: 2px solid var(--color-06);
     color: white;
 }
 
 /* Main */
 main {
-    background-color: #181818;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+    background-color: var(--color-09);
+    padding: var(--pad-lg);
+    margin-top: var(--margin-lg);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 12px var(--color-20);
 }
+
+
+/* --- spacing.css --- */
+:root {
+    /* Gaps */
+    --gap-xs: 0.25rem;
+    --gap-sm: 0.5rem;
+    --gap-md: 1rem;
+    --gap-lg: 2rem;
+  
+    /* Padding */
+    --pad-xs: 0.25rem;
+    --pad-sm: 0.5rem;
+    --pad-md: 1rem;
+    --pad-lg: 2rem;
+  
+    /* Margin */
+    --margin-xs: 0.25rem;
+    --margin-sm: 0.5rem;
+    --margin-md: 1rem;
+    --margin-lg: 2rem;
+  
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
+
+    /* Button */
+    --pad-button-y: 0.6em;
+    --pad-button-x: 1.2em;
+    --radius-button: 6px;
+}
+  
 
 /* --- footer.css --- */
 /* Footer */
 footer {
-    margin-top: 2rem;
+    margin-top: var(--margin-lg);             /* 2rem */
     text-align: center;
     font-size: 0.9em;
-    color: #aaaaaa;
-    border-top: 2px solid #03dac6;
-    padding-top: 1rem;
+    color: var(--color-07);                   /* #aaaaaa */
+    border-top: 2px solid var(--color-05);    /* #03dac6 */
+    padding-top: var(--pad-md);               /* 1rem */
 }
+
 
 /* --- embed.css --- */
 /* Images */
@@ -127,49 +182,60 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 1rem auto;
+    margin: var(--margin-md) auto;
 }
 
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: #1a1a1a;
-    color: #f0f0f0;
-    border-radius: 6px;
+    background-color: var(--color-01); /* #1a1a1a */
+    color: var(--color-08); /* #f0f0f0 */
+    border-radius: var(--radius-sm); /* 4px */
+    line-height: 1.5;
 }
+
 code {
-    padding: 0.25em 0.5em;
+    padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: #222;
+    background-color: var(--color-02); /* #222222 */
+    border: none;
+    box-shadow: none;
 }
+
+/* Multiline code blocks */
 pre {
-    padding: 1rem;
-    margin: 1.5rem 0;
+    padding: var(--pad-md);
+    margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
-    border: 1px solid #2e2e2e;
+    border: 1px solid var(--color-04); /* #2e2e2e */
+    background-color: var(--color-01); /* Ensures no double background */
 }
 
 /* Tables */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 2rem;
-    border: 1px solid #444;
+    margin-bottom: var(--margin-lg);
+    border: 1px solid var(--color-03); /* #2a2a2a */
 }
+
 th, td {
-    padding: 0.75rem 1rem;
-    border: 1px solid #2a2a2a;
+    padding: 0.75rem var(--pad-md);
+    border: 1px solid var(--color-03);
 }
+
 th {
-    background-color: #202020;
-    color: #bb86fc;
+    background-color: var(--color-10); /* #202020 */
+    color: var(--color-06); /* #bb86fc */
     text-align: left;
 }
+
 tr:nth-child(even) {
-    background-color: #181818;
+    background-color: var(--color-09); /* #181818 */
 }
+
 tr:hover {
-    background-color: #232323;
+    background-color: var(--color-11); /* #232323 */
 }
 
 /* Embeds */
@@ -179,11 +245,12 @@ tr:hover {
     height: 0;
     overflow: hidden;
     max-width: 100%;
-    border-radius: 0.5rem;
-    margin: 2rem 0;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-    border: 1px solid #2a2a2a;
+    border-radius: var(--radius-md); /* 8px */
+    margin: var(--margin-lg) 0;
+    box-shadow: 0 0 12px var(--color-20); /* rgba(0, 0, 0, 0.6) */
+    border: 1px solid var(--color-03);
 }
+
 .embed-container iframe {
     position: absolute;
     top: 0;
@@ -191,8 +258,9 @@ tr:hover {
     width: 100%;
     height: 100%;
     border: 0;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-md);
 }
+
 
 /* --- components.css --- */
 /* Buttons */
@@ -200,10 +268,10 @@ button, .slam-button {
     background-color: #1f1f1f;
     color: #03dac6;
     border: 2px solid #03dac6;
-    padding: 0.6em 1.2em;
+    padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
-    border-radius: 6px;
+    border-radius: var(--radius-button);
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, transform 0.2s;
     text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
@@ -217,106 +285,71 @@ button:hover, .slam-button:hover {
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
 
-/* --- animation.css --- */
-/* ========== Animations ========== */
-
-/* Fade and slide in */
-@keyframes fadeSlideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+/* --- palette.css --- */
+:root {
+    --color-00: #0e0e0e; /* Deep background */
+    --color-01: #1a1a1a;
+    --color-02: #222222;
+    --color-03: #2a2a2a;
+    --color-04: #2e2e2e;
+    --color-05: #03dac6; /* Neon cyan */
+    --color-06: #bb86fc; /* Neon purple */
+    --color-07: #aaaaaa;
+    --color-08: #f0f0f0;
+    --color-09: #181818;
+    --color-10: #202020;
+    --color-11: #232323;
+    --color-12: rgba(0, 0, 0, 0.4);
+    --color-13: #e0e0e0; /* Body text */
+    --color-14: #ffcb6b; /* Heading 3 yellow */
+    --color-15: #cccccc; /* Fallback gray for h4-h6 */
+    --color-16: #82aaff; /* Subtle blue (h4) */
+    --color-17: #c792ea; /* Soft violet (h5) */
+    --color-18: #f07178; /* Pinkish (h6) */
+    --color-19: #141414; /* Header background */
+    --color-20: rgba(0, 0, 0, 0.6); /* Box shadow */
   }
   
-  /* Neon glow pulse */
-  @keyframes pulseGlow {
-    0%, 100% {
-      box-shadow: 0 0 8px rgba(187, 134, 252, 0.2);
-    }
-    50% {
-      box-shadow: 0 0 18px rgba(187, 134, 252, 0.6);
-    }
-  }
-  
-  /* Flashy color wave */
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-  
-  /* ========== Animated Utility Classes ========== */
-  
-  /* On load */
-  .animate-in {
-    animation: fadeSlideUp 0.8s ease-out forwards;
-    opacity: 0; /* Initial state */
-  }
-  
-  /* Pulsing glow */
-  .glow-pulse {
-    animation: pulseGlow 1.5s ease-in-out infinite;
-  }
-  
-  /* Neon shimmer */
-  .shimmer {
-    background: linear-gradient(90deg, #bb86fc, #03dac6, #ffcb6b, #bb86fc);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 2.5s linear infinite;
-  }
-  
-  /* Flashy hover box */
-  .box-flash {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  }
-  .box-flash:hover {
-    box-shadow: 0 0 24px rgba(255, 203, 107, 0.6);
-    transform: scale(1.02);
-  }
 
 /* --- mobile-nav.css --- */
-/* Add this: Hamburger Toggle (Mobile) */
+/* Hamburger Toggle (Mobile) */
 .nav-toggle {
     display: none;
 }
+
 .nav-toggle-label {
     display: none;
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: var(--pad-md); /* 1rem */
+    right: var(--pad-md);
     cursor: pointer;
     width: 32px;
     height: 32px;
     z-index: 200;
 }
+
 .nav-toggle-label span,
 .nav-toggle-label span::before,
 .nav-toggle-label span::after {
     display: block;
-    background: #03dac6;
+    background: var(--color-05); /* Neon cyan */
     height: 4px;
     width: 100%;
-    border-radius: 2px;
+    border-radius: var(--radius-sm); /* 4px */
     position: absolute;
     transition: all 0.3s ease;
 }
+
 .nav-toggle-label span {
     top: 50%;
     transform: translateY(-50%);
 }
+
 .nav-toggle-label span::before {
     content: "";
     top: -10px;
 }
+
 .nav-toggle-label span::after {
     content: "";
     top: 10px;
@@ -341,13 +374,13 @@ button:hover, .slam-button:hover {
         display: none;
         flex-direction: column;
         align-items: center;
-        background: #181818;
+        background: var(--color-09); /* #181818 */
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        border-top: 2px solid #03dac6;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        border-top: 2px solid var(--color-05);
+        box-shadow: 0 8px 20px var(--color-20); /* rgba(0,0,0,0.6) */
     }
 
     .nav-toggle:checked ~ .nav-menu {
@@ -357,47 +390,24 @@ button:hover, .slam-button:hover {
     nav ul {
         flex-direction: column;
         width: 100%;
-        padding: 1rem 0;
+        padding: var(--pad-md) 0;
     }
 
     nav li {
         width: 100%;
-        margin: 0.25rem 0;
+        margin: var(--gap-xs) 0;
         text-align: center;
     }
 
-    /* 👇 Add this to show the hamburger icon */
     .nav-toggle-label {
         display: block;
     }
 
-    /* 👇 Add this to ensure nav has height for the icon */
     nav {
         min-height: 60px;
     }
 }
 
-
-/* --- style.css --- */
-/* Columns container styling */
-.columns-container {
-    display: flex;
-    gap: 1rem;
-}
-  
-  /* Each column styling */
-.columns-container .column {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #444;
-}
-  
-  /* Media query to collapse columns on narrow screens */
-@media (max-width: 768px) {
-    .columns-container.responsive-columns {
-      flex-direction: column;
-    }
-}
 
 /* --- fonts.css --- */
 @font-face {
@@ -429,9 +439,9 @@ button:hover, .slam-button:hover {
 /* Navigation */
 nav {
     font-size: 1.1rem;
-    background-color: #141414;
-    border-bottom: 2px solid #03dac6;
-    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1);
+    background-color: var(--color-19); /* #141414 */
+    border-bottom: 2px solid var(--color-05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
     position: relative;
     z-index: 100;
 }
@@ -439,9 +449,9 @@ nav {
 /* Top-level menu */
 .nav-menu > ul {
     display: flex;
-    gap: 1rem;
+    gap: var(--gap-md); /* 1rem */
     justify-content: center;
-    padding: 1rem 0;
+    padding: var(--pad-md) 0;
 }
 
 /* Top-level items */
@@ -456,18 +466,18 @@ nav {
     position: absolute;
     top: 100%;
     left: 0;
-    background: #1f1f1f;
-    padding: 0.5rem 0;
+    background: var(--color-02); /* #1f1f1f */
+    padding: var(--pad-sm) 0;
     min-width: 180px;
     box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
     z-index: 1000;
 }
 
 .nav-menu ul ul li {
-    white-space: nowrap;     /* Force single line */
-    overflow: hidden;        /* Prevent overflow spill */
-    text-overflow: ellipsis; /* Add "..." if too long */
-    max-width: 100%;         /* Avoid overflow if parent is limited */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 /* Show dropdown on hover */
@@ -475,16 +485,15 @@ nav {
     display: block;
 }
 
-/* Active state */
-/* Make nav links look like buttons */
+/* Nav links as buttons */
 .nav-menu a {
-    background-color: #1f1f1f;
-    color: #03dac6;
-    border: 2px solid #03dac6;
-    padding: 0.6em 1.2em;
+    background-color: var(--color-02); /* #1f1f1f */
+    color: var(--color-05); /* #03dac6 */
+    border: 2px solid var(--color-05);
+    padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
-    border-radius: 6px;
+    border-radius: var(--radius-button);
     cursor: pointer;
     text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
     box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
@@ -494,28 +503,30 @@ nav {
     white-space: nowrap;
 }
 
-/* On hover, invert and glow more */
+/* Hover effect */
 .nav-menu a:hover {
-    background-color: #03dac6;
-    color: #0e0e0e;
+    background-color: var(--color-05);
+    color: var(--color-00); /* #0e0e0e */
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
     text-shadow: none;
 }
 
-/* Remove the dropdown arrow spacing bump when not needed */
+/* Adjust spacing for non-dropdown links */
 .nav-menu > ul > li:not(:has(ul)) > a {
-    padding-right: 1.2em; /* keeps visual consistency with arrows */
+    padding-right: var(--pad-button-x);
 }
 
+/* Dropdown arrow */
 .nav-menu > ul > li > a::after {
     content: " ▼";
     font-size: 0.7em;
-    color: #03dac6;
+    color: var(--color-05);
 }
 .nav-menu > ul > li:not(:has(ul)) > a::after {
     content: "";
 }
+
 
 
   </style>

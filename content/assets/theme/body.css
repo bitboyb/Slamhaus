@@ -11,93 +11,91 @@ body, h1, h2, h3, p, ul, ol, li {
 body {
     font-family: 'SpaceMono', monospace, sans-serif;
     line-height: 1.75;
-    background-color: #0e0e0e;
-    color: #e0e0e0;
-    padding: 1rem;
+    background-color: var(--color-00);
+    color: var(--color-13);
+    padding: var(--pad-md);
     max-width: 100%;
-    font-size: 1.1rem; /* Increase base font size */
+    font-size: 1.1rem;
 }
 
 /* Headings */
 h1, h2, h3 {
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--margin-sm);
     text-align: center;
 }
 h1 {
     font-size: 2rem;
-    color: #bb86fc;
+    color: var(--color-06);
 }
 h2 {
     font-size: 1.75rem;
-    color: #03dac6;
+    color: var(--color-05);
 }
 h3 {
     font-size: 1.5rem;
-    color: #ffcb6b;
+    color: var(--color-14);
 }
 h4, h5, h6 {
     font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #cccccc;
+    margin-bottom: var(--margin-sm);
+    color: var(--color-15);
 }
 h4 {
     font-size: 1.25rem;
-    color: #82aaff; /* subtle blue tone */
+    color: var(--color-16);
 }
-
 h5 {
     font-size: 1.1rem;
-    color: #c792ea; /* soft violet */
+    color: var(--color-17);
 }
-
 h6 {
     font-size: 1rem;
-    color: #f07178; /* pinkish highlight */
+    color: var(--color-18);
 }
 
 /* Paragraphs */
 p {
-    margin-bottom: 1rem;
+    margin-bottom: var(--margin-md);
 }
 
 /* Links */
 a {
-    color: #03dac6;
+    color: var(--color-05);
     text-decoration: none;
     border-bottom: 1px dotted transparent;
     transition: border 0.3s;
 }
 a:hover {
-    border-bottom: 1px dotted #03dac6;
+    border-bottom: 1px dotted var(--color-05);
 }
 
 /* Lists */
 ul {
     list-style-type: disc;
-    margin-bottom: 1rem;
-    padding-left: 2rem;
+    margin-bottom: var(--margin-md);
+    padding-left: var(--pad-lg);
 }
 ol {
     list-style-type: decimal;
-    margin-bottom: 1rem;
-    padding-left: 2.8rem;
+    margin-bottom: var(--margin-md);
+    padding-left: calc(var(--pad-lg) + 0.8rem);
 }
 
 /* Header */
 header {
-    background-color: #141414;
-    padding: 1rem;
+    background-color: var(--color-19);
+    padding: var(--pad-md);
     text-align: center;
-    border-bottom: 2px solid #bb86fc;
+    border-bottom: 2px solid var(--color-06);
     color: white;
 }
 
 /* Main */
 main {
-    background-color: #181818;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+    background-color: var(--color-09);
+    padding: var(--pad-lg);
+    margin-top: var(--margin-lg);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 12px var(--color-20);
 }

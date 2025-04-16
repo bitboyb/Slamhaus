@@ -3,10 +3,10 @@ button, .slam-button {
     background-color: #1f1f1f;
     color: #03dac6;
     border: 2px solid #03dac6;
-    padding: 0.6em 1.2em;
+    padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
-    border-radius: 6px;
+    border-radius: var(--radius-button);
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, transform 0.2s;
     text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
