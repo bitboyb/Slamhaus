@@ -11,7 +11,7 @@
 
 namespace Parser 
 {
-    std::string ParseMarkdown(const std::string &markdown)
+    std::string ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
     {
         std::istringstream iss(markdown);
         std::string line;
@@ -24,12 +24,12 @@ namespace Parser
         {
             if (SEO::IsSiteLine(line))
             {
-                SEO::ProcessSiteLine(line);
+                SEO::ProcessSiteLine(line, *seo);
                 continue;
             }
             if (SEO::IsPageLine(line))
             {
-                SEO::ProcessPageLine(line);
+                SEO::ProcessPageLine(line, *seo);
                 continue;
             }
             if (Style::IsSectionOpenLine(line))
@@ -78,7 +78,7 @@ namespace Parser
                 }
                 for (auto &col : cState.columnParts)
                 {
-                    col = Parser::ParseMarkdown(col);
+                    col = Parser::ParseMarkdown(col, seo);
                 }
                 html << Style::ApplyColumns(static_cast<int>(cState.columnParts.size()), cState.columnParts, cState.columnOpenLines);
                 pState.inColumn = false;

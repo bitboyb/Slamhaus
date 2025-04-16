@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include "../util/string.hpp"
 
 namespace Style
 {
@@ -38,32 +39,25 @@ namespace Style
         return oss.str();
     }
 
-    std::string Trim(const std::string& str)
-    {
-        const auto strBegin = std::find_if_not(str.begin(), str.end(), ::isspace);
-        const auto strEnd = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
-        return (strBegin < strEnd) ? std::string(strBegin, strEnd) : "";
-    }
-
     bool IsColumnOpenLine(const std::string &line)
     {
-        std::string trimmed = Trim(line);
+        std::string trimmed = String::Trim(line);
         return trimmed.rfind(":column[", 0) == 0;
     }
 
     bool IsColumnCloseLine(const std::string &line)
     {
-        return Trim(line) == ":/column";
+        return String::Trim(line) == ":/column";
     }
 
     bool IsSectionOpenLine(const std::string &line)
     {
-        std::string trimmed = Trim(line);
+        std::string trimmed = String::Trim(line);
         return trimmed.rfind(":section[", 0) == 0;
     }
 
     bool IsSectionCloseLine(const std::string &line)
     {
-        return Trim(line) == ":/section";
+        return String::Trim(line) == ":/section";
     }
 }

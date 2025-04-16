@@ -4,25 +4,19 @@
 
 namespace SEO
 {
-    static std::string siteTitle;
-    static std::string siteDescription;
-    static std::string siteUrl;
-    static std::string siteFavicon;
-    static std::string pageDescription;
-    static std::string pageKeywords;
+    SEO::SEOData GetDefault(Config::ConfigINI &ini)
+    {
+        SEO::SEOData seo;
+        seo.siteTitle = ini.siteName;
+        seo.siteDescription = ini.description;
+        seo.siteUrl = ini.siteUrl;
+        seo.siteFavicon = ini.faviconPath;
+        seo.pageKeywords = ini.defaultKeywords;
+        return seo;
+    }
 
     bool IsSiteLine(const std::string &line) { return line.find("$site[") == 0;}
     bool IsPageLine(const std::string &line) { return line.find("$page[") == 0; }
-    std::string GetSiteFavicon() { return siteFavicon; }
-    std::string GetSiteUrl()     { return siteUrl; }
-    std::string GetSiteTitle() { return siteTitle; }
-    std::string GetSiteDescription() { return siteDescription; }
-    std::string GetPageDescription() { return pageDescription; }
-    std::string GetPageKeywords() { return pageKeywords; }
-    void SetSiteTitle(const std::string &title)           { siteTitle = title; }
-    void SetSiteDescription(const std::string &desc)      { siteDescription = desc; }
-    void SetSiteFavicon(const std::string &path)          { siteFavicon = path; }
-    void SetSiteUrl(const std::string &url)               { siteUrl = url; }
     
     std::map<std::string, std::string> ParseAttributes(const std::string &line)
     {
@@ -45,90 +39,43 @@ namespace SEO
         return attributes;
     }
 
-    std::string ProcessSiteLine(const std::string &line)
+    void ProcessSiteLine(const std::string &line, SEOData &seo)
     {
         auto attrs = ParseAttributes(line);
-        if (attrs.count("title")) 
-        {
-            siteTitle = attrs["title"];
-        }
-        if (attrs.count("description")) 
-        {
-            siteDescription = attrs["description"];
-        }
-        if (attrs.count("url")) 
-        {
-            siteUrl = attrs["url"];
-        }
-        if (attrs.count("favicon"))
-        {
-            siteFavicon = attrs["favicon"];
-        }
-        return "";
+        if (attrs.count("title")) seo.siteTitle = attrs["title"];
+        if (attrs.count("description")) seo.siteDescription = attrs["description"];
+        if (attrs.count("url")) seo.siteUrl = attrs["url"];
+        if (attrs.count("favicon")) seo.siteFavicon = attrs["favicon"];
     }
     
-    std::string ProcessPageLine(const std::string &line)
+    void ProcessPageLine(const std::string &line, SEOData &seo)
     {
         auto attrs = ParseAttributes(line);
-        if (attrs.count("description")) 
-        {
-            pageDescription = attrs["description"];
-        }
-        if (attrs.count("keywords")) 
-        {
-            pageKeywords = attrs["keywords"];
-        }
-        return "";
+        if (attrs.count("description")) seo.pageDescription = attrs["description"];
+        if (attrs.count("keywords")) seo.pageKeywords = attrs["keywords"];
     }
 
-    std::string GetMetaTags()
+    std::string GetMetaTags(const SEOData &seo)
     {
         std::ostringstream meta;
-        if (!pageDescription.empty())
+        if (!seo.pageDescription.empty())
         {
-            meta << "    <meta name=\"description\" content=\"" << pageDescription << "\">\n";
-            meta << "    <meta property=\"og:description\" content=\"" << pageDescription << "\">\n";
+            meta << "    <meta name=\"description\" content=\"" << seo.pageDescription << "\">\n";
+            meta << "    <meta property=\"og:description\" content=\"" << seo.pageDescription << "\">\n";
         }
-        if (!pageKeywords.empty())
+        if (!seo.pageKeywords.empty())
         {
-            meta << "    <meta name=\"keywords\" content=\"" << pageKeywords << "\">\n";
+            meta << "    <meta name=\"keywords\" content=\"" << seo.pageKeywords << "\">\n";
         }
-        if (!siteTitle.empty())
+        if (!seo.siteTitle.empty())
         {
-            meta << "    <meta property=\"og:title\" content=\"" << siteTitle << "\">\n";
+            meta << "    <meta property=\"og:title\" content=\"" << seo.siteTitle << "\">\n";
         }
-        if (!siteUrl.empty())
+        if (!seo.siteUrl.empty())
         {
-            meta << "    <link rel=\"canonical\" href=\"" << siteUrl << "\">\n";
-            meta << "    <meta property=\"og:url\" content=\"" << siteUrl << "\">\n";
+            meta << "    <link rel=\"canonical\" href=\"" << seo.siteUrl << "\">\n";
+            meta << "    <meta property=\"og:url\" content=\"" << seo.siteUrl << "\">\n";
         }
         return meta.str();
-    }
-
-    void Extract(const std::string &markdown)
-    {
-        std::istringstream stream(markdown);
-        std::string line;
-        while (std::getline(stream, line))
-        {
-            if (IsSiteLine(line))
-            {
-                ProcessSiteLine(line);
-            }
-            else if (IsPageLine(line))
-            {
-                ProcessPageLine(line);
-            }
-        }
-    }
-
-    void Reset()
-    {
-        siteTitle.clear();
-        siteDescription.clear();
-        pageDescription.clear();
-        pageKeywords.clear();
-        siteFavicon.clear();
-        siteUrl.clear();
     }
 }

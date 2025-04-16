@@ -1,11 +1,13 @@
 #pragma once
 
+#include "seo.hpp"
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
 #include <string>
 #include <vector>
 #include <sstream>
+#include "../core/config.hpp"
 
 namespace Parser 
 {
@@ -24,7 +26,7 @@ namespace Parser
         std::vector<std::string> columnOpenLines;
     };
     
-    std::string ParseMarkdown(const std::string& markdown);
+    std::string ParseMarkdown(const std::string &markdown, SEO::SEOData *seo = nullptr);
     std::string StripParagraphTags(const std::string &html);
     std::string ExtractSiteTitle(const std::string &markdown);
 }

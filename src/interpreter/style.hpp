@@ -12,8 +12,6 @@ namespace Style
                              const std::vector<std::string>& text, 
                              const std::vector<std::string>& openLines);
 
-    std::string Trim(const std::string& str);
-
     bool IsColumnText(const std::string &line);
     bool IsColumnOpenLine(const std::string &line);
     bool IsColumnCloseLine(const std::string &line);

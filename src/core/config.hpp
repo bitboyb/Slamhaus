@@ -12,6 +12,7 @@ namespace Config
         std::string siteUrl = "https://nourl.dev";
         std::string description = "Default define.ini, please populate!";
         std::string faviconPath = "";
+        std::string defaultKeywords = "";
     };
 
     ConfigINI GetConfig();
