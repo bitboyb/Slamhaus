@@ -68,7 +68,7 @@ tr:hover {
     max-width: 100%;
     border-radius: var(--radius-md); /* 8px */
     margin: var(--margin-lg) 0;
-    box-shadow: 0 0 12px var(--color-20); /* rgba(0, 0, 0, 0.6) */
+    box-shadow: 0 0 12px var(--color-19); /* rgba(0, 0, 0, 0.6) */
     border: 1px solid var(--color-03);
 }
 

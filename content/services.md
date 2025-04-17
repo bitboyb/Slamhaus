@@ -1,10 +1,16 @@
 $page[description:"Full-stack development, small biz tech, and game co-dev — we build lean, launch-ready solutions for creators, startups, and indie studios." keywords:"game co-development, web apps, mobile MVP, indie dev support, small business tech, game prototyping, freelance developers, agile development"]()
 
-:section[align:center](#services)
+:hero[](#services-hero)
 
 # What We Can Do For You!
 
 At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers. Whether you're an indie dev, a startup, or a small business punching above your weight, we bring over a decade of hands-on experience in game development and tech to the table. We build lean, launch-ready solutions that cut through the noise — low cost, high impact, no nonsense.
+
+?button[action:"contact.html" text:"Free 1 Hour Consultation!"](#contact-btn)
+
+:/hero
+
+:section[align:center](#services)
 
 ## Services
 

@@ -12,7 +12,7 @@ body {
     font-family: 'SpaceMono', monospace, sans-serif;
     line-height: 1.75;
     background-color: var(--color-00);
-    color: var(--color-13);
+    color: var(--color-12);
     padding: var(--pad-md);
     max-width: 100%;
     font-size: 1.1rem;
@@ -34,24 +34,24 @@ h2 {
 }
 h3 {
     font-size: 1.5rem;
-    color: var(--color-14);
+    color: var(--color-13);
 }
 h4, h5, h6 {
     font-weight: bold;
     margin-bottom: var(--margin-sm);
-    color: var(--color-15);
+    color: var(--color-14);
 }
 h4 {
     font-size: 1.25rem;
-    color: var(--color-16);
+    color: var(--color-15);
 }
 h5 {
     font-size: 1.1rem;
-    color: var(--color-17);
+    color: var(--color-16);
 }
 h6 {
     font-size: 1rem;
-    color: var(--color-18);
+    color: var(--color-17);
 }
 
 /* Paragraphs */
@@ -84,7 +84,7 @@ ol {
 
 /* Header */
 header {
-    background-color: var(--color-19);
+    background-color: var(--color-18);
     padding: var(--pad-md);
     text-align: center;
     border-bottom: 2px solid var(--color-06);
@@ -97,5 +97,5 @@ main {
     padding: var(--pad-lg);
     margin-top: var(--margin-lg);
     border-radius: var(--radius-md);
-    box-shadow: 0 0 12px var(--color-20);
+    box-shadow: 0 0 12px var(--color-19);
 }

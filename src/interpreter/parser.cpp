@@ -32,6 +32,23 @@ namespace Parser
                 SEO::ProcessPageLine(line, *seo);
                 continue;
             }
+            if (Style::IsHeroOpenLine(line))
+            {
+                Text::CloseLists(html, pState);
+                std::string htmlLine = "<section class=\"hero\">";
+                if (ID::isIDTag(line))
+                {
+                    htmlLine = ID::ApplyIDTag(htmlLine, line);
+                }
+                html << htmlLine << "\n";
+                continue;
+            }
+            
+            if (Style::IsHeroCloseLine(line))
+            {
+                html << "</section>\n";
+                continue;
+            }            
             if (Style::IsSectionOpenLine(line))
             {
                 Text::CloseLists(html, pState);

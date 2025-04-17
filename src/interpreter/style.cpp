@@ -30,13 +30,16 @@ namespace Style
         oss << "</div>";
         return oss.str();
     }    
-    
-    std::string ApplyStyle(std::string &text, 
-                           std::string &css)
+
+    std::string ApplyHero(const std::string &content, const std::string &openLine)
     {
-        std::ostringstream oss;
-        oss << "<div style=\"" << css << "\">" << text << "</div>";
-        return oss.str();
+        std::string div = "<div class=\"hero-section\">";
+        if (ID::isIDTag(openLine))
+        {
+            div = ID::ApplyIDTag(div, openLine);
+        }
+
+        return div + content + "</div>";
     }
 
     bool IsColumnOpenLine(const std::string &line)
@@ -59,5 +62,16 @@ namespace Style
     bool IsSectionCloseLine(const std::string &line)
     {
         return String::Trim(line) == ":/section";
+    }
+
+    bool IsHeroOpenLine(const std::string &line)
+    {
+        std::string trimmed = String::Trim(line);
+        return trimmed.rfind(":hero[", 0) == 0;
+    }
+
+    bool IsHeroCloseLine(const std::string &line)
+    {
+        return String::Trim(line) == ":/hero";
     }
 }

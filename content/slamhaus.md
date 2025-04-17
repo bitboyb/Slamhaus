@@ -1,5 +1,15 @@
 $page[description:"Homepage for Slamhaus — a markdown-powered static site generator built for indie developers, technical writers, and game engine teams." keywords:"slamhaus, static site generator, markdown engine, game dev tools, documentation generator, c++ static site, custom markdown syntax, developer documentation, gamedev website, engine docs"]()
 
+:hero[](#slamhaus-hero)
+
+# What We Can Do For You!
+
+At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers. Whether you're an indie dev, a startup, or a small business punching above your weight, we bring over a decade of hands-on experience in game development and tech to the table. We build lean, launch-ready solutions that cut through the noise — low cost, high impact, no nonsense.
+
+?button[action:"contact.html" text:"Free 1 Hour Consultation!"](#contact-btn)
+
+:/hero
+
 :section[align:center](#slamhaus-intro)
 
 # Slamhaus!

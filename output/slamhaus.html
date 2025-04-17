@@ -12,29 +12,7 @@
     <meta property="og:url" content="https://www.piledriver-playhouse.com/">
 
     <style>
-    /* --- columns.css --- */
-/* Columns container styling */
-.columns-container {
-    display: flex;
-    gap: var(--gap-md);
-}
-  
-/* Each column styling */
-.columns-container .column {
-    flex: 1;
-    padding: var(--pad-sm);
-    border: 1px solid var(--color-03);
-}
-  
-/* Media query to collapse columns on narrow screens */
-@media (max-width: 768px) {
-    .columns-container.responsive-columns {
-        flex-direction: column;
-    }
-}
-
-
-/* --- body.css --- */
+    /* --- body.css --- */
 /* Reset */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -49,7 +27,7 @@ body {
     font-family: 'SpaceMono', monospace, sans-serif;
     line-height: 1.75;
     background-color: var(--color-00);
-    color: var(--color-13);
+    color: var(--color-12);
     padding: var(--pad-md);
     max-width: 100%;
     font-size: 1.1rem;
@@ -71,24 +49,24 @@ h2 {
 }
 h3 {
     font-size: 1.5rem;
-    color: var(--color-14);
+    color: var(--color-13);
 }
 h4, h5, h6 {
     font-weight: bold;
     margin-bottom: var(--margin-sm);
-    color: var(--color-15);
+    color: var(--color-14);
 }
 h4 {
     font-size: 1.25rem;
-    color: var(--color-16);
+    color: var(--color-15);
 }
 h5 {
     font-size: 1.1rem;
-    color: var(--color-17);
+    color: var(--color-16);
 }
 h6 {
     font-size: 1rem;
-    color: var(--color-18);
+    color: var(--color-17);
 }
 
 /* Paragraphs */
@@ -121,7 +99,7 @@ ol {
 
 /* Header */
 header {
-    background-color: var(--color-19);
+    background-color: var(--color-18);
     padding: var(--pad-md);
     text-align: center;
     border-bottom: 2px solid var(--color-06);
@@ -134,7 +112,7 @@ main {
     padding: var(--pad-lg);
     margin-top: var(--margin-lg);
     border-radius: var(--radius-md);
-    box-shadow: 0 0 12px var(--color-20);
+    box-shadow: 0 0 12px var(--color-19);
 }
 
 
@@ -254,7 +232,7 @@ tr:hover {
     max-width: 100%;
     border-radius: var(--radius-md); /* 8px */
     margin: var(--margin-lg) 0;
-    box-shadow: 0 0 12px var(--color-20); /* rgba(0, 0, 0, 0.6) */
+    box-shadow: 0 0 12px var(--color-19); /* rgba(0, 0, 0, 0.6) */
     border: 1px solid var(--color-03);
 }
 
@@ -294,28 +272,26 @@ button:hover, .slam-button:hover {
 
 /* --- palette.css --- */
 :root {
-    --color-00: #0e0e0e; /* Deep background */
+    --color-00: #0e0e0e;
     --color-01: #1a1a1a;
     --color-02: #222222;
     --color-03: #2a2a2a;
     --color-04: #2e2e2e;
-    --color-05: #03dac6; /* Neon cyan */
-    --color-06: #bb86fc; /* Neon purple */
+    --color-05: #03dac6;
+    --color-06: #bb86fc;
     --color-07: #aaaaaa;
     --color-08: #f0f0f0;
     --color-09: #181818;
     --color-10: #202020;
     --color-11: #232323;
-    --color-12: rgba(0, 0, 0, 0.4);
-    --color-13: #e0e0e0; /* Body text */
-    --color-14: #ffcb6b; /* Heading 3 yellow */
-    --color-15: #cccccc; /* Fallback gray for h4-h6 */
-    --color-16: #82aaff; /* Subtle blue (h4) */
-    --color-17: #c792ea; /* Soft violet (h5) */
-    --color-18: #f07178; /* Pinkish (h6) */
-    --color-19: #141414; /* Header background */
-    --color-20: rgba(0, 0, 0, 0.6); /* Box shadow */
-  }
+    --color-12: #ffcb6b;
+    --color-13: #cccccc;
+    --color-14: #82aaff;
+    --color-15: #c792ea;
+    --color-16: #f07178;
+    --color-17: #141414;
+    --color-18: rgba(0, 0, 0, 0.6);
+}
   
 
 /* --- mobile-nav.css --- */
@@ -327,7 +303,7 @@ button:hover, .slam-button:hover {
 .nav-toggle-label {
     display: none;
     position: absolute;
-    top: var(--pad-md); /* 1rem */
+    top: var(--pad-md);
     right: var(--pad-md);
     cursor: pointer;
     width: 32px;
@@ -339,10 +315,10 @@ button:hover, .slam-button:hover {
 .nav-toggle-label span::before,
 .nav-toggle-label span::after {
     display: block;
-    background: var(--color-05); /* Neon cyan */
+    background: var(--color-05);
     height: 4px;
     width: 100%;
-    border-radius: var(--radius-sm); /* 4px */
+    border-radius: var(--radius-sm);
     position: absolute;
     transition: all 0.3s ease;
 }
@@ -381,13 +357,13 @@ button:hover, .slam-button:hover {
         display: none;
         flex-direction: column;
         align-items: center;
-        background: var(--color-09); /* #181818 */
+        background: var(--color-09);
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
         border-top: 2px solid var(--color-05);
-        box-shadow: 0 8px 20px var(--color-20); /* rgba(0,0,0,0.6) */
+        box-shadow: 0 8px 20px var(--color-19);
     }
 
     .nav-toggle:checked ~ .nav-menu {
@@ -446,7 +422,7 @@ button:hover, .slam-button:hover {
 /* Navigation */
 nav {
     font-size: 1.1rem;
-    background-color: var(--color-19); /* #141414 */
+    background-color: var(--color-18); /* #141414 */
     border-bottom: 2px solid var(--color-05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
     position: relative;
@@ -532,6 +508,96 @@ nav {
 }
 .nav-menu > ul > li:not(:has(ul)) > a::after {
     content: "";
+}
+
+
+/* --- section.css --- */
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: var(--gap-md);
+}
+  
+/* Each column styling */
+.columns-container .column {
+    flex: 1;
+    padding: var(--pad-sm);
+    border: 1px solid var(--color-03);
+}
+  
+/* Media query to collapse columns on narrow screens */
+@media (max-width: 768px) {
+    .columns-container.responsive-columns {
+        flex-direction: column;
+    }
+}
+
+/* Section: Hero */
+.hero {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--color-09), var(--color-11));
+    color: var(--color-12);
+    text-align: center;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: var(--margin-xl);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-06);
+}
+
+/* Glow texture behind text */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -30%;
+    width: 160%;
+    height: 160%;
+    background: radial-gradient(circle, rgba(130, 170, 255, 0.05), transparent 70%);
+    z-index: 0;
+    filter: blur(10px);
+}
+
+/* Content on top */
+.hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Headline */
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-06); /* match main h1 */
+}
+
+/* Subtext */
+.hero p {
+    font-size: 1.15rem;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    color: var(--color-13);
+}
+
+/* Optional CTA button */
+.hero .button {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: var(--color-00);
+    color: var(--color-06);
+    border-radius: var(--radius-md);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    box-shadow: 0 0 12px rgba(187, 134, 252, 0.2);
+}
+
+.hero .button:hover {
+    background-color: var(--color-12);
+    color: var(--color-00);
+    transform: translateY(-2px);
 }
 
 

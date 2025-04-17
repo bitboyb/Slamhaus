@@ -1,7 +1,7 @@
 /* Navigation */
 nav {
     font-size: 1.1rem;
-    background-color: var(--color-19); /* #141414 */
+    background-color: var(--color-18); /* #141414 */
     border-bottom: 2px solid var(--color-05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
     position: relative;
