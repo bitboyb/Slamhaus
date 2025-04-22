@@ -4,7 +4,8 @@
 
 namespace Asset 
 {
-    void CopyAssets(const std::string &sourceDir, const std::string &destDir)
+    void CopyAssets(const std::string &sourceDir, 
+                    const std::string &destDir)
     {
         try 
         {

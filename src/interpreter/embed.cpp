@@ -1,8 +1,13 @@
 #include <sstream>
 #include <cctype>
+#include "parser.hpp"
+#include "text.hpp"
 
 namespace Embed
 {
+
+
+
     bool IsIFrameLine(const std::string &line) 
     {
         return line.rfind("!iframe[", 0) == 0 && !line.empty() && line.back() == ']';
@@ -271,5 +276,48 @@ namespace Embed
             }
         }
         return out;
+    }
+
+    bool HandleEmbeds(const std::string& line, 
+                      std::ostringstream& html, 
+                      Parser::ParseState& pState)
+    {
+        if (IsIFrameLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Embed::ProcessIFrame(line);
+            return true;
+        }
+        if (IsAudioLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Embed::ProcessAudio(line);
+            return true;
+        }
+        if (IsPictureLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Embed::ProcessPictures(line);
+            return true;
+        }
+        if (IsSvgLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Embed::ProcessSvg(line);
+            return true;
+        }
+        if (Embed::IsImageLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Embed::ProcessImages(line);
+            return true;
+        }
+        if (IsVideoLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Embed::ProcessVideos(line);
+            return true;
+        }
+        return false;
     }
 }

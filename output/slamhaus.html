@@ -516,21 +516,56 @@ nav {
 .columns-container {
     display: flex;
     gap: var(--gap-md);
+    flex-wrap: wrap;
+    margin-bottom: var(--margin-lg);
 }
-  
+
 /* Each column styling */
 .columns-container .column {
     flex: 1;
-    padding: var(--pad-sm);
+    padding: var(--pad-md);
+    background: linear-gradient(135deg, var(--color-10), var(--color-11));
+    color: var(--color-12);
+    border-radius: var(--radius-md);
     border: 1px solid var(--color-03);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-  
-/* Media query to collapse columns on narrow screens */
+
+/* Optional glow effect */
+.columns-container .column::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(187, 134, 252, 0.03), transparent 70%);
+    z-index: 0;
+    filter: blur(10px);
+}
+
+/* Content on top */
+.columns-container .column > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Hover effect for interactivity */
+.columns-container .column:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 16px rgba(130, 170, 255, 0.3);
+}
+
+/* Responsive collapse for mobile */
 @media (max-width: 768px) {
     .columns-container.responsive-columns {
         flex-direction: column;
     }
 }
+
 
 /* Section: Hero */
 .hero {
@@ -632,20 +667,32 @@ nav {
 </nav>
 
     <main>
-       <section id="slamhaus-intro">
+       <section id="slamhaus-hero" class="hero">
 <h1>Slamhaus!</h1>
-<div class="columns-container responsive-columns"><div id="intro-columns-0" class="column"><h3>🧱 Markdown In, Website Out</h3>
+<p>The extendable Markdown C++ website generator. Compl</p>
+<button type="button" onclick="window.location.href='slamhaus.html'" id="home-btn">Learn More!</button>
+</section>
+</section>
+<section id="slamhaus-intro">
+<h1>Slamhaus!</h1>
+<div class="columns-container responsive-columns"><div id="intro-columns-0" class="column"><h3>🧱 </h3>
+<h3>Markdown In, Website Out</h3>
 <p>Write clean, readable content in Markdown and generate responsive websites with zero boilerplate.</p>
-</div><div class="column"><h3>🎮 Game Dev at Heart</h3>
+</div><div class="column"><h3>🎮 </h3>
+<h3>Game Dev at Heart</h3>
 <p>Built with C++ in a modern game dev style — clear separation, performance-focused, and designed to feel familiar to engine developers.</p>
-</div><div class="column"><h3>🪄 Extended Syntax, Your Way</h3>
+</div><div class="column"><h3>🪄 </h3>
+<h3>Extended Syntax, Your Way</h3>
 <p>Use custom Markdown-style blocks like :section<a href=""></a>, :column<a href=""></a>, and :css<a href=""></a> to structure and style your content directly.</p>
 </div></div><p><br></p>
-<div class="columns-container responsive-columns"><div id="intro-columns-1" class="column"><h3>🎨 Simple Styling, No Fuss</h3>
+<div class="columns-container responsive-columns"><div id="intro-columns-1" class="column"><h3>🎨 </h3>
+<h3>Simple Styling, No Fuss</h3>
 <p>Includes clean, minimal CSS themes out of the box — easy to tweak, extend, or replace with your own.</p>
-</div><div class="column"><h3>🧩 Free & Open Forever</h3>
+</div><div class="column"><h3>🧩 </h3>
+<h3>Free & Open Forever</h3>
 <p>MIT licensed. No strings attached. Clone it, fork it, gut it — hell, sell it if you want. Slamhaus is yours to break, build, or bend to your will, forever.</p>
-</div><div class="column"><h3>🧠 Built for Tinkerers</h3>
+</div><div class="column"><h3>🧠 </h3>
+<h3>Built for Tinkerers</h3>
 <p>Whether you're a solo dev, a technical writer, or making a custom docs site for your game engine — Slamhaus gives you full control without the clutter.</p>
 </div></div></section>
 <p><br></p>

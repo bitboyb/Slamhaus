@@ -17,19 +17,22 @@ At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers
 :column[size:3](#services-table)
 :column[left]()
 
-### 🌐 Websites, Apps & Mobile Builds
+### 🌐 
+### Websites, Apps & Mobile Builds
 
 Need a landing page, web app, or mobile MVP? We craft slick, scalable products that work across devices — fast, functional, and fully yours. No templates. No fluff.
 
 :column[middle]()
 
-### 🧰 SME Tech Solutions
+### 🧰 
+### SME Tech Solutions
 
 Running a small biz? We streamline your stack, automate the boring bits, and cut tech costs so you can focus on what actually matters — your growth.
 
 :column[right]()
 
-### 🎮 Game Co-Dev & Prototyping
+### 🎮 
+### Game Co-Dev & Prototyping
 
 We help you go from idea to playable fast. Whether it’s mechanics testing, systems design, or last-mile polish — we jump in, sprint hard, and level up your project.
 

@@ -2,11 +2,13 @@ $page[description:"Homepage for Slamhaus — a markdown-powered static site gene
 
 :hero[](#slamhaus-hero)
 
-# What We Can Do For You!
+# Slamhaus!
 
-At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers. Whether you're an indie dev, a startup, or a small business punching above your weight, we bring over a decade of hands-on experience in game development and tech to the table. We build lean, launch-ready solutions that cut through the noise — low cost, high impact, no nonsense.
+The extendable Markdown C++ website generator. Compl
 
-?button[action:"contact.html" text:"Free 1 Hour Consultation!"](#contact-btn)
+?button[action:"slamhaus.html" text:"Learn More!"](#home-btn)
+
+:/hero
 
 :/hero
 
@@ -17,19 +19,22 @@ At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers
 :column[size:3](#intro-columns-0)
 :column[left]()
 
-### 🧱 Markdown In, Website Out
+### 🧱 
+### Markdown In, Website Out
 
 Write clean, readable content in Markdown and generate responsive websites with zero boilerplate.
 
 :column[middle]()
 
-### 🎮 Game Dev at Heart
+### 🎮 
+### Game Dev at Heart
 
 Built with C++ in a modern game dev style — clear separation, performance-focused, and designed to feel familiar to engine developers.
 
 :column[right]()
 
-### 🪄 Extended Syntax, Your Way
+### 🪄 
+### Extended Syntax, Your Way
 
 Use custom Markdown-style blocks like :section[](), :column[](), and :css[]() to structure and style your content directly.
 
@@ -40,19 +45,22 @@ Use custom Markdown-style blocks like :section[](), :column[](), and :css[]() to
 :column[size:3](#intro-columns-1)
 :column[left]()
 
-### 🎨 Simple Styling, No Fuss
+### 🎨 
+### Simple Styling, No Fuss
 
 Includes clean, minimal CSS themes out of the box — easy to tweak, extend, or replace with your own.
 
 :column[middle]()
 
-### 🧩 Free & Open Forever
+### 🧩 
+### Free & Open Forever
 
 MIT licensed. No strings attached. Clone it, fork it, gut it — hell, sell it if you want. Slamhaus is yours to break, build, or bend to your will, forever.
 
 :column[right]()
 
-### 🧠 Built for Tinkerers
+### 🧠 
+### Built for Tinkerers
 
 Whether you're a solo dev, a technical writer, or making a custom docs site for your game engine — Slamhaus gives you full control without the clutter.
 

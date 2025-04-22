@@ -16,13 +16,11 @@ namespace SEO
         std::string pageKeywords;
     };
 
-    bool IsSiteLine(const std::string &line);
-    bool IsPageLine(const std::string &line);
-
-    void ProcessSiteLine(const std::string &line, SEOData &seo);
-    void ProcessPageLine(const std::string &line, SEOData &seo);    
+    bool HandleMetaLines(const std::string& line, 
+                         SEO::SEOData* seo); 
 
     SEO::SEOData GetDefault(Config::ConfigINI &ini);
+    
     std::string GetMetaTags(const SEOData &seo);
 }
 

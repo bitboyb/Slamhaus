@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 #include <cctype>
+#include "text.hpp"
 
 namespace Snippet
 {
@@ -29,5 +30,32 @@ namespace Snippet
             codeBlock << line << "\n";
         }
         return "<pre><code>" + codeBlock.str() + "</code></pre>\n";
+    }
+
+    bool HandleCodeOrTable(const std::string& line, 
+                           std::istringstream& iss, 
+                           std::ostringstream& html, 
+                           Parser::ParseState& pState)
+    {
+        if (Snippet::IsCodeBlockLine(line)) 
+        {
+            if (!pState.inCodeBlock) 
+            {
+                Text::CloseLists(html, pState);
+                pState.inCodeBlock = true;
+                html << Snippet::ParseCodeBlock(iss, line);
+                pState.inCodeBlock = false;
+            }
+            return true;
+        }
+
+        if (Text::IsTableLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Text::ParseTable(iss, line);
+            return true;
+        }
+
+        return false;
     }
 }

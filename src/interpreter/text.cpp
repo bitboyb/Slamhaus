@@ -58,11 +58,11 @@ namespace Text
     std::string ProcessInline(const std::string &text)
     {
         std::string out = text;
-        out = Text::ProcessLinks(out);
+        out = ProcessLinks(out);
         out = Snippet::ReplaceInlineCode(out);
-        out = Text::ReplaceBoldItalic(out);
-        out = Text::ReplaceBold(out);
-        out = Text::ReplaceItalic(out);
+        out = ReplaceBoldItalic(out);
+        out = ReplaceBold(out);
+        out = ReplaceItalic(out);
         return out;
     }
 
@@ -113,17 +113,17 @@ namespace Text
 
     void AppendHeading(std::ostringstream &html, int level, const std::string &line)
     {
-        html << "<h" << level << ">" << Text::ProcessInline(line) << "</h" << level << ">\n";
+        html << "<h" << level << ">" << ProcessInline(line) << "</h" << level << ">\n";
     }
 
     void AppendParagraph(std::ostringstream &html, const std::string &line)
     {
-        html << "<p>" << Text::ProcessInline(line) << "</p>\n";
+        html << "<p>" << ProcessInline(line) << "</p>\n";
     }
 
     void AppendListItem(std::ostringstream &html, const std::string &line)
     {
-        html << "<li>" << Text::ProcessInline(line) << "</li>\n";
+        html << "<li>" << ProcessInline(line) << "</li>\n";
     }
 
     void CloseLists(std::ostringstream &html, Parser::ParseState &pState)
@@ -203,5 +203,79 @@ namespace Text
         }
         tableHtml << "</table>\n";
         return tableHtml.str();
+    }
+
+    bool HandleTextBlocks(const std::string& line, 
+                          std::ostringstream& html, 
+                          Parser::ParseState& pState)
+    {
+        if (line.empty()) 
+        {
+            CloseLists(html, pState);
+            return true;
+        }
+        if (IsHorizontalRuleLine(line)) 
+        {
+            CloseLists(html, pState);
+            html << "<hr>\n";
+            return true;
+        }
+        if (IsHeading1(line)) 
+        {
+            CloseLists(html, pState);
+            AppendHeading(html, 1, line.substr(2));
+            return true;
+        }
+        if (IsHeading2(line)) 
+        {
+            CloseLists(html, pState);
+            AppendHeading(html, 2, line.substr(3));
+            return true;
+        }
+        if (IsHeading3(line)) 
+        {
+            CloseLists(html, pState);
+            AppendHeading(html, 3, line.substr(4));
+            return true;
+        }
+        if (IsHeading4(line)) 
+        {
+            CloseLists(html, pState);
+            AppendHeading(html, 4, line.substr(5));
+            return true;
+        }
+        if (IsUnorderedListLine(line)) 
+        {
+            if (!pState.inUl) 
+            {
+                CloseLists(html, pState);
+                html << "<ul>\n";
+                pState.inUl = true;
+            }
+            AppendListItem(html, line.substr(2));
+            return true;
+        }
+        if (IsNumberedListLine(line)) 
+        {
+            if (!pState.inOl) 
+            {
+                CloseLists(html, pState);
+                html << "<ol>\n";
+                pState.inOl = true;
+            }
+            size_t pos = line.find(". ");
+            if (pos != std::string::npos) 
+            {
+                AppendListItem(html, line.substr(pos + 2));
+            } 
+            else 
+            {
+                AppendListItem(html, line);
+            }
+            return true;
+        }
+        CloseLists(html, pState);
+        AppendParagraph(html, line);
+        return true;
     }
 }

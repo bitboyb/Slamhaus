@@ -17,19 +17,22 @@ The future of static site generation, redefined.
 :column[size:3](#intro-columns-0)
 :column[left]()
 
-### 🧠 Over a Decade of Dev Power
+### 🧠 
+### Over a Decade of Dev Power
 
 10+ years deep in the code mines. We’ve shipped, fixed, and rebuilt it all — from rapid-fire prototypes to beast-mode systems built to scale.
 
 :column[middle]()
 
-### 🎯 Small Teams, Big Impact
+### 🎯 
+### Small Teams, Big Impact
 
 We roll with the indies and small crews, delivering sharp, purpose-built solutions with zero fluff and maximum punch. You bring the vision — we’ll bring the firepower.
 
 :column[right]()
 
-### 🔊 Technical Audio, Tuned Right
+### 🔊
+### Technical Audio, Tuned Right
 
 Sound is more than vibes — it’s logic, tools, and flow. From adaptive music to audio accessibility, we code with our ears on and our compilers hot.
 
@@ -40,19 +43,22 @@ Sound is more than vibes — it’s logic, tools, and flow. From adaptive music 
 :column[size:3](#intro-columns-1)
 :column[left]()
 
-### 🛠 Tech with Muscle
+### 🛠 
+### Tech with Muscle
 
 From hand-built tools to deep engine integrations, we make the kind of tech that stays out of your way and gets the job done. Unreal, Unity, Web — let’s roll.
 
 :column[middle]()
 
-### 🎮 Code for Creators
+### 🎮 
+### Code for Creators
 
 We know the grind — gameplay systems, AI logic, netcode nightmares. We drop in, get our hands dirty, and help you cross the finish line fast.
 
 :column[right]()
 
-### 🤝 Your Team, Amplified
+### 🤝 
+### Your Team, Amplified
 
 No bloat, no babysitting. Just battle-ready devs who plug in, power up your pipeline, and help you hit harder. We're not consultants — we're reinforcements.
 

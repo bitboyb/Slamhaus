@@ -3,6 +3,8 @@
 
 #include <regex>
 #include <sstream>
+#include "parser.hpp"
+#include "text.hpp"
 
 namespace Element
 {
@@ -65,4 +67,21 @@ namespace Element
         html << ">" << label << "</button>";
         return html.str();
     }     
+
+    bool HandleElementLines(const std::string& line, 
+                            std::ostringstream& html, 
+                            Parser::ParseState& pState)
+    {
+        if (IsButtonLine(line)) 
+        {
+            Text::CloseLists(html, pState);
+            html << Element::ProcessButton(line) << "\n";
+            return true;
+        }
+        if (IsFormOpenLine(line) || IsFormCloseLine(line)) 
+        {
+            return true;
+        }
+        return false;
+    }
 }

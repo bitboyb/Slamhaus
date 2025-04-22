@@ -4,14 +4,16 @@
 #define SNIPPET_HPP
 
 #include <string>
+#include "parser.hpp"
 
 namespace Snippet
 {
-    bool IsCodeBlockLine(const std::string &line);
-
     std::string ReplaceInlineCode(const std::string &text);
-    std::string ParseCodeBlock(std::istream &iss, 
-                               const std::string &openingLine);
+
+    bool HandleCodeOrTable(const std::string& line, 
+                           std::istringstream& iss, 
+                           std::ostringstream& html, 
+                           Parser::ParseState& pState);
 }
 
 #endif // SNIPPET_HPP

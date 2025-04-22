@@ -26,9 +26,8 @@ namespace Parser
         std::vector<std::string> columnOpenLines;
     };
     
-    std::string ParseMarkdown(const std::string &markdown, SEO::SEOData *seo = nullptr);
-    std::string StripParagraphTags(const std::string &html);
-    std::string ExtractSiteTitle(const std::string &markdown);
+    std::string ParseMarkdown(const std::string &markdown, 
+                              SEO::SEOData *seo = nullptr);
 }
 
 #endif // PARSER_HPP

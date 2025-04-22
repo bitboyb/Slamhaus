@@ -516,21 +516,56 @@ nav {
 .columns-container {
     display: flex;
     gap: var(--gap-md);
+    flex-wrap: wrap;
+    margin-bottom: var(--margin-lg);
 }
-  
+
 /* Each column styling */
 .columns-container .column {
     flex: 1;
-    padding: var(--pad-sm);
+    padding: var(--pad-md);
+    background: linear-gradient(135deg, var(--color-10), var(--color-11));
+    color: var(--color-12);
+    border-radius: var(--radius-md);
     border: 1px solid var(--color-03);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-  
-/* Media query to collapse columns on narrow screens */
+
+/* Optional glow effect */
+.columns-container .column::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(187, 134, 252, 0.03), transparent 70%);
+    z-index: 0;
+    filter: blur(10px);
+}
+
+/* Content on top */
+.columns-container .column > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Hover effect for interactivity */
+.columns-container .column:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 16px rgba(130, 170, 255, 0.3);
+}
+
+/* Responsive collapse for mobile */
 @media (max-width: 768px) {
     .columns-container.responsive-columns {
         flex-direction: column;
     }
 }
+
 
 /* Section: Hero */
 .hero {
@@ -639,11 +674,14 @@ nav {
 </section>
 <section id="about-us">
 <h2>Our Core Tenants</h2>
-<div class="columns-container responsive-columns"><div id="about-us-columns" class="column"><h3>🌍 Open Source, No Gatekeeping</h3>
+<div class="columns-container responsive-columns"><div id="about-us-columns" class="column"><h3>🌍 </h3>
+<h3>Open Source, No Gatekeeping</h3>
 <p>We build with open hands. Wherever we can, we drop the barriers and share our code — cutting costs, boosting speed, and making pro-grade tech available to all.</p>
-</div><div class="column"><h3>🚀 Boosting Underdogs</h3>
+</div><div class="column"><h3>🚀 </h3>
+<h3>Boosting Underdogs</h3>
 <p>Fresh grads, solo devs, tiny teams — we see you. Whether you’re breaking into the industry or trying to break out, we’ve got your back with tools, jobs, and launch-ready support.</p>
-</div><div class="column"><h3>🛠️ Business on Beast Mode</h3>
+</div><div class="column"><h3>🛠️ </h3>
+<h3>Business on Beast Mode</h3>
 <p>Tech doesn’t have to bleed your budget. We help small businesses punch above their weight — with lean, mean systems that work with you, not against you.</p>
 </div></div></section>
 

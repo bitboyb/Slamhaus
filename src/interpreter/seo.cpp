@@ -78,4 +78,20 @@ namespace SEO
         }
         return meta.str();
     }
+
+    bool HandleMetaLines(const std::string& line, 
+                         SEO::SEOData* seo)
+    {
+        if (IsSiteLine(line)) 
+        {
+            ProcessSiteLine(line, *seo);
+            return true;
+        }
+        if (IsPageLine(line)) 
+        {
+            ProcessPageLine(line, *seo);
+            return true;
+        }
+        return false;
+    }
 }
