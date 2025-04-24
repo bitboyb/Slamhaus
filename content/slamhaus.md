@@ -4,7 +4,7 @@ $page[description:"Homepage for Slamhaus — a markdown-powered static site gene
 
 # Slamhaus!
 
-The extendable Markdown C++ website generator. Compl
+The extendable Markdown C++ website generator.
 
 ?button[action:"slamhaus.html" text:"Learn More!"](#home-btn)
 

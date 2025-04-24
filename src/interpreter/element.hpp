@@ -6,9 +6,9 @@
 #include <string>
 #include "parser.hpp"
 
-namespace Element
+namespace Interaction
 {
-    bool HandleElementLines(const std::string& line, 
+    bool IsInteraction(const std::string& line, 
                             std::ostringstream& html, 
                             Parser::ParseState& pState);
 }

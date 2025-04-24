@@ -25,7 +25,7 @@ namespace Parser
         {
             if (SEO::HandleMetaLines(line, seo)) continue;
             if (Section::HandleBlockElements(line, html, pState, cState, seo)) continue;
-            if (Element::HandleElementLines(line, html, pState)) continue;
+            if (Interaction::IsInteraction(line, html, pState)) continue;
             if (Embed::HandleEmbeds(line, html, pState)) continue;
             if (Snippet::HandleCodeOrTable(line, iss, html, pState)) continue;
             if (Text::HandleTextBlocks(line, html, pState)) continue;

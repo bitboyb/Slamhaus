@@ -1,7 +1,6 @@
 #include "generator.hpp"
 #include "../interpreter/parser.hpp"
 #include "../interpreter/seo.hpp"
-#include "../interpreter/nav.hpp"
 #include "asset.hpp"
 #include "config.hpp"
 #include "meta.hpp"
