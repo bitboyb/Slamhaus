@@ -4,32 +4,16 @@
 
 int main()
 {
-    constexpr char TEMPLATE_REPO[] = "https://github.com/your-org/slamhaus-template.git";
+    constexpr char TEMPLATE_REPO[] =
+        "https://github.com/your-org/slamhaus-template.git";
 
-    std::cout << CLI::GetSlamhausLogo() << "\n\n";
-    std::cout << CLI::GetInfo() << "\n\n";
+    std::cout << CLI::GetSlamhausLogo() << "\n\n"
+              << CLI::GetInfo() << "\n\n";
 
     while (true)
     {
-        std::cout
-            << "Select an option:\n"
-            << "  1) Compile current site in ./content\n"
-            << "  2) Compile site from another directory\n"
-            << "  3) Download basic template (" << TEMPLATE_REPO << ")\n"
-            << "  4) Download template/project from a custom Git repository\n"
-            << "  5) Exit\n"
-            << "Enter choice [1-5]: ";
-
-        int choice = 0;
-        if (!(std::cin >> choice))
-        {
-            std::cin.clear();
-            std::cin.ignore(10000, '\n');
-            std::cout << "Invalid input; please enter a number.\n\n";
-            continue;
-        }
-
-        std::cin.ignore(10000, '\n');
+        CLI::ShowMenu(TEMPLATE_REPO);
+        int choice = CLI::GetMenuChoice(1, 5);
 
         if (choice == 5)
         {
@@ -41,28 +25,32 @@ int main()
         {
         case 1:
             std::cout << "\nGenerating site from ./content …\n";
-            Generator::GenerateSite("content", "output", "content/assets/theme/");
+            Generator::GenerateSite(
+                "content",
+                "output"
+            );
             std::cout << "Done.\n\n";
             break;
 
         case 2:
         {
-            std::cout << "\nEnter path to your content directory: ";
-            std::string dir;
-            std::getline(std::cin, dir);
-            if (dir.empty()) dir = "content";
+            auto dir = CLI::Prompt(
+                "\nEnter path to your content directory", "content"
+            );
             std::cout << "Generating site from " << dir << " …\n";
-            Generator::GenerateSite(dir, "output", dir + "/assets/theme/");
+            Generator::GenerateSite(
+                dir,
+                "output"
+            );
             std::cout << "Done.\n\n";
             break;
         }
 
         case 3:
         {
-            std::cout << "\nEnter target directory for template [my-site]: ";
-            std::string target;
-            std::getline(std::cin, target);
-            if (target.empty()) target = "my-site";
+            auto target = CLI::Prompt(
+                "\nEnter target directory for template", "my-site"
+            );
             std::cout << "Cloning template into " << target << " …\n";
             if (CLI::CloneRepo(TEMPLATE_REPO, target))
             {
@@ -70,22 +58,21 @@ int main()
             }
             else
             {
-                std::cerr << "Clone failed — make sure git is installed and on your PATH.\n\n";
+                std::cerr
+                    << "Clone failed — make sure git is installed "
+                       "and on your PATH.\n\n";
             }
             break;
         }
 
         case 4:
         {
-            std::cout << "\nEnter Git repository URL: ";
-            std::string repo;
-            std::getline(std::cin, repo);
-
-            std::cout << "Enter target directory [my-repo]: ";
-            std::string target;
-            std::getline(std::cin, target);
-            if (target.empty()) target = "my-repo";
-
+            auto repo = CLI::Prompt(
+                "\nEnter Git repository URL"
+            );
+            auto target = CLI::Prompt(
+                "Enter target directory for your clone", "my-repo"
+            );
             std::cout << "Cloning " << repo << " into " << target << " …\n";
             if (CLI::CloneRepo(repo, target))
             {
@@ -93,14 +80,12 @@ int main()
             }
             else
             {
-                std::cerr << "Clone failed — make sure git is installed and on your PATH.\n\n";
+                std::cerr
+                    << "Clone failed — make sure git is installed "
+                       "and on your PATH.\n\n";
             }
             break;
         }
-
-        default:
-            std::cout << "Please enter a number between 1 and 5.\n\n";
-            break;
         }
     }
 

@@ -28,10 +28,10 @@ namespace Config
         return config;
     }
 
-    ConfigINI GetConfig()
+    ConfigINI GetConfig(const std::string &contentDir)
     {
         ConfigINI ini;
-        const std::string iniPath = "content/include/config.ini";
+        const std::string iniPath = contentDir + "/include/config.ini";
         std::map<std::string, std::string> config = ParseSimpleConfig(iniPath);
 
         if (config.count("site_name")) ini.siteName = config["site_name"];

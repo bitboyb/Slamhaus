@@ -11,18 +11,38 @@
 #include "../util/html.hpp"
 #include "css.hpp"
 
+
 namespace Generator 
 {    
     void GenerateSite(const std::string &contentDir, 
-                      const std::string &outputDir, 
-                      const std::string &cssPath)
+                      const std::string &outputDir)
     {
+        if (!std::filesystem::exists(contentDir) || !std::filesystem::is_directory(contentDir))
+        {
+            std::cerr << "Content directory not found: " << contentDir << "\n";
+            return;
+        }
+        if (std::filesystem::exists(outputDir))
+        {
+            std::cout
+                << "Output directory \"" << outputDir
+                << "\" already exists and will be deleted. Continue? [y/N] ";
+            char confirm = 'n';
+            std::cin  >> confirm;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            if (confirm != 'y' && confirm != 'Y')
+            {
+                std::cout << "Aborting build.\n";
+                return;
+            }
+            std::filesystem::remove_all(outputDir);
+        }
         std::filesystem::create_directories(outputDir);
-        std::string cssContent = CSS::LoadCSS(cssPath);
-        Config::ConfigINI ini = Config::GetConfig();
+        std::string cssContent = CSS::LoadCSS(contentDir + "/assets/theme");
+        Config::ConfigINI ini = Config::GetConfig(contentDir);
         std::vector<std::string> generatedPages;
-        std::string templateString = Template::BuildTemplate(ini);
-        Asset::CopyAssets("content/assets/", outputDir + "/assets");
+        std::string templateString = Template::BuildTemplate(ini, contentDir);
+        Asset::CopyAssets(contentDir + "/assets/", outputDir + "/assets");
         for (const auto &entry : std::filesystem::recursive_directory_iterator(contentDir))
         {
             if (entry.is_regular_file() && entry.path().extension() == ".md")

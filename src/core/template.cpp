@@ -7,7 +7,8 @@
 
 namespace Template
 {    
-    std::string BuildTemplate(Config::ConfigINI &ini)
+    std::string BuildTemplate(Config::ConfigINI &ini,
+                              const std::string contentDir)
     {
         auto readFile = [](const std::string &path) -> std::string 
         {
@@ -20,9 +21,9 @@ namespace Template
                                std::istreambuf_iterator<char>());
         };
     
-        std::string headerMarkdown = readFile("content/include/header.md");
-        std::string navMarkdown = readFile("content/include/nav.md");
-        std::string footerMarkdown = readFile("content/include/footer.md");
+        std::string headerMarkdown = readFile(contentDir + "/include/header.md");
+        std::string navMarkdown = readFile(contentDir + "/include/nav.md");
+        std::string footerMarkdown = readFile(contentDir + "/include/footer.md");
 
         SEO::SEOData dummySEO = SEO::GetDefault(ini);
     

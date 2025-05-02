@@ -8,8 +8,7 @@
 namespace Generator 
 {
     void GenerateSite(const std::string &contentDir, 
-                      const std::string &outputDir, 
-                      const std::string &cssPath);
+                      const std::string &outputDir);
 }
 
 #endif // GENERATOR_HPP

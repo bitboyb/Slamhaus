@@ -9,12 +9,13 @@
 
 namespace Template
 {
-    std::string BuildTemplate(Config::ConfigINI &ini);
+    std::string BuildTemplate(Config::ConfigINI &ini, 
+                              const std::string contentDir);
 
     std::string ApplyTemplateFromString(const std::string &content, 
-        const std::string &templateString, 
-        const std::string &cssContent,
-        SEO::SEOData &seo);
+                                        const std::string &templateString, 
+                                        const std::string &cssContent,
+                                        SEO::SEOData &seo);
 }
 
 #endif // TEMPLATE_HPP

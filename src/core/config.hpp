@@ -15,7 +15,7 @@ namespace Config
         std::string defaultKeywords = "";
     };
 
-    ConfigINI GetConfig();
+    ConfigINI GetConfig(const std::string &contentDir);
 }
 
 #endif // CONFIG_HPP

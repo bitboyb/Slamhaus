@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 namespace CLI
 {
@@ -18,12 +19,24 @@ namespace CLI
         )";
     }
 
+    std::string GetInfo()
+    {
+        return R"(
+        Creator: Syed Assad Abbas Bokhari
+        Website: https://www.piledriver-playhouse.com/slamhaus
+        Version: 0.1.0
+
+        License: MIT License
+        Copyright (c) 2025 Piledriver Playhouse Limited
+        )";
+    }
+
     void ShowMenu(const std::string& templateRepo)
     {
         std::cout
             << "Select an option:\n"
             << "  1) Compile current site in ./content\n"
-            << "  2) Compile site from another directory\n"
+            << "  2) Compile site from another directory (not relative!)\n"
             << "  3) Download basic template (" << templateRepo << ")\n"
             << "  4) Download template/project from a custom Git repository\n"
             << "  5) Exit\n";
