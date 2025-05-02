@@ -4,7 +4,7 @@
 #define TEMPLATE_HPP
 
 #include <string>
-#include "../interpreter/seo.hpp"
+#include "../parser/seo.hpp"
 #include "config.hpp"
 
 namespace Template

@@ -1,6 +1,6 @@
-#include "../interpreter/parser.hpp"
-#include "../interpreter/seo.hpp"
-#include "../interpreter/nav.hpp"
+#include "../parser/parser.hpp"
+#include "../parser/seo.hpp"
+#include "../parser/nav.hpp"
 #include "config.hpp"
 #include <fstream>
 #include <iostream>
