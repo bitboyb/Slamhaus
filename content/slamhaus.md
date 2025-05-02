@@ -355,6 +355,36 @@ Use `?button[]()` to create styled, scriptable buttons in your content — no ra
 
 ---
 
+### 📬 Forms
+
+Create accessible, stylable contact forms using simple custom tags. All form elements compile to standard HTML and can work with services like [FormSubmit](https://formsubmit.co/).
+
+```markdown
+?form[action:"https://formsubmit.co/info@piledriver-playhouse.com":method:"post"](#contact-form)
+
+?input[type:"email":name:"email":placeholder:"Email Address":required:""](#email)
+
+?input[type:"text":name:"name":placeholder:"Name":required:""](#name)
+
+?textarea[name:"message":placeholder:"Your message":rows:"6":required:""](#message)
+
+?button[text:"Send Message":type:"submit"](#send-btn)
+
+?/form[]()
+````
+
+| Tag             | Description                                                                 |
+| --------------- | --------------------------------------------------------------------------- |
+| `?form[]()`     | Opens a `<form>` element. Use `action`, `method`, and `#id`.                |
+| `?/form[]()`    | Closes the form. Required at the end.                                       |
+| `?input[]()`    | Inserts an input field. Supports `type`, `name`, `placeholder`, etc.    |
+| `?textarea[]()` | Multiline text input. Supports `rows`, `placeholder`, `name`, etc.          |
+| `?button[]()`   | Submit button or other form button. Must use `type:"submit"` inside a form. |
+
+> ✅ Buttons used inside forms will auto-submit the form if `type:"submit"` is specified.
+
+---
+
 ### 🧠 Page & Site Metadata
 
 Add metadata to your pages with `$site[]()` and `$page[]()` blocks. These inject SEO- and share-friendly tags into the final HTML `<head>`.

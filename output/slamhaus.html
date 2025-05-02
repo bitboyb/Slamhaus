@@ -921,7 +921,29 @@ Your Markdown content goes here, styled with custom section settings.
 <li><code>(#id)</code> — Optional HTML ID for styling, anchors, or scripting.</li>
 </ul>
 <hr>
-<p>Absolutely — here’s the updated version of the <strong>🧠 Page & Site Metadata</strong> section, rewritten to reflect the actual supported keys in <code>$site<a href=""></a></code> and to match your clean documentation style:</p>
+<h3>📬 Forms</h3>
+<p>Create accessible, stylable contact forms using simple custom tags. All form elements compile to standard HTML and can work with services like <a href="https://formsubmit.co/">FormSubmit</a>.</p>
+<pre><code>?form[action:"https://formsubmit.co/info@piledriver-playhouse.com":method:"post"](#contact-form)
+
+?input[type:"email":name:"email":placeholder:"Email Address":required:""](#email)
+
+?input[type:"text":name:"name":placeholder:"Name":required:""](#name)
+
+?textarea[name:"message":placeholder:"Your message":rows:"6":required:""](#message)
+
+?button[text:"Send Message":type:"submit"](#send-btn)
+
+?/form[]()
+</code></pre>
+<table>
+<tr><th>Tag</th><th>Description</th></tr>
+<tr><td>`?form[]()`</td><td>Opens a `<form>` element. Use `action`, `method`, and `#id`.</td></tr>
+<tr><td>`?/form[]()`</td><td>Closes the form. Required at the end.</td></tr>
+<tr><td>`?input[]()`</td><td>Inserts an input field. Supports `type`, `name`, `placeholder`, etc.</td></tr>
+<tr><td>`?textarea[]()`</td><td>Multiline text input. Supports `rows`, `placeholder`, `name`, etc.</td></tr>
+<tr><td>`?button[]()`</td><td>Submit button or other form button. Must use `type:"submit"` inside a form.</td></tr>
+</table>
+<p>> ✅ Buttons used inside forms will auto-submit the form if <code>type:"submit"</code> is specified.</p>
 <hr>
 <h3>🧠 Page & Site Metadata</h3>
 <p>Add metadata to your pages with <code>$site<a href=""></a></code> and <code>$page<a href=""></a></code> blocks. These inject SEO- and share-friendly tags into the final HTML <code><head></code>.</p>
