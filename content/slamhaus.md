@@ -355,10 +355,6 @@ Use `?button[]()` to create styled, scriptable buttons in your content — no ra
 
 ---
 
-Absolutely — here’s the updated version of the **🧠 Page & Site Metadata** section, rewritten to reflect the actual supported keys in `$site[]()` and to match your clean documentation style:
-
----
-
 ### 🧠 Page & Site Metadata
 
 Add metadata to your pages with `$site[]()` and `$page[]()` blocks. These inject SEO- and share-friendly tags into the final HTML `<head>`.
