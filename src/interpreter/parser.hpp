@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include "../core/config.hpp"
 
 namespace Parser 
 {
@@ -17,6 +16,7 @@ namespace Parser
         bool inOl = false;
         bool inCodeBlock = false;
         bool inColumn = false;
+        bool inForm = false;
     };
 
     struct ColumnState

@@ -4,7 +4,6 @@
 #define SECTION_HPP
 
 #include <string>
-#include <vector>
 #include "parser.hpp"
 
 namespace Section

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Piledriver Playhouse!</title>
-    <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
+    <link rel="icon" type="image/x-icon" href="assets/media/logo-circle.png">
         <meta name="keywords" content="game dev, indie games, technology">
     <meta property="og:title" content="Piledriver Playhouse!">
     <link rel="canonical" href="https://www.piledriver-playhouse.com/">
@@ -245,7 +245,7 @@ tr:hover {
 }
 
 
-/* --- components.css --- */
+/* --- interactions.css --- */
 /* Buttons */
 button, .slam-button {
     background-color: #1f1f1f;
@@ -267,6 +267,54 @@ button:hover, .slam-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
+
+/* Form */
+form input:not([type="checkbox"]):not([type="radio"]),
+form select,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--pad-sm) var(--pad-md);
+    margin-bottom: var(--margin-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    background-color: var(--color-01);
+    color: var(--color-08);
+    border: 1px solid var(--color-03);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 5px var(--color-19);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--color-05);
+    box-shadow: 0 0 8px var(--color-05);
+}
+
+/* Checkboxes & Radios (inline) */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin: var(--gap-sm) var(--gap-sm) var(--gap-sm) 0;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* File inputs */
+form input[type="file"] {
+    padding: var(--pad-xs) 0;
+    margin-bottom: var(--margin-md);
+}
+
+/* Submit buttons (override full-width) */
+form button[type="submit"],
+form .slam-button {
+    width: auto;
+    display: inline-block;
+}
+
 
 /* --- palette.css --- */
 :root {
@@ -640,9 +688,7 @@ nav {
 <body>
     <header>
        <p><!-- Header --></p>
-<img src="assets/icons/ic-terminal.png" alt="logo"><h1>Piledriver Playhouse!  </h1>
-<h2>Developer Muscle for the Indie Hustle!</h2>
-
+<img src="assets/media/logo-circle.png" alt="logo">
     </header>
     <nav>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />

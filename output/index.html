@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Piledriver Playhouse!</title>
-    <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
+    <link rel="icon" type="image/x-icon" href="assets/media/logo-circle.png">
         <meta name="description" content="Indie game dev firepower, technical audio mastery, and elite coding muscle — built to amplify your team and crush deadlines.">
     <meta property="og:description" content="Indie game dev firepower, technical audio mastery, and elite coding muscle — built to amplify your team and crush deadlines.">
     <meta name="keywords" content="indie game development, technical audio, game programming, unity, unreal engine, co-development, tools development, gameplay systems">
@@ -247,7 +247,7 @@ tr:hover {
 }
 
 
-/* --- components.css --- */
+/* --- interactions.css --- */
 /* Buttons */
 button, .slam-button {
     background-color: #1f1f1f;
@@ -269,6 +269,54 @@ button:hover, .slam-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
+
+/* Form */
+form input:not([type="checkbox"]):not([type="radio"]),
+form select,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--pad-sm) var(--pad-md);
+    margin-bottom: var(--margin-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    background-color: var(--color-01);
+    color: var(--color-08);
+    border: 1px solid var(--color-03);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 5px var(--color-19);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--color-05);
+    box-shadow: 0 0 8px var(--color-05);
+}
+
+/* Checkboxes & Radios (inline) */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin: var(--gap-sm) var(--gap-sm) var(--gap-sm) 0;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* File inputs */
+form input[type="file"] {
+    padding: var(--pad-xs) 0;
+    margin-bottom: var(--margin-md);
+}
+
+/* Submit buttons (override full-width) */
+form button[type="submit"],
+form .slam-button {
+    width: auto;
+    display: inline-block;
+}
+
 
 /* --- palette.css --- */
 :root {
@@ -642,9 +690,7 @@ nav {
 <body>
     <header>
        <p><!-- Header --></p>
-<img src="assets/icons/ic-terminal.png" alt="logo"><h1>Piledriver Playhouse!  </h1>
-<h2>Developer Muscle for the Indie Hustle!</h2>
-
+<img src="assets/media/logo-circle.png" alt="logo">
     </header>
     <nav>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
@@ -667,14 +713,14 @@ nav {
 </nav>
 
     <main>
-       <section id="landing-hero" class="hero">
+       <section class="hero" id="landing-hero">
 <h1>Slamhaus!</h1>
 <p>The future of static site generation, redefined.</p>
 <button type="button" onclick="window.location.href='slamhaus.html'" id="home-btn">Learn More!</button>
 </section>
 <section id="intro">
 <h1>Piledriver Playhouse!</h1>
-<div class="columns-container responsive-columns"><div id="intro-columns-0" class="column"><h3>🧠 </h3>
+<div class="columns-container responsive-columns"><div class="column" id="intro-columns-0"><h3>🧠 </h3>
 <h3>Over a Decade of Dev Power</h3>
 <p>10+ years deep in the code mines. We’ve shipped, fixed, and rebuilt it all — from rapid-fire prototypes to beast-mode systems built to scale.</p>
 </div><div class="column"><h3>🎯 </h3>
@@ -684,7 +730,7 @@ nav {
 <h3>Technical Audio, Tuned Right</h3>
 <p>Sound is more than vibes — it’s logic, tools, and flow. From adaptive music to audio accessibility, we code with our ears on and our compilers hot.</p>
 </div></div><p><br></p>
-<div class="columns-container responsive-columns"><div id="intro-columns-1" class="column"><h3>🛠 </h3>
+<div class="columns-container responsive-columns"><div class="column" id="intro-columns-1"><h3>🛠 </h3>
 <h3>Tech with Muscle</h3>
 <p>From hand-built tools to deep engine integrations, we make the kind of tech that stays out of your way and gets the job done. Unreal, Unity, Web — let’s roll.</p>
 </div><div class="column"><h3>🎮 </h3>
@@ -699,14 +745,14 @@ nav {
 <p><br></p>
 <section id="tech">
 <h2>Our Technology</h2>
-<div class="columns-container responsive-columns"><div id="tech-columns-0" class="column"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMEpvhQOuCkjQFYaax3e8BMa9yk4Y6xt_HUQ&s" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://images.seeklogo.com/logo-png/35/1/unreal-engine-logo-png_seeklogo-350198.png" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Microsoft_.NET_logo.svg/1200px-Microsoft_.NET_logo.svg.png" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyXb9ARn6st1yrYPYJ0GgQpDEiRu6U8OB4uQ&s" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://i.pinimg.com/564x/b7/47/3f/b7473f7b45d8d64863c7c4daeeef7c05.jpg" alt="width:80%" style="width:80%; "></div></div><p><br></p>
-<div class="columns-container responsive-columns"><div id="tech-columns-1" class="column"><img src="https://pbs.twimg.com/profile_images/1816856437567406080/ByISu1ft_400x400.jpg" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://play-lh.googleusercontent.com/9FQK0AyVygCW__S12wPnysnzRNKJ1uxcev2aBwfgONKeSiqUIDqjHAYP4892yywhvA" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzAxIzs2yRTPxONA1yBwMZdhkNwlqmIpxFug&s" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://seeklogo.com/images/A/android-icon-logo-DB06FA8B39-seeklogo.com.png" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://pbs.twimg.com/profile_images/1202369280165023746/8ANTs9n1_400x400.jpg" alt="width:80%" style="width:80%; "></div></div></section>
+<div class="columns-container responsive-columns"><div class="column" id="tech-columns-0"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMEpvhQOuCkjQFYaax3e8BMa9yk4Y6xt_HUQ&s" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://images.seeklogo.com/logo-png/35/1/unreal-engine-logo-png_seeklogo-350198.png" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Microsoft_.NET_logo.svg/1200px-Microsoft_.NET_logo.svg.png" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyXb9ARn6st1yrYPYJ0GgQpDEiRu6U8OB4uQ&s" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://i.pinimg.com/564x/b7/47/3f/b7473f7b45d8d64863c7c4daeeef7c05.jpg" alt="width:80%" style="width:80%; "></div></div><p><br></p>
+<div class="columns-container responsive-columns"><div class="column" id="tech-columns-1"><img src="https://pbs.twimg.com/profile_images/1816856437567406080/ByISu1ft_400x400.jpg" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://play-lh.googleusercontent.com/9FQK0AyVygCW__S12wPnysnzRNKJ1uxcev2aBwfgONKeSiqUIDqjHAYP4892yywhvA" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzAxIzs2yRTPxONA1yBwMZdhkNwlqmIpxFug&s" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://seeklogo.com/images/A/android-icon-logo-DB06FA8B39-seeklogo.com.png" alt="width:80%" style="width:80%; "></div><div class="column"><img src="https://pbs.twimg.com/profile_images/1202369280165023746/8ANTs9n1_400x400.jpg" alt="width:80%" style="width:80%; "></div></div></section>
 <p><br></p>
 <hr>
 <p><br></p>
 <section id="partners">
 <h2>Our Partners & Clients</h2>
-<div class="columns-container responsive-columns"><div id="partners-columns" class="column"></div><div class="column"><img src="https://images.squarespace-cdn.com/content/5889b3421e5b6ce7c378094a/651424c3-aa03-4d83-a5a7-052fdbde34e1/Logo+-+1.png?format=1500w&content-type=image%2Fpng" alt="width:80%" style="width:80%; "></div><div class="column"><img src="assets/media/bethune-chambers-logo.png" alt="width:80%" style="width:80%; "></div></div><p><br></p>
+<div class="columns-container responsive-columns"><div class="column" id="partners-columns"></div><div class="column"><img src="https://images.squarespace-cdn.com/content/5889b3421e5b6ce7c378094a/651424c3-aa03-4d83-a5a7-052fdbde34e1/Logo+-+1.png?format=1500w&content-type=image%2Fpng" alt="width:80%" style="width:80%; "></div><div class="column"><img src="assets/media/bethune-chambers-logo.png" alt="width:80%" style="width:80%; "></div></div><p><br></p>
 <hr>
 <p><br></p>
 </section>

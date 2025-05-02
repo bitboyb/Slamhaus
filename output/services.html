@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Piledriver Playhouse!</title>
-    <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
+    <link rel="icon" type="image/x-icon" href="assets/media/logo-circle.png">
         <meta name="description" content="Full-stack development, small biz tech, and game co-dev — we build lean, launch-ready solutions for creators, startups, and indie studios.">
     <meta property="og:description" content="Full-stack development, small biz tech, and game co-dev — we build lean, launch-ready solutions for creators, startups, and indie studios.">
     <meta name="keywords" content="game co-development, web apps, mobile MVP, indie dev support, small business tech, game prototyping, freelance developers, agile development">
@@ -247,7 +247,7 @@ tr:hover {
 }
 
 
-/* --- components.css --- */
+/* --- interactions.css --- */
 /* Buttons */
 button, .slam-button {
     background-color: #1f1f1f;
@@ -269,6 +269,54 @@ button:hover, .slam-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
+
+/* Form */
+form input:not([type="checkbox"]):not([type="radio"]),
+form select,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--pad-sm) var(--pad-md);
+    margin-bottom: var(--margin-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    background-color: var(--color-01);
+    color: var(--color-08);
+    border: 1px solid var(--color-03);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 5px var(--color-19);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--color-05);
+    box-shadow: 0 0 8px var(--color-05);
+}
+
+/* Checkboxes & Radios (inline) */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin: var(--gap-sm) var(--gap-sm) var(--gap-sm) 0;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* File inputs */
+form input[type="file"] {
+    padding: var(--pad-xs) 0;
+    margin-bottom: var(--margin-md);
+}
+
+/* Submit buttons (override full-width) */
+form button[type="submit"],
+form .slam-button {
+    width: auto;
+    display: inline-block;
+}
+
 
 /* --- palette.css --- */
 :root {
@@ -642,9 +690,7 @@ nav {
 <body>
     <header>
        <p><!-- Header --></p>
-<img src="assets/icons/ic-terminal.png" alt="logo"><h1>Piledriver Playhouse!  </h1>
-<h2>Developer Muscle for the Indie Hustle!</h2>
-
+<img src="assets/media/logo-circle.png" alt="logo">
     </header>
     <nav>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
@@ -667,14 +713,14 @@ nav {
 </nav>
 
     <main>
-       <section id="services-hero" class="hero">
+       <section class="hero" id="services-hero">
 <h1>What We Can Do For You!</h1>
 <p>At Piledriver Playhouse, we team up with the makers, the dreamers, and the doers. Whether you're an indie dev, a startup, or a small business punching above your weight, we bring over a decade of hands-on experience in game development and tech to the table. We build lean, launch-ready solutions that cut through the noise — low cost, high impact, no nonsense.</p>
 <button type="button" onclick="window.location.href='contact.html'" id="contact-btn">Free 1 Hour Consultation!</button>
 </section>
 <section id="services">
 <h2>Services</h2>
-<div class="columns-container responsive-columns"><div id="services-table" class="column"><h3>🌐 </h3>
+<div class="columns-container responsive-columns"><div class="column" id="services-table"><h3>🌐 </h3>
 <h3>Websites, Apps & Mobile Builds</h3>
 <p>Need a landing page, web app, or mobile MVP? We craft slick, scalable products that work across devices — fast, functional, and fully yours. No templates. No fluff.</p>
 </div><div class="column"><h3>🧰 </h3>
@@ -691,7 +737,7 @@ nav {
 <h2>Pricing</h2>
 <p>We offer a 1-hour free consult every month to our friends and partners. Got a small job? We’ll try to knock it out on the spot.</p>
 <p>No hidden costs. Just a flat day rate + any extras (like hosting). If things go sideways, we cover the damage — because experience pays off, and we’ve got plenty of it.</p>
-<div class="columns-container responsive-columns"><div id="pricing-table" class="column"><h3>🐣 Junior Dev</h3>
+<div class="columns-container responsive-columns"><div class="column" id="pricing-table"><h3>🐣 Junior Dev</h3>
 <p><strong>£160 / day</strong></p>
 <p>Great for simpler projects, bug hunts, or support tasks. Fast, efficient, and budget-friendly.</p>
 </div><div class="column"><h3>🧩 Mid-Level Dev</h3>

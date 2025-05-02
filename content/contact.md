@@ -1,18 +1,28 @@
 :section[align:center](#contact)
 
-# Get In Touch!
+# 📬 Get In Touch!
 
-We're always open to new collaborations, partnerships, and badass projects.  
-Whether you're ready to roll or just want to say hey — hit us up.
+:column[size:2](#contact-columns-0)
+:column[left]()
 
-### 📬 Reach Us Directly  
+We're always open to new collaborations, partnerships, and badass projects. Whether you're a creator, brand, venue, or just a fan with a wild idea — we want to hear from you. No bots, no forms lost to the void. We actually read every message.
+
+**Email us directly:**  
 [info@piledriver-playhouse.com](mailto:info@piledriver-playhouse.com)
 
-### 🗓️ Available for  
-- Game Dev Support  
-- Tool Development  
-- Technical Audio & Engine Integration  
-- Co-Dev Rescue Missions  
+Or use the form — it all lands in the same inbox.
+
+:column[right]()
+
+?form[action:"https://formsubmit.co/info@piledriver-playhouse.com":method:"post"](#contact-form)
+
+?input[type:"email":name:"email":placeholder:"Email Address":required:""](#email)
+?input[type:"text":name:"name":placeholder:"Name":required:""](#name)
+?textarea[name:"message":placeholder:"Your message":rows:"6":required:""](#message)
+?button[text:"Send Message":type:"submit"](#send-btn)
+?/form[]()
+
+:/column
 
 <br>
 

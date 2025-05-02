@@ -1,6 +1,6 @@
 #include "parser.hpp"
-#include "element.hpp"
-#include "id.hpp"
+#include "interaction.hpp"
+#include "form.hpp"
 #include "seo.hpp"
 #include "section.hpp"
 #include "text.hpp"
@@ -25,6 +25,7 @@ namespace Parser
         {
             if (SEO::HandleMetaLines(line, seo)) continue;
             if (Section::HandleBlockElements(line, html, pState, cState, seo)) continue;
+            if (Form::HandleFormElements(line, html, pState)) continue;
             if (Interaction::IsInteraction(line, html, pState)) continue;
             if (Embed::HandleEmbeds(line, html, pState)) continue;
             if (Snippet::HandleCodeOrTable(line, iss, html, pState)) continue;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Piledriver Playhouse!</title>
-    <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
+    <link rel="icon" type="image/x-icon" href="assets/media/logo-circle.png">
         <meta name="description" content="Learn about Piledriver Playhouse — a co-dev powerhouse supporting indie game developers and small studios with open source tools, technical expertise, and launch-ready support.">
     <meta property="og:description" content="Learn about Piledriver Playhouse — a co-dev powerhouse supporting indie game developers and small studios with open source tools, technical expertise, and launch-ready support.">
     <meta name="keywords" content="piledriver playhouse, indie game development, open source tools, co-development, technical game dev, startup support, small studio tools, game dev services, solo dev support">
@@ -247,7 +247,7 @@ tr:hover {
 }
 
 
-/* --- components.css --- */
+/* --- interactions.css --- */
 /* Buttons */
 button, .slam-button {
     background-color: #1f1f1f;
@@ -269,6 +269,54 @@ button:hover, .slam-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
+
+/* Form */
+form input:not([type="checkbox"]):not([type="radio"]),
+form select,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--pad-sm) var(--pad-md);
+    margin-bottom: var(--margin-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    background-color: var(--color-01);
+    color: var(--color-08);
+    border: 1px solid var(--color-03);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 5px var(--color-19);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--color-05);
+    box-shadow: 0 0 8px var(--color-05);
+}
+
+/* Checkboxes & Radios (inline) */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin: var(--gap-sm) var(--gap-sm) var(--gap-sm) 0;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* File inputs */
+form input[type="file"] {
+    padding: var(--pad-xs) 0;
+    margin-bottom: var(--margin-md);
+}
+
+/* Submit buttons (override full-width) */
+form button[type="submit"],
+form .slam-button {
+    width: auto;
+    display: inline-block;
+}
+
 
 /* --- palette.css --- */
 :root {
@@ -642,9 +690,7 @@ nav {
 <body>
     <header>
        <p><!-- Header --></p>
-<img src="assets/icons/ic-terminal.png" alt="logo"><h1>Piledriver Playhouse!  </h1>
-<h2>Developer Muscle for the Indie Hustle!</h2>
-
+<img src="assets/media/logo-circle.png" alt="logo">
     </header>
     <nav>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
@@ -667,14 +713,14 @@ nav {
 </nav>
 
     <main>
-       <section id="about-hero" class="hero">
+       <section class="hero" id="about-hero">
 <h1>About Us!</h1>
 <p>Piledriver Playhouse is a co-dev force built for the underdogs. We back small businesses and indie devs with over a decade of hardcore experience in game dev and tech. Our mission? Deliver low-cost, high-impact tools and services that help you launch faster, smarter, and stronger.</p>
 <button type="button" onclick="window.location.href='services.html'" id="services-btn">See Our Services!</button>
 </section>
 <section id="about-us">
 <h2>Our Core Tenants</h2>
-<div class="columns-container responsive-columns"><div id="about-us-columns" class="column"><h3>🌍 </h3>
+<div class="columns-container responsive-columns"><div class="column" id="about-us-columns"><h3>🌍 </h3>
 <h3>Open Source, No Gatekeeping</h3>
 <p>We build with open hands. Wherever we can, we drop the barriers and share our code — cutting costs, boosting speed, and making pro-grade tech available to all.</p>
 </div><div class="column"><h3>🚀 </h3>

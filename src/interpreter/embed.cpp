@@ -3,11 +3,10 @@
 #include "parser.hpp"
 #include "text.hpp"
 
+// TODO: Refactor with new attributes function ParseAttributes()
+
 namespace Embed
 {
-
-
-
     bool IsIFrameLine(const std::string &line) 
     {
         return line.rfind("!iframe[", 0) == 0 && !line.empty() && line.back() == ']';
@@ -142,10 +141,13 @@ namespace Embed
         std::string out = input;
         size_t pos = out.find("!videos[");
         std::string prefix;
-        if (pos == std::string::npos) {
+        if (pos == std::string::npos) 
+        {
             pos = out.find("!video[");
             prefix = "!video[";
-        } else {
+        } 
+        else 
+        {
             prefix = "!videos[";
         }
         
@@ -215,10 +217,13 @@ namespace Embed
         std::string out = input;
         size_t pos = out.find("!pictures[");
         std::string prefix;
-        if (pos == std::string::npos) {
+        if (pos == std::string::npos) 
+        {
             pos = out.find("!picture[");
             prefix = "!picture[";
-        } else {
+        } 
+        else 
+        {
             prefix = "!pictures[";
         }
         if (pos != std::string::npos)

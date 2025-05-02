@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Piledriver Playhouse!</title>
-    <link rel="icon" type="image/x-icon" href="assets/icons/ic-terminal.png">
+    <link rel="icon" type="image/x-icon" href="assets/media/logo-circle.png">
         <meta name="description" content="Homepage for Slamhaus — a markdown-powered static site generator built for indie developers, technical writers, and game engine teams.">
     <meta property="og:description" content="Homepage for Slamhaus — a markdown-powered static site generator built for indie developers, technical writers, and game engine teams.">
     <meta name="keywords" content="slamhaus, static site generator, markdown engine, game dev tools, documentation generator, c++ static site, custom markdown syntax, developer documentation, gamedev website, engine docs">
@@ -247,7 +247,7 @@ tr:hover {
 }
 
 
-/* --- components.css --- */
+/* --- interactions.css --- */
 /* Buttons */
 button, .slam-button {
     background-color: #1f1f1f;
@@ -269,6 +269,54 @@ button:hover, .slam-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
+
+/* Form */
+form input:not([type="checkbox"]):not([type="radio"]),
+form select,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--pad-sm) var(--pad-md);
+    margin-bottom: var(--margin-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    background-color: var(--color-01);
+    color: var(--color-08);
+    border: 1px solid var(--color-03);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 5px var(--color-19);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--color-05);
+    box-shadow: 0 0 8px var(--color-05);
+}
+
+/* Checkboxes & Radios (inline) */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin: var(--gap-sm) var(--gap-sm) var(--gap-sm) 0;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* File inputs */
+form input[type="file"] {
+    padding: var(--pad-xs) 0;
+    margin-bottom: var(--margin-md);
+}
+
+/* Submit buttons (override full-width) */
+form button[type="submit"],
+form .slam-button {
+    width: auto;
+    display: inline-block;
+}
+
 
 /* --- palette.css --- */
 :root {
@@ -642,9 +690,7 @@ nav {
 <body>
     <header>
        <p><!-- Header --></p>
-<img src="assets/icons/ic-terminal.png" alt="logo"><h1>Piledriver Playhouse!  </h1>
-<h2>Developer Muscle for the Indie Hustle!</h2>
-
+<img src="assets/media/logo-circle.png" alt="logo">
     </header>
     <nav>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
@@ -667,7 +713,7 @@ nav {
 </nav>
 
     <main>
-       <section id="slamhaus-hero" class="hero">
+       <section class="hero" id="slamhaus-hero">
 <h1>Slamhaus!</h1>
 <p>The extendable Markdown C++ website generator.</p>
 <button type="button" onclick="window.location.href='slamhaus.html'" id="home-btn">Learn More!</button>
@@ -675,7 +721,7 @@ nav {
 </section>
 <section id="slamhaus-intro">
 <h1>Slamhaus!</h1>
-<div class="columns-container responsive-columns"><div id="intro-columns-0" class="column"><h3>🧱 </h3>
+<div class="columns-container responsive-columns"><div class="column" id="intro-columns-0"><h3>🧱 </h3>
 <h3>Markdown In, Website Out</h3>
 <p>Write clean, readable content in Markdown and generate responsive websites with zero boilerplate.</p>
 </div><div class="column"><h3>🎮 </h3>
@@ -685,7 +731,7 @@ nav {
 <h3>Extended Syntax, Your Way</h3>
 <p>Use custom Markdown-style blocks like :section<a href=""></a>, :column<a href=""></a>, and :css<a href=""></a> to structure and style your content directly.</p>
 </div></div><p><br></p>
-<div class="columns-container responsive-columns"><div id="intro-columns-1" class="column"><h3>🎨 </h3>
+<div class="columns-container responsive-columns"><div class="column" id="intro-columns-1"><h3>🎨 </h3>
 <h3>Simple Styling, No Fuss</h3>
 <p>Includes clean, minimal CSS themes out of the box — easy to tweak, extend, or replace with your own.</p>
 </div><div class="column"><h3>🧩 </h3>
