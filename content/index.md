@@ -143,11 +143,11 @@ No bloat, no babysitting. Just battle-ready devs who plug in, power up your pipe
 
 :column[2]()
 
-![width:80%](https://images.squarespace-cdn.com/content/5889b3421e5b6ce7c378094a/651424c3-aa03-4d83-a5a7-052fdbde34e1/Logo+-+1.png?format=1500w&content-type=image%2Fpng)
+![width:"80%"link:"https://www.wyrdrengames.com/"](https://images.squarespace-cdn.com/content/5889b3421e5b6ce7c378094a/651424c3-aa03-4d83-a5a7-052fdbde34e1/Logo+-+1.png?format=1500w&content-type=image%2Fpng)
 
 :column[3]()
 
-![width:80%](assets/media/bethune-chambers-logo.png)
+![width:"80%"link:"https://www.bethunechambers.co.uk"](assets/media/bethune-chambers-logo.png)
 
 :/column
 

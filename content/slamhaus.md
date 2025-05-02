@@ -106,23 +106,6 @@ sudo apt install g++
 
 ---
 
-### 🍎 macOS
-
-Xcode's Command Line Tools come with `clang`, `make`, and all the good stuff.  
-Just run this in your terminal:
-
-```bash
-xcode-select --install
-```
-
-Alternatively, install via Homebrew:
-
-```bash
-brew install gcc make
-```
-
----
-
 ### 🪟 Windows
 
 Two solid options:
@@ -230,10 +213,17 @@ Slamhaus supports extended Markdown syntax, including custom tags for layouts, r
 
 ---
 
-### 🖼️ Images with Styling
+Thought for a couple of seconds
+
+
+### 🖼️ Images with Styling and Links
+
+You can specify widths as percentages, fixed heights, and even wrap your images in links by adding a `link:` (or `href:`) attribute. Here are a few examples:
 
 ```markdown
-![width:max height:300px Cool Banner](assets/media/awesome-image.jpg)
+![width:"100%":height:"300px" Cool Banner](assets/media/awesome-image.jpg)
+
+![width:"50%":link:"https://example.com" Partner Logo](assets/media/partner-logo.png)
 ```
 
 ---

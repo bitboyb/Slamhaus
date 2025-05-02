@@ -1,328 +1,287 @@
-#include <sstream>
-#include <cctype>
-#include "parser.hpp"
+#include "embed.hpp"
+#include "attributes.hpp"
 #include "text.hpp"
+#include "parser.hpp"
 
-// TODO: Refactor with new attributes function ParseAttributes()
+#include <sstream>
 
 namespace Embed
 {
-    bool IsIFrameLine(const std::string &line) 
+
+    static void EmitAttrs(std::ostringstream &oss,
+                          const std::map<std::string,std::string> &attrs)
     {
-        return line.rfind("!iframe[", 0) == 0 && !line.empty() && line.back() == ']';
+        // all our attrs (id, class, style, width, height, etc.) go straight onto the tag
+        for (auto const &kv : attrs)
+        {
+            oss << " " << kv.first;
+            if (!kv.second.empty())
+            {
+                oss << "=\"" << kv.second << "\"";
+            }
+        }
     }
 
-    bool IsImageLine(const std::string &line) 
+    bool IsIFrameLine(const std::string &line)
+    {
+        return line.rfind("!iframe[", 0) == 0 && line.back() == ']';
+    }
+
+    bool IsImageLine(const std::string &line)
     {
         return line.rfind("![", 0) == 0 || line.rfind("!image[", 0) == 0;
     }
-    
+
     bool IsVideoLine(const std::string &line)
     {
-        return line.rfind("!videos[", 0) == 0 || line.rfind("!video[", 0) == 0;
+        return line.rfind("!video[", 0) == 0 || line.rfind("!videos[", 0) == 0;
     }
 
     bool IsAudioLine(const std::string &line)
     {
         return line.rfind("!audio[", 0) == 0;
     }
-    
+
     bool IsPictureLine(const std::string &line)
     {
-        return line.rfind("!pictures[", 0) == 0 || line.rfind("!picture[", 0) == 0;
+        return line.rfind("!picture[", 0) == 0 || line.rfind("!pictures[", 0) == 0;
     }
-    
+
     bool IsSvgLine(const std::string &line)
     {
         return line.rfind("!svg[", 0) == 0;
     }
 
-    void ExtractContentAndStyle(const std::string &raw, 
-                                std::string &content, 
-                                std::string &style) 
+    // height: and width: tokens still map into style
+    void ExtractContentAndStyle(const std::string &raw,
+                                std::string &content,
+                                std::string &style)
     {
         std::istringstream iss(raw);
         content.clear();
         style.clear();
         std::string token;
-        while (iss >> token) 
+        while (iss >> token)
         {
-            size_t colonPos = token.find(':');
-            if (colonPos != std::string::npos) 
+            auto colon = token.find(':');
+            if (colon != std::string::npos)
             {
-                std::string key = token.substr(0, colonPos);
-                std::string value = token.substr(colonPos + 1);
-                if (key == "height" || key == "width") 
+                auto key   = token.substr(0, colon);
+                auto value = token.substr(colon+1);
+                if (key == "height" || key == "width")
                 {
                     style += key + ":" + (value == "max" ? "100%" : value) + "; ";
                     continue;
                 }
             }
-            if (!content.empty()) 
+            if (!content.empty())
             {
                 content += " ";
             }
             content += token;
         }
-        if (content.empty()) 
+        if (content.empty())
         {
             content = raw;
         }
     }
 
-    std::string ProcessImages(const std::string &input) 
+    std::string ProcessImages(const std::string &line)
     {
-        std::string out = input;
-        size_t pos = 0;
-        while ((pos = out.find("![", pos)) != std::string::npos) 
+        // find bracketed body and parenthesized URL
+        auto open  = line.find('[');
+        auto close = line.find(']', open+1);
+        auto paren = line.find('(', close);
+        auto end   = line.find(')', paren+1);
+
+        std::string body = line.substr(open+1, close-open-1);
+        std::string url  = (paren!=std::string::npos && end!=std::string::npos)
+                           ? line.substr(paren+1, end-paren-1)
+                           : "";
+
+        // parse everything inside [ ]
+        auto attrs = Attributes::ParseAttributes(line, "![");
+        // if you want to pull plain alt text out too
+        std::string alt;
+        std::string styleFromTokens;
+        ExtractContentAndStyle(body, alt, styleFromTokens);
+
+        if (!styleFromTokens.empty())
         {
-            size_t endAlt = out.find("]", pos + 2);
-            if ((endAlt != std::string::npos) && ((endAlt + 1) < out.size()) && (out[endAlt + 1] == '(')) 
-            {
-                size_t endUrl = out.find(")", endAlt + 2);
-                if (endUrl != std::string::npos) 
-                {
-                    std::string rawAlt = out.substr(pos + 2, endAlt - (pos + 2));
-                    std::string url = out.substr(endAlt + 2, endUrl - (endAlt + 2));
-                    std::string description, styleAttr;
-                    ExtractContentAndStyle(rawAlt, description, styleAttr);
-                    std::string imgTag = "<img src=\"" + url + "\" alt=\"" + description + "\"";
-                    if (!styleAttr.empty()) 
-                    {
-                        imgTag += " style=\"" + styleAttr + "\"";
-                    }
-                    imgTag += ">";
-                    out.replace(pos, endUrl - pos + 1, imgTag);
-                    pos += imgTag.size();
-                } 
-                else 
-                {
-                    pos = endAlt + 1;
-                }
-            } 
-            else 
-            {
-                pos += 2;
-            }
+            attrs["style"] += styleFromTokens;
         }
-        return out;
+        if (!alt.empty() && !attrs.count("alt"))
+        {
+            attrs["alt"] = alt;
+        }
+
+        // wrap in link if provided
+        std::string link;
+        if (attrs.count("link"))
+        {
+            link = attrs["link"];
+            attrs.erase("link");
+        }
+        else if (attrs.count("href"))
+        {
+            link = attrs["href"];
+            attrs.erase("href");
+        }
+
+        std::ostringstream oss;
+        oss << "<img src=\"" << url << "\"";
+        EmitAttrs(oss, attrs);
+        oss << ">";
+
+        if (!link.empty())
+        {
+            return "<a href=\"" + link + "\">" + oss.str() + "</a>";
+        }
+        return oss.str();
     }
 
-    std::string ProcessIFrame(const std::string &input) 
+    std::string ProcessIFrame(const std::string &line)
     {
-        std::string out = input;
-        size_t pos = out.find("!iframe[");
-        if (pos != std::string::npos && out.back() == ']') 
+        auto open  = line.find('[');
+        auto close = line.find(']', open+1);
+        std::string body = line.substr(open+1, close-open-1);
+
+        std::string url, styleFromTokens;
+        ExtractContentAndStyle(body, url, styleFromTokens);
+
+        auto attrs = Attributes::ParseAttributes(line, "!iframe");
+        if (!styleFromTokens.empty())
         {
-            size_t start = out.find('[', pos);
-            size_t end = out.find(']', pos);
-            if (start != std::string::npos && end != std::string::npos && end > start) 
-            {
-                std::string rawContent = out.substr(start + 1, end - start - 1);
-                std::string url, styleAttr;
-                ExtractContentAndStyle(rawContent, url, styleAttr);
-                std::string iframeTag = "<div class=\"embed-container\">\n"
-                                        "<iframe src=\"" + url + "\"";
-                if (!styleAttr.empty()) 
-                {
-                    iframeTag += " style=\"" + styleAttr + "\"";
-                }
-                iframeTag += " frameborder=\"0\" allowfullscreen "
-                             "referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>\n"
-                             "</div>\n";
-                out.replace(pos, end - pos + 1, iframeTag);
-            }
+            attrs["style"] += styleFromTokens;
         }
-        return out;
+
+        std::ostringstream oss;
+        oss << "<div class=\"embed-container\">\n"
+            << "<iframe src=\"" << url << "\"";
+        EmitAttrs(oss, attrs);
+        oss << " frameborder=\"0\" allowfullscreen "
+               "referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>\n"
+               "</div>\n";
+        return oss.str();
     }
 
-    std::string ProcessVideos(const std::string &input) 
+    std::string ProcessVideos(const std::string &line)
     {
-        std::string out = input;
-        size_t pos = out.find("!videos[");
-        std::string prefix;
-        if (pos == std::string::npos) 
+        std::string prefix = (line.rfind("!videos[",0)==0 ? "!videos[" : "!video[");
+        auto open  = line.find('[', prefix.size());
+        auto close = line.find(']', open+1);
+        auto paren = line.find('(', close);
+        auto end   = line.find(')', paren+1);
+
+        std::string body = line.substr(open+1, close-open-1);
+        std::string url  = (paren!=std::string::npos && end!=std::string::npos)
+                           ? line.substr(paren+1,end-paren-1)
+                           : "";
+
+        std::string desc, styleFromTokens;
+        ExtractContentAndStyle(body, desc, styleFromTokens);
+
+        auto attrs = Attributes::ParseAttributes(line, prefix);
+        if (!styleFromTokens.empty())
         {
-            pos = out.find("!video[");
-            prefix = "!video[";
-        } 
-        else 
-        {
-            prefix = "!videos[";
+            attrs["style"] += styleFromTokens;
         }
-        
-        if (pos != std::string::npos)
+        if (!desc.empty() && !attrs.count("title"))
         {
-            size_t prefixLen = prefix.size();
-            size_t endAlt = out.find("]", pos + prefixLen);
-            if (endAlt != std::string::npos && (endAlt + 1) < out.size() && out[endAlt + 1] == '(')
-            {
-                size_t endUrl = out.find(")", endAlt + 2);
-                if (endUrl != std::string::npos)
-                {
-                    std::string rawAlt = out.substr(pos + prefixLen, endAlt - (pos + prefixLen));
-                    std::string url = out.substr(endAlt + 2, endUrl - (endAlt + 2));
-                    std::string description, styleAttr;
-                    ExtractContentAndStyle(rawAlt, description, styleAttr);
-                    std::string videoTag = "<video src=\"" + url + "\" controls";
-                    if (!styleAttr.empty())
-                    {
-                        videoTag += " style=\"" + styleAttr + "\"";
-                    }
-                    videoTag += ">";
-                    videoTag += "Your browser does not support the video tag.";
-                    videoTag += "</video>";
-                    out.replace(pos, endUrl - pos + 1, videoTag);
-                }
-            }
+            attrs["title"] = desc;
         }
-        return out;
+
+        std::ostringstream oss;
+        oss << "<video src=\"" << url << "\" controls";
+        EmitAttrs(oss, attrs);
+        oss << ">Your browser does not support the video tag.</video>";
+        return oss.str();
     }
 
-    std::string ProcessAudio(const std::string &input) 
+    std::string ProcessAudio(const std::string &line)
     {
-        std::string out = input;
-        size_t pos = out.find("!audio[");
-        std::string prefix = "!audio[";
-        if (pos != std::string::npos)
+        auto open  = line.find('[');
+        auto close = line.find(']', open+1);
+        auto paren = line.find('(', close);
+        auto end   = line.find(')', paren+1);
+
+        std::string body = line.substr(open+1, close-open-1);
+        std::string url  = (paren!=std::string::npos && end!=std::string::npos)
+                           ? line.substr(paren+1,end-paren-1)
+                           : "";
+
+        std::string desc, styleFromTokens;
+        ExtractContentAndStyle(body, desc, styleFromTokens);
+
+        auto attrs = Attributes::ParseAttributes(line, "!audio");
+        if (!styleFromTokens.empty())
         {
-            size_t prefixLen = prefix.size();
-            size_t endAlt = out.find("]", pos + prefixLen);
-            if (endAlt != std::string::npos && (endAlt + 1) < out.size() && out[endAlt + 1] == '(')
-            {
-                size_t endUrl = out.find(")", endAlt + 2);
-                if (endUrl != std::string::npos)
-                {
-                    std::string rawAlt = out.substr(pos + prefixLen, endAlt - (pos + prefixLen));
-                    std::string url = out.substr(endAlt + 2, endUrl - (endAlt + 2));
-                    std::string description, styleAttr;
-                    ExtractContentAndStyle(rawAlt, description, styleAttr);
-                    std::string audioTag = "<audio src=\"" + url + "\" controls";
-                    if (!styleAttr.empty())
-                    {
-                        audioTag += " style=\"" + styleAttr + "\"";
-                    }
-                    audioTag += ">";
-                    audioTag += "Your browser does not support the audio element.";
-                    audioTag += "</audio>";
-                    out.replace(pos, endUrl - pos + 1, audioTag);
-                }
-            }
+            attrs["style"] += styleFromTokens;
         }
-        return out;
-    }
-    
-    std::string ProcessPictures(const std::string &input) 
-    {
-        std::string out = input;
-        size_t pos = out.find("!pictures[");
-        std::string prefix;
-        if (pos == std::string::npos) 
+        if (!desc.empty() && !attrs.count("title"))
         {
-            pos = out.find("!picture[");
-            prefix = "!picture[";
-        } 
-        else 
-        {
-            prefix = "!pictures[";
+            attrs["title"] = desc;
         }
-        if (pos != std::string::npos)
-        {
-            size_t prefixLen = prefix.size();
-            size_t endAlt = out.find("]", pos + prefixLen);
-            if (endAlt != std::string::npos && (endAlt + 1) < out.size() && out[endAlt + 1] == '(')
-            {
-                size_t endUrl = out.find(")", endAlt + 2);
-                if (endUrl != std::string::npos)
-                {
-                    std::string rawAlt = out.substr(pos + prefixLen, endAlt - (pos + prefixLen));
-                    std::string url = out.substr(endAlt + 2, endUrl - (endAlt + 2));
-                    std::string description, styleAttr;
-                    ExtractContentAndStyle(rawAlt, description, styleAttr);
-                    std::string pictureTag = "<picture><img src=\"" + url + "\" alt=\"" + description + "\"";
-                    if (!styleAttr.empty()) {
-                        pictureTag += " style=\"" + styleAttr + "\"";
-                    }
-                    pictureTag += "></picture>";
-                    out.replace(pos, endUrl - pos + 1, pictureTag);
-                }
-            }
-        }
-        return out;
-    }
-    
-    std::string ProcessSvg(const std::string &input) 
-    {
-        std::string out = input;
-        size_t pos = out.find("!svg[");
-        if (pos != std::string::npos)
-        {
-            size_t prefixLen = 5;
-            size_t endAlt = out.find("]", pos + prefixLen);
-            if (endAlt != std::string::npos && (endAlt + 1) < out.size() && out[endAlt + 1] == '(')
-            {
-                size_t endUrl = out.find(")", endAlt + 2);
-                if (endUrl != std::string::npos)
-                {
-                    std::string rawAlt = out.substr(pos + prefixLen, endAlt - (pos + prefixLen));
-                    std::string url = out.substr(endAlt + 2, endUrl - (endAlt + 2));
-                    std::string description, styleAttr;
-                    ExtractContentAndStyle(rawAlt, description, styleAttr);
-                    std::string svgTag = "<object data=\"" + url + "\" type=\"image/svg+xml\"";
-                    if (!styleAttr.empty())
-                    {
-                        svgTag += " style=\"" + styleAttr + "\"";
-                    }
-                    svgTag += ">";
-                    svgTag += "Your browser does not support SVG.";
-                    svgTag += "</object>";
-                    out.replace(pos, endUrl - pos + 1, svgTag);
-                }
-            }
-        }
-        return out;
+
+        std::ostringstream oss;
+        oss << "<audio src=\"" << url << "\" controls";
+        EmitAttrs(oss, attrs);
+        oss << ">Your browser does not support the audio element.</audio>";
+        return oss.str();
     }
 
-    bool HandleEmbeds(const std::string& line, 
-                      std::ostringstream& html, 
-                      Parser::ParseState& pState)
+    std::string ProcessPictures(const std::string &line)
     {
-        if (IsIFrameLine(line)) 
+        // same as ProcessImages but wrapped in <picture>…</picture>
+        std::string img = ProcessImages(line);
+        return "<picture>" + img + "</picture>";
+    }
+
+    std::string ProcessSvg(const std::string &line)
+    {
+        auto open  = line.find('[');
+        auto close = line.find(']', open+1);
+        auto paren = line.find('(', close);
+        auto end   = line.find(')', paren+1);
+
+        std::string body = line.substr(open+1, close-open-1);
+        std::string url  = (paren!=std::string::npos && end!=std::string::npos)
+                           ? line.substr(paren+1,end-paren-1)
+                           : "";
+
+        std::string desc, styleFromTokens;
+        ExtractContentAndStyle(body, desc, styleFromTokens);
+
+        auto attrs = Attributes::ParseAttributes(line, "!svg");
+        if (!styleFromTokens.empty())
         {
-            Text::CloseLists(html, pState);
-            html << Embed::ProcessIFrame(line);
-            return true;
+            attrs["style"] += styleFromTokens;
         }
-        if (IsAudioLine(line)) 
+        if (!desc.empty() && !attrs.count("title"))
         {
-            Text::CloseLists(html, pState);
-            html << Embed::ProcessAudio(line);
-            return true;
+            attrs["title"] = desc;
         }
-        if (IsPictureLine(line)) 
-        {
-            Text::CloseLists(html, pState);
-            html << Embed::ProcessPictures(line);
-            return true;
-        }
-        if (IsSvgLine(line)) 
-        {
-            Text::CloseLists(html, pState);
-            html << Embed::ProcessSvg(line);
-            return true;
-        }
-        if (Embed::IsImageLine(line)) 
-        {
-            Text::CloseLists(html, pState);
-            html << Embed::ProcessImages(line);
-            return true;
-        }
-        if (IsVideoLine(line)) 
-        {
-            Text::CloseLists(html, pState);
-            html << Embed::ProcessVideos(line);
-            return true;
-        }
+
+        std::ostringstream oss;
+        oss << "<object data=\"" << url << "\" type=\"image/svg+xml\"";
+        EmitAttrs(oss, attrs);
+        oss << ">Your browser does not support SVG.</object>";
+        return oss.str();
+    }
+
+    bool HandleEmbeds(const std::string &line,
+                      std::ostringstream    &html,
+                      Parser::ParseState    &pState)
+    {
+        Text::CloseLists(html, pState);
+
+        if (IsIFrameLine(line))  { html << ProcessIFrame(line);    return true; }
+        if (IsAudioLine(line))   { html << ProcessAudio(line);     return true; }
+        if (IsPictureLine(line)) { html << ProcessPictures(line);  return true; }
+        if (IsSvgLine(line))     { html << ProcessSvg(line);       return true; }
+        if (IsImageLine(line))   { html << ProcessImages(line);    return true; }
+        if (IsVideoLine(line))   { html << ProcessVideos(line);    return true; }
         return false;
     }
+
 }
