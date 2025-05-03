@@ -37,7 +37,7 @@ namespace CLI
         )";
     }
 
-    void ShowMenu(const std::string& templateRepo)
+    void ShowMenu()
     {
         std::cout
             << "Select an option:\n"

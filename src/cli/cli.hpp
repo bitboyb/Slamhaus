@@ -8,7 +8,7 @@ namespace CLI
 {
     std::string GetSlamhausLogo();
     std::string GetInfo();
-    void ShowMenu(const std::string& templateRepo);
+    void ShowMenu();
     int GetMenuChoice(int min, int max);
     std::string Prompt(const std::string& question,
                        const std::string& defaultValue = "");
