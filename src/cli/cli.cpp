@@ -23,12 +23,17 @@ namespace CLI
     std::string GetInfo()
     {
         return R"(
-        Creator: Syed Assad Abbas Bokhari
-        Website: https://www.piledriver-playhouse.com/slamhaus
-        Version: 0.1.0
-
-        License: MIT License
-        Copyright (c) 2025 Piledriver Playhouse Limited
+            Creator: Syed Assad Abbas Bokhari
+            Website: https://www.piledriver-playhouse.com/slamhaus
+            Version: 0.1.0
+    
+            License: MIT License
+            Copyright (c) 2025 Piledriver Playhouse Limited
+    
+            Quick Start:
+              Download a starter template and rename the folder to `content/` next to this executable:
+                git clone https://github.com/bitboyb/Slamhaus-Basic-Template.git content/
+              Then re-run Slamhaus to build your new site!
         )";
     }
 
@@ -38,9 +43,7 @@ namespace CLI
             << "Select an option:\n"
             << "  1) Compile current site in ./content\n"
             << "  2) Compile site from another directory (not relative!)\n"
-            << "  3) Download basic template (" << templateRepo << ")\n"
-            << "  4) Download template/project from a custom Git repository\n"
-            << "  5) Exit\n";
+            << "  3) Exit\n";
     }
 
     int GetMenuChoice(int min, 
@@ -75,39 +78,4 @@ namespace CLI
         std::getline(std::cin, line);
         return line.empty() ? defaultValue : line;
     }
-
-    bool CloneRepo(const std::string& repoUrl,
-                   const std::string& targetDir)
-    {
-        if (targetDir.empty())
-        {
-            std::cerr << "Error: no target directory provided.\n";
-            return false;
-        }
-        std::filesystem::path dest{targetDir};
-        auto parent = dest.parent_path();
-        if (!parent.empty() && !std::filesystem::exists(parent))
-        {
-            std::error_code ec;
-            if (!std::filesystem::create_directories(parent, ec))
-            {
-                std::cerr << "Error: unable to create directory \""
-                          << parent.string() << "\": " << ec.message() << "\n";
-                return false;
-            }
-        }
-        std::ostringstream cmd;
-        cmd << "git clone \"" << repoUrl << "\" \"" << dest.string() << "\"";
-        int rc = std::system(cmd.str().c_str());
-        if (rc != 0)
-        {
-            std::cerr << "Clone failed (exit code " << rc << "). "
-                      << "Make sure git is installed and you have write access to:\n    "
-                      << dest.string() << "\n";
-            return false;
-        }
-
-        return true;
-    }
-    
 }
