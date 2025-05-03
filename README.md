@@ -252,56 +252,56 @@ With WebAssembly integration on the roadmap, Slamhaus aims to give C++ devs a wa
 ## ❓ FAQ
 
 <details>
-<summary>**Is Slamhaus production-ready?**</summary>
+<summary>Is Slamhaus production-ready?</summary>
 
 Slamhaus is stable for static sites and lightweight personal projects. It's still evolving, so you may encounter edge cases. Contributions and bug reports are welcome!
 
 </details>
 
 <details>
-<summary>**Does it support blogging or dynamic content?**</summary>
+<summary>Does it support blogging or dynamic content?</summary>
 
 It’s primarily for static content, but dynamic functionality is on the roadmap via WebAssembly and micro backends.
 
 </details>
 
 <details>
-<summary>**Why C++? Isn’t that overkill for static sites?**</summary>
+<summary>Why C++? Isn’t that overkill for static sites?</summary>
 
 Maybe! But C++ offers blazing speed, full control, and a familiar codebase for game and engine developers. Plus, it’s fun.
 
 </details>
 
 <details>
-<summary>**Can I use my own theme or CSS framework?**</summary>
+<summary>Can I use my own theme or CSS framework?</summary>
 
 Absolutely. Slamhaus ships with a minimal theme, but you can override or extend styles with your own CSS.
 
 </details>
 
 <details>
-<summary>**Does it support custom domains, SEO, or metadata?**</summary>
+<summary>Does it support custom domains, SEO, or metadata?</summary>
 
 Yes. Use `$site[]` and `$page[]` tags to define titles, descriptions, keywords, favicons, and more.
 
 </details>
 
 <details>
-<summary>**Can I build my entire site from scratch with just Markdown?**</summary>
+<summary>Can I build my entire site from scratch with just Markdown?</summary>
 
 Yes. Slamhaus is designed so you never need to touch HTML—unless you want to.
 
 </details>
 
 <details>
-<summary>**How is this different from Jekyll, Hugo, or Eleventy?**</summary>
+<summary>How is this different from Jekyll, Hugo, or Eleventy?</summary>
 
 Slamhaus is built in C++, supports custom Markdown syntax, and is intentionally minimal. It doesn’t use JavaScript or templating engines—just Markdown and your creativity.
 
 </details>
 
 <details>
-<summary> **Where do I report bugs or request features?** </summary>
+<summary>Where do I report bugs or request features?</summary>
 
 Feel free to open an [issue](https://github.com/bitboyb/Slamhaus/issues), or better yet—submit a pull request!
 
