@@ -5,7 +5,7 @@
 int main()
 {
     constexpr char TEMPLATE_REPO[] =
-        "https://github.com/your-org/slamhaus-template.git";
+        "https://github.com/bitboyb/Slamhaus-Basic-Template.git";
 
     std::cout << CLI::GetSlamhausLogo() << "\n\n"
               << CLI::GetInfo() << "\n\n";
@@ -23,71 +23,69 @@ int main()
 
         switch (choice)
         {
-        case 1:
-            std::cout << "\nGenerating site from ./content …\n";
-            Generator::GenerateSite(
-                "content",
-                "output"
-            );
-            std::cout << "Done.\n\n";
-            break;
-
-        case 2:
-        {
-            auto dir = CLI::Prompt(
-                "\nEnter path to your content directory", "content"
-            );
-            std::cout << "Generating site from " << dir << " …\n";
-            Generator::GenerateSite(
-                dir,
-                "output"
-            );
-            std::cout << "Done.\n\n";
-            break;
-        }
-
-        case 3:
-        {
-            auto target = CLI::Prompt(
-                "\nEnter target directory for template", "my-site"
-            );
-            std::cout << "Cloning template into " << target << " …\n";
-            if (CLI::CloneRepo(TEMPLATE_REPO, target))
+            case 1:
             {
-                std::cout << "Template downloaded successfully.\n\n";
+                std::cout << "\nGenerating site from ./content …\n";
+                Generator::GenerateSite(
+                    "content",
+                    "output"
+                );
+                std::cout << "Done.\n\n";
+                break;
             }
-            else
+            case 2:
             {
-                std::cerr
-                    << "Clone failed — make sure git is installed "
-                       "and on your PATH.\n\n";
+                auto dir = CLI::Prompt(
+                    "\nEnter path to your content directory", "content"
+                );
+                std::cout << "Generating site from " << dir << " …\n";
+                Generator::GenerateSite(
+                    dir,
+                    "output"
+                );
+                std::cout << "Done.\n\n";
+                break;
             }
-            break;
-        }
-
-        case 4:
-        {
-            auto repo = CLI::Prompt(
-                "\nEnter Git repository URL"
-            );
-            auto target = CLI::Prompt(
-                "Enter target directory for your clone", "my-repo"
-            );
-            std::cout << "Cloning " << repo << " into " << target << " …\n";
-            if (CLI::CloneRepo(repo, target))
+            case 3:
             {
-                std::cout << "Repository cloned successfully.\n\n";
+                auto target = CLI::Prompt(
+                    "\nEnter target directory for template", "my-site"
+                );
+                std::cout << "Cloning template into " << target << " …\n";
+                if (CLI::CloneRepo(TEMPLATE_REPO, target))
+                {
+                    std::cout << "Template downloaded successfully.\n\n";
+                }
+                else
+                {
+                    std::cerr
+                        << "Clone failed — make sure git is installed "
+                        "and on your PATH.\n\n";
+                }
+                break;
             }
-            else
+            case 4:
             {
-                std::cerr
-                    << "Clone failed — make sure git is installed "
-                       "and on your PATH.\n\n";
+                auto repo = CLI::Prompt(
+                    "\nEnter Git repository URL"
+                );
+                auto target = CLI::Prompt(
+                    "Enter a new target directory for your clone", "my-repo"
+                );
+                std::cout << "Cloning " << repo << " into " << target << " …\n";
+                if (CLI::CloneRepo(repo, target))
+                {
+                    std::cout << "Repository cloned successfully.\n\n";
+                }
+                else
+                {
+                    std::cerr
+                        << "Clone failed — ensure you specified a new directory, make sure git is installed"
+                        "and on your PATH.\n\n";
+                }
+                break;
             }
-            break;
-        }
         }
     }
-
     return 0;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <filesystem>
 
 namespace CLI
 {
@@ -78,9 +79,35 @@ namespace CLI
     bool CloneRepo(const std::string& repoUrl,
                    const std::string& targetDir)
     {
+        if (targetDir.empty())
+        {
+            std::cerr << "Error: no target directory provided.\n";
+            return false;
+        }
+        std::filesystem::path dest{targetDir};
+        auto parent = dest.parent_path();
+        if (!parent.empty() && !std::filesystem::exists(parent))
+        {
+            std::error_code ec;
+            if (!std::filesystem::create_directories(parent, ec))
+            {
+                std::cerr << "Error: unable to create directory \""
+                          << parent.string() << "\": " << ec.message() << "\n";
+                return false;
+            }
+        }
         std::ostringstream cmd;
-        cmd << "git clone \"" << repoUrl << "\" \"" << targetDir << "\"";
-        return std::system(cmd.str().c_str()) == 0;
+        cmd << "git clone \"" << repoUrl << "\" \"" << dest.string() << "\"";
+        int rc = std::system(cmd.str().c_str());
+        if (rc != 0)
+        {
+            std::cerr << "Clone failed (exit code " << rc << "). "
+                      << "Make sure git is installed and you have write access to:\n    "
+                      << dest.string() << "\n";
+            return false;
+        }
+
+        return true;
     }
     
 }
