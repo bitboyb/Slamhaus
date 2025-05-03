@@ -45,6 +45,3 @@ ehthumbs.db
 *.exe
 *.out
 *.app
-
-# Server stuff
-.pid
