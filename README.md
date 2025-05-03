@@ -68,14 +68,16 @@ Everything in `content/` is transformed into a static site under `output/`—rea
 .
 ├── content/  
 │   ├── assets/  
-│   ├── media/        ← Images, videos and other site media.
-│   └── theme/        ← CSS theme files, merged & inlined into HTML.
-├── include/  
-│   ├── config.ini    ← Site-wide defaults. 
-│   ├── header.md     ← The site header. 
-│   ├── footer.md     ← The site footer. 
-│   └── nav.md        ← Navigation bar structure.
-└── index.md          ← Your homepage.
+│   │   ├── media/        ← Images, videos, and other site media.
+│   │   └── theme/        ← CSS theme files, merged & inlined into HTML.
+│   ├── include/  
+│   │   ├── config.ini    ← Site-wide defaults. 
+│   │   ├── header.md     ← The site header. 
+│   │   ├── footer.md     ← The site footer. 
+│   │   └── nav.md        ← Navigation bar structure.
+│   └── index.md          ← Your homepage.
+└── output/               ← Your built site will be generated here.
+
 ```
 
 ---
