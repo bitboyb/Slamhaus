@@ -301,7 +301,7 @@ Slamhaus is built in C++, supports custom Markdown syntax, and is intentionally 
 </details>
 
 <details>
-<summary>**Where do I report bugs or request features?**</summary>
+<summary> **Where do I report bugs or request features?** </summary>
 
 Feel free to open an [issue](https://github.com/bitboyb/Slamhaus/issues), or better yet—submit a pull request!
 
