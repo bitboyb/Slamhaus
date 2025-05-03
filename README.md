@@ -168,7 +168,7 @@ int main() { std::cout<<"Hello!"; }
 
 ?button[text:"Send"](#send-btn)
 
-?/form[]()
+?/form
 ```
 
 ### 🔍 Page & Site Metadata
@@ -177,5 +177,130 @@ int main() { std::cout<<"Hello!"; }
 $page[title:"Home"description:"Slamhaus homepage"keywords:"markdown, static site"]()
 $site[title:"Slamhaus"url:"https://slamhaus.dev"favicon:"/assets/icons/favicon.ico"]()
 ```
+
+</details>
+
+---
+
+## 📁 Templates
+
+Need a starting point? Check out the official Slamhaus starter kit:
+
+### 🧱 [Slamhaus Basic Template](https://github.com/bitboyb/Slamhaus-Basic-Template)
+
+A minimal, no-fluff template to help you hit the ground running. Includes:
+
+* `index.md` homepage  
+* Preconfigured `config.ini`, `nav.md`, and theme files  
+* Asset folders for media, CSS, and icons  
+* Example usage of extended syntax
+
+To use it, run this command **inside your Slamhaus directory**:
+
+```bash
+git clone https://github.com/bitboyb/Slamhaus-Basic-Template content
+````
+
+Then just run:
+
+```bash
+./slamhaus
+```
+
+Your site will be built into the `output/` folder—ready to deploy.
+
+📌 **Note:** The folder must be named `content/` for Slamhaus to detect it.
+
+---
+
+
+## 🧭 Planned Features
+
+* **Multiline Syntax Support**
+  Improve the parser to allow extended syntax across multiple lines (currently limited to single-line commands).
+
+* **WebAssembly Integration**
+  Seamless WASM support with game-dev-style C++ wrappers—build fully dynamic websites without writing a line of JavaScript.
+
+* **Micro Backends**
+  Lightweight C++/Docker-powered backend modules for dynamic content, form handling, or custom APIs.
+
+* **Web-Based Editor**
+  A browser-based interface with built-in Slamhaus compiler—write, preview, and deploy without leaving your browser.
+
+---
+
+## 💡 Philosophy & Design Goals
+
+**Keep it simple, stupid.**
+Slamhaus is built around a minimal, readable syntax that’s easy to learn and extend. If you know a little C++ and Markdown, you can do a lot.
+
+**Game-dev style codebase.**
+Inspired by game engine architecture, Slamhaus is structured for performance, clarity, and hacking. It's designed to feel familiar to developers from the game world.
+
+**Not trying to be everything.**
+This isn’t a bloated site builder. Slamhaus is a fast, dependable tool—just enough to get the job done and get out of your way.
+
+**Future-minded.**
+With WebAssembly integration on the roadmap, Slamhaus aims to give C++ devs a way to build not just static sites—but full-featured, interactive web experiences (maybe even games).
+
+---
+
+
+## ❓ FAQ
+
+<details>
+<summary>**Is Slamhaus production-ready?**</summary>
+
+Slamhaus is stable for static sites and lightweight personal projects. It's still evolving, so you may encounter edge cases. Contributions and bug reports are welcome!
+
+</details>
+
+<details>
+<summary>**Does it support blogging or dynamic content?**</summary>
+
+It’s primarily for static content, but dynamic functionality is on the roadmap via WebAssembly and micro backends.
+
+</details>
+
+<details>
+<summary>**Why C++? Isn’t that overkill for static sites?**</summary>
+
+Maybe! But C++ offers blazing speed, full control, and a familiar codebase for game and engine developers. Plus, it’s fun.
+
+</details>
+
+<details>
+<summary>**Can I use my own theme or CSS framework?**</summary>
+
+Absolutely. Slamhaus ships with a minimal theme, but you can override or extend styles with your own CSS.
+
+</details>
+
+<details>
+<summary>**Does it support custom domains, SEO, or metadata?**</summary>
+
+Yes. Use `$site[]` and `$page[]` tags to define titles, descriptions, keywords, favicons, and more.
+
+</details>
+
+<details>
+<summary>**Can I build my entire site from scratch with just Markdown?**</summary>
+
+Yes. Slamhaus is designed so you never need to touch HTML—unless you want to.
+
+</details>
+
+<details>
+<summary>**How is this different from Jekyll, Hugo, or Eleventy?**</summary>
+
+Slamhaus is built in C++, supports custom Markdown syntax, and is intentionally minimal. It doesn’t use JavaScript or templating engines—just Markdown and your creativity.
+
+</details>
+
+<details>
+<summary>**Where do I report bugs or request features?**</summary>
+
+Feel free to open an [issue](https://github.com/bitboyb/Slamhaus/issues), or better yet—submit a pull request!
 
 </details>
