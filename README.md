@@ -103,8 +103,8 @@ Right Column Content
 ### Images with Styling & Links
 
 ```markdown
-![width:"100%":height:"300px" Cool Banner](assets/awesome.jpg)
-![width:"50%":link:"https://example.com" Logo](assets/logo.png)
+![width:"100%"height:"300px"](assets/awesome.jpg)
+![width:"50%"link:"https://example.com"](assets/logo.png)
 ```
 
 ### Video, Audio, SVG, iFrame
@@ -112,7 +112,7 @@ Right Column Content
 ```markdown
 !video[width:100% height:350px](assets/demo.mp4)
 !audio[controls loop](assets/sample.mp3)
-!svg[width:64 height:64](assets/icon.svg)
+!svg[width:"64" height:"64"](assets/icon.svg)
 !iframe[https://www.youtube.com/embed/dQw4w9WgXcQ]()
 ```
 
