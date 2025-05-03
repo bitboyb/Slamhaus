@@ -6,6 +6,8 @@ Slamhaus is a modern C++ toolchain that converts plain `.md` files into fast, fu
 
 > 💬 *Pull requests welcome! Slamhaus is open-source and open-ended—bring your ideas, features, or fixes.*
 
+![Slamahus Demo](demo.gif)
+
 ---
 
 ## 🎨 Current Features
@@ -190,16 +192,16 @@ Need a starting point? Check out the official Slamhaus starter kit:
 
 A minimal, no-fluff template to help you hit the ground running. Includes:
 
-* `index.md` homepage  
-* Preconfigured `config.ini`, `nav.md`, and theme files  
-* Asset folders for media, CSS, and icons  
+* `index.md` homepage
+* Preconfigured `config.ini`, `nav.md`, and theme files
+* Asset folders for media, CSS, and icons
 * Example usage of extended syntax
 
 To use it, run this command **inside your Slamhaus directory**:
 
 ```bash
 git clone https://github.com/bitboyb/Slamhaus-Basic-Template content
-````
+```
 
 Then just run:
 
@@ -209,7 +211,7 @@ Then just run:
 
 Your site will be built into the `output/` folder—ready to deploy.
 
-📌 **Note:** The folder must be named `content/` for Slamhaus to detect it.
+📌 **Note:** By default, Slamhaus looks for a folder named `content/`. You can specify a different path when running it, or modify the default in `main.cpp` to suit your workflow.
 
 ---
 
