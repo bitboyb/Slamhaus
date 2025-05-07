@@ -37,13 +37,13 @@ namespace Snippet
                            std::ostringstream& html, 
                            Parser::ParseState& pState)
     {
-        if (Snippet::IsCodeBlockLine(line)) 
+        if (IsCodeBlockLine(line)) 
         {
             if (!pState.inCodeBlock) 
             {
                 Text::CloseLists(html, pState);
                 pState.inCodeBlock = true;
-                html << Snippet::ParseCodeBlock(iss, line);
+                html << ParseCodeBlock(iss, line);
                 pState.inCodeBlock = false;
             }
             return true;

@@ -7,6 +7,7 @@
 #include "embed.hpp"
 #include "snippet.hpp"
 #include <sstream>
+#include "../wasm/script.hpp"
 #include <cctype>
 
 namespace Parser 
@@ -23,6 +24,13 @@ namespace Parser
     
         while (std::getline(iss, line))
         {
+            if (!line.empty() && line[0] == '<')
+            {
+                Text::CloseLists(html, pState);
+                html << line << "\n";
+                continue;
+            }
+            if (Script::HandleScript(line, iss, html, pState)) continue;
             if (SEO::HandleMetaLines(line, seo)) continue;
             if (Section::HandleBlockElements(line, html, pState, cState, seo)) continue;
             if (Form::HandleFormElements(line, html, pState)) continue;

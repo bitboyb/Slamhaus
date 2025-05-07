@@ -1,4 +1,5 @@
 #include "generator.hpp"
+#include "../wasm/wasm.hpp"
 #include "../parser/parser.hpp"
 #include "../parser/seo.hpp"
 #include "asset.hpp"
@@ -45,7 +46,23 @@ namespace Generator
         Asset::CopyAssets(contentDir + "/assets/", outputDir + "/assets");
         for (const auto &entry : std::filesystem::recursive_directory_iterator(contentDir))
         {
-            if (entry.is_regular_file() && entry.path().extension() == ".md")
+            if (entry.is_regular_file() && entry.path().extension() == ".cpp")
+            {
+                std::filesystem::path relPath = std::filesystem::relative(entry.path(), contentDir);
+                std::filesystem::path outBase = std::filesystem::path(outputDir) / relPath.parent_path() / relPath.stem();
+                WASM::WASMFile wasmFile 
+                {
+                    entry.path().string(),
+                    outBase.string()
+                };
+                std::cout << "Compiling WASM: " << wasmFile.inputPath << "\n";
+                bool success = WASM::Compile({ wasmFile }, "emcc");
+                if (!success)
+                {
+                    std::cerr << "Failed to compile WASM: " << wasmFile.inputPath << "\n";
+                }
+            }
+            else if (entry.is_regular_file() && entry.path().extension() == ".md")
             {
                 std::string filename = entry.path().filename().string();
                 if (filename == "header.md" || filename == "nav.md"    || filename == "footer.md")

@@ -4,6 +4,7 @@
 /build/
 /slamhaus
 /output/
+/tests/
 
 # macOS
 .DS_Store
@@ -46,3 +47,6 @@ ehthumbs.db
 *.exe
 *.out
 *.app
+
+# Clangd
+*.clangd

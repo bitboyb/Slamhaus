@@ -8,6 +8,22 @@
 
 namespace Text
 {
+    void CloseParagraphs(std::ostringstream& html)
+    {
+        std::string current = html.str();
+        if (current.size() >= 3 &&current.substr(current.size() - 3) == "<p>")
+        {
+            html.seekp(-3, std::ios_base::end);
+            html << "";
+        }
+        else if (current.size() >= 4 &&
+                 current.substr(current.size() - 4) == "<p>\n")
+        {
+            html.seekp(-4, std::ios_base::end);
+            html << "";
+        }
+    }
+
     std::string ReplaceBoldItalic(const std::string &text)
     {
         return std::regex_replace(text, std::regex(R"(\*\*\*(.+?)\*\*\*)"), "<strong><em>$1</em></strong>");
