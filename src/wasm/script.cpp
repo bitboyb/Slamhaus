@@ -63,91 +63,79 @@ namespace Script
         return true;
     }
 
-    void WriteGlueScript(std::ostringstream& html,
-                        const std::string& src,
-                        const std::string& call,
-                        const std::string& bind,
-                        const std::string& event,
+    void WriteGlueScript(std::ostringstream&             html,
+                        const std::string&             src,
+                        const std::string&             call,
+                        const std::string&             bind,
+                        const std::string&             event,
                         const std::vector<std::string>& argNames,
                         const std::vector<std::string>& argTypes,
-                        const std::string& result)
+                        const std::string&             returnType,
+                        const std::string&             result)
     {
-        // if result is empty, we pass null as the returnType to ccall
-        std::string returnType = result.empty() ? "null" : "\"string\"";
+        html << "<script type=\"module\">\n"
+            << "import init from \"" << src << "\";\n"
+            << "init().then(m => {\n";
 
-        html << "<script type=\"module\">\n";
-        html << "import init from \"" << src << "\";\n";
-        html << "init().then(m => {\n";
-
-        if (!bind.empty())
-        {
-            // bind case: attach to an existing element
+        if (!bind.empty()) {
             html << "  const el = document.querySelector(\"" << bind << "\");\n"
                 << "  if (el) el.addEventListener(\"" << event << "\", () => {\n";
-        }
-        else
-        {
-            // no bind: run immediately in an IIFE
-            html << "  ((): void => {\n";
+        } else {
+            html << "  (() => {\n";
         }
 
-        // 1) pull in the inputs
+        // Gather input values
         WriteInputCollection(html, argNames);
 
-        // 2) build the types array
+        // Emit the argTypes array
         html << "    const argTypes = [";
-        for (size_t i = 0; i < argTypes.size(); ++i)
-        {
+        for (size_t i = 0; i < argTypes.size(); ++i) {
             html << "\"" << argTypes[i] << "\"";
             if (i + 1 < argTypes.size()) html << ", ";
         }
         html << "];\n";
 
-        // 3) build the values array
+        // Emit the argValues array
         html << "    const argValues = [";
-        for (size_t i = 0; i < argNames.size(); ++i)
-        {
+        for (size_t i = 0; i < argNames.size(); ++i) {
             auto var = Sanitize(argNames[i]);
             html << "val_" << var;
             if (i + 1 < argNames.size()) html << ", ";
         }
         html << "];\n";
 
-        // 4) call into your WASM
-        html << "    const r = m.ccall(\"" << call
-            << "\", " << returnType
-            << ", argTypes, argValues);\n";
-
-        if (!result.empty())
-        {
-            html << "    document.getElementById(\"" << result
+        // If the user asked for a void return (rtype:"void") or didn't provide a result target,
+        // emit a void ccall. Otherwise capture into r and write it out.
+        bool isVoid = (returnType == "void") || result.empty();
+        if (isVoid) {
+            html << "    m.ccall(\"" << call
+                << "\", null, argTypes, argValues);\n";
+        } else {
+            html << "    const r = m.ccall(\"" << call
+                << "\", \"" << returnType << "\", argTypes, argValues);\n"
+                << "    document.getElementById(\"" << result
                 << "\").textContent = r;\n";
         }
 
-        // 5) close off the two cases
-        if (!bind.empty())
-        {
-            // close the callback
+        if (!bind.empty()) {
             html << "  });\n";
-        }
-        else
-        {
-            // close the IIFE
+        } else {
             html << "  })();\n";
         }
 
-        // 6) close the .then(…) and the module script tag
-        html << "});\n";
-        html << "</script>\n";
+        html << "});\n"
+            << "</script>\n";
     }
 
 
+
+    // in Script::HandleScript:
     bool HandleScript(const std::string& line,
-                      std::istringstream& /*iss*/,
-                      std::ostringstream& html,
-                      Parser::ParseState& pState)
+                     std::istringstream& iss,
+                     std::ostringstream& html,
+                     Parser::ParseState& pState)
     {
-        // trim whitespace
+        // trim...
         std::string trimmed = line;
         trimmed.erase(0, trimmed.find_first_not_of(" \t"));
         trimmed.erase(trimmed.find_last_not_of(" \t") + 1);
@@ -157,35 +145,47 @@ namespace Script
         if (!std::regex_match(trimmed, match, blockRegex))
             return false;
 
-        // parse *all* attributes from the full @script[... ]() line
-        auto attrs = Attributes::ParseAttributes(trimmed, "@script");
-
+        auto attrs    = Attributes::ParseAttributes(trimmed, "@script");
         const auto& src    = attrs["src"];
         const auto& call   = attrs["call"];
-        const auto  bind   = attrs.count("bind")   ? attrs.at("bind")  : std::string{};
-        const auto  event  = attrs.count("event")  ? attrs.at("event") : "click";
+        const auto  bind   = attrs.count("bind")  ? attrs.at("bind")  : std::string{};
+        const auto  event  = attrs.count("event") ? attrs.at("event") : std::string{"click"};
         const auto  args   = attrs["args"];
         const auto  types  = attrs["types"];
         const auto  result = attrs["result"];
-
-        if (src.empty() || call.empty())
-        {
-            std::cerr << "Missing required attributes in @script: src and call\n";
-            return false;
+    
+        // parse args & types
+        auto argNames = args.empty()
+                        ? std::vector<std::string>{}
+                        : ParseList(args);
+        auto argTypes = types.empty()
+                        ? std::vector<std::string>(argNames.size(), "string")
+                        : ParseList(types);
+        if (!ValidateArgumentMatch(argNames, argTypes)) return false;
+    
+        // figure out returnType
+        std::string returnType;
+        if (attrs.count("rtype")) {
+            returnType = attrs["rtype"];
+        } else {
+            bool allNumeric = !argTypes.empty()
+                && std::all_of(argTypes.begin(), argTypes.end(),
+                                [](auto &t){ return t=="int" || t=="float"; });
+            returnType = allNumeric ? "number" : "string";
         }
-
+    
         Text::CloseLists(html, pState);
         Text::CloseParagraphs(html);
-
-        auto argNames = args.empty() ? std::vector<std::string>{} : ParseList(args);
-        auto argTypes = types.empty()
-                      ? std::vector<std::string>(argNames.size(), "string")
-                      : ParseList(types);
-
-        if (!ValidateArgumentMatch(argNames, argTypes))
-            return false;
-
-        WriteGlueScript(html, src, call, bind, event, argNames, argTypes, result);
+        WriteGlueScript(html,
+                        src,
+                        call,
+                        bind,
+                        event,
+                        argNames,
+                        argTypes,
+                        returnType,
+                        result);
         return true;
     }
+
 }
