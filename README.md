@@ -1,7 +1,7 @@
 # Slamhaus
 
 <div align="center">
-<img src="slamhaus-logo.png" width="256" height="256"/>
+  <img src="slamhaus-logo.png" width="256" height="256"/>
 </div>
 
 **The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.**
