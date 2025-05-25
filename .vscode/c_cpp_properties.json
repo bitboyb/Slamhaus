@@ -6,6 +6,24 @@
         "${workspaceFolder}/src",
         "${workspaceFolder}/src/core",
         "${workspaceFolder}/src/interpreter",
+        "${workspaceFolder}/**",
+        "/home/assad/emsdk/upstream/emscripten/system/include",
+        "/home/assad/emsdk/upstream/emscripten/cache/sysroot/include"
+      ],
+      "defines": [
+        "__EMSCRIPTEN__"
+      ],
+      "compilerPath": "/home/assad/emsdk/upstream/emscripten/em++",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "clang-x64"
+    },
+    {
+      "name": "Native GCC",
+      "includePath": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/src/core",
+        "${workspaceFolder}/src/interpreter",
         "${workspaceFolder}/**"
       ],
       "defines": [],

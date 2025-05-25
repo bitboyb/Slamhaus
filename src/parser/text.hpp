@@ -8,6 +8,7 @@
 
 namespace Text
 {
+    void CloseParagraphs(std::ostringstream& html);
     bool IsTableLine(const std::string &line);
 
     void CloseLists(std::ostringstream &html, 
