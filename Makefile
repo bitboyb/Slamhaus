@@ -2,9 +2,9 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 LDFLAGS = 
 
-# Detect platform (win32 for GitHub Actions MSYS2 runner)
+# Detect platform and force static linking on Windows (for GitHub Actions or local MSYS2 builds)
 ifeq ($(OS),Windows_NT)
-    LDFLAGS += -static-libgcc -static-libstdc++
+    LDFLAGS += -static -static-libgcc -static-libstdc++
 endif
 
 # Find all directories in src (for includes)
