@@ -4,6 +4,14 @@
   <img src="slamhaus-logo.png" width="256" height="256"/>
 </div>
 
+## 🛠 Precompiled Binaries
+
+Download the latest builds:
+
+- [Linux (Debian/Ubuntu)](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip)
+- [Linux (Arch)](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip)
+- [Windows](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-windows.zip)
+
 **The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.**
 
 Slamhaus is a modern C++ toolchain that converts plain `.md` files into fast, fully static websites. It supports an extended Markdown syntax for layouts, buttons, forms, embeds, and more—all while staying flexible, themeable, and dead simple to deploy. Whether you’re building a portfolio, documentation site, or a content-driven homepage, Slamhaus helps you get there faster.

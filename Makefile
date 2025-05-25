@@ -2,6 +2,11 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 LDFLAGS = 
 
+# Detect platform (win32 for GitHub Actions MSYS2 runner)
+ifeq ($(OS),Windows_NT)
+    LDFLAGS += -static-libgcc -static-libstdc++
+endif
+
 # Find all directories in src (for includes)
 INCLUDE_DIRS := $(shell find src -type d)
 INCLUDES := $(foreach dir, $(INCLUDE_DIRS), -I$(dir))
