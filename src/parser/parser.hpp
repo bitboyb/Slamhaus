@@ -17,6 +17,7 @@ namespace Parser
         bool inCodeBlock = false;
         bool inColumn = false;
         bool inForm = false;
+        bool isBuffering =false;
     };
 
     struct ColumnState
