@@ -1,0 +1,87 @@
+name: Build & Release Binaries
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-all:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - name: ubuntu
+            os: ubuntu-latest
+            binary: slamhaus-linux-debian
+            install: sudo apt update && sudo apt install -y build-essential zip
+            build: make && mv slamhaus ${{ matrix.binary }}
+            zip: zip ${{ matrix.binary }}.zip ${{ matrix.binary }}
+
+          - name: arch
+            os: ubuntu-latest
+            container: archlinux:latest
+            binary: slamhaus-linux-arch
+            install: |
+              pacman -Sy --noconfirm base-devel git zip
+              useradd -m builder
+              chown -R builder ./
+            build: |
+              su builder -c "make"
+              mv slamhaus ${{ matrix.binary }}
+              zip ${{ matrix.binary }}.zip ${{ matrix.binary }}
+            zip: ""  # already zipped in build step
+
+          - name: windows
+            os: windows-latest
+            binary: slamhaus-windows.exe
+            zipname: slamhaus-windows.zip
+            windows: true
+
+    name: Build on ${{ matrix.name }}
+    container: ${{ matrix.container || null }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        if: ${{ !matrix.windows }}
+        run: ${{ matrix.install }}
+
+      - name: Build project (Linux)
+        if: ${{ !matrix.windows }}
+        run: ${{ matrix.build }}
+
+      - name: Zip binary (Linux)
+        if: ${{ !matrix.windows && matrix.zip != '' }}
+        run: ${{ matrix.zip }}
+
+      - name: Setup MSYS2 and build tools (Windows)
+        if: ${{ matrix.windows }}
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            mingw-w64-x86_64-toolchain
+            zip
+            make
+
+      - name: Build project (Windows)
+        if: ${{ matrix.windows }}
+        shell: msys2 {0}
+        run: |
+          make
+          mv slamhaus.exe ${{ matrix.binary }}
+          zip ${{ matrix.zipname }} ${{ matrix.binary }}
+
+      - name: Upload to GitHub Release (nightly)
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: nightly
+          name: Nightly Builds
+          prerelease: true
+          draft: false
+          files: |
+            ${{ matrix.binary }}.zip
+            ${{ matrix.zipname }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
