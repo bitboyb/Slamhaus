@@ -1,6 +1,8 @@
 # Slamhaus
 
-![Slamhaus Logo](slamhaus-logo.png)
+<!-- ![Slamhaus Logo](slamhaus-logo.png) -->
+
+<img src="slamhaus-logo.png" width="256" height="256"/>
 
 **The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.**
 
