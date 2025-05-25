@@ -13,23 +13,26 @@ jobs:
           - name: ubuntu
             os: ubuntu-latest
             binary: slamhaus-linux-debian
+            zipname: slamhaus-linux-debian.zip
             install: sudo apt update && sudo apt install -y build-essential zip
-            build: make && mv slamhaus ${{ matrix.binary }}
-            zip: zip ${{ matrix.binary }}.zip ${{ matrix.binary }}
+            build: |
+              make
+              mv slamhaus slamhaus-linux-debian
+              zip slamhaus-linux-debian.zip slamhaus-linux-debian
 
           - name: arch
             os: ubuntu-latest
             container: archlinux:latest
             binary: slamhaus-linux-arch
+            zipname: slamhaus-linux-arch.zip
             install: |
               pacman -Sy --noconfirm base-devel git zip
               useradd -m builder
               chown -R builder ./
             build: |
               su builder -c "make"
-              mv slamhaus ${{ matrix.binary }}
-              zip ${{ matrix.binary }}.zip ${{ matrix.binary }}
-            zip: ""  # already zipped in build step
+              mv slamhaus slamhaus-linux-arch
+              zip slamhaus-linux-arch.zip slamhaus-linux-arch
 
           - name: windows
             os: windows-latest
@@ -50,10 +53,6 @@ jobs:
         if: ${{ !matrix.windows }}
         run: ${{ matrix.build }}
 
-      - name: Zip binary (Linux)
-        if: ${{ !matrix.windows && matrix.zip != '' }}
-        run: ${{ matrix.zip }}
-
       - name: Setup MSYS2 and build tools (Windows)
         if: ${{ matrix.windows }}
         uses: msys2/setup-msys2@v2
@@ -70,8 +69,8 @@ jobs:
         shell: msys2 {0}
         run: |
           make
-          mv slamhaus.exe ${{ matrix.binary }}
-          zip ${{ matrix.zipname }} ${{ matrix.binary }}
+          mv slamhaus.exe slamhaus-windows.exe
+          zip slamhaus-windows.zip slamhaus-windows.exe
 
       - name: Upload to GitHub Release (nightly)
         uses: softprops/action-gh-release@v1
@@ -80,8 +79,6 @@ jobs:
           name: Nightly Builds
           prerelease: true
           draft: false
-          files: |
-            ${{ matrix.binary }}.zip
-            ${{ matrix.zipname }}
+          files: ${{ matrix.zipname }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
