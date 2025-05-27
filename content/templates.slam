@@ -1,0 +1,48 @@
+$page[
+  title:"Templates"
+  description:"Explore available starter templates for Slamhaus to kickstart your projects."
+  keywords:"slamhaus templates, starter kit, site generator, markdown, html layout"
+]()
+
+:section[align:center](#templates)
+
+## 🧰 Starter Templates
+
+Skip setup and jump straight into building. Templates come with pre-structured content, a homepage, nav menu, styles, and sample pages — perfect for getting started fast.
+
+:/section
+
+<br>
+
+:section[align:center](#available-templates)
+
+## 🗂 Available Templates
+
+:column[size:2](#template-basic)
+
+### 🔹 Slamhaus Basic Template
+
+A clean and minimal template with:
+
+- Prebuilt homepage (`index.slam`)
+- About page, navigation, and layout
+- Theme-ready CSS in `content/assets/theme`
+- Includes form, button, and section examples
+
+[🔗 View on GitHub](https://github.com/bitboyb/Slamhaus-Basic-Template)
+
+:/column
+
+:/section
+
+<br>
+
+:section[align:center](#contribute)
+
+## ✏️ Want to Contribute a Template?
+
+Have your own layout or theme you’d like to share with others?
+
+Create a public GitHub repo and drop us a line via [GitHub Issues](https://github.com/bitboyb/Slamhaus/issues).
+
+:/section

@@ -1,0 +1,266 @@
+$page[
+  title:"Slamhaus Syntax Reference"
+  description:"Full reference of Slamhaus Markdown extensions — sections, buttons, forms, scripting, media embeds, and more."
+  keywords:"slamhaus syntax, markdown extensions, static site generator, forms, scripts, wasm"
+]()
+
+:section[align:center](#syntax-intro)
+
+## 🛠 Slamhaus Syntax Reference
+
+Slamhaus extends Markdown with smart, composable tags for layout, interactivity, scripting, and more — all in a way that’s readable, reusable, and familiar.
+
+Use this page as your reference while building.
+
+:/section
+
+<br>
+
+:section[align:center](#syntax-markdown)
+
+## 📄 Basic Markdown Support
+
+Slamhaus fully supports standard Markdown syntax.
+
+```
+# Heading 1
+## Heading 2
+
+- Bullet list
+1. Numbered list
+
+**Bold**, *Italic*, ***BoldItalic***
+
+[Link Text](page.slam)
+```
+
+:/section
+
+<br>
+
+:section[](#syntax-layout)
+
+## 📦 Layout: Sections & Columns
+
+Structure your content with readable layout blocks.
+
+```
+:section[align:center](#about)
+
+### Centered Section
+
+:/section
+```
+
+Multi-column layout:
+
+```
+:column[size:3](#intro-columns)
+
+Left Content
+
+:column[]() 
+
+Middle content
+
+:column[]() 
+
+Right content
+
+:/column
+```
+
+:/section
+
+<br>
+
+:section[](#syntax-media)
+
+## 🖼️ Media Embeds
+
+Embed images, video, audio, SVG, and iframes — no plugins needed.
+
+```markdown
+![width:"100%" height:"300px"](assets/awesome.jpg)
+![width:"50%" link:"https://example.com"](assets/logo.png)
+
+!video[width:100% height:350px](assets/demo.mp4)
+!audio[controls loop](assets/sample.mp3)
+!svg[width:"64" height:"64"](assets/icon.svg)
+!iframe[width:100% height:350px link:"https://www.youtube.com/embed/dQw4w9WgXcQ"]()
+```
+
+:/section
+
+<br>
+
+:section[](#syntax-code)
+
+## 💻 Code Blocks & Tables
+
+Show syntax-highlighted code or create clean tables.
+
+```
+#include <iostream>
+int main() {
+  std::cout << "Hello!";
+}
+```
+
+Tables:
+
+```
+| Feature     | Supported |
+| ----------- | --------- |
+| Images      | ✅        |
+| Video       | ✅        |
+| Audio       | ✅        |
+| SVG         | ✅        |
+| iFrame      | ✅        |
+| Code Blocks | ✅        |
+```
+
+| Feature     | Supported |
+| ----------- | --------- |
+| Images      | ✅        |
+| Video       | ✅        |
+| Audio       | ✅        |
+| SVG         | ✅        |
+| iFrame      | ✅        |
+| Code Blocks | ✅        |
+
+:/section
+
+<br>
+
+:section[](#syntax-buttons)
+
+## 🔘 Buttons & Interactivity
+
+Attach links, actions, or even C++ functions to buttons.
+
+```markdown
+?button[action:"mailto:hi@example.com" text:"Email Us"](#email)
+?button[action:"/contact" text:"Contact Page"](#contact)
+?button[action:"https://example.com" text:"Visit Site"](#external)
+```
+
+:/section
+
+<br>
+
+:section[](#syntax-forms)
+
+## 📝 Forms & Inputs
+
+Slamhaus supports fully styled HTML forms, including inputs, textarea, and submission buttons.
+
+```markdown
+?form[action:"https://formsubmit.co/you@example.com":method:"post"](#contact-form)
+
+?input[type:"email":name:"email":placeholder:"Your Email":required:""](#email)
+?input[type:"text":name:"name":placeholder:"Your Name":required:""](#name)
+?textarea[name:"message":placeholder:"Your Message":rows:"6":required:""](#message)
+
+?button[text:"Send"](#send-btn)
+
+?/form[]()
+```
+
+:/section
+
+<br>
+
+:section[](#syntax-metadata)
+
+## 🔍 Page & Site Metadata
+
+Control SEO metadata and page-level info with `$page[]()` and `$site[]()` tags.
+
+```markdown
+$page[
+  title:"My Page Title"
+  description:"This page is awesome"
+  keywords:"markdown, static site, seo"
+]()
+
+$site[
+  title:"My Cool Site"
+  url:"https://yoursite.com"
+  favicon:"/assets/favicon.ico"
+]()
+```
+
+:/section
+
+<br>
+
+:section[](#syntax-wasm)
+
+## 🧠 WebAssembly via `@script[]()`
+
+Use native C++ functions in the browser with no JavaScript.
+
+```markdown
+@script[
+  src:"/scripts/greet.js"
+  bind:"#greet-btn"
+  call:"Greet"
+  args:"name-input"
+  types:"string"
+  result:"greeting-output"
+]()
+```
+
+```markdown
+@script[
+  src:"/scripts/add.js"
+  bind:"#add-btn"
+  call:"Add"
+  args:"num1,num2"
+  types:"int,int"
+  rtype:"number"
+  result:"sum-result"
+]()
+```
+
+| Attribute | Description                   |
+| --------- | ----------------------------- |
+| `src`     | Path to generated JS glue     |
+| `bind`    | Element ID (e.g. `#btn`)      |
+| `call`    | C++ function name             |
+| `args`    | Comma-separated IDs of inputs |
+| `types`   | C++ param types               |
+| `rtype`   | Optional return type          |
+| `result`  | Element to display result     |
+
+:/section
+
+<br>
+
+:section[](#syntax-cpp)
+
+## ⚙️ Sample C++ Code (WASM)
+
+```cpp
+#include <emscripten.h>
+#include <string>
+
+extern "C" {
+  EMSCRIPTEN_KEEPALIVE
+  int Add(int a, int b) {
+    return a + b;
+  }
+
+  EMSCRIPTEN_KEEPALIVE
+  const char* Greet(const char* name) {
+    static std::string msg;
+    msg = "Hello, " + std::string(name) + "!";
+    return msg.c_str();
+  }
+}
+```
+
+Just place the `.cpp` file in your `scripts/` folder — Slamhaus will compile it to `.wasm` and generate the necessary glue.
+
+:/section

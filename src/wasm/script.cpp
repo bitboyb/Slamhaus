@@ -8,6 +8,8 @@
 #include "../parser/text.hpp"
 #include "../parser/attributes.hpp"
 
+// TODO: (Assad) Make this readable, this is proper dog water.
+
 namespace Script
 {
     static std::string Sanitize(const std::string& s)
@@ -17,12 +19,18 @@ namespace Script
         for (char c : s)
         {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_')
+            {
                 out.push_back(c);
+            }
             else
+            {
                 out.push_back('_');
+            }
         }
         if (!out.empty() && std::isdigit(static_cast<unsigned char>(out[0])))
+        {
             out.insert(out.begin(), '_');
+        }
         return out;
     }
 
@@ -33,7 +41,6 @@ namespace Script
         std::string item;
         while (std::getline(ss, item, ','))
         {
-            // trim whitespace
             item.erase(0, item.find_first_not_of(" \t"));
             item.erase(item.find_last_not_of(" \t") + 1);
             out.push_back(item);
@@ -63,87 +70,83 @@ namespace Script
         return true;
     }
 
-    void WriteGlueScript(std::ostringstream&             html,
-                        const std::string&             src,
-                        const std::string&             call,
-                        const std::string&             bind,
-                        const std::string&             event,
+    void WriteGlueScript(std::ostringstream& html,
+                        const std::string& src,
+                        const std::string& call,
+                        const std::string& bind,
+                        const std::string& event,
                         const std::vector<std::string>& argNames,
                         const std::vector<std::string>& argTypes,
-                        const std::string&             returnType,
-                        const std::string&             result)
+                        const std::string& returnType,
+                        const std::string& result)
     {
         html << "<script type=\"module\">\n"
             << "import init from \"" << src << "\";\n"
             << "init().then(m => {\n";
 
-        if (!bind.empty()) {
+        if (!bind.empty()) 
+        {
             html << "  const el = document.querySelector(\"" << bind << "\");\n"
                 << "  if (el) el.addEventListener(\"" << event << "\", () => {\n";
-        } else {
+        } 
+        else 
+        {
             html << "  (() => {\n";
         }
-
-        // Gather input values
         WriteInputCollection(html, argNames);
-
-        // Emit the argTypes array
         html << "    const argTypes = [";
-        for (size_t i = 0; i < argTypes.size(); ++i) {
+        for (size_t i = 0; i < argTypes.size(); ++i) 
+        {
             html << "\"" << argTypes[i] << "\"";
             if (i + 1 < argTypes.size()) html << ", ";
         }
         html << "];\n";
-
-        // Emit the argValues array
         html << "    const argValues = [";
-        for (size_t i = 0; i < argNames.size(); ++i) {
+        for (size_t i = 0; i < argNames.size(); ++i) 
+        {
             auto var = Sanitize(argNames[i]);
             html << "val_" << var;
             if (i + 1 < argNames.size()) html << ", ";
         }
         html << "];\n";
-
-        // If the user asked for a void return (rtype:"void") or didn't provide a result target,
-        // emit a void ccall. Otherwise capture into r and write it out.
         bool isVoid = (returnType == "void") || result.empty();
-        if (isVoid) {
+        if (isVoid) 
+        {
             html << "    m.ccall(\"" << call
                 << "\", null, argTypes, argValues);\n";
-        } else {
+        } else 
+        {
             html << "    const r = m.ccall(\"" << call
                 << "\", \"" << returnType << "\", argTypes, argValues);\n"
                 << "    document.getElementById(\"" << result
                 << "\").textContent = r;\n";
         }
-
-        if (!bind.empty()) {
+        if (!bind.empty()) 
+        {
             html << "  });\n";
-        } else {
+        } 
+        else 
+        {
             html << "  })();\n";
         }
-
         html << "});\n"
             << "</script>\n";
     }
 
-
-
-    // in Script::HandleScript:
     bool HandleScript(const std::string& line,
                      std::istringstream& iss,
                      std::ostringstream& html,
                      Parser::ParseState& pState)
     {
-        // trim...
         std::string trimmed = line;
         trimmed.erase(0, trimmed.find_first_not_of(" \t"));
         trimmed.erase(trimmed.find_last_not_of(" \t") + 1);
-
         static const std::regex blockRegex(R"(^@script\[(.*?)\]\(\)$)");
         std::smatch match;
         if (!std::regex_match(trimmed, match, blockRegex))
+        {
             return false;
+        }
 
         auto attrs    = Attributes::ParseAttributes(trimmed, "@script");
         const auto& src    = attrs["src"];
@@ -154,23 +157,28 @@ namespace Script
         const auto  types  = attrs["types"];
         const auto  result = attrs["result"];
     
-        // parse args & types
         auto argNames = args.empty()
                         ? std::vector<std::string>{}
                         : ParseList(args);
         auto argTypes = types.empty()
                         ? std::vector<std::string>(argNames.size(), "string")
                         : ParseList(types);
-        if (!ValidateArgumentMatch(argNames, argTypes)) return false;
-    
-        // figure out returnType
+        if (!ValidateArgumentMatch(argNames, argTypes))
+        {
+            return false;
+        } 
+
         std::string returnType;
-        if (attrs.count("rtype")) {
+
+        if (attrs.count("rtype"))
+        {
             returnType = attrs["rtype"];
-        } else {
-            bool allNumeric = !argTypes.empty()
-                && std::all_of(argTypes.begin(), argTypes.end(),
-                                [](auto &t){ return t=="int" || t=="float"; });
+        }
+        else 
+        {
+            bool allNumeric = !argTypes.empty() && 
+                              std::all_of(argTypes.begin(), argTypes.end(), 
+                              [](auto &t){ return t=="int" || t=="float"; });
             returnType = allNumeric ? "number" : "string";
         }
     
@@ -187,5 +195,4 @@ namespace Script
                         result);
         return true;
     }
-
 }

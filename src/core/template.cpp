@@ -10,20 +10,24 @@ namespace Template
     std::string BuildTemplate(Config::ConfigINI &ini,
                               const std::string contentDir)
     {
-        auto readFile = [](const std::string &path) -> std::string 
+        auto readFile = [](const std::string &basePath) -> std::string
         {
-            std::ifstream in(path);
-            if (!in) 
+            const std::vector<std::string> extensions = { ".md", ".smd", ".slam" };
+            for (const auto &ext : extensions)
             {
-                return "";
+                std::ifstream in(basePath + ext);
+                if (in)
+                {
+                    return std::string((std::istreambuf_iterator<char>(in)),
+                                    std::istreambuf_iterator<char>());
+                }
             }
-            return std::string((std::istreambuf_iterator<char>(in)),
-                               std::istreambuf_iterator<char>());
+            return "";
         };
-    
-        std::string headerMarkdown = readFile(contentDir + "/include/header.md");
-        std::string navMarkdown = readFile(contentDir + "/include/nav.md");
-        std::string footerMarkdown = readFile(contentDir + "/include/footer.md");
+
+        std::string headerMarkdown = readFile(contentDir + "/include/header");
+        std::string navMarkdown    = readFile(contentDir + "/include/nav");
+        std::string footerMarkdown = readFile(contentDir + "/include/footer");
 
         SEO::SEOData dummySEO = SEO::GetDefault(ini);
     
@@ -36,6 +40,7 @@ namespace Template
             "<html>\n"
             "<head>\n"
             "    <meta charset=\"UTF-8\">\n"
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
             "    <title>{{ title }}</title>\n"
             "    {{ favicon }}\n"
             "    {{ meta }}\n"
@@ -56,7 +61,6 @@ namespace Template
             "    </footer>\n"
             "</body>\n"
             "</html>\n";
-    
         return tmpl;
     }    
     

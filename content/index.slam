@@ -1,0 +1,144 @@
+$page[
+  title:"Slamhaus – Markdown-Powered Static Site Generator"
+  description:"Slamhaus is a modern static site generator built in C++17, with extended Markdown syntax, WebAssembly support, and zero JavaScript required."
+  keywords:"slamhaus, static site generator, markdown, c++, wasm, emscripten, no javascript"
+]()
+
+:hero[](#hero)
+
+# ⚡ Slamhaus
+
+The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.
+
+?button[action:"#download" text:"Download Now"](#btn-download)
+
+?button[action:"/quickstart.slam" text:"Quickstart Guide"](#btn-start)
+
+:/hero
+
+<br>
+---
+
+
+:section[align:center](#why-slamhaus)
+
+## 💡 Why Slamhaus?
+
+:column[size:3](#slamhaus-pillars)
+
+### 🧠  
+### Built Like a Game Engine
+
+Slamhaus uses a modular C++17 architecture — no global state, no magic. Each system (parsing, rendering, templating, SEO) is designed like a game engine subsystem: isolated, predictable, and ready for extension.
+
+:column[2]()
+
+### 🧬  
+### No JavaScript? No Problem.
+
+With built-in WebAssembly support via [Emscripten](https://emscripten.org/), Slamhaus lets you write dynamic frontend logic in C++. Bind UI elements to native functions with `@script[]()` — no JavaScript required.
+
+:column[3]()
+
+### ✍️  
+### Markdown That Works Like Code
+
+Slamhaus extends Markdown with readable, composable tags: `:section[]()` for layout, `?form[]()` for interactivity, `$page[]()` for metadata. It’s Markdown — but smarter, cleaner, and compiler-friendly.
+
+:/column
+
+:/section
+
+<br>
+---
+
+:section[align:center](#download)
+
+## 📦 Download Now
+
+Start building in seconds — no setup scripts, no package managers. Just download and run:
+
+- 🪟 [**Windows**](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-windows.zip)
+- 🐧 [**Linux (Debian/Ubuntu)**](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip)
+- 🎩 [**Linux (Arch)**](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip)
+
+?button[action:"/quickstart.slam" text:"Get Started"](#start-btn)
+
+:/section
+
+<br>
+---
+
+:section[align:center](#core-highlights)
+
+## 🎨 Core Features at a Glance
+
+:column[size:3](#core-row-1)
+
+
+### 📝  
+### Markdown → HTML
+
+Write `.slam`, `.smd`, or `.md` files — Slamhaus generates fully static, styled HTML output with zero client-side runtime.
+
+:column[2]()
+
+### ⚙️  
+### C++17 Engine
+
+Built in modern C++ for speed and modularity. Familiar to devs from game, systems, or embedded backgrounds.
+
+:column[3]()
+
+### 🧩  
+### Extended Syntax
+
+Layout, forms, metadata, and scripting — all handled with clean, expressive Markdown tags like `:section[]()` and `?button[]()`.
+
+:/column
+
+<br>
+
+:column[size:3](#core-row-2)
+
+
+### 🧠  
+### WebAssembly Support
+
+Write C++ functions and bind them to UI elements using `@script[]()`. Slamhaus compiles and wires up everything — no JS glue required.
+
+:column[2]()
+
+### 🎨  
+### Tweakable Themes
+
+Minimal CSS by default. Drop your own styles into `content/assets/theme/` to customize or replace. All styles are inlined for performance.
+
+:column[3]()
+
+### 🔗  
+### Smart Link Rewriting
+
+Use `.slam`, `.smd`, or `.md` in your links — Slamhaus rewrites them to `.html` automatically, even inside metadata and buttons.
+
+:/column
+
+:/section
+
+<br>
+---
+
+:section[align:center](#get-started)
+
+## 🚀 Ready to Build?
+
+Create your first Slamhaus site in just a few minutes:
+
+1. 📥 Download the binary  
+2. 📁 Add your `content/` folder  
+3. ▶️ Run `./slamhaus`  
+4. 🌐 Open `output/index.html`
+
+?button[action:"/quickstart.slam" text:"See Quickstart"](#btn-final)
+
+:/section

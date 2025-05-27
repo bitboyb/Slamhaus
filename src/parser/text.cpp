@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cctype>
 #include <vector>
+#include "../util/html.hpp"
 
 namespace Text
 {
@@ -53,6 +54,7 @@ namespace Text
                 {
                     std::string linkText = out.substr(pos + 1, endText - pos - 1);
                     std::string url = out.substr(endText + 2, endUrl - (endText + 2));
+                    url = HTML::AdjustLinks(url);
                     std::string linkTag = "<a href=\"" + url + "\">" + linkText + "</a>";
                     out.replace(pos, endUrl - pos + 1, linkTag);
                     pos += linkTag.size();

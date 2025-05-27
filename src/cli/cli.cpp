@@ -41,7 +41,7 @@ namespace CLI
         std::cout
             << "Select an option:\n"
             << "  1) Compile current site in ./content\n"
-            << "  2) Compile site from another directory (not relative!)\n"
+            << "  2) Compile site from another directory (relative or absolute)\n"
             << "  3) Exit\n";
     }
 

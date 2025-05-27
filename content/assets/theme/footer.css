@@ -1,0 +1,9 @@
+/* Footer */
+footer {
+    margin-top: var(--margin-lg);             /* 2rem */
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--color-07);                   /* #aaaaaa */
+    border-top: 2px solid var(--color-05);    /* #03dac6 */
+    padding-top: var(--pad-md);               /* 1rem */
+}

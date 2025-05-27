@@ -1,9 +1,6 @@
 # Project stuff
-/scripts/
-/content/
 /build/
 /slamhaus
-/output/
 /tests/
 
 # macOS

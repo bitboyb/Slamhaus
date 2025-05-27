@@ -1,4 +1,5 @@
 #include "attributes.hpp"
+#include "../util/html.hpp"
 
 #include <regex>
 
@@ -24,26 +25,39 @@ namespace Attributes
         {
             return attrs;
         }
+
         size_t open  = line.find('[', start);
         size_t close = line.find(']', open + 1);
         if (open == std::string::npos || close == std::string::npos)
         {
             return attrs;
         }
+
         std::string body = line.substr(open + 1, close - open - 1);
         static const std::regex kv{ R"attr((\w+)\s*:\s*"([^"]*)")attr" };
-        std::smatch  m;
+        std::smatch m;
         auto it = body.cbegin();
+
         while (std::regex_search(it, body.cend(), m, kv))
         {
-            attrs[m[1].str()] = m[2].str();
+            std::string key = m[1].str();
+            std::string val = m[2].str();
+
+            if (key == "action" || key == "href" || key == "src" || key == "link")
+            {
+                val = HTML::AdjustPath(val);
+            }
+
+            attrs[key] = val;
             it = m.suffix().first;
         }
+
         std::string id = ExtractIDTag(line);
         if (!id.empty())
         {
             attrs["id"] = id;
         }
+
         return attrs;
     }
 }
