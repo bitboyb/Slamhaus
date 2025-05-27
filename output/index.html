@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slamhaus</title>
+    <link rel="icon" type="image/x-icon" href="assets/media/slamhaus-logo.png">
+        <meta name="description" content="Slamhaus is a modern static site generator built in C++17, with extended Markdown syntax, WebAssembly support, and zero JavaScript required.">
+    <meta property="og:description" content="Slamhaus is a modern static site generator built in C++17, with extended Markdown syntax, WebAssembly support, and zero JavaScript required.">
+    <meta name="keywords" content="slamhaus, static site generator, markdown, c++, wasm, emscripten, no javascript">
+    <meta property="og:title" content="Slamhaus">
+    <link rel="canonical" href="https://slamhaus.dev/">
+    <meta property="og:url" content="https://slamhaus.dev/">
+
+    <style>
+    /* --- body.css --- */
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body, h1, h2, h3, p, ul, ol, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Base */
+body {
+    font-family: 'SpaceMono', monospace, sans-serif;
+    line-height: 1.75;
+    background-color: var(--color-00);
+    color: var(--color-12);
+    padding: var(--pad-md);
+    max-width: 100%;
+    font-size: 1.1rem;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: bold;
+    margin-bottom: var(--margin-sm);
+    text-align: center;
+}
+h1 {
+    font-size: 2rem;
+    color: var(--color-06);
+}
+h2 {
+    font-size: 1.75rem;
+    color: var(--color-05);
+}
+h3 {
+    font-size: 1.5rem;
+    color: var(--color-13);
+}
+h4, h5, h6 {
+    font-weight: bold;
+    margin-bottom: var(--margin-sm);
+    color: var(--color-14);
+}
+h4 {
+    font-size: 1.25rem;
+    color: var(--color-15);
+}
+h5 {
+    font-size: 1.1rem;
+    color: var(--color-16);
+}
+h6 {
+    font-size: 1rem;
+    color: var(--color-17);
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: var(--margin-md);
+}
+
+/* Links */
+a {
+    color: var(--color-05);
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    transition: border 0.3s;
+}
+a:hover {
+    border-bottom: 1px dotted var(--color-05);
+}
+
+/* Lists */
+ul {
+    list-style-type: disc;
+    margin-bottom: var(--margin-md);
+    padding-left: var(--pad-lg);
+}
+ol {
+    list-style-type: decimal;
+    margin-bottom: var(--margin-md);
+    padding-left: calc(var(--pad-lg) + 0.8rem);
+}
+
+/* Header */
+header {
+    background-color: var(--color-18);
+    padding: var(--pad-md);
+    text-align: center;
+    border-bottom: 2px solid var(--color-06);
+    color: white;
+}
+
+/* Main */
+main {
+    background-color: var(--color-09);
+    padding: var(--pad-lg);
+    margin-top: var(--margin-lg);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 12px var(--color-19);
+}
+
+
+/* --- spacing.css --- */
+:root {
+    /* Gaps */
+    --gap-xs: 0.25rem;
+    --gap-sm: 0.5rem;
+    --gap-md: 1rem;
+    --gap-lg: 2rem;
+  
+    /* Padding */
+    --pad-xs: 0.25rem;
+    --pad-sm: 0.5rem;
+    --pad-md: 1rem;
+    --pad-lg: 2rem;
+  
+    /* Margin */
+    --margin-xs: 0.25rem;
+    --margin-sm: 0.5rem;
+    --margin-md: 1rem;
+    --margin-lg: 2rem;
+  
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
+
+    /* Button */
+    --pad-button-y: 0.6em;
+    --pad-button-x: 1.2em;
+    --radius-button: 6px;
+}
+  
+
+/* --- footer.css --- */
+/* Footer */
+footer {
+    margin-top: var(--margin-lg);             /* 2rem */
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--color-07);                   /* #aaaaaa */
+    border-top: 2px solid var(--color-05);    /* #03dac6 */
+    padding-top: var(--pad-md);               /* 1rem */
+}
+
+
+/* --- embed.css --- */
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: var(--margin-md) auto;
+}
+
+/* Code blocks */
+pre, code {
+    font-family: 'SpaceMono', monospace;
+    background-color: var(--color-01); /* #1a1a1a */
+    color: var(--color-08); /* #f0f0f0 */
+    border-radius: var(--radius-sm); /* 4px */
+    line-height: 1.5;
+}
+
+code {
+    padding: var(--pad-xs) var(--pad-sm);
+    font-size: 0.95em;
+    background-color: var(--color-02); /* #222222 */
+    border: none;
+    box-shadow: none;
+}
+
+/* Multiline code blocks */
+pre {
+    padding: var(--pad-md);
+    margin: calc(var(--margin-md) * 1.5) 0;
+    overflow-x: auto;
+    border: 1px solid var(--color-04); /* #2e2e2e */
+    background-color: var(--color-01); /* Ensures no double background */
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--margin-lg);
+    border: 1px solid var(--color-03); /* #2a2a2a */
+}
+
+th, td {
+    padding: 0.75rem var(--pad-md);
+    border: 1px solid var(--color-03);
+}
+
+th {
+    background-color: var(--color-10); /* #202020 */
+    color: var(--color-06); /* #bb86fc */
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: var(--color-09); /* #181818 */
+}
+
+tr:hover {
+    background-color: var(--color-11); /* #232323 */
+}
+
+/* Embeds */
+.embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: var(--radius-md); /* 8px */
+    margin: var(--margin-lg) 0;
+    box-shadow: 0 0 12px var(--color-19); /* rgba(0, 0, 0, 0.6) */
+    border: 1px solid var(--color-03);
+}
+
+.embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: var(--radius-md);
+}
+
+
+/* --- interactions.css --- */
+/* Buttons */
+button, .slam-button {
+    background-color: #1f1f1f;
+    color: #03dac6;
+    border: 2px solid #03dac6;
+    padding: var(--pad-button-y) var(--pad-button-x);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: var(--radius-button);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+}
+  
+button:hover, .slam-button:hover {
+    background-color: #03dac6;
+    color: #0e0e0e;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+}
+
+/* Form */
+form input:not([type="checkbox"]):not([type="radio"]),
+form select,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--pad-sm) var(--pad-md);
+    margin-bottom: var(--margin-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    background-color: var(--color-01);
+    color: var(--color-08);
+    border: 1px solid var(--color-03);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 5px var(--color-19);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:not([type="checkbox"]):not([type="radio"]):focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--color-05);
+    box-shadow: 0 0 8px var(--color-05);
+}
+
+/* Checkboxes & Radios (inline) */
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin: var(--gap-sm) var(--gap-sm) var(--gap-sm) 0;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* File inputs */
+form input[type="file"] {
+    padding: var(--pad-xs) 0;
+    margin-bottom: var(--margin-md);
+}
+
+/* Submit buttons (override full-width) */
+form button[type="submit"],
+form .slam-button {
+    width: auto;
+    display: inline-block;
+}
+
+@media (max-width: 480px) {
+  button, .slam-button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  body {
+    font-size: 1rem;
+    padding: var(--pad-sm);
+  }
+
+  main {
+    padding: var(--pad-md);
+  }
+}
+
+
+
+/* --- palette.css --- */
+:root {
+    --color-00: #0e0e0e;
+    --color-01: #1a1a1a;
+    --color-02: #222222;
+    --color-03: #2a2a2a;
+    --color-04: #2e2e2e;
+    --color-05: #03dac6;
+    --color-06: #bb86fc;
+    --color-07: #aaaaaa;
+    --color-08: #f0f0f0;
+    --color-09: #181818;
+    --color-10: #202020;
+    --color-11: #232323;
+    --color-12: #ffcb6b;
+    --color-13: #cccccc;
+    --color-14: #82aaff;
+    --color-15: #c792ea;
+    --color-16: #f07178;
+    --color-17: #141414;
+    --color-18: rgba(0, 0, 0, 0.6);
+}
+  
+
+/* --- mobile-nav.css --- */
+/* Hamburger Toggle (Mobile) */
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle-label {
+    display: none;
+    position: absolute;
+    top: var(--pad-md);
+    right: var(--pad-md);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    z-index: 200;
+}
+
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background: var(--color-05);
+    height: 4px;
+    width: 100%;
+    border-radius: var(--radius-sm);
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.nav-toggle-label span {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-toggle-label span::before {
+    content: "";
+    top: -10px;
+}
+
+.nav-toggle-label span::after {
+    content: "";
+    top: 10px;
+}
+
+/* Active toggle effect */
+.nav-toggle:checked + .nav-toggle-label span {
+    background: transparent;
+}
+.nav-toggle:checked + .nav-toggle-label span::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+.nav-toggle:checked + .nav-toggle-label span::after {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+/* Responsive nav menu */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        background: var(--color-09);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-top: 2px solid var(--color-05);
+        box-shadow: 0 8px 20px var(--color-19);
+    }
+
+    .nav-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        padding: var(--pad-md) 0;
+    }
+
+    nav li {
+        width: 100%;
+        margin: var(--gap-xs) 0;
+        text-align: center;
+    }
+
+    .nav-toggle-label {
+        display: block;
+    }
+
+    nav {
+        min-height: 60px;
+    }
+}
+
+
+/* --- fonts.css --- */
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'SpaceMono';
+    src: url('assets/theme/SpaceMono-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* --- desktop-nav.css --- */
+/* Navigation */
+nav {
+    font-size: 1.1rem;
+    background-color: var(--color-18); /* #141414 */
+    border-bottom: 2px solid var(--color-05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
+    position: relative;
+    z-index: 100;
+}
+
+/* Top-level menu */
+.nav-menu > ul {
+    display: flex;
+    gap: var(--gap-md); /* 1rem */
+    justify-content: center;
+    padding: var(--pad-md) 0;
+}
+
+/* Top-level items */
+.nav-menu > ul > li {
+    position: relative;
+    list-style: none;
+}
+
+/* Dropdown menu */
+.nav-menu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--color-02); /* #1f1f1f */
+    padding: var(--pad-sm) 0;
+    min-width: 180px;
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
+    z-index: 1000;
+}
+
+.nav-menu ul ul li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Show dropdown on hover */
+.nav-menu > ul > li:hover > ul {
+    display: block;
+}
+
+/* Nav links as buttons */
+.nav-menu a {
+    background-color: var(--color-02); /* #1f1f1f */
+    color: var(--color-05); /* #03dac6 */
+    border: 2px solid var(--color-05);
+    padding: var(--pad-button-y) var(--pad-button-x);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: var(--radius-button);
+    cursor: pointer;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Hover effect */
+.nav-menu a:hover {
+    background-color: var(--color-05);
+    color: var(--color-00); /* #0e0e0e */
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+    text-shadow: none;
+}
+
+/* Adjust spacing for non-dropdown links */
+.nav-menu > ul > li:not(:has(ul)) > a {
+    padding-right: var(--pad-button-x);
+}
+
+/* Dropdown arrow */
+.nav-menu > ul > li > a::after {
+    content: " ▼";
+    font-size: 0.7em;
+    color: var(--color-05);
+}
+.nav-menu > ul > li:not(:has(ul)) > a::after {
+    content: "";
+}
+
+
+/* --- section.css --- */
+/* Columns container styling */
+.columns-container {
+    display: flex;
+    gap: var(--gap-md);
+    flex-wrap: wrap;
+    margin-bottom: var(--margin-lg);
+}
+
+/* Each column styling */
+.columns-container .column {
+    flex: 1;
+    padding: var(--pad-md);
+    background: linear-gradient(135deg, var(--color-10), var(--color-11));
+    color: var(--color-12);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-03);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Optional glow effect */
+.columns-container .column::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(187, 134, 252, 0.03), transparent 70%);
+    z-index: 0;
+    filter: blur(10px);
+}
+
+/* Content on top */
+.columns-container .column > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Hover effect for interactivity */
+.columns-container .column:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 16px rgba(130, 170, 255, 0.3);
+}
+
+/* Responsive collapse for mobile */
+@media (max-width: 768px) {
+  .columns-container {
+    flex-direction: column !important;
+  }
+
+  .columns-container .column {
+    padding: var(--pad-sm);
+  }
+}
+
+
+
+/* Section: Hero */
+.hero {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--color-09), var(--color-11));
+    color: var(--color-12);
+    text-align: center;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: var(--margin-xl);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-06);
+}
+
+/* Glow texture behind text */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -30%;
+    width: 160%;
+    height: 160%;
+    background: radial-gradient(circle, rgba(130, 170, 255, 0.05), transparent 70%);
+    z-index: 0;
+    filter: blur(10px);
+}
+
+/* Content on top */
+.hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Headline */
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-06); /* match main h1 */
+}
+
+/* Subtext */
+.hero p {
+    font-size: 1.15rem;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    color: var(--color-13);
+}
+
+/* Optional CTA button */
+.hero .button {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: var(--color-00);
+    color: var(--color-06);
+    border-radius: var(--radius-md);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    box-shadow: 0 0 12px rgba(187, 134, 252, 0.2);
+}
+
+.hero .button:hover {
+    background-color: var(--color-12);
+    color: var(--color-00);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .hero .button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+       <!-- Header -->
+<img src="assets/media/slamhaus-logo.png" alt="logo">
+    </header>
+    <nav>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+  <label for="nav-toggle" class="nav-toggle-label">
+    <span></span>
+  </label>
+  <div class="nav-menu">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="quickstart.html">Quickstart</a></li>
+<li><a href="features.html">Features</a></li>
+<li><a href="syntax.html">Syntax Guide</a></li>
+<li><a href="templates.html">Templates</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a></li>
+</ul>
+  </div>
+</nav>
+
+    <main>
+       <section class="hero" id="hero">
+<h1>⚡ Slamhaus</h1>
+<p>The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.</p>
+<button type="button" onclick="#download()" id="btn-download">Download Now</button>
+<br>
+<button type="button" onclick="window.location.href='/quickstart.html'" id="btn-start">Quickstart Guide</button>
+</section>
+<br>
+<hr>
+<section id="why-slamhaus">
+<h2>💡 Why Slamhaus?</h2>
+<div class="columns-container responsive-columns"><div class="column" id="slamhaus-pillars"><h3>🧠  </h3>
+<h3>Built Like a Game Engine</h3>
+<p>Slamhaus uses a modular C++17 architecture — no global state, no magic. Each system (parsing, rendering, templating, SEO) is designed like a game engine subsystem: isolated, predictable, and ready for extension.</p>
+</div><div class="column"><h3>🧬  </h3>
+<h3>No JavaScript? No Problem.</h3>
+<p>With built-in WebAssembly support via <a href="https://emscripten.org/">Emscripten</a>, Slamhaus lets you write dynamic frontend logic in C++. Bind UI elements to native functions with <code>@script<a href=""></a></code> — no JavaScript required.</p>
+</div><div class="column"><h3>✍️  </h3>
+<h3>Markdown That Works Like Code</h3>
+<p>Slamhaus extends Markdown with readable, composable tags: <code>:section<a href=""></a></code> for layout, <code>?form<a href=""></a></code> for interactivity, <code>$page<a href=""></a></code> for metadata. It’s Markdown — but smarter, cleaner, and compiler-friendly.</p>
+</div></div></section>
+<br>
+<hr>
+<section id="download">
+<h2>📦 Download Now</h2>
+<p>Start building in seconds — no setup scripts, no package managers. Just download and run:</p>
+<ul>
+<li>🪟 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-windows.zip"><strong>Windows</strong></a></li>
+</ul>
+<ul>
+<li>🐧 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip"><strong>Linux (Debian/Ubuntu)</strong></a></li>
+</ul>
+<ul>
+<li>🎩 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip"><strong>Linux (Arch)</strong></a></li>
+</ul>
+<button type="button" onclick="window.location.href='/quickstart.html'" id="start-btn">Get Started</button>
+</section>
+<br>
+<hr>
+<section id="core-highlights">
+<h2>🎨 Core Features at a Glance</h2>
+<div class="columns-container responsive-columns"><div class="column" id="core-row-1"><h3>📝  </h3>
+<h3>Markdown → HTML</h3>
+<p>Write <code>.slam</code>, <code>.smd</code>, or <code>.md</code> files — Slamhaus generates fully static, styled HTML output with zero client-side runtime.</p>
+</div><div class="column"><h3>⚙️  </h3>
+<h3>C++17 Engine</h3>
+<p>Built in modern C++ for speed and modularity. Familiar to devs from game, systems, or embedded backgrounds.</p>
+</div><div class="column"><h3>🧩  </h3>
+<h3>Extended Syntax</h3>
+<p>Layout, forms, metadata, and scripting — all handled with clean, expressive Markdown tags like <code>:section<a href=""></a></code> and <code>?button<a href=""></a></code>.</p>
+</div></div><br>
+<div class="columns-container responsive-columns"><div class="column" id="core-row-2"><h3>🧠  </h3>
+<h3>WebAssembly Support</h3>
+<p>Write C++ functions and bind them to UI elements using <code>@script<a href=""></a></code>. Slamhaus compiles and wires up everything — no JS glue required.</p>
+</div><div class="column"><h3>🎨  </h3>
+<h3>Tweakable Themes</h3>
+<p>Minimal CSS by default. Drop your own styles into <code>content/assets/theme/</code> to customize or replace. All styles are inlined for performance.</p>
+</div><div class="column"><h3>🔗  </h3>
+<h3>Smart Link Rewriting</h3>
+<p>Use <code>.slam</code>, <code>.smd</code>, or <code>.md</code> in your links — Slamhaus rewrites them to <code>.html</code> automatically, even inside metadata and buttons.</p>
+</div></div></section>
+<br>
+<hr>
+<section id="get-started">
+<h2>🚀 Ready to Build?</h2>
+<p>Create your first Slamhaus site in just a few minutes:</p>
+<ol>
+<li>📥 Download the binary  </li>
+</ol>
+<ol>
+<li>📁 Add your <code>content/</code> folder  </li>
+</ol>
+<ol>
+<li>▶️ Run <code>./slamhaus</code>  </li>
+</ol>
+<ol>
+<li>🌐 Open <code>output/index.html</code></li>
+</ol>
+<button type="button" onclick="window.location.href='/quickstart.html'" id="btn-final">See Quickstart</button>
+</section>
+
+    </main>
+    <footer>
+       <!-- Footer -->
+<p>Powered by <a href="https://github.com/bitboyb/Slamhaus">Slamhaus</a>!</p>
+
+    </footer>
+</body>
+</html>

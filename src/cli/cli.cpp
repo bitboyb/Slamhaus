@@ -7,16 +7,17 @@ namespace CLI
 {
     std::string GetSlamhausLogo()
     {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    _setmode(_fileno(stdout), _O_U8TEXT);
+#endif
         return R"(
-   ▄████████  ▄█          ▄████████   ▄▄▄▄███▄▄▄▄      ▄█    █▄       ▄████████ ███    █▄     ▄████████ 
-  ███    ███ ███         ███    ███ ▄██▀▀▀███▀▀▀██▄   ███    ███     ███    ███ ███    ███   ███    ███ 
-  ███    █▀  ███         ███    ███ ███   ███   ███   ███    ███     ███    ███ ███    ███   ███    █▀  
-  ███        ███         ███    ███ ███   ███   ███  ▄███▄▄▄▄███▄▄   ███    ███ ███    ███   ███        
-▀███████████ ███       ▀███████████ ███   ███   ███ ▀▀███▀▀▀▀███▀  ▀███████████ ███    ███ ▀███████████ 
-         ███ ███         ███    ███ ███   ███   ███   ███    ███     ███    ███ ███    ███          ███ 
-   ▄█    ███ ███▌    ▄   ███    ███ ███   ███   ███   ███    ███     ███    ███ ███    ███    ▄█    ███ 
- ▄████████▀  █████▄▄██   ███    █▀   ▀█   ███   █▀    ███    █▀      ███    █▀  ████████▀   ▄████████▀  
-             ▀                                                                                          
+   _____ __                __                    
+  / ___// /___ _____ ___  / /_  ____ ___  _______
+  \__ \/ / __ `/ __ `__ \/ __ \/ __ `/ / / / ___/
+ ___/ / / /_/ / / / / / / / / / /_/ / /_/ (__  ) 
+/____/_/\__,_/_/ /_/ /_/_/ /_/\__,_/\__,_/____/  
+                                                                                                                                      
         )";
     }
 
@@ -24,16 +25,14 @@ namespace CLI
     {
         return R"(
             Creator: Syed Assad Abbas Bokhari
-            Website: https://www.piledriver-playhouse.com/slamhaus
+            Website: https://github.com/bitboyb/Slamhaus
             Version: 0.1.0
     
             License: MIT License
-            Copyright (c) 2025 Piledriver Playhouse Limited
     
             Quick Start:
-              Download a starter template and rename the folder to `content/` next to this executable:
-                git clone https://github.com/bitboyb/Slamhaus-Basic-Template.git content/
-              Then re-run Slamhaus to build your new site!
+              1. Download a starter template and rename the folder to `content/` next to this executable:
+              2. Then re-run Slamhaus to build your new site!
         )";
     }
 
@@ -42,7 +41,7 @@ namespace CLI
         std::cout
             << "Select an option:\n"
             << "  1) Compile current site in ./content\n"
-            << "  2) Compile site from another directory (not relative!)\n"
+            << "  2) Compile site from another directory (relative or absolute)\n"
             << "  3) Exit\n";
     }
 

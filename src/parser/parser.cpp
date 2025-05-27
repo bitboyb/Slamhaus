@@ -23,34 +23,14 @@ namespace Parser
         Parser::ParseState pState;
         Parser::ColumnState cState;
     
-        // while (std::getline(iss, line))
-        // {
-        //     if (!line.empty() && line[0] == '<')
-        //     {
-        //         Text::CloseLists(html, pState);
-        //         html << line << "\n";
-        //         continue;
-        //     }
-        //     if (Script::HandleScript(line, iss, html, pState)) continue;
-        //     if (SEO::HandleMetaLines(line, seo)) continue;
-        //     if (Section::HandleBlockElements(line, html, pState, cState, seo)) continue;
-        //     if (Form::HandleFormElements(line, html, pState)) continue;
-        //     if (Interaction::IsInteraction(line, html, pState)) continue;
-        //     if (Embed::HandleEmbeds(line, html, pState)) continue;
-        //     if (Snippet::HandleCodeOrTable(line, iss, html, pState)) continue;
-        //     if (Text::HandleTextBlocks(line, html, pState)) continue;
-        // }
-
         while (std::getline(iss, line))
         {
             std::string trimmed = line;
-            // trim whitespace
             trimmed.erase(0, trimmed.find_first_not_of(" \t"));
             trimmed.erase(trimmed.find_last_not_of(" \t") + 1);
-
             std::string raw;
-            if (!pState.isBuffering) {
-                // if this *looks* like the start of a multi-line block…
+            if (!pState.isBuffering) 
+            {
                 if (!trimmed.empty() &&
                     (trimmed[0]==':' || trimmed[0]=='@' ||
                     trimmed[0]=='?' || trimmed[0]=='$') &&
@@ -61,24 +41,26 @@ namespace Parser
                     buffer = line;
                     continue;
                 }
-                else {
+                else 
+                {
                     raw = line;
                 }
             }
-            else {
-                // we’re in a block, keep accumulating…
+            else 
+            {
                 buffer += "\n" + line;
-                // once we see our terminator, emit the chunk
-                if (buffer.find("](") != std::string::npos) {
-                pState.isBuffering = false;
+                if (buffer.find("](") != std::string::npos) 
+                {
+                    pState.isBuffering = false;
                     raw = buffer;
-                } else {
-                    continue;  // still waiting for the closing ](
+                } 
+                else 
+                {
+                    continue;
                 }
             }
-
-            // --- now process raw exactly as before ---
-            if (!raw.empty() && raw[0]=='<') {
+            if (!raw.empty() && raw[0]=='<') 
+            {
                 Text::CloseLists(html, pState);
                 html << raw << "\n";
                 continue;

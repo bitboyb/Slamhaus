@@ -1,0 +1,101 @@
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body, h1, h2, h3, p, ul, ol, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Base */
+body {
+    font-family: 'SpaceMono', monospace, sans-serif;
+    line-height: 1.75;
+    background-color: var(--color-00);
+    color: var(--color-12);
+    padding: var(--pad-md);
+    max-width: 100%;
+    font-size: 1.1rem;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: bold;
+    margin-bottom: var(--margin-sm);
+    text-align: center;
+}
+h1 {
+    font-size: 2rem;
+    color: var(--color-06);
+}
+h2 {
+    font-size: 1.75rem;
+    color: var(--color-05);
+}
+h3 {
+    font-size: 1.5rem;
+    color: var(--color-13);
+}
+h4, h5, h6 {
+    font-weight: bold;
+    margin-bottom: var(--margin-sm);
+    color: var(--color-14);
+}
+h4 {
+    font-size: 1.25rem;
+    color: var(--color-15);
+}
+h5 {
+    font-size: 1.1rem;
+    color: var(--color-16);
+}
+h6 {
+    font-size: 1rem;
+    color: var(--color-17);
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: var(--margin-md);
+}
+
+/* Links */
+a {
+    color: var(--color-05);
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    transition: border 0.3s;
+}
+a:hover {
+    border-bottom: 1px dotted var(--color-05);
+}
+
+/* Lists */
+ul {
+    list-style-type: disc;
+    margin-bottom: var(--margin-md);
+    padding-left: var(--pad-lg);
+}
+ol {
+    list-style-type: decimal;
+    margin-bottom: var(--margin-md);
+    padding-left: calc(var(--pad-lg) + 0.8rem);
+}
+
+/* Header */
+header {
+    background-color: var(--color-18);
+    padding: var(--pad-md);
+    text-align: center;
+    border-bottom: 2px solid var(--color-06);
+    color: white;
+}
+
+/* Main */
+main {
+    background-color: var(--color-09);
+    padding: var(--pad-lg);
+    margin-top: var(--margin-lg);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 12px var(--color-19);
+}

@@ -7,24 +7,40 @@
 
 namespace Embed
 {
+    static std::string EscapeHtml(const std::string& input)
+    {
+        std::string out;
+        for (char c : input)
+        {
+            switch (c)
+            {
+                case '&': out += "&amp;"; break;
+                case '<': out += "&lt;"; break;
+                case '>': out += "&gt;"; break;
+                case '"': out += "&quot;"; break;
+                case '\'': out += "&#39;"; break;
+                default: out += c;
+            }
+        }
+        return out;
+    }
 
     static void EmitAttrs(std::ostringstream &oss,
-                          const std::map<std::string,std::string> &attrs)
+                          const std::map<std::string, std::string> &attrs)
     {
-        // all our attrs (id, class, style, width, height, etc.) go straight onto the tag
         for (auto const &kv : attrs)
         {
             oss << " " << kv.first;
             if (!kv.second.empty())
             {
-                oss << "=\"" << kv.second << "\"";
+                oss << "=\"" << EscapeHtml(kv.second) << "\"";
             }
         }
     }
 
     bool IsIFrameLine(const std::string &line)
     {
-        return line.rfind("!iframe[", 0) == 0 && line.back() == ']';
+        return line.rfind("!iframe[", 0) == 0 && line.find('(') != std::string::npos && line.find(')') != std::string::npos;
     }
 
     bool IsImageLine(const std::string &line)
@@ -52,7 +68,6 @@ namespace Embed
         return line.rfind("!svg[", 0) == 0;
     }
 
-    // height: and width: tokens still map into style
     void ExtractContentAndStyle(const std::string &raw,
                                 std::string &content,
                                 std::string &style)
@@ -88,7 +103,6 @@ namespace Embed
 
     std::string ProcessImages(const std::string &line)
     {
-        // find bracketed body and parenthesized URL
         auto open  = line.find('[');
         auto close = line.find(']', open+1);
         auto paren = line.find('(', close);
@@ -99,9 +113,7 @@ namespace Embed
                            ? line.substr(paren+1, end-paren-1)
                            : "";
 
-        // parse everything inside [ ]
         auto attrs = Attributes::ParseAttributes(line, "![");
-        // if you want to pull plain alt text out too
         std::string alt;
         std::string styleFromTokens;
         ExtractContentAndStyle(body, alt, styleFromTokens);
@@ -115,8 +127,8 @@ namespace Embed
             attrs["alt"] = alt;
         }
 
-        // wrap in link if provided
         std::string link;
+
         if (attrs.count("link"))
         {
             link = attrs["link"];
@@ -144,13 +156,36 @@ namespace Embed
     {
         auto open  = line.find('[');
         auto close = line.find(']', open+1);
-        std::string body = line.substr(open+1, close-open-1);
+        auto paren = line.find('(', close);
+        auto end   = line.find(')', paren+1);
 
-        std::string url, styleFromTokens;
-        ExtractContentAndStyle(body, url, styleFromTokens);
+        std::string body = line.substr(open+1, close-open-1);
+        std::string fallbackUrl = (paren != std::string::npos && end != std::string::npos)
+                                ? line.substr(paren+1, end-paren-1)
+                                : "";
+
+        std::string dummy, styleFromTokens;
+        ExtractContentAndStyle(body, dummy, styleFromTokens);
 
         auto attrs = Attributes::ParseAttributes(line, "!iframe");
-        if (!styleFromTokens.empty())
+
+        std::string url;
+        if (attrs.count("link")) 
+        {
+            url = attrs["link"];
+            attrs.erase("link");
+        } 
+        else if (attrs.count("href")) 
+        {
+            url = attrs["href"];
+            attrs.erase("href");
+        } 
+        else 
+        {
+            url = fallbackUrl;
+        }
+
+        if (!styleFromTokens.empty()) 
         {
             attrs["style"] += styleFromTokens;
         }
@@ -160,8 +195,9 @@ namespace Embed
             << "<iframe src=\"" << url << "\"";
         EmitAttrs(oss, attrs);
         oss << " frameborder=\"0\" allowfullscreen "
-               "referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>\n"
-               "</div>\n";
+            "referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>\n"
+            "</div>\n";
+
         return oss.str();
     }
 
@@ -182,10 +218,12 @@ namespace Embed
         ExtractContentAndStyle(body, desc, styleFromTokens);
 
         auto attrs = Attributes::ParseAttributes(line, prefix);
+
         if (!styleFromTokens.empty())
         {
             attrs["style"] += styleFromTokens;
         }
+
         if (!desc.empty() && !attrs.count("title"))
         {
             attrs["title"] = desc;
@@ -214,10 +252,12 @@ namespace Embed
         ExtractContentAndStyle(body, desc, styleFromTokens);
 
         auto attrs = Attributes::ParseAttributes(line, "!audio");
+
         if (!styleFromTokens.empty())
         {
             attrs["style"] += styleFromTokens;
         }
+
         if (!desc.empty() && !attrs.count("title"))
         {
             attrs["title"] = desc;
@@ -232,20 +272,19 @@ namespace Embed
 
     std::string ProcessPictures(const std::string &line)
     {
-        // same as ProcessImages but wrapped in <picture>…</picture>
         std::string img = ProcessImages(line);
         return "<picture>" + img + "</picture>";
     }
 
     std::string ProcessSvg(const std::string &line)
     {
-        auto open  = line.find('[');
+        auto open = line.find('[');
         auto close = line.find(']', open+1);
         auto paren = line.find('(', close);
-        auto end   = line.find(')', paren+1);
+        auto end = line.find(')', paren+1);
 
         std::string body = line.substr(open+1, close-open-1);
-        std::string url  = (paren!=std::string::npos && end!=std::string::npos)
+        std::string url = (paren!=std::string::npos && end!=std::string::npos)
                            ? line.substr(paren+1,end-paren-1)
                            : "";
 
@@ -253,10 +292,12 @@ namespace Embed
         ExtractContentAndStyle(body, desc, styleFromTokens);
 
         auto attrs = Attributes::ParseAttributes(line, "!svg");
+
         if (!styleFromTokens.empty())
         {
             attrs["style"] += styleFromTokens;
         }
+
         if (!desc.empty() && !attrs.count("title"))
         {
             attrs["title"] = desc;
@@ -275,12 +316,36 @@ namespace Embed
     {
         Text::CloseLists(html, pState);
 
-        if (IsIFrameLine(line))  { html << ProcessIFrame(line);    return true; }
-        if (IsAudioLine(line))   { html << ProcessAudio(line);     return true; }
-        if (IsPictureLine(line)) { html << ProcessPictures(line);  return true; }
-        if (IsSvgLine(line))     { html << ProcessSvg(line);       return true; }
-        if (IsImageLine(line))   { html << ProcessImages(line);    return true; }
-        if (IsVideoLine(line))   { html << ProcessVideos(line);    return true; }
+        if (IsIFrameLine(line))
+        { 
+            html << ProcessIFrame(line);    
+            return true; 
+        }
+        if (IsAudioLine(line))   
+        { 
+            html << ProcessAudio(line);     
+            return true; 
+        }
+        if (IsPictureLine(line)) 
+        { 
+            html << ProcessPictures(line);  
+            return true; 
+        }
+        if (IsSvgLine(line))     
+        { 
+            html << ProcessSvg(line);       
+            return true; 
+        }
+        if (IsImageLine(line))   
+        { 
+            html << ProcessImages(line);    
+            return true; 
+        }
+        if (IsVideoLine(line))   
+        { 
+            html << ProcessVideos(line);    
+            return true; 
+        }
         return false;
     }
 

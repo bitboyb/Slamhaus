@@ -1,0 +1,99 @@
+$page[
+  title:"Quickstart Guide"
+  description:"Get up and running with Slamhaus in minutes — just download a binary, add content, and build."
+  keywords:"slamhaus, quickstart, setup, install, markdown, static site generator"
+]()
+
+:hero[](#quickstart)
+
+# 🚀 Slamhaus Quickstart
+
+Build a complete, styled static website in just 3 steps.  
+No runtime, no boilerplate, no JS — just Markdown in, HTML out.
+
+?button[action:"https://github.com/bitboyb/Slamhaus-Basic-Template" text:"Get Starter Template"](#btn-template)
+
+?button[action:"https://github.com/bitboyb/Slamhaus/releases" text:"Download Binaries"](#btn-binaries)
+
+?button[action:"https://open-vsx.org/extension/bitboyb/slamhaus-syntax" text:"Download VSCode Extension"](#btn-vscode)
+
+:/hero
+
+<br>
+
+:section[align:center](#quickstart-steps)
+
+## 🧭 3-Step Setup
+
+:column[size:3](#quickstart-columns)
+
+### 🛠  
+### 1. Download + Unpack
+
+Pick your platform:
+
+- 🪟 [Windows](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-windows.zip)  
+- 🐧 [Debian/Ubuntu](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip)  
+- 🎩 [Arch Linux](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip)
+
+Unzip it. On Linux:
+
+```
+chmod +x slamhaus
+```
+
+:column[]()
+
+### 📁
+
+### 2. Add a `content/` Folder
+
+Put your Markdown files and media into a folder like this:
+
+```text
+your-project/
+├── slamhaus
+└── content/
+    ├── index.slam
+    └── include/
+        └── nav.smd
+```
+
+Use the [Basic Template](https://github.com/bitboyb/Slamhaus-Basic-Template) to get started instantly.
+
+:column[]()
+
+### ▶️
+
+### 3. Build + View
+
+Build your site:
+
+```bash
+./slamhaus
+```
+
+Your static site is now in the `output/` folder.
+Open `index.html` in any browser or host with a local server.
+
+:/column
+
+:/section
+
+<br>
+
+:hero[](#build-from-source)
+
+## 🧪 Want to Build From Source?
+
+Clone the repo and run:
+
+```bash
+git clone https://github.com/bitboyb/Slamhaus
+cd Slamhaus
+make
+```
+
+Requires C++17 and `make`. See full setup in the [README on GitHub →](https://github.com/bitboyb/Slamhaus#readme)
+
+:/hero

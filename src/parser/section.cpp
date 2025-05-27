@@ -105,15 +105,30 @@ namespace Section
         return true;
     }
 
-    std::string ApplyColumns(int number,
-                             const std::vector<std::string> &text,
-                             const std::vector<std::string> &openLines)
+    std::string ApplyColumns(int fallbackNumber,
+                             const std::vector<std::string>& text,
+                             const std::vector<std::string>& openLines)
     {
         std::ostringstream oss;
-        oss << "<div class=\"columns-container responsive-columns\">";
-        for (int i = 0; i < number; i++)
+        int numColumns = fallbackNumber;
+
+        if (!openLines.empty())
         {
-            std::string content  = i < (int)text.size() ? text[i] : "";
+            auto attrs = Attributes::ParseAttributes(openLines[0], ":column");
+            if (attrs.count("size"))
+            {
+                try
+                {
+                    numColumns = std::stoi(attrs["size"]);
+                }
+                catch (...) {}
+            }
+        }
+
+        oss << "<div class=\"columns-container responsive-columns\">";
+        for (int i = 0; i < numColumns; i++)
+        {
+            std::string content = i < (int)text.size() ? text[i] : "";
             std::string openLine = i < (int)openLines.size() ? openLines[i] : "";
 
             oss << "<div class=\"column\"";
@@ -123,13 +138,12 @@ namespace Section
                 oss << " id=\"" << attrs["id"] << "\"";
             }
             oss << ">";
-
-            oss << content
-                << "</div>";
+            oss << content << "</div>";
         }
         oss << "</div>";
         return oss.str();
     }
+
 
     bool HandleColumnClose(const std::string &line,
                            std::ostringstream &html,

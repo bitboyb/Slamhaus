@@ -1,0 +1,90 @@
+/* Navigation */
+nav {
+    font-size: 1.1rem;
+    background-color: var(--color-18); /* #141414 */
+    border-bottom: 2px solid var(--color-05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
+    position: relative;
+    z-index: 100;
+}
+
+/* Top-level menu */
+.nav-menu > ul {
+    display: flex;
+    gap: var(--gap-md); /* 1rem */
+    justify-content: center;
+    padding: var(--pad-md) 0;
+}
+
+/* Top-level items */
+.nav-menu > ul > li {
+    position: relative;
+    list-style: none;
+}
+
+/* Dropdown menu */
+.nav-menu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--color-02); /* #1f1f1f */
+    padding: var(--pad-sm) 0;
+    min-width: 180px;
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
+    z-index: 1000;
+}
+
+.nav-menu ul ul li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Show dropdown on hover */
+.nav-menu > ul > li:hover > ul {
+    display: block;
+}
+
+/* Nav links as buttons */
+.nav-menu a {
+    background-color: var(--color-02); /* #1f1f1f */
+    color: var(--color-05); /* #03dac6 */
+    border: 2px solid var(--color-05);
+    padding: var(--pad-button-y) var(--pad-button-x);
+    font-family: 'SpaceMono', monospace;
+    font-size: 1rem;
+    border-radius: var(--radius-button);
+    cursor: pointer;
+    text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
+    box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Hover effect */
+.nav-menu a:hover {
+    background-color: var(--color-05);
+    color: var(--color-00); /* #0e0e0e */
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
+    text-shadow: none;
+}
+
+/* Adjust spacing for non-dropdown links */
+.nav-menu > ul > li:not(:has(ul)) > a {
+    padding-right: var(--pad-button-x);
+}
+
+/* Dropdown arrow */
+.nav-menu > ul > li > a::after {
+    content: " ▼";
+    font-size: 0.7em;
+    color: var(--color-05);
+}
+.nav-menu > ul > li:not(:has(ul)) > a::after {
+    content: "";
+}
