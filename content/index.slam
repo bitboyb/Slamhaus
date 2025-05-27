@@ -134,11 +134,25 @@ Use `.slam`, `.smd`, or `.md` in your links — Slamhaus rewrites them to `.html
 
 Create your first Slamhaus site in just a few minutes:
 
-1. 📥 Download the binary  
-2. 📁 Add your `content/` folder  
-3. ▶️ Run `./slamhaus`  
-4. 🌐 Open `output/index.html`
+📥 Download the binary!
+📁 Add your `content/` folder!
+▶️ Run `./slamhaus`!
+🌐 Open `output/index.html`!
 
 ?button[action:"/quickstart.slam" text:"See Quickstart"](#btn-final)
 
 :/section
+
+<br>
+
+:hero[align:center](#vscode-extension)
+
+## 🧩 Download the Slamhaus VS Code Extension
+
+![width:"50%"](assets/media/slamhaus-vscode-screenshot.png)
+
+Get full syntax highlighting, tag hints, and editing support for `.slam`, `.smd`, and `.md` files — all directly in VS Code.
+
+?button[action:"https://open-vsx.org/extension/bitboyb/slamhaus-syntax" text:"Install from Open VSX"](#btn-vscode)
+
+:/hero

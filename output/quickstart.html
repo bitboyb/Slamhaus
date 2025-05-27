@@ -174,7 +174,7 @@ img {
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: var(--color-01); /* #1a1a1a */
+    background-color: var(--color-01); /* Unified background */
     color: var(--color-08); /* #f0f0f0 */
     border-radius: var(--radius-sm); /* 4px */
     line-height: 1.5;
@@ -183,7 +183,7 @@ pre, code {
 code {
     padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: var(--color-02); /* #222222 */
+    background-color: var(--color-01); /* Match pre background */
     border: none;
     box-shadow: none;
 }
@@ -194,7 +194,7 @@ pre {
     margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
     border: 1px solid var(--color-04); /* #2e2e2e */
-    background-color: var(--color-01); /* Ensures no double background */
+    background-color: var(--color-01); /* Unified background */
 }
 
 /* Tables */
@@ -748,10 +748,19 @@ nav {
 <li><a href="index.html">Home</a></li>
 <li><a href="quickstart.html">Quickstart</a></li>
 <li><a href="features.html">Features</a></li>
-<li><a href="syntax.html">Syntax Guide</a></li>
 <li><a href="templates.html">Templates</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a>
+<ul>
+<li><a href="syntax.html">Syntax Guide</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a>
+<ul>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download Slamhaus</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Source Code</a></li>
+<li><a href="https://open-vsx.org/extension/bitboyb/slamhaus-syntax">Download VSCode Extension</a></li>
+</ul>
+</li>
 </ul>
   </div>
 </nav>
@@ -762,11 +771,8 @@ nav {
 <p>Build a complete, styled static website in just 3 steps.  </p>
 <p>No runtime, no boilerplate, no JS — just Markdown in, HTML out.</p>
 <button type="button" onclick="window.location.href='https://github.com/bitboyb/Slamhaus-Basic-Template'" id="btn-template">Get Starter Template</button>
-<br>
 <button type="button" onclick="window.location.href='https://github.com/bitboyb/Slamhaus/releases'" id="btn-binaries">Download Binaries</button>
-<br>
 <button type="button" onclick="window.location.href='https://open-vsx.org/extension/bitboyb/slamhaus-syntax'" id="btn-vscode">Download VSCode Extension</button>
-<br>
 </section>
 <br>
 <section id="quickstart-steps">
@@ -783,7 +789,8 @@ nav {
 <ul>
 <li>🎩 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip">Arch Linux</a></li>
 </ul>
-<p>Unzip it. On Linux:</p>
+<p>Unzip it. </p>
+<h4>On Linux:</h4>
 <pre><code>chmod +x slamhaus
 </code></pre>
 </div><div class="column"><h3>📁</h3>
@@ -806,7 +813,7 @@ nav {
 <p>Open <code>index.html</code> in any browser or host with a local server.</p>
 </div></div></section>
 <br>
-<section class="hero" id="build-from-source">
+<section id="build-from-source">
 <h2>🧪 Want to Build From Source?</h2>
 <p>Clone the repo and run:</p>
 <pre><code>git clone https://github.com/bitboyb/Slamhaus

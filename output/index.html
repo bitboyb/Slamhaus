@@ -174,7 +174,7 @@ img {
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: var(--color-01); /* #1a1a1a */
+    background-color: var(--color-01); /* Unified background */
     color: var(--color-08); /* #f0f0f0 */
     border-radius: var(--radius-sm); /* 4px */
     line-height: 1.5;
@@ -183,7 +183,7 @@ pre, code {
 code {
     padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: var(--color-02); /* #222222 */
+    background-color: var(--color-01); /* Match pre background */
     border: none;
     box-shadow: none;
 }
@@ -194,7 +194,7 @@ pre {
     margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
     border: 1px solid var(--color-04); /* #2e2e2e */
-    background-color: var(--color-01); /* Ensures no double background */
+    background-color: var(--color-01); /* Unified background */
 }
 
 /* Tables */
@@ -748,10 +748,19 @@ nav {
 <li><a href="index.html">Home</a></li>
 <li><a href="quickstart.html">Quickstart</a></li>
 <li><a href="features.html">Features</a></li>
-<li><a href="syntax.html">Syntax Guide</a></li>
 <li><a href="templates.html">Templates</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a>
+<ul>
+<li><a href="syntax.html">Syntax Guide</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a>
+<ul>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download Slamhaus</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Source Code</a></li>
+<li><a href="https://open-vsx.org/extension/bitboyb/slamhaus-syntax">Download VSCode Extension</a></li>
+</ul>
+</li>
 </ul>
   </div>
 </nav>
@@ -761,7 +770,6 @@ nav {
 <h1>⚡ Slamhaus</h1>
 <p>The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.</p>
 <button type="button" onclick="#download()" id="btn-download">Download Now</button>
-<br>
 <button type="button" onclick="window.location.href='/quickstart.html'" id="btn-start">Quickstart Guide</button>
 </section>
 <br>
@@ -823,19 +831,17 @@ nav {
 <section id="get-started">
 <h2>🚀 Ready to Build?</h2>
 <p>Create your first Slamhaus site in just a few minutes:</p>
-<ol>
-<li>📥 Download the binary  </li>
-</ol>
-<ol>
-<li>📁 Add your <code>content/</code> folder  </li>
-</ol>
-<ol>
-<li>▶️ Run <code>./slamhaus</code>  </li>
-</ol>
-<ol>
-<li>🌐 Open <code>output/index.html</code></li>
-</ol>
+<p>📥 Download the binary!</p>
+<p>📁 Add your <code>content/</code> folder!</p>
+<p>▶️ Run <code>./slamhaus</code>!</p>
+<p>🌐 Open <code>output/index.html</code>!</p>
 <button type="button" onclick="window.location.href='/quickstart.html'" id="btn-final">See Quickstart</button>
+</section>
+<br>
+<section class="hero" id="vscode-extension">
+<h2>🧩 Download the Slamhaus VS Code Extension</h2>
+<img src="assets/media/slamhaus-vscode-screenshot.png" alt="width:&quot;50%&quot;" style="width:&quot;50%&quot;; " width="50%"><p>Get full syntax highlighting, tag hints, and editing support for <code>.slam</code>, <code>.smd</code>, and <code>.md</code> files — all directly in VS Code.</p>
+<button type="button" onclick="window.location.href='https://open-vsx.org/extension/bitboyb/slamhaus-syntax'" id="btn-vscode">Install from Open VSX</button>
 </section>
 
     </main>
