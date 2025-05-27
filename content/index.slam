@@ -1,158 +1,114 @@
 $page[
-  title:"Slamhaus – Markdown-Powered Static Site Generator"
-  description:"Slamhaus is a modern static site generator built in C++17, with extended Markdown syntax, WebAssembly support, and zero JavaScript required."
-  keywords:"slamhaus, static site generator, markdown, c++, wasm, emscripten, no javascript"
+    description:"Your site description goes here — what it’s about, who it’s for, and why it matters." 
+    keywords:"static site, markdown, website, slamhaus, template, web development"
 ]()
 
-:hero[](#hero)
+:hero[](#landing-hero)
 
-# ⚡ Slamhaus
+# Welcome to Your New Site!
 
-The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.
+This is a hero section. Introduce your site, product, or idea in one strong sentence — and direct users to learn more or take action.
 
-?button[action:"#download" text:"Download Now"](#btn-download)
-
-?button[action:"/quickstart.slam" text:"Quickstart Guide"](#btn-start)
+?button[action:"about.html" text:"Learn More"](#home-btn)
 
 :/hero
 
+:section[align:center](#intro)
+
+## Your Site Introduction
+
+:column[size:3](#intro-columns-0)
+:column[left]()
+
+### 🧠 
+### Share Your Mission
+
+Use this space to describe what your project does or why it exists. Be clear, engaging, and confident.
+
+:column[middle]()
+
+### 🎯 
+### Show Your Strengths
+
+What sets you apart? Why should people care? This section is perfect for listing out key features or goals.
+
+:column[right]()
+
+### 🔧
+### Built for Something Great
+
+Share any background on how it works — whether it’s a product, portfolio, blog, or something else.
+
+:/column
+
 <br>
----
 
+:column[size:3](#intro-columns-1)
+:column[left]()
 
-:section[align:center](#why-slamhaus)
+### 🚀 
+### Fast, Flexible, Yours
 
-## 💡 Why Slamhaus?
+Talk about your tech stack, your team, or your values — whatever helps your visitors get on board.
 
-:column[size:3](#slamhaus-pillars)
+:column[middle]()
 
-### 🧠  
-### Built Like a Game Engine
+### 💬 
+### Speak Their Language
 
-Slamhaus uses a modular C++17 architecture — no global state, no magic. Each system (parsing, rendering, templating, SEO) is designed like a game engine subsystem: isolated, predictable, and ready for extension.
+What are you offering? Who are you trying to reach? Use simple, direct language that resonates.
 
-:column[2]()
+:column[right]()
 
-### 🧬  
-### No JavaScript? No Problem.
+### 🤝 
+### Make the Connection
 
-With built-in WebAssembly support via [Emscripten](https://emscripten.org/), Slamhaus lets you write dynamic frontend logic in C++. Bind UI elements to native functions with `@script[]()` — no JavaScript required.
-
-:column[3]()
-
-### ✍️  
-### Markdown That Works Like Code
-
-Slamhaus extends Markdown with readable, composable tags: `:section[]()` for layout, `?form[]()` for interactivity, `$page[]()` for metadata. It’s Markdown — but smarter, cleaner, and compiler-friendly.
+Let people know how they can work with you, contact you, or start using your service.
 
 :/column
 
 :/section
 
 <br>
+
 ---
-
-:section[align:center](#download)
-
-## 📦 Download Now
-
-Start building in seconds — no setup scripts, no package managers. Just download and run:
-
-- 🪟 [**Windows**](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-windows.zip)
-- 🐧 [**Linux (Debian/Ubuntu)**](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip)
-- 🎩 [**Linux (Arch)**](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip)
-
-?button[action:"/quickstart.slam" text:"Get Started"](#start-btn)
-
-:/section
 
 <br>
----
 
-:section[align:center](#core-highlights)
+:section[align:center](#partners)
 
-## 🎨 Core Features at a Glance
+## 🚀 Other Cool Stuff
 
-:column[size:3](#core-row-1)
+:column[size:3](#partners-columns)
 
-
-### 📝  
-### Markdown → HTML
-
-Write `.slam`, `.smd`, or `.md` files — Slamhaus generates fully static, styled HTML output with zero client-side runtime.
+![width:"50%"](assets/media/demo.jpg)
 
 :column[2]()
 
-### ⚙️  
-### C++17 Engine
-
-Built in modern C++ for speed and modularity. Familiar to devs from game, systems, or embedded backgrounds.
+![width:"50%"](assets/media/demo.jpg)
 
 :column[3]()
 
-### 🧩  
-### Extended Syntax
-
-Layout, forms, metadata, and scripting — all handled with clean, expressive Markdown tags like `:section[]()` and `?button[]()`.
+![width:"50%"](assets/media/demo.jpg)
 
 :/column
 
 <br>
 
-:column[size:3](#core-row-2)
-
-
-### 🧠  
-### WebAssembly Support
-
-Write C++ functions and bind them to UI elements using `@script[]()`. Slamhaus compiles and wires up everything — no JS glue required.
-
-:column[2]()
-
-### 🎨  
-### Tweakable Themes
-
-Minimal CSS by default. Drop your own styles into `content/assets/theme/` to customize or replace. All styles are inlined for performance.
-
-:column[3]()
-
-### 🔗  
-### Smart Link Rewriting
-
-Use `.slam`, `.smd`, or `.md` in your links — Slamhaus rewrites them to `.html` automatically, even inside metadata and buttons.
-
-:/column
-
-:/section
-
-<br>
 ---
 
-:section[align:center](#get-started)
-
-## 🚀 Ready to Build?
-
-Create your first Slamhaus site in just a few minutes:
-
-📥 Download the binary!
-📁 Add your `content/` folder!
-▶️ Run `./slamhaus`!
-🌐 Open `output/index.html`!
-
-?button[action:"/quickstart.slam" text:"See Quickstart"](#btn-final)
+<br>
 
 :/section
-
-<br>
 
 :hero[align:center](#vscode-extension)
 
-## 🧩 Download the Slamhaus VS Code Extension
+## 🧩 A Hero With A Picture
 
-![width:"50%"](assets/media/slamhaus-vscode-screenshot.png)
+![width:"50%"](assets/media/demo.jpg)
 
-Get full syntax highlighting, tag hints, and editing support for `.slam`, `.smd`, and `.md` files — all directly in VS Code.
+Cool picture!
 
-?button[action:"https://open-vsx.org/extension/bitboyb/slamhaus-syntax" text:"Install from Open VSX"](#btn-vscode)
+?button[action:"about.slam" text:"Press Me!"](#btn-example)
 
 :/hero

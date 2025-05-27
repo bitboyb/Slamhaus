@@ -1,0 +1,11 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# If the request is not a real directory
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# If an HTML file exists for the request
+RewriteCond %{REQUEST_FILENAME}\.html -f
+
+# Rewrite to the .html file
+RewriteRule ^(.+?)/?$ $1.html [L]

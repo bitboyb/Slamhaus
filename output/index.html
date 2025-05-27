@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slamhaus</title>
-    <link rel="icon" type="image/x-icon" href="assets/media/slamhaus-logo.png">
-        <meta name="description" content="Slamhaus is a modern static site generator built in C++17, with extended Markdown syntax, WebAssembly support, and zero JavaScript required.">
-    <meta property="og:description" content="Slamhaus is a modern static site generator built in C++17, with extended Markdown syntax, WebAssembly support, and zero JavaScript required.">
-    <meta name="keywords" content="slamhaus, static site generator, markdown, c++, wasm, emscripten, no javascript">
-    <meta property="og:title" content="Slamhaus">
-    <link rel="canonical" href="https://slamhaus.dev/">
-    <meta property="og:url" content="https://slamhaus.dev/">
+    <title>YourSiteName</title>
+    <link rel="icon" type="image/x-icon" href="assets/media/logo.png">
+        <meta name="description" content="Your site description goes here — what it’s about, who it’s for, and why it matters.">
+    <meta property="og:description" content="Your site description goes here — what it’s about, who it’s for, and why it matters.">
+    <meta name="keywords" content="static site, markdown, website, slamhaus, template, web development">
+    <meta property="og:title" content="YourSiteName">
+    <link rel="canonical" href="https://example.com/">
+    <meta property="og:url" content="https://example.com/">
 
     <style>
     /* --- body.css --- */
@@ -736,7 +736,7 @@ nav {
 <body>
     <header>
        <!-- Header -->
-<img src="assets/media/slamhaus-logo.png" alt="logo">
+<img src="assets/icons/ic-terminal.png" alt="logo">
     </header>
     <nav>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" />
@@ -745,103 +745,59 @@ nav {
   </label>
   <div class="nav-menu">
 <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="quickstart.html">Quickstart</a></li>
-<li><a href="features.html">Features</a></li>
-<li><a href="templates.html">Templates</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a>
+<li><a href="index.html">Home</a>
 <ul>
-<li><a href="syntax.html">Syntax Guide</a></li>
+<li><a href="index.html#partners">Nested Link Example</a></li>
 </ul>
 </li>
-<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a>
-<ul>
-<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download Slamhaus</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Source Code</a></li>
-<li><a href="https://open-vsx.org/extension/bitboyb/slamhaus-syntax">Download VSCode Extension</a></li>
-</ul>
-</li>
+<li><a href="about.html">About</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="contact.html">Contact Us</a></li>
 </ul>
   </div>
 </nav>
 
     <main>
-       <section class="hero" id="hero">
-<h1>⚡ Slamhaus</h1>
-<p>The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.</p>
-<button type="button" onclick="#download()" id="btn-download">Download Now</button>
-<button type="button" onclick="window.location.href='/quickstart.html'" id="btn-start">Quickstart Guide</button>
+       <section class="hero" id="landing-hero">
+<h1>Welcome to Your New Site!</h1>
+<p>This is a hero section. Introduce your site, product, or idea in one strong sentence — and direct users to learn more or take action.</p>
+<button type="button" onclick="window.location.href='about.html'" id="home-btn">Learn More</button>
 </section>
-<br>
-<hr>
-<section id="why-slamhaus">
-<h2>💡 Why Slamhaus?</h2>
-<div class="columns-container responsive-columns"><div class="column" id="slamhaus-pillars"><h3>🧠  </h3>
-<h3>Built Like a Game Engine</h3>
-<p>Slamhaus uses a modular C++17 architecture — no global state, no magic. Each system (parsing, rendering, templating, SEO) is designed like a game engine subsystem: isolated, predictable, and ready for extension.</p>
-</div><div class="column"><h3>🧬  </h3>
-<h3>No JavaScript? No Problem.</h3>
-<p>With built-in WebAssembly support via <a href="https://emscripten.org/">Emscripten</a>, Slamhaus lets you write dynamic frontend logic in C++. Bind UI elements to native functions with <code>@script<a href=""></a></code> — no JavaScript required.</p>
-</div><div class="column"><h3>✍️  </h3>
-<h3>Markdown That Works Like Code</h3>
-<p>Slamhaus extends Markdown with readable, composable tags: <code>:section<a href=""></a></code> for layout, <code>?form<a href=""></a></code> for interactivity, <code>$page<a href=""></a></code> for metadata. It’s Markdown — but smarter, cleaner, and compiler-friendly.</p>
-</div></div></section>
-<br>
-<hr>
-<section id="download">
-<h2>📦 Download Now</h2>
-<p>Start building in seconds — no setup scripts, no package managers. Just download and run:</p>
-<ul>
-<li>🪟 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-windows.zip"><strong>Windows</strong></a></li>
-</ul>
-<ul>
-<li>🐧 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip"><strong>Linux (Debian/Ubuntu)</strong></a></li>
-</ul>
-<ul>
-<li>🎩 <a href="https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip"><strong>Linux (Arch)</strong></a></li>
-</ul>
-<button type="button" onclick="window.location.href='/quickstart.html'" id="start-btn">Get Started</button>
-</section>
-<br>
-<hr>
-<section id="core-highlights">
-<h2>🎨 Core Features at a Glance</h2>
-<div class="columns-container responsive-columns"><div class="column" id="core-row-1"><h3>📝  </h3>
-<h3>Markdown → HTML</h3>
-<p>Write <code>.slam</code>, <code>.smd</code>, or <code>.md</code> files — Slamhaus generates fully static, styled HTML output with zero client-side runtime.</p>
-</div><div class="column"><h3>⚙️  </h3>
-<h3>C++17 Engine</h3>
-<p>Built in modern C++ for speed and modularity. Familiar to devs from game, systems, or embedded backgrounds.</p>
-</div><div class="column"><h3>🧩  </h3>
-<h3>Extended Syntax</h3>
-<p>Layout, forms, metadata, and scripting — all handled with clean, expressive Markdown tags like <code>:section<a href=""></a></code> and <code>?button<a href=""></a></code>.</p>
+<section id="intro">
+<h2>Your Site Introduction</h2>
+<div class="columns-container responsive-columns"><div class="column" id="intro-columns-0"><h3>🧠 </h3>
+<h3>Share Your Mission</h3>
+<p>Use this space to describe what your project does or why it exists. Be clear, engaging, and confident.</p>
+</div><div class="column"><h3>🎯 </h3>
+<h3>Show Your Strengths</h3>
+<p>What sets you apart? Why should people care? This section is perfect for listing out key features or goals.</p>
+</div><div class="column"><h3>🔧</h3>
+<h3>Built for Something Great</h3>
+<p>Share any background on how it works — whether it’s a product, portfolio, blog, or something else.</p>
 </div></div><br>
-<div class="columns-container responsive-columns"><div class="column" id="core-row-2"><h3>🧠  </h3>
-<h3>WebAssembly Support</h3>
-<p>Write C++ functions and bind them to UI elements using <code>@script<a href=""></a></code>. Slamhaus compiles and wires up everything — no JS glue required.</p>
-</div><div class="column"><h3>🎨  </h3>
-<h3>Tweakable Themes</h3>
-<p>Minimal CSS by default. Drop your own styles into <code>content/assets/theme/</code> to customize or replace. All styles are inlined for performance.</p>
-</div><div class="column"><h3>🔗  </h3>
-<h3>Smart Link Rewriting</h3>
-<p>Use <code>.slam</code>, <code>.smd</code>, or <code>.md</code> in your links — Slamhaus rewrites them to <code>.html</code> automatically, even inside metadata and buttons.</p>
+<div class="columns-container responsive-columns"><div class="column" id="intro-columns-1"><h3>🚀 </h3>
+<h3>Fast, Flexible, Yours</h3>
+<p>Talk about your tech stack, your team, or your values — whatever helps your visitors get on board.</p>
+</div><div class="column"><h3>💬 </h3>
+<h3>Speak Their Language</h3>
+<p>What are you offering? Who are you trying to reach? Use simple, direct language that resonates.</p>
+</div><div class="column"><h3>🤝 </h3>
+<h3>Make the Connection</h3>
+<p>Let people know how they can work with you, contact you, or start using your service.</p>
 </div></div></section>
 <br>
 <hr>
-<section id="get-started">
-<h2>🚀 Ready to Build?</h2>
-<p>Create your first Slamhaus site in just a few minutes:</p>
-<p>📥 Download the binary!</p>
-<p>📁 Add your <code>content/</code> folder!</p>
-<p>▶️ Run <code>./slamhaus</code>!</p>
-<p>🌐 Open <code>output/index.html</code>!</p>
-<button type="button" onclick="window.location.href='/quickstart.html'" id="btn-final">See Quickstart</button>
-</section>
 <br>
+<section id="partners">
+<h2>🚀 Other Cool Stuff</h2>
+<div class="columns-container responsive-columns"><div class="column" id="partners-columns"><img src="assets/media/demo.jpg" alt="width:&quot;50%&quot;" style="width:&quot;50%&quot;; " width="50%"></div><div class="column"><img src="assets/media/demo.jpg" alt="width:&quot;50%&quot;" style="width:&quot;50%&quot;; " width="50%"></div><div class="column"><img src="assets/media/demo.jpg" alt="width:&quot;50%&quot;" style="width:&quot;50%&quot;; " width="50%"></div></div><br>
+<hr>
+<br>
+</section>
 <section class="hero" id="vscode-extension">
-<h2>🧩 Download the Slamhaus VS Code Extension</h2>
-<img src="assets/media/slamhaus-vscode-screenshot.png" alt="width:&quot;50%&quot;" style="width:&quot;50%&quot;; " width="50%"><p>Get full syntax highlighting, tag hints, and editing support for <code>.slam</code>, <code>.smd</code>, and <code>.md</code> files — all directly in VS Code.</p>
-<button type="button" onclick="window.location.href='https://open-vsx.org/extension/bitboyb/slamhaus-syntax'" id="btn-vscode">Install from Open VSX</button>
+<h2>🧩 A Hero With A Picture</h2>
+<img src="assets/media/demo.jpg" alt="width:&quot;50%&quot;" style="width:&quot;50%&quot;; " width="50%"><p>Cool picture!</p>
+<button type="button" onclick="window.location.href='about.html'" id="btn-example">Press Me!</button>
 </section>
 
     </main>

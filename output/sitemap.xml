@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>Slamhaus/quickstart.html</loc>
+    <loc>YourSiteName/about.html</loc>
     <lastmod>2025-05-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>Slamhaus/faq.html</loc>
+    <loc>YourSiteName/examples.html</loc>
     <lastmod>2025-05-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>Slamhaus/codebase.html</loc>
+    <loc>YourSiteName/assets/icons/icons.html</loc>
     <lastmod>2025-05-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>Slamhaus/syntax.html</loc>
+    <loc>YourSiteName/contact.html</loc>
     <lastmod>2025-05-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>Slamhaus/features.html</loc>
-    <lastmod>2025-05-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>Slamhaus/contribute.html</loc>
-    <lastmod>2025-05-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>Slamhaus/templates.html</loc>
-    <lastmod>2025-05-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>Slamhaus/index.html</loc>
+    <loc>YourSiteName/index.html</loc>
     <lastmod>2025-05-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
