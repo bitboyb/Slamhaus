@@ -36,7 +36,9 @@ Pick your platform:
 - 🐧 [Debian/Ubuntu](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-debian.zip)  
 - 🎩 [Arch Linux](https://github.com/bitboyb/Slamhaus/releases/download/nightly/slamhaus-linux-arch.zip)
 
-Unzip it. On Linux:
+Unzip it. 
+
+#### On Linux:
 
 ```
 chmod +x slamhaus
@@ -82,7 +84,7 @@ Open `index.html` in any browser or host with a local server.
 
 <br>
 
-:hero[](#build-from-source)
+:section[](#build-from-source)
 
 ## 🧪 Want to Build From Source?
 
@@ -96,4 +98,4 @@ make
 
 Requires C++17 and `make`. See full setup in the [README on GitHub →](https://github.com/bitboyb/Slamhaus#readme)
 
-:/hero
+:/section

@@ -27,7 +27,6 @@ Slamhaus fully supports standard Markdown syntax.
 ## Heading 2
 
 - Bullet list
-1. Numbered list
 
 **Bold**, *Italic*, ***BoldItalic***
 
@@ -98,7 +97,7 @@ Embed images, video, audio, SVG, and iframes — no plugins needed.
 
 ## 💻 Code Blocks & Tables
 
-Show syntax-highlighted code or create clean tables.
+Show code or create clean tables.
 
 ```
 #include <iostream>
@@ -241,6 +240,8 @@ Use native C++ functions in the browser with no JavaScript.
 :section[](#syntax-cpp)
 
 ## ⚙️ Sample C++ Code (WASM)
+
+#### **Requires [Emscripten](https://emscripten.org/)**
 
 ```cpp
 #include <emscripten.h>

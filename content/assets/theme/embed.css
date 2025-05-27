@@ -9,7 +9,7 @@ img {
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: var(--color-01); /* #1a1a1a */
+    background-color: var(--color-01); /* Unified background */
     color: var(--color-08); /* #f0f0f0 */
     border-radius: var(--radius-sm); /* 4px */
     line-height: 1.5;
@@ -18,7 +18,7 @@ pre, code {
 code {
     padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: var(--color-02); /* #222222 */
+    background-color: var(--color-01); /* Match pre background */
     border: none;
     box-shadow: none;
 }
@@ -29,7 +29,7 @@ pre {
     margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
     border: 1px solid var(--color-04); /* #2e2e2e */
-    background-color: var(--color-01); /* Ensures no double background */
+    background-color: var(--color-01); /* Unified background */
 }
 
 /* Tables */

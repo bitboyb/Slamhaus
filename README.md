@@ -28,7 +28,7 @@ Or jump to [Quickstart »](#-quickstart)
 
 ## 🚧 Beta Notice
 
-> **Heads up:** Slamhaus is currently in **beta**. While it’s fully functional for building and deploying sites, expect rapid iteration and breaking changes as features like WebAssembly, micro-backends, and live editing evolve.
+> **Heads up:** Slamhaus is currently in **beta**. While it’s fully functional for building and deploying sites, expect rapid iteration and breaking changes as features like WebAssembly evolve.
 
 ---
 
@@ -317,7 +317,6 @@ The structure below shows how a typical Slamhaus project is organized:
 ## Heading 2
 
 - Bullet list
-1. Numbered list
 
 **Bold**, *Italic*, ***BoldItalic***
 
@@ -894,6 +893,6 @@ All binaries are built automatically via [GitHub Actions](https://docs.github.co
 * ✅ **Arch-based Linux**: Tested and stable
 * ✅ **Windows** (MSYS2): Tested and functional
 * ⚠️ **Debian/Ubuntu-based Linux**: Built automatically, but not fully tested yet
-* 🚫 **macOS**: No binaries yet, but you can compile from source using Clang and `make`
+* 🚫 **macOS**: No binaries yet, but you can compile from source using [Clang](https://releases.llvm.org/download.html) and [GNU Make](https://ftp.nluug.nl/pub/gnu/make/)
 
 </details>

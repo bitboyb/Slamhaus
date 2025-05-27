@@ -174,7 +174,7 @@ img {
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: var(--color-01); /* #1a1a1a */
+    background-color: var(--color-01); /* Unified background */
     color: var(--color-08); /* #f0f0f0 */
     border-radius: var(--radius-sm); /* 4px */
     line-height: 1.5;
@@ -183,7 +183,7 @@ pre, code {
 code {
     padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: var(--color-02); /* #222222 */
+    background-color: var(--color-01); /* Match pre background */
     border: none;
     box-shadow: none;
 }
@@ -194,7 +194,7 @@ pre {
     margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
     border: 1px solid var(--color-04); /* #2e2e2e */
-    background-color: var(--color-01); /* Ensures no double background */
+    background-color: var(--color-01); /* Unified background */
 }
 
 /* Tables */
@@ -748,10 +748,19 @@ nav {
 <li><a href="index.html">Home</a></li>
 <li><a href="quickstart.html">Quickstart</a></li>
 <li><a href="features.html">Features</a></li>
-<li><a href="syntax.html">Syntax Guide</a></li>
 <li><a href="templates.html">Templates</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a></li>
-<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus#readme">Docs</a>
+<ul>
+<li><a href="syntax.html">Syntax Guide</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download</a>
+<ul>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Download Slamhaus</a></li>
+<li><a href="https://github.com/bitboyb/Slamhaus/releases/tag/nightly">Source Code</a></li>
+<li><a href="https://open-vsx.org/extension/bitboyb/slamhaus-syntax">Download VSCode Extension</a></li>
+</ul>
+</li>
 </ul>
   </div>
 </nav>
@@ -770,7 +779,6 @@ nav {
 ## Heading 2
 
 - Bullet list
-1. Numbered list
 
 **Bold**, *Italic*, ***BoldItalic***
 
@@ -819,7 +827,7 @@ Right content
 <br>
 <section id="syntax-code">
 <h2>💻 Code Blocks & Tables</h2>
-<p>Show syntax-highlighted code or create clean tables.</p>
+<p>Show code or create clean tables.</p>
 <pre><code>#include <iostream>
 int main() {
   std::cout << "Hello!";
@@ -923,6 +931,7 @@ $site[
 <br>
 <section id="syntax-cpp">
 <h2>⚙️ Sample C++ Code (WASM)</h2>
+<h4><strong>Requires <a href="https://emscripten.org/">Emscripten</a></strong></h4>
 <pre><code>#include <emscripten.h>
 #include <string>
 
