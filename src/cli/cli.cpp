@@ -3,6 +3,12 @@
 #include <sstream>
 #include <filesystem>
 
+#ifdef _WIN32
+    #include <windows.h>
+    #include <fcntl.h>
+    #include <io.h>
+#endif
+
 namespace CLI
 {
     std::string GetSlamhausLogo()
