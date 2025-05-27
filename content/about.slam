@@ -1,0 +1,56 @@
+$page[ 
+    description:"Tell the story of your team, your mission, and what makes your project or company unique." 
+    keywords:"about us, team story, company values, project mission, indie dev support, small business tools"
+]()
+
+:hero[](#about-hero)
+
+# About Us!
+
+Introduce your company, collective, or solo project. This is your chance to explain who you are, what you stand for, and why visitors should care — all in one punchy paragraph.
+
+?button[action:"services.html" text:"See Our Services!"](#services-btn)
+
+:/hero
+
+:section[align:center](#about-us)
+
+## Our Core Principles
+
+:column[size:3](#about-us-columns)
+:column[left]()
+
+### 💡  
+### Clarity Over Clutter
+
+Keep things focused. This column is a great spot to explain how your team works or your approach to simplicity, speed, and execution.
+
+:column[middle]()
+
+### 🚀  
+### Empower the Underdogs
+
+Whether you're helping indie creators, startups, students, or local communities — use this section to show who you support and how.
+
+:column[right]()
+
+### 🛠️  
+### Build Smart, Scale Smooth
+
+Talk about your philosophy when it comes to tools, processes, or systems. Mention how you bring efficiency or power without overwhelming users or teams.
+
+:/column
+
+:/section
+
+:section[align:center](#our-story)
+
+## Our Story
+
+Use this section to tell your origin story — how your project, team, or idea came to life. It's your chance to connect with readers on a human level.
+
+Include what inspired you, what problem you set out to solve, and what the journey has looked like so far. Keep it honest, and don’t be afraid to show a bit of personality.
+
+You can also link out to key team members, collaborators, or even behind-the-scenes content.
+
+:/section

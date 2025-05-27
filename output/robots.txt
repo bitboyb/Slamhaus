@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: Slamhaus/sitemap.xml
+Sitemap: YourSiteName/sitemap.xml

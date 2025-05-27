@@ -1,0 +1,75 @@
+:section[align:center](#contact)
+
+## Get In Touch!
+
+:column[size:2](#contact-columns-0)
+:column[left]()
+
+Let your visitors know how to reach you. This section is perfect for introducing your preferred contact method and encouraging collaboration, support inquiries, or general messages.
+
+**Email us directly:**  
+[your@email.com](mailto:your@email.com)
+
+Or use the form below — everything lands in the same inbox.
+
+:column[right]()
+
+?form[action:"https://formsubmit.co/your@email.com":method:"post"](#contact-form)
+
+?input[type:"email":name:"email":placeholder:"Email Address":required:""](#email)
+?input[type:"text":name:"name":placeholder:"Name":required:""](#name)
+?textarea[name:"message":placeholder:"Your message":rows:"6":required:""](#message)
+?button[text:"Send Message":type:"submit"](#send-btn)
+?/form[]()
+
+:/column
+
+<br>
+
+---
+
+<br>
+
+:section[align:center](#contact-faq)
+
+## Frequently Asked Questions
+
+**Can I customize this site without coding?**  
+Yes. Slamhaus uses Markdown with a few extra tags — no need to touch HTML unless you want to.
+
+---
+
+**How do I connect this to my own domain?**  
+After building your site, just upload the output to your web host and point your domain there. Slamhaus works with any standard static hosting provider.
+
+---
+
+**Do you support forms like this?**  
+Absolutely. The above form uses [FormSubmit](https://formsubmit.co), but you can replace the action with any service or your own backend.
+
+---
+
+**Can I use this template for a portfolio or blog?**  
+Yes — it’s flexible enough for portfolios, blogs, documentation, and more. Just swap out the placeholder text and you're good to go.
+
+---
+
+**Where can I learn more about Slamhaus syntax?**  
+Check out the [Slamhaus README](https://github.com/bitboyb/Slamhaus#readme) for full documentation, examples, and available tags.
+
+---
+
+**How do I add images, videos, or custom sections?**  
+Just drop your media into the `assets/` folder and use tags like `![](path)` or `!iframe[]()` to embed them.
+
+---
+
+**Can I host this on GitHub Pages or Netlify?**  
+Yes — Slamhaus builds static HTML, so it works great with GitHub Pages, Netlify, Vercel, Bluehost, and more.
+
+---
+
+**Is Slamhaus open source?**  
+Yes. You’re free to use, modify, and distribute it under the MIT license. Fork it, remix it, make it your own.
+
+:/section

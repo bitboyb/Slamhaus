@@ -40,6 +40,12 @@ namespace Generator
             std::filesystem::remove_all(outputDir);
         }
         std::filesystem::create_directories(outputDir);
+        std::filesystem::path htaccessPath = std::filesystem::path(contentDir) / ".htaccess";
+        if (std::filesystem::exists(htaccessPath))
+        {
+            std::filesystem::copy_file(htaccessPath, std::filesystem::path(outputDir) / ".htaccess", std::filesystem::copy_options::overwrite_existing);
+            std::cout << "Copied .htaccess to output.\n";
+        }
         std::string cssContent = CSS::LoadCSS(contentDir + "/assets/theme");
         Config::ConfigINI ini = Config::GetConfig(contentDir);
         std::vector<std::string> generatedPages;
