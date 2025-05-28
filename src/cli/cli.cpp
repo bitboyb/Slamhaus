@@ -13,10 +13,10 @@ namespace CLI
 {
     std::string GetSlamhausLogo()
     {
-#ifdef _WIN32
-    SetConsoleOutputCP(CP_UTF8);
-    _setmode(_fileno(stdout), _O_U8TEXT);
-#endif
+// #ifdef _WIN32
+//     SetConsoleOutputCP(CP_UTF8);
+//     _setmode(_fileno(stdout), _O_U8TEXT);
+// #endif
         return R"(
    _____ __                __                    
   / ___// /___ _____ ___  / /_  ____ ___  _______
