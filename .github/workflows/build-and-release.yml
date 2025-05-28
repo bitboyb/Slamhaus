@@ -82,6 +82,12 @@ jobs:
           cp docs/syntax-reference.md "${{ matrix.release_dir }}/syntax-reference.md"
 
       - name: Create Zip Archive
+        if: ${{ matrix.windows }}
+        shell: msys2 {0}
+        run: zip -r "${{ matrix.zipname }}" "${{ matrix.release_dir }}"
+        
+      - name: Create Zip Archive
+        if: ${{ !matrix.windows }}
         run: zip -r "${{ matrix.zipname }}" "${{ matrix.release_dir }}"
 
       - name: Upload to GitHub Release
