@@ -3,7 +3,7 @@ $page[
     keywords:"static site, markdown, website, slamhaus, template, web development"
 ]()
 
-:hero[](#landing-hero)
+:hero[type:"video" media:"assets/media/demo.mp4"](#landing-hero)
 
 # Welcome to Your New Site!
 
@@ -101,11 +101,27 @@ Let people know how they can work with you, contact you, or start using your ser
 
 :/section
 
-:hero[align:center](#vscode-extension)
+:hero[](#vscode-extension)
 
 ## 🧩 A Hero With A Picture
 
 ![width:"50%"](assets/media/demo.jpg)
+
+Cool picture!
+
+?button[action:"about.slam" text:"Press Me!"](#btn-example)
+
+:/hero
+
+<br>
+
+---
+
+<br>
+
+:hero[type:"image" media:"assets/media/demo.jpg"](#vscode-extension)
+
+## 🧩 A Hero With A Picture... As The Background!
 
 Cool picture!
 

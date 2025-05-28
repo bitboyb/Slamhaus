@@ -644,9 +644,7 @@ nav {
   }
 }
 
-
-
-/* Section: Hero */
+/* Section: Hero (Default) */
 .hero {
     padding: 4rem 2rem;
     background: linear-gradient(135deg, var(--color-09), var(--color-11));
@@ -660,7 +658,6 @@ nav {
     border: 1px solid var(--color-06);
 }
 
-/* Glow texture behind text */
 .hero::before {
     content: '';
     position: absolute;
@@ -673,20 +670,17 @@ nav {
     filter: blur(10px);
 }
 
-/* Content on top */
 .hero > * {
     position: relative;
     z-index: 1;
 }
 
-/* Headline */
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: var(--color-06); /* match main h1 */
+    color: var(--color-06);
 }
 
-/* Subtext */
 .hero p {
     font-size: 1.15rem;
     max-width: 700px;
@@ -694,7 +688,6 @@ nav {
     color: var(--color-13);
 }
 
-/* Optional CTA button */
 .hero .button {
     display: inline-block;
     padding: 0.75rem 2rem;
@@ -727,6 +720,143 @@ nav {
     font-size: 1rem;
   }
 }
+
+.hero-video {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    background: var(--color-00);
+}
+
+.hero-video video {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    pointer-events: none;
+    opacity: 0.35;
+    z-index: 0;
+    object-fit: contain;
+}
+
+.hero-video .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    padding: clamp(1rem, 5vw, 2rem);
+    color: var(--color-08);
+    text-align: center;
+    backdrop-filter: blur(4px);
+    box-sizing: border-box;
+}
+
+.hero-video .hero-content h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    color: var(--color-06);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-video .hero-content p {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    color: var(--color-13);
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+.hero-video .hero-content .button {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    padding: 0.65rem 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .hero-video .hero-content {
+    max-width: 90vw;
+  }
+}
+
+.hero-image {
+    position: relative;
+    width: 100%;
+    min-height: 90vh;
+    background: url('../media/your-image.jpg') no-repeat center center / cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-08);
+    overflow: hidden;
+    margin-bottom: var(--margin-xl);
+    padding: 2rem 1rem; /* fallback padding for spacing */
+    box-sizing: border-box;
+    flex-direction: column; /* ensure vertical stacking */
+}
+
+.hero-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+.hero-image .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: clamp(1rem, 5vw, 2rem);
+    max-width: 680px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hero-image .hero-content h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    color: var(--color-06);
+    margin-bottom: 1rem;
+}
+
+.hero-image .hero-content p {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    color: var(--color-13);
+    margin-bottom: 2rem;
+}
+
+.hero-image .hero-content .button {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    padding: 0.65rem 1.5rem;
+}
+
+/* ✅ Responsive fallback for small screens */
+@media (max-width: 768px) {
+  .hero-image {
+    min-height: auto; /* allow to grow naturally */
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-image .hero-content {
+    max-width: 90vw;
+    text-align: center;
+  }
+}
+
 
 
 
@@ -762,6 +892,7 @@ nav {
 <h1>About Us!</h1>
 <p>Introduce your company, collective, or solo project. This is your chance to explain who you are, what you stand for, and why visitors should care — all in one punchy paragraph.</p>
 <button type="button" onclick="window.location.href='services.html'" id="services-btn">See Our Services!</button>
+  </div>
 </section>
 <section id="about-us">
 <h2>Our Core Principles</h2>
