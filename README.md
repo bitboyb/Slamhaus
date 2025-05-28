@@ -9,7 +9,12 @@
 **The lightweight, Markdown-powered static site generator for developers who’d rather write than wrestle with HTML.**
 
 👉 **[Visit Website → www.slamhaus.com](https://www.slamhaus.com)**  
+
 🧩 **[Get VS Code Extension → Slamhaus Syntax on Open VSX](https://open-vsx.org/extension/bitboyb/slamhaus-syntax)**
+
+📚 **[Slamhaus Syntax Reference](docs/syntax-reference.md)**
+
+🎨 **[Slamhaus Themes & Styling](docs/themes.md)**
 
 ---
 
@@ -95,45 +100,17 @@ Pick your platform:
 Unzip the archive and make the binary executable if needed:
 
 ```bash
-chmod +x slamhaus-linux-*.zip
+chmod +x slamhaus-linux-*
 ```
 
 ---
 
-### 📦 2. Grab a Starter Template
-
-Clone or download one of the official templates:
-
-* [Slamhaus Basic Template](https://github.com/bitboyb/Slamhaus-Basic-Template)
-
-This includes a homepage, about page, styles, and layout-ready Markdown files.
-
----
-
-### 📁 3. Create a `content/` Folder
-
-Make a folder named `content` next to the `slamhaus` binary:
-
-```
-your-project/
-├── slamhaus
-└── content/
-    ├── index.md
-    ├── about.md
-    └── include/
-        └── nav.md
-```
-
-Drag the contents of your chosen template into the `content` folder.
-
----
-
-### ▶️ 4. Build the Site
+### ▶️ 2. Build the Site
 
 From the folder containing `slamhaus`, run:
 
 ```bash
-./slamhaus
+./slamhaus-linux-*
 ```
 
 > On Windows, just double-click `slamhaus.exe` or run it from `cmd.exe` or PowerShell.
@@ -142,7 +119,7 @@ Your static site will be compiled to a `build/` folder.
 
 ---
 
-### 🌐 5. Open It in a Browser
+### 🌐 3. Open It in a Browser Or Upload to Your FTP!
 
 ```bash
 cd build
