@@ -71,7 +71,6 @@ jobs:
             mingw-w64-x86_64-toolchain
             zip
             make
-            mingw-w64-x86_64-windres
 
       - name: Build project (Windows)
         if: ${{ matrix.windows }}
