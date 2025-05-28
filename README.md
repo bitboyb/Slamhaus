@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://www.slamhaus.com">
-    <img src="slamhaus-logo.png" width="256" height="256" alt="Slamhaus Logo"/>
+    <img src="media/slamhaus-logo.png" width="256" height="256" alt="Slamhaus Logo"/>
   </a>
 </div>
 
@@ -51,7 +51,7 @@ Whether you’re building a portfolio, documentation site, or launching a small 
 
 > 💬 *Pull requests welcome! Slamhaus is open-source and open-ended—bring your ideas, features, or fixes.*
 
-![Slamahus Demo](demo.gif)
+![Slamahus Demo](media/demo.gif)
 
 ---
 
