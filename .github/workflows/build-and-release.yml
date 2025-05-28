@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write 
+  contents: write
 
 jobs:
   build-all:
@@ -16,17 +16,18 @@ jobs:
           - name: ubuntu
             os: ubuntu-latest
             binary: slamhaus-linux-debian
+            release_dir: slamhaus-linux-debian
             zipname: slamhaus-linux-debian.zip
             install: sudo apt update && sudo apt install -y build-essential zip
             build: |
               make
-              mv slamhaus slamhaus-linux-debian
-              zip slamhaus-linux-debian.zip slamhaus-linux-debian
+              mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
 
           - name: arch
             os: ubuntu-latest
             container: archlinux:latest
             binary: slamhaus-linux-arch
+            release_dir: slamhaus-linux-arch
             zipname: slamhaus-linux-arch.zip
             install: |
               pacman -Sy --noconfirm base-devel git zip
@@ -34,28 +35,46 @@ jobs:
               chown -R builder ./
             build: |
               su builder -c "make"
-              mv slamhaus slamhaus-linux-arch
-              zip slamhaus-linux-arch.zip slamhaus-linux-arch
+              mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
 
           - name: windows
             os: windows-latest
             binary: slamhaus-windows.exe
+            release_dir: slamhaus-windows
             zipname: slamhaus-windows.zip
             windows: true
 
     name: Build on ${{ matrix.name }}
     container: ${{ matrix.container || null }}
     steps:
+      # Checks out repository code.
       - uses: actions/checkout@v3
 
-      - name: Install dependencies
+      # Prepares the structured directory for release.
+      - name: Create Release Directory
+        run: mkdir -p ${{ github.workspace }}/${{ matrix.release_dir }}
+
+      # Copies the 'content' folder into the release directory.
+      - name: Copy Content Folder
+        run: cp -r content ${{ github.workspace }}/${{ matrix.release_dir }}/
+
+      # Copies the syntax reference document into the release directory.
+      - name: Copy Syntax Reference Doc
+        run: cp docs/syntax-reference.md ${{ github.workspace }}/${{ matrix.release_dir }}/syntax-reference.md
+
+      # The 'Copy Icon' step has been removed.
+
+      # Installs build dependencies for Linux systems.
+      - name: Install dependencies (Linux)
         if: ${{ !matrix.windows }}
         run: ${{ matrix.install }}
 
+      # Builds the project for Linux systems.
       - name: Build project (Linux)
         if: ${{ !matrix.windows }}
         run: ${{ matrix.build }}
 
+      # Sets up MSYS2 and build tools for Windows.
       - name: Setup MSYS2 and build tools (Windows)
         if: ${{ matrix.windows }}
         uses: msys2/setup-msys2@v2
@@ -66,15 +85,22 @@ jobs:
             mingw-w64-x86_64-toolchain
             zip
             make
+            mingw-w64-x86_64-windres
 
+      # Builds the project for Windows.
       - name: Build project (Windows)
         if: ${{ matrix.windows }}
         shell: msys2 {0}
         run: |
           make
-          mv slamhaus.exe slamhaus-windows.exe
-          zip slamhaus-windows.zip slamhaus-windows.exe
+          mv slamhaus.exe ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
 
+      # Creates the final ZIP archive of the release directory.
+      - name: Create Zip Archive
+        working-directory: ${{ github.workspace }}
+        run: zip -r ${{ matrix.zipname }} ${{ matrix.release_dir }}/
+
+      # Uploads the created ZIP archive to a GitHub Release.
       - name: Upload to GitHub Release (nightly)
         uses: softprops/action-gh-release@v1
         with:
@@ -82,6 +108,6 @@ jobs:
           name: Nightly Builds
           prerelease: true
           draft: false
-          files: ${{ matrix.zipname }}
+          files: ${{ github.workspace }}/${{ matrix.zipname }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
