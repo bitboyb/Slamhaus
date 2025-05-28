@@ -2,6 +2,7 @@
 /build/
 /slamhaus
 /tests/
+/output/
 
 # macOS
 .DS_Store

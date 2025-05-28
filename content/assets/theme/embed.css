@@ -9,16 +9,16 @@ img {
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: var(--color-01); /* Unified background */
-    color: var(--color-08); /* #f0f0f0 */
-    border-radius: var(--radius-sm); /* 4px */
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-light);
+    border-radius: var(--radius-sm);
     line-height: 1.5;
 }
 
 code {
     padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: var(--color-01); /* Match pre background */
+    background-color: var(--color-background-secondary);
     border: none;
     box-shadow: none;
 }
@@ -28,8 +28,8 @@ pre {
     padding: var(--pad-md);
     margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
-    border: 1px solid var(--color-04); /* #2e2e2e */
-    background-color: var(--color-01); /* Unified background */
+    border: 1px solid var(--color-background-hover);
+    background-color: var(--color-background-secondary);
 }
 
 /* Tables */
@@ -37,26 +37,26 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: var(--margin-lg);
-    border: 1px solid var(--color-03); /* #2a2a2a */
+    border: 1px solid var(--color-border-primary);
 }
 
 th, td {
     padding: 0.75rem var(--pad-md);
-    border: 1px solid var(--color-03);
+    border: 1px solid var(--color-border-primary);
 }
 
 th {
-    background-color: var(--color-10); /* #202020 */
-    color: var(--color-06); /* #bb86fc */
+    background-color: var(--color-background-input);
+    color: var(--color-accent-secondary);
     text-align: left;
 }
 
 tr:nth-child(even) {
-    background-color: var(--color-09); /* #181818 */
+    background-color: var(--color-background-button-hover);
 }
 
 tr:hover {
-    background-color: var(--color-11); /* #232323 */
+    background-color: var(--color-border-input);
 }
 
 /* Embeds */
@@ -66,10 +66,10 @@ tr:hover {
     height: 0;
     overflow: hidden;
     max-width: 100%;
-    border-radius: var(--radius-md); /* 8px */
+    border-radius: var(--radius-md);
     margin: var(--margin-lg) 0;
-    box-shadow: 0 0 12px var(--color-19); /* rgba(0, 0, 0, 0.6) */
-    border: 1px solid var(--color-03);
+    box-shadow: 0 0 12px var(--color-19);
+    border: 1px solid var(--color-border-primary);
 }
 
 .embed-container iframe {

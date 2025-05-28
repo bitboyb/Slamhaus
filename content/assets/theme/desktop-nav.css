@@ -1,17 +1,19 @@
 /* Navigation */
 nav {
     font-size: 1.1rem;
-    background-color: var(--color-18); /* #141414 */
-    border-bottom: 2px solid var(--color-05);
-    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
-    position: relative;
+    background-color: var(--color-background-secondary);
+    border-bottom: 2px solid var(--color-accent-primary);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1);
+    position: sticky;
+    top: 0;
+    width: 100%;
     z-index: 100;
 }
 
 /* Top-level menu */
 .nav-menu > ul {
     display: flex;
-    gap: var(--gap-md); /* 1rem */
+    gap: var(--gap-md);
     justify-content: center;
     padding: var(--pad-md) 0;
 }
@@ -28,7 +30,7 @@ nav {
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--color-02); /* #1f1f1f */
+    background: var(--color-background-container);
     padding: var(--pad-sm) 0;
     min-width: 180px;
     box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
@@ -49,9 +51,9 @@ nav {
 
 /* Nav links as buttons */
 .nav-menu a {
-    background-color: var(--color-02); /* #1f1f1f */
-    color: var(--color-05); /* #03dac6 */
-    border: 2px solid var(--color-05);
+    background-color: var(--color-background-container);
+    color: var(--color-accent-primary);
+    border: 2px solid var(--color-accent-primary);
     padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
@@ -67,8 +69,8 @@ nav {
 
 /* Hover effect */
 .nav-menu a:hover {
-    background-color: var(--color-05);
-    color: var(--color-00); /* #0e0e0e */
+    background-color: var(--color-accent-primary);
+    color: var(--color-background-body);
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
     text-shadow: none;
@@ -83,7 +85,7 @@ nav {
 .nav-menu > ul > li > a::after {
     content: " ▼";
     font-size: 0.7em;
-    color: var(--color-05);
+    color: var(--color-accent-primary);
 }
 .nav-menu > ul > li:not(:has(ul)) > a::after {
     content: "";

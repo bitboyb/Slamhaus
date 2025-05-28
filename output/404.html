@@ -19,8 +19,8 @@ body, h1, h2, h3, p, ul, ol, li {
 body {
     font-family: 'SpaceMono', monospace, sans-serif;
     line-height: 1.75;
-    background-color: var(--color-00);
-    color: var(--color-12);
+    background-color: var(--color-background-body);
+    color: var(--color-text-body);
     padding: var(--pad-md);
     max-width: 100%;
     font-size: 1.1rem;
@@ -34,32 +34,32 @@ h1, h2, h3 {
 }
 h1 {
     font-size: 2rem;
-    color: var(--color-06);
+    color: var(--color-accent-secondary);
 }
 h2 {
     font-size: 1.75rem;
-    color: var(--color-05);
+    color: var(--color-accent-primary);
 }
 h3 {
     font-size: 1.5rem;
-    color: var(--color-13);
+    color: var(--color-text-h3);
 }
 h4, h5, h6 {
     font-weight: bold;
     margin-bottom: var(--margin-sm);
-    color: var(--color-14);
+    color: var(--color-accent-link-alt);
 }
 h4 {
     font-size: 1.25rem;
-    color: var(--color-15);
+    color: var(--color-accent-muted-purple);
 }
 h5 {
     font-size: 1.1rem;
-    color: var(--color-16);
+    color: var(--color-accent-error);
 }
 h6 {
     font-size: 1rem;
-    color: var(--color-17);
+    color: var(--color-background-deep);
 }
 
 /* Paragraphs */
@@ -69,13 +69,13 @@ p {
 
 /* Links */
 a {
-    color: var(--color-05);
+    color: var(--color-accent-primary);
     text-decoration: none;
     border-bottom: 1px dotted transparent;
     transition: border 0.3s;
 }
 a:hover {
-    border-bottom: 1px dotted var(--color-05);
+    border-bottom: 1px dotted var(--color-accent-primary);
 }
 
 /* Lists */
@@ -92,16 +92,16 @@ ol {
 
 /* Header */
 header {
-    background-color: var(--color-18);
+    background-color: var(--color-shadow-overlay);
     padding: var(--pad-md);
     text-align: center;
-    border-bottom: 2px solid var(--color-06);
+    border-bottom: 2px solid var(--color-accent-secondary);
     color: white;
 }
 
 /* Main */
 main {
-    background-color: var(--color-09);
+    background-color: var(--color-background-button-hover);
     padding: var(--pad-lg);
     margin-top: var(--margin-lg);
     border-radius: var(--radius-md);
@@ -145,12 +145,12 @@ main {
 /* --- footer.css --- */
 /* Footer */
 footer {
-    margin-top: var(--margin-lg);             /* 2rem */
+    margin-top: var(--margin-lg);
     text-align: center;
     font-size: 0.9em;
-    color: var(--color-07);                   /* #aaaaaa */
-    border-top: 2px solid var(--color-05);    /* #03dac6 */
-    padding-top: var(--pad-md);               /* 1rem */
+    color: var(--color-text-body);
+    border-top: 2px solid var(--color-accent-primary);
+    padding-top: var(--pad-md);
 }
 
 
@@ -166,16 +166,16 @@ img {
 /* Code blocks */
 pre, code {
     font-family: 'SpaceMono', monospace;
-    background-color: var(--color-01); /* Unified background */
-    color: var(--color-08); /* #f0f0f0 */
-    border-radius: var(--radius-sm); /* 4px */
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-light);
+    border-radius: var(--radius-sm);
     line-height: 1.5;
 }
 
 code {
     padding: var(--pad-xs) var(--pad-sm);
     font-size: 0.95em;
-    background-color: var(--color-01); /* Match pre background */
+    background-color: var(--color-background-secondary);
     border: none;
     box-shadow: none;
 }
@@ -185,8 +185,8 @@ pre {
     padding: var(--pad-md);
     margin: calc(var(--margin-md) * 1.5) 0;
     overflow-x: auto;
-    border: 1px solid var(--color-04); /* #2e2e2e */
-    background-color: var(--color-01); /* Unified background */
+    border: 1px solid var(--color-background-hover);
+    background-color: var(--color-background-secondary);
 }
 
 /* Tables */
@@ -194,26 +194,26 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: var(--margin-lg);
-    border: 1px solid var(--color-03); /* #2a2a2a */
+    border: 1px solid var(--color-border-primary);
 }
 
 th, td {
     padding: 0.75rem var(--pad-md);
-    border: 1px solid var(--color-03);
+    border: 1px solid var(--color-border-primary);
 }
 
 th {
-    background-color: var(--color-10); /* #202020 */
-    color: var(--color-06); /* #bb86fc */
+    background-color: var(--color-background-input);
+    color: var(--color-accent-secondary);
     text-align: left;
 }
 
 tr:nth-child(even) {
-    background-color: var(--color-09); /* #181818 */
+    background-color: var(--color-background-button-hover);
 }
 
 tr:hover {
-    background-color: var(--color-11); /* #232323 */
+    background-color: var(--color-border-input);
 }
 
 /* Embeds */
@@ -223,10 +223,10 @@ tr:hover {
     height: 0;
     overflow: hidden;
     max-width: 100%;
-    border-radius: var(--radius-md); /* 8px */
+    border-radius: var(--radius-md);
     margin: var(--margin-lg) 0;
-    box-shadow: 0 0 12px var(--color-19); /* rgba(0, 0, 0, 0.6) */
-    border: 1px solid var(--color-03);
+    box-shadow: 0 0 12px var(--color-19);
+    border: 1px solid var(--color-border-primary);
 }
 
 .embed-container iframe {
@@ -243,9 +243,9 @@ tr:hover {
 /* --- interactions.css --- */
 /* Buttons */
 button, .slam-button {
-    background-color: #1f1f1f;
-    color: #03dac6;
-    border: 2px solid #03dac6;
+    background-color: var(--color-background-secondary);
+    color: var(--color-accent-primary);
+    border: 2px solid var(--color-accent-primary);
     padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
@@ -255,10 +255,10 @@ button, .slam-button {
     text-shadow: 0 0 4px rgba(3, 218, 198, 0.4);
     box-shadow: 0 0 8px rgba(3, 218, 198, 0.1);
 }
-  
+
 button:hover, .slam-button:hover {
-    background-color: #03dac6;
-    color: #0e0e0e;
+    background-color: var(--color-accent-primary);
+    color: var(--color-background-body);
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
 }
@@ -273,9 +273,9 @@ form textarea {
     margin-bottom: var(--margin-md);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
-    background-color: var(--color-01);
-    color: var(--color-08);
-    border: 1px solid var(--color-03);
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-light); 
+    border: 1px solid var(--color-border-primary);
     border-radius: var(--radius-md);
     box-shadow: inset 0 0 5px var(--color-19);
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -285,8 +285,8 @@ form input:not([type="checkbox"]):not([type="radio"]):focus,
 form select:focus,
 form textarea:focus {
     outline: none;
-    border-color: var(--color-05);
-    box-shadow: 0 0 8px var(--color-05);
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 8px var(--color-accent-primary);
 }
 
 /* Checkboxes & Radios (inline) */
@@ -334,31 +334,37 @@ form .slam-button {
   }
 }
 
-
-
 /* --- palette.css --- */
 :root {
-    --color-00: #0e0e0e;
-    --color-01: #1a1a1a;
-    --color-02: #222222;
-    --color-03: #2a2a2a;
-    --color-04: #2e2e2e;
-    --color-05: #03dac6;
-    --color-06: #bb86fc;
-    --color-07: #aaaaaa;
-    --color-08: #f0f0f0;
-    --color-09: #181818;
-    --color-10: #202020;
-    --color-11: #232323;
-    --color-12: #ffcb6b;
-    --color-13: #cccccc;
-    --color-14: #82aaff;
-    --color-15: #c792ea;
-    --color-16: #f07178;
-    --color-17: #141414;
-    --color-18: rgba(0, 0, 0, 0.6);
+    /* Backgrounds & Surfaces */
+    --color-background-body: #0e0e0e;         /* Primary (darkest) background */
+    --color-background-secondary: #1a1a1a;    /* Slightly lighter background for sections/cards */
+    --color-background-container: #222222;    /* General container/card background */
+    --color-background-hover: #2e2e2e;        /* Hover state for backgrounds or subtle raised elements */
+    --color-background-button-hover: #181818; /* Specific button background on hover */
+    --color-background-input: #202020;        /* Input field background */
+    --color-background-deep: #141414;         /* Very deep/dark background, e.g., footer */
+
+    /* Borders & Dividers */
+    --color-border-primary: #2a2a2a;          /* Main border/outline color */
+    --color-border-input: #232323;            /* Input field border */
+
+    /* Text Colors */
+    --color-text-body: #aaaaaa;               /* Default/muted body text color */
+    --color-text-light: #f0f0f0;              /* Light text color (e.g., on dark backgrounds) */
+    --color-text-h3: #cccccc;                 /* Text for subtitles or secondary headings */
+    --color-text-accent-secondary: #ffcb6b;   /* Secondary text accent (e.g., for highlights or specific elements) */
+
+    /* Accents & Interactive Elements */
+    --color-accent-primary: #03dac6;          /* Primary accent color (e.g., buttons, links, main highlights) */
+    --color-accent-secondary: #bb86fc;        /* Secondary accent color (e.g., alternative highlights, less frequent interactions) */
+    --color-accent-link-alt: #82aaff;         /* Alternative link or interaction color */
+    --color-accent-muted-purple: #c792ea;     /* Muted purple accent for optional use */
+    --color-accent-error: #f07178;            /* Error or warning state color */
+
+    /* Shadows & Overlays */
+    --color-shadow-overlay: rgba(0, 0, 0, 0.6); /* General overlay or shadow color with transparency */
 }
-  
 
 /* --- mobile-nav.css --- */
 /* Hamburger Toggle (Mobile) */
@@ -381,7 +387,7 @@ form .slam-button {
 .nav-toggle-label span::before,
 .nav-toggle-label span::after {
     display: block;
-    background: var(--color-05);
+    background: var(--color-accent-primary);
     height: 4px;
     width: 100%;
     border-radius: var(--radius-sm);
@@ -423,12 +429,12 @@ form .slam-button {
         display: none;
         flex-direction: column;
         align-items: center;
-        background: var(--color-09);
+        background: var(--color-background-button-hover);
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        border-top: 2px solid var(--color-05);
+        border-top: 2px solid var(--color-accent-primary);
         box-shadow: 0 8px 20px var(--color-19);
     }
 
@@ -488,17 +494,19 @@ form .slam-button {
 /* Navigation */
 nav {
     font-size: 1.1rem;
-    background-color: var(--color-18); /* #141414 */
-    border-bottom: 2px solid var(--color-05);
-    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1); /* Custom neon cyan glow */
-    position: relative;
+    background-color: var(--color-background-secondary);
+    border-bottom: 2px solid var(--color-accent-primary);
+    box-shadow: 0 0 12px rgba(3, 218, 198, 0.1);
+    position: sticky;
+    top: 0;
+    width: 100%;
     z-index: 100;
 }
 
 /* Top-level menu */
 .nav-menu > ul {
     display: flex;
-    gap: var(--gap-md); /* 1rem */
+    gap: var(--gap-md);
     justify-content: center;
     padding: var(--pad-md) 0;
 }
@@ -515,7 +523,7 @@ nav {
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--color-02); /* #1f1f1f */
+    background: var(--color-background-container);
     padding: var(--pad-sm) 0;
     min-width: 180px;
     box-shadow: 0 0 8px rgba(3, 218, 198, 0.3);
@@ -536,9 +544,9 @@ nav {
 
 /* Nav links as buttons */
 .nav-menu a {
-    background-color: var(--color-02); /* #1f1f1f */
-    color: var(--color-05); /* #03dac6 */
-    border: 2px solid var(--color-05);
+    background-color: var(--color-background-container);
+    color: var(--color-accent-primary);
+    border: 2px solid var(--color-accent-primary);
     padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
     font-size: 1rem;
@@ -554,8 +562,8 @@ nav {
 
 /* Hover effect */
 .nav-menu a:hover {
-    background-color: var(--color-05);
-    color: var(--color-00); /* #0e0e0e */
+    background-color: var(--color-accent-primary);
+    color: var(--color-background-body);
     transform: scale(1.05);
     box-shadow: 0 0 12px rgba(3, 218, 198, 0.3);
     text-shadow: none;
@@ -570,7 +578,7 @@ nav {
 .nav-menu > ul > li > a::after {
     content: " ▼";
     font-size: 0.7em;
-    color: var(--color-05);
+    color: var(--color-accent-primary);
 }
 .nav-menu > ul > li:not(:has(ul)) > a::after {
     content: "";
@@ -590,10 +598,10 @@ nav {
 .columns-container .column {
     flex: 1;
     padding: var(--pad-md);
-    background: linear-gradient(135deg, var(--color-10), var(--color-11));
-    color: var(--color-12);
+    background: linear-gradient(135deg, var(--color-background-input), var(--color-border-input));
+    color: var(--color-text-body);
     border-radius: var(--radius-md);
-    border: 1px solid var(--color-03);
+    border: 1px solid var(--color-border-primary);
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
     position: relative;
     overflow: hidden;
@@ -639,15 +647,15 @@ nav {
 /* Section: Hero (Default) */
 .hero {
     padding: 4rem 2rem;
-    background: linear-gradient(135deg, var(--color-09), var(--color-11));
-    color: var(--color-12);
+    background: linear-gradient(135deg, var(--color-background-button-hover), var(--color-border-input));
+    color: var(--color-text-body);
     text-align: center;
     border-radius: var(--radius-md);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     margin-bottom: var(--margin-xl);
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--color-06);
+    border: 1px solid var(--color-accent-secondary);
 }
 
 .hero::before {
@@ -670,21 +678,21 @@ nav {
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: var(--color-06);
+    color: var(--color-accent-secondary);
 }
 
 .hero p {
     font-size: 1.15rem;
     max-width: 700px;
     margin: 0 auto 2rem;
-    color: var(--color-13);
+    color: var(--color-text-h3);
 }
 
 .hero .button {
     display: inline-block;
     padding: 0.75rem 2rem;
-    background-color: var(--color-00);
-    color: var(--color-06);
+    background-color: var(--color-background-body);
+    color: var(--color-accent-secondary);
     border-radius: var(--radius-md);
     font-weight: bold;
     text-transform: uppercase;
@@ -694,8 +702,8 @@ nav {
 }
 
 .hero .button:hover {
-    background-color: var(--color-12);
-    color: var(--color-00);
+    background-color: var(--color-text-body);
+    color: var(--color-background-body);
     transform: translateY(-2px);
 }
 
@@ -725,7 +733,7 @@ nav {
     padding: 0;
     margin: 0;
     text-align: center;
-    background: var(--color-00);
+    background: var(--color-background-body);
 }
 
 .hero-video video {
@@ -748,7 +756,7 @@ nav {
     width: 100%;
     max-width: 680px;
     padding: clamp(1rem, 5vw, 2rem);
-    color: var(--color-08);
+    color: var(--color-text-light);
     text-align: center;
     backdrop-filter: blur(4px);
     box-sizing: border-box;
@@ -756,14 +764,14 @@ nav {
 
 .hero-video .hero-content h1 {
     font-size: clamp(1.5rem, 6vw, 2.5rem);
-    color: var(--color-06);
+    color: var(--color-accent-secondary);
     margin-bottom: 1rem;
     line-height: 1.2;
 }
 
 .hero-video .hero-content p {
     font-size: clamp(1rem, 4vw, 1.25rem);
-    color: var(--color-13);
+    color: var(--color-text-h3);
     margin-bottom: 2rem;
     line-height: 1.4;
 }
@@ -788,7 +796,7 @@ nav {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--color-08);
+    color: var(--color-text-light);
     overflow: hidden;
     margin-bottom: var(--margin-xl);
     padding: 2rem 1rem; /* fallback padding for spacing */
@@ -818,13 +826,13 @@ nav {
 
 .hero-image .hero-content h1 {
     font-size: clamp(1.5rem, 6vw, 2.5rem);
-    color: var(--color-06);
+    color: var(--color-accent-secondary);
     margin-bottom: 1rem;
 }
 
 .hero-image .hero-content p {
     font-size: clamp(1rem, 4vw, 1.25rem);
-    color: var(--color-13);
+    color: var(--color-text-h3);
     margin-bottom: 2rem;
 }
 
@@ -833,10 +841,10 @@ nav {
     padding: 0.65rem 1.5rem;
 }
 
-/* ✅ Responsive fallback for small screens */
+/* Responsive fallback for small screens */
 @media (max-width: 768px) {
   .hero-image {
-    min-height: auto; /* allow to grow naturally */
+    min-height: auto;
     align-items: flex-start;
     justify-content: flex-start;
     padding-top: 4rem;
@@ -848,8 +856,6 @@ nav {
     text-align: center;
   }
 }
-
-
 
 
 

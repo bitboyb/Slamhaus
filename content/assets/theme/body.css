@@ -11,8 +11,8 @@ body, h1, h2, h3, p, ul, ol, li {
 body {
     font-family: 'SpaceMono', monospace, sans-serif;
     line-height: 1.75;
-    background-color: var(--color-00);
-    color: var(--color-12);
+    background-color: var(--color-background-body);
+    color: var(--color-text-body);
     padding: var(--pad-md);
     max-width: 100%;
     font-size: 1.1rem;
@@ -26,32 +26,32 @@ h1, h2, h3 {
 }
 h1 {
     font-size: 2rem;
-    color: var(--color-06);
+    color: var(--color-accent-secondary);
 }
 h2 {
     font-size: 1.75rem;
-    color: var(--color-05);
+    color: var(--color-accent-primary);
 }
 h3 {
     font-size: 1.5rem;
-    color: var(--color-13);
+    color: var(--color-text-h3);
 }
 h4, h5, h6 {
     font-weight: bold;
     margin-bottom: var(--margin-sm);
-    color: var(--color-14);
+    color: var(--color-accent-link-alt);
 }
 h4 {
     font-size: 1.25rem;
-    color: var(--color-15);
+    color: var(--color-accent-muted-purple);
 }
 h5 {
     font-size: 1.1rem;
-    color: var(--color-16);
+    color: var(--color-accent-error);
 }
 h6 {
     font-size: 1rem;
-    color: var(--color-17);
+    color: var(--color-background-deep);
 }
 
 /* Paragraphs */
@@ -61,13 +61,13 @@ p {
 
 /* Links */
 a {
-    color: var(--color-05);
+    color: var(--color-accent-primary);
     text-decoration: none;
     border-bottom: 1px dotted transparent;
     transition: border 0.3s;
 }
 a:hover {
-    border-bottom: 1px dotted var(--color-05);
+    border-bottom: 1px dotted var(--color-accent-primary);
 }
 
 /* Lists */
@@ -84,16 +84,16 @@ ol {
 
 /* Header */
 header {
-    background-color: var(--color-18);
+    background-color: var(--color-shadow-overlay);
     padding: var(--pad-md);
     text-align: center;
-    border-bottom: 2px solid var(--color-06);
+    border-bottom: 2px solid var(--color-accent-secondary);
     color: white;
 }
 
 /* Main */
 main {
-    background-color: var(--color-09);
+    background-color: var(--color-background-button-hover);
     padding: var(--pad-lg);
     margin-top: var(--margin-lg);
     border-radius: var(--radius-md);
