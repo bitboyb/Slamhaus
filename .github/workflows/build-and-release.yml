@@ -19,9 +19,8 @@ jobs:
             release_dir: slamhaus-linux-debian
             zipname: slamhaus-linux-debian.zip
             install: sudo apt update && sudo apt install -y build-essential zip
-            build: |
-              make
-              mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
+            # Only define the compilation command here
+            compile_cmd: make 
 
           - name: arch
             os: ubuntu-latest
@@ -33,9 +32,8 @@ jobs:
               pacman -Sy --noconfirm base-devel git zip
               useradd -m builder
               chown -R builder ./
-            build: |
-              su builder -c "make"
-              mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
+            # Only define the compilation command here
+            compile_cmd: su builder -c "make"
 
           - name: windows
             os: windows-latest
@@ -62,17 +60,17 @@ jobs:
       - name: Copy Syntax Reference Doc
         run: cp docs/syntax-reference.md ${{ github.workspace }}/${{ matrix.release_dir }}/syntax-reference.md
 
-      # The 'Copy Icon' step has been removed.
-
       # Installs build dependencies for Linux systems.
       - name: Install dependencies (Linux)
         if: ${{ !matrix.windows }}
         run: ${{ matrix.install }}
 
-      # Builds the project for Linux systems.
+      # Builds the project and moves the binary for Linux systems.
       - name: Build project (Linux)
         if: ${{ !matrix.windows }}
-        run: ${{ matrix.build }}
+        run: |
+          ${{ matrix.compile_cmd }} # Executes the compilation command defined in the matrix
+          mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }} # Moves the compiled binary to its final location
 
       # Sets up MSYS2 and build tools for Windows.
       - name: Setup MSYS2 and build tools (Windows)
