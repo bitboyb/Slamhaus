@@ -10,31 +10,72 @@ namespace Section
                         Parser::ParseState &pState)
     {
         std::string trimmed = String::Trim(line);
-        if (trimmed.rfind(":hero[", 0) != 0) 
+        if (trimmed.rfind(":hero[", 0) != 0)
         {
             return false;
         }
 
         Text::CloseLists(html, pState);
-        html << "<section class=\"hero\"";
 
         auto attrs = Attributes::ParseAttributes(line, ":hero");
-        if (attrs.count("id")) 
+        std::string type = "standard";
+        std::string media;
+        std::string id;
+
+        if (attrs.count("type")) 
         {
-            html << " id=\"" << attrs["id"] << "\"";
+            type = attrs["type"];
         }
-        html << ">\n";
+        if (attrs.count("media")) 
+        {
+            media = attrs["media"];
+        }
+        if (attrs.count("id"))
+        {
+            id = attrs["id"];
+        } 
+
+        if (type == "video") 
+        {
+            html << "<section class=\"hero-video\"";
+            if (!id.empty())
+            {
+                html << " id=\"" << id << "\"";
+            }
+            html << ">\n";
+            html << "<video src=\"" << media
+                << "\" autoplay muted loop playsinline preload=\"auto\"></video>\n";
+            html << "<div class=\"hero-content\">\n";
+        }
+        else if (type == "image") 
+        {
+            html << "<section class=\"hero-image\"";
+            if (!id.empty()) 
+            {
+                html << " id=\"" << id << "\"";
+            }
+            html << " style=\"background-image: url('" << media << "');\">\n";
+            html << "<div class=\"hero-content\">\n";
+        }
+        else 
+        {
+            html << "<section class=\"hero\"";
+            if (!id.empty()) 
+            {
+                html << " id=\"" << id << "\"";
+            }
+            html << ">\n";
+        }
         return true;
     }
 
     bool HandleHeroClose(const std::string &line,
-                         std::ostringstream &html)
+                        std::ostringstream &html)
     {
-        if (String::Trim(line) != ":/hero") 
-        {
+        if (String::Trim(line) != ":/hero")
             return false;
-        }
 
+        html << "  </div>\n";
         html << "</section>\n";
         return true;
     }
