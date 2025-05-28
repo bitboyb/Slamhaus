@@ -3,6 +3,7 @@
 /slamhaus
 /tests/
 /output/
+output.zip
 
 # macOS
 .DS_Store
