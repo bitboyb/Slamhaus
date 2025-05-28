@@ -5,63 +5,63 @@ on:
     branches: [main]
 
 permissions:
-  contents: write # Needed for creating and uploading release assets
+  contents: write
 
 jobs:
-  # This job handles building for Ubuntu and Windows.
-  build-linux-windows:
+  build-all:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
-          # Configuration for Ubuntu (Debian-based Linux)
           - name: ubuntu
             os: ubuntu-latest
             binary: slamhaus-linux-debian
             release_dir: slamhaus-linux-debian
             zipname: slamhaus-linux-debian.zip
             install: sudo apt update && sudo apt install -y build-essential zip
-            compile_cmd: make # The command to compile the project
+            compile_cmd: make
 
-          # Configuration for Windows
+          - name: arch
+            os: ubuntu-latest
+            container: archlinux:latest
+            binary: slamhaus-linux-arch
+            release_dir: slamhaus-linux-arch
+            zipname: slamhaus-linux-arch.zip
+            install: pacman -Sy --noconfirm base-devel git zip
+            compile_cmd: make
+
           - name: windows
             os: windows-latest
             binary: slamhaus-windows.exe
             release_dir: slamhaus-windows
             zipname: slamhaus-windows.zip
-            windows: true # A custom flag to identify Windows-specific steps
+            windows: true
 
     name: Build on ${{ matrix.name }}
+    container: ${{ matrix.container || null }}
     steps:
-      # Checks out repository code.
       - uses: actions/checkout@v3
 
-      # Prepares the structured directory for release on the host.
       - name: Create Release Directory
-        run: mkdir -p ${{ github.workspace }}/${{ matrix.release_dir }}
+        run: mkdir -p "${{ matrix.release_dir }}"
 
-      # Copies the 'content' folder into the release directory.
       - name: Copy Content Folder
-        run: cp -r content ${{ github.workspace }}/${{ matrix.release_dir }}/
+        run: cp -r content "${{ matrix.release_dir }}/"
 
-      # Copies the syntax reference document into the release directory.
-      - name: Copy Syntax Reference Doc
-        run: cp docs/syntax-reference.md ${{ github.workspace }}/${{ matrix.release_dir }}/syntax-reference.md
+      - name: Copy Syntax Reference
+        run: cp docs/syntax-reference.md "${{ matrix.release_dir }}/syntax-reference.md"
 
-      # Installs build dependencies for Linux (Ubuntu) systems.
       - name: Install dependencies (Linux)
         if: ${{ !matrix.windows }}
         run: ${{ matrix.install }}
 
-      # Builds the project and moves the binary for Linux (Ubuntu) systems.
       - name: Build project (Linux)
         if: ${{ !matrix.windows }}
         run: |
-          ${{ matrix.compile_cmd }} # Executes the compilation command
-          mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }} # Moves the compiled binary
+          ${{ matrix.compile_cmd }}
+          mv slamhaus "${{ matrix.release_dir }}/${{ matrix.binary }}"
 
-      # Sets up MSYS2 and build tools for Windows.
-      - name: Setup MSYS2 and build tools (Windows)
+      - name: Setup MSYS2 and Build (Windows)
         if: ${{ matrix.windows }}
         uses: msys2/setup-msys2@v2
         with:
@@ -73,91 +73,25 @@ jobs:
             make
             mingw-w64-x86_64-windres
 
-      # Builds the project for Windows.
       - name: Build project (Windows)
         if: ${{ matrix.windows }}
         shell: msys2 {0}
         run: |
           make
-          mv slamhaus.exe ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
+          mv slamhaus.exe "${{ matrix.release_dir }}/${{ matrix.binary }}"
+          cp -r content "${{ matrix.release_dir }}/"
+          cp docs/syntax-reference.md "${{ matrix.release_dir }}/syntax-reference.md"
 
-      # Creates the final ZIP archive of the release directory.
       - name: Create Zip Archive
-        working-directory: ${{ github.workspace }}
-        run: zip -r ${{ matrix.zipname }} ${{ matrix.release_dir }}/
+        run: zip -r "${{ matrix.zipname }}" "${{ matrix.release_dir }}"
 
-      # Uploads the generated ZIP file as an artifact.
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.zipname }}
-          path: ${{ github.workspace }}/${{ matrix.zipname }}
-
-  # This job is dedicated to building for Arch Linux using a container.
-  build-arch:
-    runs-on: ubuntu-latest # The host runner will be Ubuntu
-    container: archlinux:latest # The job steps will run inside this Arch Linux container
-    name: Build on Arch
-    steps:
-      # Checks out repository code inside the container.
-      - uses: actions/checkout@v3
-
-      # Installs build dependencies for Arch Linux inside the container.
-      - name: Install dependencies (Arch)
-        run: pacman -Sy --noconfirm base-devel git zip
-
-      # Builds the project, prepares the contained folder structure, and zips it, all within the container.
-      - name: Build and Prepare Arch Archive
-        run: |
-          # Create the staging directory directly in the container's current working directory.
-          mkdir -p slamhaus-linux-arch
-          
-          # Copy necessary assets into the staging directory.
-          cp -r content slamhaus-linux-arch/
-          cp docs/syntax-reference.md slamhaus-linux-arch/syntax-reference.md
-          
-          # Compile the binary. 'make' will produce 'slamhaus' in the container's current directory.
-          make
-          
-          # Move the compiled binary into the staging directory.
-          mv slamhaus slamhaus-linux-arch/slamhaus-linux-arch
-          
-          # Zip the staging directory from within the container.
-          zip -r slamhaus-linux-arch.zip slamhaus-linux-arch/
-
-      # Uploads the generated Arch Linux ZIP file as an artifact from the container.
-      - name: Upload Arch Release Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: slamhaus-linux-arch.zip
-          path: slamhaus-linux-arch.zip # Path to the zip file within the container
-
-  # This job collects all artifacts and creates the GitHub Release.
-  release:
-    # This job runs only after both build jobs ('build-linux-windows' and 'build-arch') have completed successfully.
-    needs: [build-linux-windows, build-arch]
-    runs-on: ubuntu-latest # A standard Ubuntu runner to handle the release process
-    name: Create GitHub Release
-    steps:
-      # Downloads all artifacts (ZIP files) uploaded by the previous build jobs.
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: release-artifacts # All downloaded zips will be placed in this directory
-
-      # (Optional) Lists the downloaded artifacts for debugging purposes.
-      - name: List downloaded artifacts (for debug)
-        run: ls -R release-artifacts/
-
-      # Uploads all collected ZIP files to a GitHub Release.
-      - name: Upload to GitHub Release (nightly)
+      - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: nightly # The tag for the GitHub Release
-          name: Nightly Builds # The display name of the Release
-          prerelease: true # Marks the release as a pre-release
-          draft: false # Publishes the release immediately
-          # This pattern collects all .zip files from any subdirectory within 'release-artifacts'.
-          files: release-artifacts/*/*.zip
+          tag_name: nightly
+          name: Nightly Builds
+          prerelease: true
+          draft: false
+          files: "${{ matrix.zipname }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Uses the default GitHub token for authentication
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
