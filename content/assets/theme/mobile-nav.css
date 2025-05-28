@@ -18,7 +18,7 @@
 .nav-toggle-label span::before,
 .nav-toggle-label span::after {
     display: block;
-    background: var(--color-05);
+    background: var(--color-accent-primary);
     height: 4px;
     width: 100%;
     border-radius: var(--radius-sm);
@@ -60,12 +60,12 @@
         display: none;
         flex-direction: column;
         align-items: center;
-        background: var(--color-09);
+        background: var(--color-background-button-hover);
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        border-top: 2px solid var(--color-05);
+        border-top: 2px solid var(--color-accent-primary);
         box-shadow: 0 8px 20px var(--color-19);
     }
 
