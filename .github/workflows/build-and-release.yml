@@ -20,7 +20,7 @@ jobs:
             zipname: slamhaus-linux-debian.zip
             install: sudo apt update && sudo apt install -y build-essential zip
             # Only define the compilation command here
-            compile_cmd: make 
+            compile_cmd: make
 
           - name: arch
             os: ubuntu-latest
@@ -30,10 +30,10 @@ jobs:
             zipname: slamhaus-linux-arch.zip
             install: |
               pacman -Sy --noconfirm base-devel git zip
-              useradd -m builder
-              chown -R builder ./
+              # Removed 'useradd' and 'chown' for simplicity in container setup.
+              # Assuming 'make' can run as the default container user (root).
             # Only define the compilation command here
-            compile_cmd: su builder -c "make"
+            compile_cmd: make # Simplified to just 'make'
 
           - name: windows
             os: windows-latest
@@ -50,6 +50,7 @@ jobs:
 
       # Prepares the structured directory for release.
       - name: Create Release Directory
+        # This directory is created in the GitHub workspace, which is mounted into the container.
         run: mkdir -p ${{ github.workspace }}/${{ matrix.release_dir }}
 
       # Copies the 'content' folder into the release directory.
@@ -69,8 +70,11 @@ jobs:
       - name: Build project (Linux)
         if: ${{ !matrix.windows }}
         run: |
-          ${{ matrix.compile_cmd }} # Executes the compilation command defined in the matrix
-          mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }} # Moves the compiled binary to its final location
+          # Executes the compilation command (e.g., 'make').
+          # The binary ('slamhaus') will be created in the current working directory of the container (/github/workspace).
+          ${{ matrix.compile_cmd }}
+          # Moves the compiled binary from the container's workspace to the specific release directory on the host's mounted volume.
+          mv slamhaus ${{ github.workspace }}/${{ matrix.release_dir }}/${{ matrix.binary }}
 
       # Sets up MSYS2 and build tools for Windows.
       - name: Setup MSYS2 and build tools (Windows)
@@ -95,7 +99,9 @@ jobs:
 
       # Creates the final ZIP archive of the release directory.
       - name: Create Zip Archive
+        # Ensures the 'zip' command runs from the root of the checked-out repository on the host.
         working-directory: ${{ github.workspace }}
+        # Recursively zips the release directory.
         run: zip -r ${{ matrix.zipname }} ${{ matrix.release_dir }}/
 
       # Uploads the created ZIP archive to a GitHub Release.
