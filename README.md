@@ -282,212 +282,7 @@ The structure below shows how a typical Slamhaus project is organized:
 
 ## 🛠 Syntax Guide
 
-<details>
-<summary>Click to expand full syntax reference</summary>
-
----
-
-### 📄 Basic Markdown
-
-```markdown
-# Heading 1
-## Heading 2
-
-- Bullet list
-
-**Bold**, *Italic*, ***BoldItalic***
-
-[Link text](page.md)
-```
-
----
-
-### 📦 Sections & Columns
-
-```markdown
-:section[align:center](#about)
-### About Slamhaus
-:/section
-```
-
-```markdown
-:column[size:3](#features) Left column content
-:column[]() Middle column content
-:column[]()  Right column content
-:/column
-```
-
----
-
-### 🖼️ Media: Images, Video, Audio, SVG, iFrame
-
-```markdown
-![width:"100%" height:"300px"](assets/awesome.jpg)
-![width:"50%" link:"https://example.com"](assets/logo.png)
-
-!video[width:100% height:350px](assets/demo.mp4)
-!audio[controls loop](assets/sample.mp3)
-!svg[width:"64" height:"64"](assets/icon.svg)
-!iframe[https://www.youtube.com/embed/dQw4w9WgXcQ]()
-```
-
----
-
-### 💻 Code Blocks
-
-````markdown
-```cpp
-#include <iostream>
-int main() { std::cout << "Hello!"; }
-```
-````
-
----
-
-### 📊 Tables
-
-```markdown
-| Feature     | Supported |
-| ----------- | --------- |
-| Images      | ✅        |
-| Video       | ✅        |
-| Audio       | ✅        |
-| SVG         | ✅        |
-| iFrame      | ✅        |
-| Code Blocks | ✅        |
-```
-
----
-
-### 🔘 Interactive Buttons
-
-```markdown
-?button[action:"mailto:hi@example.com" text:"Email Us"](#email-btn)
-?button[action:"/contact" text:"Contact"](#contact-btn)
-?button[action:"https://example.com" text:"Visit Site"](#visit-btn)
-?button[action:"myFunction" text:"Run Script"](#custom-fn)
-```
-
----
-
-### 📝 Forms & Inputs
-
-```markdown
-?form[action:"https://formsubmit.co/you@example.com":method:"post"](#contact-form)
-
-?input[type:"email":name:"email":placeholder:"Your Email":required:""](#email)
-?input[type:"text":name:"name":placeholder:"Your Name":required:""](#name)
-?textarea[name:"message":placeholder:"Message":rows:"6":required:""](#message)
-
-?button[text:"Send"](#send-btn)
-
-?/form[]()
-```
-
----
-
-### 🔍 Page & Site Metadata
-
-```markdown
-$page[
-  title:"Home"
-  description:"Slamhaus homepage"
-  keywords:"markdown, static site, c++, wasm"
-]()
-
-$site[
-  title:"Slamhaus"
-  url:"https://slamhaus.dev"
-  favicon:"/assets/icons/favicon.ico"
-]()
-```
-
----
-
-### 🧠 WebAssembly Scripting with `@script[]()`
-
-```markdown
-@script[
-  src:"/scripts/greet.js"
-  bind:"#greet-btn"
-  call:"Greet"
-  args:"name-input"
-  types:"string"
-  result:"greeting-output"
-]()
-
-@script[
-  src:"/scripts/add.js"
-  bind:"#add-btn"
-  call:"Add"
-  args:"num1,num2"
-  types:"int,int"
-  rtype:"number"
-  result:"sum-result"
-]()
-```
-
-| Attribute | Description                                                      |
-| --------- | ---------------------------------------------------------------- |
-| `src`     | Path to the generated JavaScript glue file                       |
-| `bind`    | Element ID to attach event listener to (`#btn-id`)               |
-| `call`    | C++ function name to call                                        |
-| `args`    | Comma-separated list of input element IDs to extract values from |
-| `types`   | C++ argument types (`int`, `float`, `string`, etc.)              |
-| `rtype`   | Optional. Expected return type (`number`, `string`, etc.)        |
-| `result`  | ID of the element to inject the return value into                |
-
----
-
-### ⚙️ Example C++ Code for WASM Integration
-
-```cpp
-#include <emscripten.h>
-#include <string>
-#include <cstdlib>
-
-extern "C"
-{
-    EMSCRIPTEN_KEEPALIVE
-    int Add(int a, int b)
-    {
-        return a + b;
-    }
-
-    EMSCRIPTEN_KEEPALIVE
-    const char* Greet(const char* name)
-    {
-        static std::string msg;
-        msg = "Hello, " + std::string(name) + "!";
-        return msg.c_str();
-    }
-}
-```
-
-> 💡 **No manual compilation required** — Slamhaus automatically compiles your `.cpp` source files into WebAssembly at build time and generates the JavaScript glue code for use with `@script[]()`.
-
-Just place your `.cpp` file inside the `scripts/` folder, and reference it by name:
-
-```markdown
-@script[
-  src:"/scripts/greet.cpp"
-  bind:"#greet-btn"
-  call:"Greet"
-  args:"name-input"
-  types:"string"
-  result:"greeting-output"
-]()
-```
-
-Slamhaus will:
-
-* Compile `greet.cpp` into `greet.js` + `greet.wasm`
-* Expose `Greet` for use in the browser
-* Inject and wire up the glue code automatically
-
----
-
-</details>
+[Full Syntax Reference](docs/syntax-reference.md)
 
 ---
 
@@ -497,17 +292,16 @@ Need a starting point? Check out the official Slamhaus starter kit:
 
 ### 🧱 [Slamhaus Basic Template](https://github.com/bitboyb/Slamhaus-Basic-Template)
 
-A minimal, no-fluff template to help you hit the ground running. Includes:
+```bash
+git clone https://github.com/bitboyb/Slamhaus-Basic-Template content
+```
 
-* `index.md` homepage
-* Preconfigured `config.ini`, `nav.md`, and theme files
-* Asset folders for media, CSS, and icons
-* Example usage of extended syntax
+### 🧱 [Slamhaus One Page Portfolio Template](https://github.com/bitboyb/Slamhaus-OnePagePortfolio-Template)
 
 To use it, run this command **inside your Slamhaus directory**:
 
 ```bash
-git clone https://github.com/bitboyb/Slamhaus-Basic-Template content
+git clone https://github.com/bitboyb/Slamhaus-OnePagePortfolio-Template content
 ```
 
 Then just run:
@@ -518,11 +312,14 @@ Then just run:
 
 Your site will be built into the `output/` folder—ready to deploy.
 
-📌 **Note:** By default, Slamhaus looks for a folder named `content/`. You can specify a different path when running it, or modify the default in `main.cpp` to suit your workflow.
+📌 **Note:** By default, Slamhaus looks for a folder named `content/`. You can specify a different path when running it, or specify a directory on your computer.
 
 ---
 
 ## 🧭 Planned Features
+
+**ASCII Art & Game Support.**
+Render grid-based ASCII games entirely in the browser using C++ and WebAssembly—includes character canvas rendering, entity movement, input handling, and update loops with Slamhaus Markdown integration.
 
 **Emscripten Wrapper & DOM Operations.**
 High-level C++ interface for DOM manipulation, event binding, and element queries—write frontend logic in C++ using Unreal-style syntax, compiled to WebAssembly.

@@ -216,6 +216,91 @@ namespace Section
         return true;
     }
 
+    bool HandleDivOpen(const std::string &line,
+                        std::ostringstream &html,
+                        Parser::ParseState &pState)
+    {
+        std::string trimmed = String::Trim(line);
+        if (trimmed.rfind(":div[", 0) != 0) 
+        {
+            return false;
+        }
+
+        Text::CloseLists(html, pState);
+        html << "<div";
+
+        auto attrs = Attributes::ParseAttributes(trimmed, ":div");
+        if (attrs.count("id")) 
+        {
+            html << " id=\"" << attrs["id"] << "\"";
+        }
+        html << ">\n";
+        return true;
+    }
+
+    bool HandleDivClose(const std::string &line,
+                        std::ostringstream &html)
+    {
+        if (String::Trim(line) != ":/div") 
+        {
+            return false;
+        }
+        html << "</div>\n";
+        return true;
+    }
+
+    bool HandleCanvasOpen(const std::string &line,
+                        std::ostringstream &html,
+                        Parser::ParseState &pState)
+    {
+        std::string trimmed = String::Trim(line);
+        if (trimmed.rfind(":canvas[", 0) != 0)
+        {
+            return false;
+        }
+
+        Text::CloseLists(html, pState);
+
+        auto attrs = Attributes::ParseAttributes(trimmed, ":canvas");
+
+        std::string id = attrs.count("id") ? attrs["id"] : "canvas";
+        std::string width = attrs.count("width") ? attrs["width"] : "64";
+        std::string height = attrs.count("height") ? attrs["height"] : "64";
+
+        html << "<div class=\"canvas-wrapper\">\n";
+
+        html << "<div class=\"canvas\" id=\"" << id
+            << "\" data-width=\"" << width
+            << "\" data-height=\"" << height
+            << "\">\n";
+
+        html << "<script type=\"module\">\n";
+        html << "function fitCanvasSize_" << id << "() {\n";
+        html << "  const canvas = document.getElementById('" << id << "');\n";
+        html << "  const charsX = parseInt(canvas.dataset.width);\n";
+        html << "  const charsY = parseInt(canvas.dataset.height);\n";
+        html << "  canvas.style.width = `${charsX}ch`;\n";
+        html << "  canvas.style.height = `${charsY}em`;\n";
+        html << "}\n";
+        html << "window.addEventListener('load', fitCanvasSize_" << id << ");\n";
+        html << "window.addEventListener('resize', fitCanvasSize_" << id << ");\n";
+        html << "</script>\n";
+
+        return true;
+    }
+
+
+    bool HandleCanvasClose(const std::string &line,
+                        std::ostringstream &html)
+    {
+        if (String::Trim(line) != ":/canvas") {
+            return false;
+        }
+        html << "</div>\n";
+        html << "</div>\n";
+        return true;
+    }
+
     bool HandleBlockElements(const std::string &line,
                              std::ostringstream &html,
                              Parser::ParseState &pState,
@@ -234,6 +319,14 @@ namespace Section
         {
             return true;
         }
+        if (HandleDivOpen(line, html, pState))
+        {
+            return true;
+        }
+        if (HandleCanvasOpen(line, html, pState))
+        {
+            return true;
+        }
         if (HandleSectionClose(line, html)) 
         {
             return true;
@@ -243,6 +336,14 @@ namespace Section
             return true;
         }
         if (HandleColumnClose(line, html, pState, cState, seo)) 
+        {
+            return true;
+        }
+        if (HandleDivClose(line, html))
+        {
+            return true;
+        }
+        if (HandleCanvasClose(line, html))
         {
             return true;
         }

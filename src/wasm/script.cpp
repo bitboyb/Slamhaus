@@ -78,59 +78,75 @@ namespace Script
                         const std::vector<std::string>& argNames,
                         const std::vector<std::string>& argTypes,
                         const std::string& returnType,
-                        const std::string& result)
+                        const std::string& result,
+                        bool loop)
     {
         html << "<script type=\"module\">\n"
             << "import init from \"" << src << "\";\n"
             << "init().then(m => {\n";
 
-        if (!bind.empty()) 
+        if (loop)
         {
-            html << "  const el = document.querySelector(\"" << bind << "\");\n"
-                << "  if (el) el.addEventListener(\"" << event << "\", () => {\n";
-        } 
-        else 
-        {
-            html << "  (() => {\n";
+            html << "  function updateLoop() {\n";
+            html << "    const r = m.ccall(\"" << call << "\", \"" << returnType << "\", [], []);\n";
+            html << "    document.getElementById(\"" << result << "\").textContent = r;\n";
+            html << "    requestAnimationFrame(updateLoop);\n";
+            html << "  }\n";
+            html << "  updateLoop();\n";
         }
-        WriteInputCollection(html, argNames);
-        html << "    const argTypes = [";
-        for (size_t i = 0; i < argTypes.size(); ++i) 
+        else
         {
-            html << "\"" << argTypes[i] << "\"";
-            if (i + 1 < argTypes.size()) html << ", ";
+            if (!bind.empty()) 
+            {
+                html << "  const el = document.querySelector(\"" << bind << "\");\n"
+                    << "  if (el) el.addEventListener(\"" << event << "\", () => {\n";
+            } 
+            else 
+            {
+                html << "  (() => {\n";
+            }
+
+            WriteInputCollection(html, argNames);
+
+            html << "    const argTypes = [";
+            for (size_t i = 0; i < argTypes.size(); ++i) 
+            {
+                html << "\"" << argTypes[i] << "\"";
+                if (i + 1 < argTypes.size()) html << ", ";
+            }
+            html << "];\n";
+
+            html << "    const argValues = [";
+            for (size_t i = 0; i < argNames.size(); ++i) 
+            {
+                auto var = Sanitize(argNames[i]);
+                html << "val_" << var;
+                if (i + 1 < argNames.size()) html << ", ";
+            }
+            html << "];\n";
+
+            bool isVoid = (returnType == "void") || result.empty();
+            if (isVoid) 
+            {
+                html << "    m.ccall(\"" << call << "\", null, argTypes, argValues);\n";
+            } 
+            else 
+            {
+                html << "    const r = m.ccall(\"" << call << "\", \"" << returnType << "\", argTypes, argValues);\n"
+                    << "    document.getElementById(\"" << result << "\").textContent = r;\n";
+            }
+
+            if (!bind.empty()) 
+            {
+                html << "  });\n";
+            } 
+            else 
+            {
+                html << "  })();\n";
+            }
         }
-        html << "];\n";
-        html << "    const argValues = [";
-        for (size_t i = 0; i < argNames.size(); ++i) 
-        {
-            auto var = Sanitize(argNames[i]);
-            html << "val_" << var;
-            if (i + 1 < argNames.size()) html << ", ";
-        }
-        html << "];\n";
-        bool isVoid = (returnType == "void") || result.empty();
-        if (isVoid) 
-        {
-            html << "    m.ccall(\"" << call
-                << "\", null, argTypes, argValues);\n";
-        } else 
-        {
-            html << "    const r = m.ccall(\"" << call
-                << "\", \"" << returnType << "\", argTypes, argValues);\n"
-                << "    document.getElementById(\"" << result
-                << "\").textContent = r;\n";
-        }
-        if (!bind.empty()) 
-        {
-            html << "  });\n";
-        } 
-        else 
-        {
-            html << "  })();\n";
-        }
-        html << "});\n"
-            << "</script>\n";
+
+        html << "});\n</script>\n";
     }
 
     bool HandleScript(const std::string& line,
@@ -151,11 +167,13 @@ namespace Script
         auto attrs    = Attributes::ParseAttributes(trimmed, "@script");
         const auto& src    = attrs["src"];
         const auto& call   = attrs["call"];
-        const auto  bind   = attrs.count("bind")  ? attrs.at("bind")  : std::string{};
-        const auto  event  = attrs.count("event") ? attrs.at("event") : std::string{"click"};
-        const auto  args   = attrs["args"];
-        const auto  types  = attrs["types"];
-        const auto  result = attrs["result"];
+        const auto bind   = attrs.count("bind")  ? attrs.at("bind")  : std::string{};
+        const auto event  = attrs.count("event") ? attrs.at("event") : std::string{"click"};
+        const auto args   = attrs["args"];
+        const auto types  = attrs["types"];
+        const auto result = attrs["result"];
+        const auto loop = attrs.count("loop") ? attrs.at("loop") == "true" : false;
+
     
         auto argNames = args.empty()
                         ? std::vector<std::string>{}
@@ -185,14 +203,16 @@ namespace Script
         Text::CloseLists(html, pState);
         Text::CloseParagraphs(html);
         WriteGlueScript(html,
-                        src,
-                        call,
-                        bind,
-                        event,
-                        argNames,
-                        argTypes,
-                        returnType,
-                        result);
+                          src,
+                          call,
+                          bind,
+                          event,
+                          argNames,
+                          argTypes,
+                          returnType,
+                          result,
+                          loop);
+
         return true;
     }
 }

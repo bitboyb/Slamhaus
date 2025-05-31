@@ -1,0 +1,184 @@
+### Greet User
+
+#### Slamhaus Markdown
+
+```
+?input[type:"text" id:"nameInput" placeholder:"Your Name"]()
+?button[id:"greet-btn" type:"button" text:"Say Hello"]()
+
+:div[class:"greet-result"](#greet-result)
+
+Please Type Your Name!
+
+:/div
+
+@script[src:"/scripts/slam.js"bind:"#greet-btn"call:"Greet"args:"nameInput"types:"string"result:"greet-result"]()
+```
+
+#### CPP
+
+```
+SFUNCTION(const char*, Greet, const char* name)
+{
+    static std::string greeting;
+    greeting = "Hello, " + std::string(name) + "!";
+    return greeting.c_str();
+}
+```
+
+#### Result
+
+?input[type:"text" id:"nameInput" placeholder:"Your Name"]()
+?button[id:"greet-btn" type:"button" text:"Say Hello"]()
+
+<br>
+
+
+:div[class:"greet-result"](#greet-result)
+
+Please Type Your Name!
+
+:/div
+
+<br>
+
+@script[src:"/scripts/slam.js"bind:"#greet-btn"call:"Greet"args:"nameInput"types:"string"result:"greet-result"]()
+
+---
+
+### Calculator
+
+#### Slamhaus Markdown
+
+```
+?input[type:"number" id:"calcA" placeholder:"Enter A"]()
+?input[type:"number" id:"calcB" placeholder:"Enter B"]()
+
+?button[id:"add-btn" type:"button" text:"Add"]()
+?button[id:"subtract-btn" type:"button" text:"Subtract"]()
+?button[id:"multiply-btn" type:"button" text:"Multiply"]()
+?button[id:"divide-btn" type:"button" text:"Divide"]()
+
+:div[class:"calc-result"](#calc-result)
+
+Output Numbers
+
+:/div
+
+@script[src:"/scripts/slam.js"bind:"#add-btn"call:"Add"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+@script[src:"/scripts/slam.js"bind:"#subtract-btn"call:"Subtract"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+@script[src:"/scripts/slam.js"bind:"#multiply-btn"call:"Multiply"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+@script[src:"/scripts/slam.js"bind:"#divide-btn"call:"Divide"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+```
+
+#### CPP
+
+```
+SFUNCTION(int, Add, int a, int b)       { return a + b; }
+SFUNCTION(int, Subtract, int a, int b)  { return a - b; }
+SFUNCTION(int, Multiply, int a, int b)  { return a * b; }
+SFUNCTION(float, Divide, int a, int b)  { return (b == 0) ? 0.0f : static_cast<float>(a) / b; }
+```
+
+#### Result
+
+?input[type:"number" id:"calcA" placeholder:"Enter A"]()
+?input[type:"number" id:"calcB" placeholder:"Enter B"]()
+
+?button[id:"add-btn" type:"button" text:"Add"]()
+?button[id:"subtract-btn" type:"button" text:"Subtract"]()
+?button[id:"multiply-btn" type:"button" text:"Multiply"]()
+?button[id:"divide-btn" type:"button" text:"Divide"]()
+
+<br>
+
+:div[class:"calc-result"](#calc-result)
+
+Output Number
+
+:/div
+
+<br>
+
+@script[src:"/scripts/slam.js"bind:"#add-btn"call:"Add"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+@script[src:"/scripts/slam.js"bind:"#subtract-btn"call:"Subtract"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+@script[src:"/scripts/slam.js"bind:"#multiply-btn"call:"Multiply"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+@script[src:"/scripts/slam.js"bind:"#divide-btn"call:"Divide"args:"calcA, calcB"types:"int, int"result:"calc-result"]()
+
+---
+
+### Concatenate Strings
+
+#### Slamhaus Markdown
+
+```
+?input[type:"text" id:"wordA" placeholder:"First Word"]()
+?input[type:"text" id:"wordB" placeholder:"Second Word"]()
+?button[id:"concat-btn" type:"button" text:"Join Words"]()
+
+:div[class:"concat-result"](#concat-result)
+
+Output String
+
+:/div
+
+@script[src:"/scripts/slam.js"bind:"#concat-btn"call:"Concat"args:"wordA, wordB" types:"string, string"result:"concat-result"]()
+```
+
+#### CPP
+
+```
+SFUNCTION(const char*, Concat, const char* a, const char* b)
+{
+    static std::string result;
+    result = std::string(a) + std::string(b);
+    return result.c_str();
+}
+```
+
+#### Result
+
+?input[type:"text" id:"wordA" placeholder:"First Word"]()
+?input[type:"text" id:"wordB" placeholder:"Second Word"]()
+?button[id:"concat-btn" type:"button" text:"Join Words"]()
+
+<br>
+
+:div[](#concat-result)
+
+Output String
+
+:/div
+
+<br>
+
+@script[src:"/scripts/slam.js"bind:"#concat-btn"call:"Concat"args:"wordA, wordB" types:"string, string"result:"concat-result"]()
+
+---
+
+### Log a Message to Console
+
+#### Slamhaus Markdown
+
+```
+?input[type:"text" id:"logInput" placeholder:"Enter log message"]()
+?button[id:"log-btn" type:"button" text:"Log It"]()
+
+@script[src:"/scripts/slam.js"bind:"#log-btn"call:"LogMessage"args:"logInput"types:"string"result:""]()
+```
+
+#### CPP
+
+```
+SFUNCTION(void, LogMessage, const char* msg)
+{
+    std::cout << "[WASM Log] " << msg << std::endl;
+}
+```
+
+#### Result
+
+?input[type:"text" id:"logInput" placeholder:"Enter log message"]()
+?button[id:"log-btn" type:"button" text:"Log It"]()
+
+@script[src:"/scripts/slam.js"bind:"#log-btn"call:"LogMessage"args:"logInput"types:"string"result:""]()

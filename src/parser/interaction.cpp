@@ -107,6 +107,10 @@ namespace Interaction
         auto attrs   = Attributes::ParseAttributes(trimmed, "?input");
         std::ostringstream html;
         html << "<p><input";
+        if (!pState.inForm)
+        {
+            html << " class=\"standalone-input\"";
+        }
         EmitAttributes(html, attrs);
         html << " /></p>";
         return html.str();
