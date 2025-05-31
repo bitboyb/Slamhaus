@@ -250,23 +250,44 @@ Use native C++ functions in the browser with no JavaScript by binding them to el
 
 This is an example of the C++ code that Slamhaus compiles to WebAssembly (`.wasm`).
 
-```cpp
-#include <emscripten.h>
-#include <string>
+#### slam.cpp
 
-extern "C" {
-  EMSCRIPTEN_KEEPALIVE
-  int Add(int a, int b) {
-    return a + b;
-  }
-
-  EMSCRIPTEN_KEEPALIVE
-  const char* Greet(const char* name) {
-    static std::string msg;
-    msg = "Hello, " + std::string(name) + "!";
-    return msg.c_str();
-  }
+```
+SFUNCTION(const char*, Greet, const char* name)
+{
+    static std::string greeting;
+    greeting = "Hello, " + std::string(name) + "!";
+    return greeting.c_str();
 }
+
+#### wasm.slam
+
+```slamhaus
+?input[type:"text" id:"nameInput" placeholder:"Your Name"]()
+?button[id:"greet-btn" type:"button" text:"Say Hello"]()
+
+:div[class:"greet-result"](#greet-result)
+
+Please Type Your Name!
+
+:/div
+
+@script[src:"/scripts/slam.js"bind:"#greet-btn"call:"Greet"args:"nameInput"types:"string"result:"greet-result"]()
 ```
 
-Just place the `.cpp` file in your `scripts/` folder — Slamhaus will compile it to `.wasm` and generate the necessary glue code for browser use.
+Just place the `.cpp` file in your `scripts/` folder — Slamhaus will compile it to `.wasm` and generate the necessary glue code for browser use. Requires the [slam.hpp](content/scripts/slam.hpp) which included in repository or wrap your functions like this:
+
+```cpp
+#include <emscripten.h>
+
+extern "C"
+{
+    EMSCRIPTEN_KEEPALIVE
+    const char* Greet(const char* name)
+    {
+        static std::string greeting;
+        greeting = "Hello, " + std::string(name) + "!";
+        return greeting.c_str();
+    }
+}
+```

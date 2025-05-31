@@ -81,3 +81,18 @@ tr:hover {
     border: 0;
     border-radius: var(--radius-md);
 }
+
+input.standalone-input {
+    padding: 0.5rem;
+    border: 1px solid var(--color-accent);
+    background: var(--color-dark);
+    color: var(--color-accent);
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+div[class$="-result"] {
+    margin-top: 1em;
+    color: var(--color-accent);
+    font-weight: bold;
+}
