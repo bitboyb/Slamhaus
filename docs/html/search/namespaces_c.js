@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wasm_0',['WASM',['../namespaceWASM.html',1,'']]]
+  ['template_0',['Template',['../namespaceTemplate.html',1,'']]],
+  ['text_1',['Text',['../namespaceText.html',1,'']]]
 ];

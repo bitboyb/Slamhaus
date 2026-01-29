@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['meta_5fhpp_0',['META_HPP',['../meta_8hpp.html#ab6b1647c670832038fff32c43d4b5a64',1,'meta.hpp']]]
+  ['log_5fhpp_0',['LOG_HPP',['../log_8hpp.html#ae782a07ef984165524df6bcad789eddd',1,'log.hpp']]]
 ];

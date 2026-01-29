@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parser_0',['Parser',['../namespaceParser.html',1,'']]]
+  ['nav_0',['Nav',['../namespaceNav.html',1,'']]]
 ];

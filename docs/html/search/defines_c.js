@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wasm_5fhpp_0',['WASM_HPP',['../wasm_8hpp.html#acd0e3566107111dbda46600d25cbf5ba',1,'wasm.hpp']]]
+  ['template_5fhpp_0',['TEMPLATE_HPP',['../template_8hpp.html#a081691da58966cfe89cc465365df987a',1,'template.hpp']]],
+  ['text_5fhpp_1',['TEXT_HPP',['../text_8hpp.html#a0ae2ccae95958ae60d121fe5e38b378a',1,'text.hpp']]]
 ];

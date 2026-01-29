@@ -14,6 +14,7 @@
 
 #include "cli/cli.hpp"
 #include "core/generator.hpp"
+#include "util/log.hpp"
 #include <iostream>
 
 int main() {
@@ -24,23 +25,23 @@ int main() {
     int choice = CLI::GetMenuChoice(1, 3);
 
     if (choice == 3) {
-      std::cout << "Goodbye!\n";
+      Log::Info("Goodbye!");
       break;
     }
 
     switch (choice) {
     case 1: {
-      std::cout << "\nGenerating site from ./content …\n";
+      Log::Info("\nGenerating site from ./content …");
       Generator::GenerateSite("content", "output");
-      std::cout << "Done.\n\n";
+      Log::Info("Done.\n");
       break;
     }
     case 2: {
       auto dir =
           CLI::Prompt("\nEnter path to your content directory", "content");
-      std::cout << "Generating site from " << dir << " …\n";
+      Log::Info("Generating site from " + dir + " …");
       Generator::GenerateSite(dir, "output");
-      std::cout << "Done.\n\n";
+      Log::Info("Done.\n");
       break;
     }
     }

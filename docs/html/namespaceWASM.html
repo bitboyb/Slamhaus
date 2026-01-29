@@ -99,6 +99,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a646a3efbe2c3e9eebf2b8004ecd08996" id="r_a646a3efbe2c3e9eebf2b8004ecd08996"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a646a3efbe2c3e9eebf2b8004ecd08996">IsSourceFile</a> (const std::filesystem::path &amp;path)</td></tr>
 <tr class="memitem:ac68be9e122812b1b1cf73cfb94b54a84" id="r_ac68be9e122812b1b1cf73cfb94b54a84"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#ac68be9e122812b1b1cf73cfb94b54a84">Compile</a> (const std::vector&lt; <a class="el" href="structWASM_1_1WASMFile.html">WASMFile</a> &gt; &amp;files, const std::string &amp;emccPath) -&gt; bool</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
@@ -116,7 +117,24 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>emccPath</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;emcc&quot;</span>&#160;) -&gt;  bool</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>emccPath</em></span>&#160;) -&gt;  bool</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a646a3efbe2c3e9eebf2b8004ecd08996" name="a646a3efbe2c3e9eebf2b8004ecd08996"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a646a3efbe2c3e9eebf2b8004ecd08996">&#9670;&#160;</a></span>IsSourceFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WASM::IsSourceFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -128,7 +146,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if all files compiled successfully, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if all files compiled successfully, false otherwise. Checks if a file is a C++ source file suitable for <a class="el" href="namespaceWASM.html">WASM</a> compilation. </dd></dl>
 
 </div>
 </div>

@@ -10,6 +10,46 @@
 
 #include <sstream>
 
+namespace {
+bool TryHandleBlock(const std::string &raw, std::istringstream &iss,
+                    std::ostringstream &html, Parser::ParseState &pState,
+                    Parser::ColumnState &cState, SEO::SEOData *seo) {
+  if (raw.empty()) {
+    return false;
+  }
+  if (raw[0] == '<') {
+    Text::CloseLists(html, pState);
+    html << raw << "\n";
+    return true;
+  }
+  if (Script::HandleScript(raw, iss, html, pState)) {
+    return true;
+  }
+  if (SEO::HandleMetaLines(raw, seo)) {
+    return true;
+  }
+  if (Section::HandleBlockElements(raw, html, pState, cState, seo)) {
+    return true;
+  }
+  if (Form::HandleFormElements(raw, html, pState)) {
+    return true;
+  }
+  if (Interaction::IsInteraction(raw, html, pState)) {
+    return true;
+  }
+  if (Embed::HandleEmbeds(raw, html, pState)) {
+    return true;
+  }
+  if (Snippet::HandleCodeOrTable(raw, iss, html, pState)) {
+    return true;
+  }
+  if (Text::HandleTextBlocks(raw, html, pState)) {
+    return true;
+  }
+  return false;
+}
+} // namespace
+
 namespace Parser {
 auto ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
     -> std::string {
@@ -54,35 +94,8 @@ auto ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
         continue;
       }
     }
-    if (!raw.empty() && raw[0] == '<') {
-      Text::CloseLists(html, pState);
-      html << raw << "\n";
-      continue;
-    }
-    if (Script::HandleScript(raw, iss, html, pState)) {
-      continue;
-    }
-    if (SEO::HandleMetaLines(raw, seo)) {
-      continue;
-    }
-    if (Section::HandleBlockElements(raw, html, pState, cState, seo)) {
-      continue;
-    }
-    if (Form::HandleFormElements(raw, html, pState)) {
-      continue;
-    }
-    if (Interaction::IsInteraction(raw, html, pState)) {
-      continue;
-    }
-    if (Embed::HandleEmbeds(raw, html, pState)) {
-      continue;
-    }
-    if (Snippet::HandleCodeOrTable(raw, iss, html, pState)) {
-      continue;
-    }
-    if (Text::HandleTextBlocks(raw, html, pState)) {
-      continue;
-    }
+
+    TryHandleBlock(raw, iss, html, pState, cState, seo);
   }
   Text::CloseLists(html, pState);
   return html.str();

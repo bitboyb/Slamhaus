@@ -4,6 +4,7 @@
 #define STRING_HPP
 
 #include <string>
+#include <string_view>
 
 namespace String {
 /// Removes leading and trailing whitespace from the given string.
@@ -11,7 +12,7 @@ namespace String {
 ///
 /// @param str The input string.
 /// @return A new string with whitespace trimmed.
-auto Trim(const std::string &str) -> std::string;
+auto Trim(std::string_view str) -> std::string;
 } // namespace String
 
 #endif // STRING_HPP

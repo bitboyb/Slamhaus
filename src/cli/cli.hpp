@@ -16,6 +16,9 @@ std::string GetInfo();
 /// Displays the interactive CLI menu to the terminal.
 void ShowMenu();
 
+/// Clears the input buffer to prevent cin issues.
+void ClearInputBuffer();
+
 /// Prompts user to enter a number between [min, max].
 /// Repeats until valid input is received.
 ///

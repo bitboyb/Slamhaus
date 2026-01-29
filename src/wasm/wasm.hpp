@@ -3,6 +3,7 @@
 #ifndef WASM_HPP
 #define WASM_HPP
 
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -22,6 +23,9 @@ struct WASMFile {
 /// @param files     A list of WASMFile structs representing files to compile.
 /// @param emccPath  Optional path to the `emcc` compiler (default is `"emcc"`).
 /// @return True if all files compiled successfully, false otherwise.
+/// Checks if a file is a C++ source file suitable for WASM compilation.
+bool IsSourceFile(const std::filesystem::path &path);
+
 auto Compile(const std::vector<WASMFile> &files,
              const std::string &emccPath = "emcc") -> bool;
 } // namespace WASM

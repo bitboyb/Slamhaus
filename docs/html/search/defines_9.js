@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parser_5fhpp_0',['PARSER_HPP',['../parser_8hpp.html#a767f38b6f8f14e553fb2a895b2e73fac',1,'parser.hpp']]]
+  ['nav_5fhpp_0',['NAV_HPP',['../nav_8hpp.html#a41dd3b2b9e14ed1fa7ece461d6f45601',1,'nav.hpp']]]
 ];

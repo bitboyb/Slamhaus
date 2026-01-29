@@ -2,10 +2,12 @@
 #include "../parser/parser.hpp"
 #include "../parser/seo.hpp"
 #include "../util/html.hpp"
+#include "../util/log.hpp"
 #include "../util/smd.hpp"
 #include "../wasm/wasm.hpp"
 #include "asset.hpp"
 #include "config.hpp"
+#include "constants.hpp"
 #include "css.hpp"
 #include "meta.hpp"
 #include "template.hpp"
@@ -14,8 +16,8 @@
 #include <iostream>
 
 namespace Generator {
-auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
-    -> bool {
+auto GenerateSite(const std::filesystem::path &contentDir,
+                  const std::filesystem::path &outputDir) -> bool {
   if (!std::filesystem::exists(contentDir) ||
       !std::filesystem::is_directory(contentDir)) {
     std::cerr << "Content directory not found: " << contentDir << "\n";
@@ -34,25 +36,26 @@ auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
     std::filesystem::remove_all(outputDir);
   }
   std::filesystem::create_directories(outputDir);
-  std::filesystem::path htaccessPath =
-      std::filesystem::path(contentDir) / ".htaccess";
+  std::filesystem::path htaccessPath = contentDir / Constants::kFileHtaccess;
   if (std::filesystem::exists(htaccessPath)) {
     std::filesystem::copy_file(
-        htaccessPath, std::filesystem::path(outputDir) / ".htaccess",
+        htaccessPath, outputDir / Constants::kFileHtaccess,
         std::filesystem::copy_options::overwrite_existing);
-    std::cout << "Copied .htaccess to output.\n";
+    Log::Info("Copied .htaccess to output.");
   }
-  std::string cssContent = CSS::LoadCSS(contentDir + "/assets/theme");
-  Config::ConfigINI ini = Config::GetConfig(contentDir);
+  std::string cssContent = CSS::LoadCSS((contentDir / "assets/theme").string());
+  Config::ConfigINI ini = Config::GetConfig(contentDir.string());
   std::vector<std::string> generatedPages;
-  std::string templateString = Template::BuildTemplate(ini, contentDir);
-  if (!Asset::CopyAssets(contentDir + "/assets/", outputDir + "/assets")) {
-    std::cerr << "Failed to copy assets.\n";
+  std::string templateString =
+      Template::BuildTemplate(ini, contentDir.string());
+  if (!Asset::CopyAssets((contentDir / "assets/").string(),
+                         (outputDir / "assets").string())) {
+    Log::Error("Failed to copy assets.");
     return false;
   }
   for (const auto &entry :
        std::filesystem::recursive_directory_iterator(contentDir)) {
-    if (entry.is_regular_file() && entry.path().extension() == ".cpp") {
+    if (entry.is_regular_file() && WASM::IsSourceFile(entry.path())) {
       std::filesystem::path relPath =
           std::filesystem::relative(entry.path(), contentDir);
       std::filesystem::path outBase = std::filesystem::path(outputDir) /
@@ -66,7 +69,7 @@ auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
       }
     } else if (entry.is_regular_file() && SMD::IsContentFile(entry.path())) {
       std::string ext = entry.path().extension().string();
-      if (ext == ".smd") {
+      if (ext == Constants::kExtSmd) {
         std::cout << "Skipping partial file: " << entry.path() << std::endl;
         continue;
       }

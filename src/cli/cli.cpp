@@ -1,5 +1,7 @@
 
+#include "../util/log.hpp"
 #include <iostream>
+#include <limits>
 #include <string>
 
 #ifdef _WIN32
@@ -39,11 +41,15 @@ std::string GetInfo() {
 }
 
 void ShowMenu() {
-  std::cout
-      << "Select an option:\n"
-      << "  1) Compile current site in ./content\n"
-      << "  2) Compile site from another directory (relative or absolute)\n"
-      << "  3) Exit\n";
+  Log::Info("Select an option:\n"
+            "  1) Compile current site in ./content\n"
+            "  2) Compile site from another directory (relative or absolute)\n"
+            "  3) Exit");
+}
+
+void ClearInputBuffer() {
+  std::cin.clear();
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 int GetMenuChoice(int min, int max) {
@@ -51,13 +57,12 @@ int GetMenuChoice(int min, int max) {
     std::cout << "Enter choice [" << min << "-" << max << "]: ";
     int choice;
     if (std::cin >> choice && choice >= min && choice <= max) {
-      std::cin.ignore(10000, '\n');
+      ClearInputBuffer();
       return choice;
     }
-    std::cin.clear();
-    std::cin.ignore(10000, '\n');
-    std::cout << " ➞ Invalid; please enter a number between " << min << " and "
-              << max << ".\n";
+    ClearInputBuffer();
+    Log::Error(" ➞ Invalid; please enter a number between " +
+               std::to_string(min) + " and " + std::to_string(max) + ".");
   }
 }
 

@@ -6,6 +6,11 @@
 #include <vector>
 
 namespace WASM {
+
+bool IsSourceFile(const std::filesystem::path &path) {
+  return path.extension() == ".cpp";
+}
+
 auto Compile(const std::vector<WASMFile> &files, const std::string &emccPath)
     -> bool {
   bool allSuccess = true;

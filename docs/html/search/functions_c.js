@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['trim_0',['Trim',['../namespaceString.html#a0111f4a218e4a5cefa4394e423e9781f',1,'String']]]
+  ['trim_0',['Trim',['../namespaceString.html#a396a85c49aaebbb392573e2aa425cfbc',1,'String']]]
 ];

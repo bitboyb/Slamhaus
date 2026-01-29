@@ -5,6 +5,13 @@
 /output/
 output.zip
 
+# Doxygen generated documentation
+/docs/html/
+/docs/latex/
+/docs/xml/
+/docs-build/
+/output/docs/
+
 # macOS
 .DS_Store
 

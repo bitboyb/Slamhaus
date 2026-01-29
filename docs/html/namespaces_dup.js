@@ -8,6 +8,7 @@ var namespaces_dup =
       [ "ParseAttributes", "namespaceAttributes.html#a0977396f0dfdb7e0846f69395bdb211e", null ]
     ] ],
     [ "CLI", "namespaceCLI.html", [
+      [ "ClearInputBuffer", "namespaceCLI.html#a0cce7f4c834bf619b0136b413b928122", null ],
       [ "GetInfo", "namespaceCLI.html#a846764919f31cf32f663a39354c638e8", null ],
       [ "GetMenuChoice", "namespaceCLI.html#a6cf4f38be2907c3342889e4d541c8019", null ],
       [ "GetSlamhausLogo", "namespaceCLI.html#aa05691761b252bb561b5b6d5b8917da8", null ],
@@ -15,6 +16,22 @@ var namespaces_dup =
       [ "ShowMenu", "namespaceCLI.html#ac36add67eec8457b604b94838015aec0", null ]
     ] ],
     [ "Config", "namespaceConfig.html", "namespaceConfig" ],
+    [ "Constants", "namespaceConstants.html", [
+      [ "kAssetsDir", "namespaceConstants.html#aaf8fab44a378e82046ec342937934904", null ],
+      [ "kContentDir", "namespaceConstants.html#aad73aeda26d71c5bc6d574a26e45d3c7", null ],
+      [ "kExtCpp", "namespaceConstants.html#a4013dcfa78d3f30aabcc8c4cf60f2758", null ],
+      [ "kExtHtml", "namespaceConstants.html#a292878bd2a544b278482e4740bd85067", null ],
+      [ "kExtJs", "namespaceConstants.html#ad6b60052759cc061e7d1c90ebc220562", null ],
+      [ "kExtSlam", "namespaceConstants.html#a80231bc84ca5ec8a6ece718275b7e8ed", null ],
+      [ "kExtSmd", "namespaceConstants.html#a83111e6c524265579ccf8efdcc3f9fef", null ],
+      [ "kExtWasm", "namespaceConstants.html#ad7a4e6d55ccbdfc926976d5bd4024b01", null ],
+      [ "kFile404", "namespaceConstants.html#a59848dd53ea3d23e413c57b2bb80e03b", null ],
+      [ "kFileHtaccess", "namespaceConstants.html#ae5ced4dc8ef41d766a7fcecc3889aae2", null ],
+      [ "kFileRobots", "namespaceConstants.html#a7147930292391e748cd72fe4dbe7243c", null ],
+      [ "kFileSitemap", "namespaceConstants.html#a4ce120f3c74cbecac9d514a5add4f9f8", null ],
+      [ "kOutputDir", "namespaceConstants.html#a310b632d1f83f5005c44a84e773bfe25", null ],
+      [ "kThemeDir", "namespaceConstants.html#a09185fa3d5f91b0bb08d20abec0cce5a", null ]
+    ] ],
     [ "CSS", "namespaceCSS.html", [
       [ "LoadCSS", "namespaceCSS.html#a4ddf16c7bcd3fdc8402ee962e613a622", null ]
     ] ],
@@ -44,7 +61,7 @@ var namespaces_dup =
       [ "ProcessFormOpen", "namespaceForm.html#a253c51fad5322b8b2de69086297c2bf9", null ]
     ] ],
     [ "Generator", "namespaceGenerator.html", [
-      [ "GenerateSite", "namespaceGenerator.html#ae9869a4df16dd2fcdab7ea397b30dc88", null ]
+      [ "GenerateSite", "namespaceGenerator.html#a08869da00c8237428c1fb8924f4eda32", null ]
     ] ],
     [ "HTML", "namespaceHTML.html", [
       [ "AdjustLinks", "namespaceHTML.html#a64a541cf980134a08ad0007eb7b131b5", null ],
@@ -64,6 +81,10 @@ var namespaces_dup =
       [ "ProcessButton", "namespaceInteraction.html#aa7d06e689594ddab0a7959327d9c9e2b", null ],
       [ "ProcessInput", "namespaceInteraction.html#ac10e84b1020e82c1cda8f8c241564010", null ],
       [ "ProcessTextarea", "namespaceInteraction.html#aa4ba495f892706b097ff555d3f911e36", null ]
+    ] ],
+    [ "Log", "namespaceLog.html", [
+      [ "Error", "namespaceLog.html#a860a6724a65c95001e3617ac6ae04e28", null ],
+      [ "Info", "namespaceLog.html#abc92ed5074f74feecedfac4f6dfa592c", null ]
     ] ],
     [ "Meta", "namespaceMeta.html", [
       [ "GenerateSiteMetaFiles", "namespaceMeta.html#aed8250493812b0a58fc4522e8483a3f4", null ]
@@ -105,7 +126,7 @@ var namespaces_dup =
       [ "ReplaceInlineCode", "namespaceSnippet.html#a30171d3afeac0ccbe2b07435e3c14610", null ]
     ] ],
     [ "String", "namespaceString.html", [
-      [ "Trim", "namespaceString.html#a0111f4a218e4a5cefa4394e423e9781f", null ]
+      [ "Trim", "namespaceString.html#a396a85c49aaebbb392573e2aa425cfbc", null ]
     ] ],
     [ "Template", "namespaceTemplate.html", [
       [ "ApplyTemplateFromString", "namespaceTemplate.html#a7ca83e0d6628d959e9cf6842b682fbfd", null ],
@@ -132,6 +153,9 @@ var namespaces_dup =
       [ "ReplaceBold", "namespaceText.html#ab4e4d1b1109cd620edc2539d2cf469fb", null ],
       [ "ReplaceBoldItalic", "namespaceText.html#a87cc6fca1cd07761c43a524471eb674e", null ],
       [ "ReplaceItalic", "namespaceText.html#ab285e69b9f1855dbe7b3feadc3c4e2ae", null ]
+    ] ],
+    [ "Util", "namespaceUtil.html", [
+      [ "ReadFile", "namespaceUtil.html#a46f95bc16d42640161076b4b30512534", null ]
     ] ],
     [ "WASM", "namespaceWASM.html", "namespaceWASM" ]
 ];
