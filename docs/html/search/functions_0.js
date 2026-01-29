@@ -7,5 +7,5 @@ var searchData=
   ['appendparagraph_4',['AppendParagraph',['../namespaceText.html#a421b69293443deb8961651f8c72d17f2',1,'Text']]],
   ['applycolumns_5',['ApplyColumns',['../namespaceSection.html#a85d699f50b208c6a17f9ff28a9f015ca',1,'Section']]],
   ['applyidtag_6',['ApplyIDTag',['../namespaceID.html#ad6028e49a0704ca14955b119e5778584',1,'ID']]],
-  ['applytemplatefromstring_7',['ApplyTemplateFromString',['../namespaceTemplate.html#aafab25a6b329657a6cf863f3e168b1a2',1,'Template']]]
+  ['applytemplatefromstring_7',['ApplyTemplateFromString',['../namespaceTemplate.html#a7ca83e0d6628d959e9cf6842b682fbfd',1,'Template']]]
 ];

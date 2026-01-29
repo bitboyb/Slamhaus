@@ -1,7 +1,7 @@
 var namespaces_dup =
 [
     [ "Asset", "namespaceAsset.html", [
-      [ "CopyAssets", "namespaceAsset.html#aed1736238ee42069b46857904380d388", null ]
+      [ "CopyAssets", "namespaceAsset.html#a4acbf428deb096b130cc543cc94bae18", null ]
     ] ],
     [ "Attributes", "namespaceAttributes.html", [
       [ "ExtractIDTag", "namespaceAttributes.html#ad441c70e004b31f60427c8bca8757a30", null ],
@@ -44,7 +44,7 @@ var namespaces_dup =
       [ "ProcessFormOpen", "namespaceForm.html#a253c51fad5322b8b2de69086297c2bf9", null ]
     ] ],
     [ "Generator", "namespaceGenerator.html", [
-      [ "GenerateSite", "namespaceGenerator.html#ae81997b595afe659b9433fb874c3b7b4", null ]
+      [ "GenerateSite", "namespaceGenerator.html#ae9869a4df16dd2fcdab7ea397b30dc88", null ]
     ] ],
     [ "HTML", "namespaceHTML.html", [
       [ "AdjustLinks", "namespaceHTML.html#a64a541cf980134a08ad0007eb7b131b5", null ],
@@ -66,19 +66,14 @@ var namespaces_dup =
       [ "ProcessTextarea", "namespaceInteraction.html#aa4ba495f892706b097ff555d3f911e36", null ]
     ] ],
     [ "Meta", "namespaceMeta.html", [
-      [ "Generate404Page", "namespaceMeta.html#a2e71d978e34c4da1e0d73afc934efd86", null ],
-      [ "GenerateRobotsTxt", "namespaceMeta.html#aabdac0932b8c3f0f155f5fb77695e3dd", null ],
-      [ "GenerateSitemap", "namespaceMeta.html#a22d3ea2f22e0b78ea083627aa6d14dee", null ],
-      [ "GenerateSiteMetaFiles", "namespaceMeta.html#aed8250493812b0a58fc4522e8483a3f4", null ],
-      [ "GetCurrentDate", "namespaceMeta.html#a8a232b94fef7ce015d2d667052080ea0", null ],
-      [ "GetMarkdownFiles", "namespaceMeta.html#accb306ed397617c9659768aa86769667", null ]
+      [ "GenerateSiteMetaFiles", "namespaceMeta.html#aed8250493812b0a58fc4522e8483a3f4", null ]
     ] ],
     [ "Nav", "namespaceNav.html", [
       [ "ParseNavigation", "namespaceNav.html#adddd8c7dd624c7444d06a05365c7726c", null ]
     ] ],
     [ "Parser", "namespaceParser.html", "namespaceParser" ],
     [ "Script", "namespaceScript.html", [
-      [ "HandleScript", "namespaceScript.html#a348e73dad5576bc390d8ebd4c8d2a493", null ],
+      [ "HandleScript", "namespaceScript.html#a1a62c2760bd1595e486e40b5556f5adb", null ],
       [ "ParseList", "namespaceScript.html#acdaf62658a6bcbdd7ddf5202b1fe2a47", null ],
       [ "Sanitize", "namespaceScript.html#a6d66e8e75ce3315a0ade3f524c71eee6", null ],
       [ "ValidateArgumentMatch", "namespaceScript.html#aff2e366632faecfd0c6f358749d7a72c", null ],
@@ -113,8 +108,8 @@ var namespaces_dup =
       [ "Trim", "namespaceString.html#a0111f4a218e4a5cefa4394e423e9781f", null ]
     ] ],
     [ "Template", "namespaceTemplate.html", [
-      [ "ApplyTemplateFromString", "namespaceTemplate.html#aafab25a6b329657a6cf863f3e168b1a2", null ],
-      [ "BuildTemplate", "namespaceTemplate.html#aada294bf69c7905d8c0f13cafd6a77c7", null ]
+      [ "ApplyTemplateFromString", "namespaceTemplate.html#a7ca83e0d6628d959e9cf6842b682fbfd", null ],
+      [ "BuildTemplate", "namespaceTemplate.html#a1ebed10a79fa0faed78288d4c456af3c", null ]
     ] ],
     [ "Text", "namespaceText.html", [
       [ "AppendHeading", "namespaceText.html#a34ecbef3ac2acacee8d1a7621c751190", null ],

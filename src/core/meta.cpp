@@ -1,92 +1,45 @@
-#include <algorithm>
-#include <ctime>
-#include <filesystem>
+#include "meta.hpp"
 #include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
-
 namespace Meta {
-auto GetCurrentDate() -> std::string {
-  std::time_t t = std::time(nullptr);
-  std::tm *now = std::localtime(&t);
-  char buf[11];
-  std::strftime(buf, sizeof(buf), "%Y-%m-%d", now);
-  return std::string(buf);
-}
-
-auto GetMarkdownFiles() -> std::vector<std::string> {
-  std::vector<std::string> files;
-  for (const auto &entry : std::filesystem::directory_iterator(".")) {
-    if (entry.path().extension() == ".slam") {
-      files.push_back(entry.path().stem().string());
-    }
-  }
-  std::sort(files.begin(), files.end());
-  return files;
-}
-
-auto GenerateRobotsTxt(const std::string &siteURL, const std::string &outputDir)
-    -> void {
-  std::filesystem::create_directories(outputDir);
-  std::ofstream out(std::filesystem::path(outputDir) / "robots.txt");
-  out << "User-agent: *\n";
-  out << "Disallow:\n";
-  out << "Sitemap: " << siteURL << "/sitemap.xml\n";
-  std::cout << "Generated: " << outputDir << "/robots.txt\n";
-}
-
-auto GenerateSitemap(const std::vector<std::string> &pages,
-                     const std::string &siteURL, const std::string &outputDir)
-    -> void {
-  std::filesystem::create_directories(outputDir);
-  std::ofstream out(std::filesystem::path(outputDir) / "sitemap.xml");
-  std::string date = GetCurrentDate();
-  out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-  out << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-
-  for (const auto &page : pages) {
-    std::string pageUrl = siteURL + "/" + page;
-    if (pageUrl.find(".html") == std::string::npos) {
-      pageUrl += ".html";
-    }
-    out << "  <url>\n";
-    out << "    <loc>" << pageUrl << "</loc>\n";
-    out << "    <lastmod>" << date << "</lastmod>\n";
-    out << "    <changefreq>weekly</changefreq>\n";
-    out << "    <priority>0.8</priority>\n";
-    out << "  </url>\n";
-  }
-  out << "</urlset>\n";
-  std::cout << "Generated: " << outputDir << "/sitemap.xml\n";
-}
-
-auto Generate404Page(const std::string &cssContent,
-                     const std::string &outputDir) -> void {
-  std::filesystem::create_directories(outputDir);
-  std::ofstream out(std::filesystem::path(outputDir) / "404.html");
-  out << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
-  out << "  <meta charset=\"UTF-8\">\n";
-  out << "  <meta name=\"viewport\" content=\"width=device-width, "
-         "initial-scale=1.0\">\n";
-  out << "  <title>Page Not Found</title>\n";
-  if (!cssContent.empty()) {
-    out << "  <style>\n" << cssContent << "\n  </style>\n";
-  }
-  out << "</head>\n<body>\n";
-  out << "  <h1>404 - Page Not Found</h1>\n";
-  out << "  <p>Sorry, the page you're looking for doesn’t exist.</p>\n";
-  out << "  <a href=\"index.html\">Return to homepage</a>\n";
-  out << "</body>\n</html>\n";
-  std::cout << "Generated: " << outputDir << "/404.html\n";
-}
-
 auto GenerateSiteMetaFiles(const std::string &siteURL,
                            const std::string &cssContent,
                            const std::string &outputDir,
                            const std::vector<std::string> &pages) -> void {
-  GenerateRobotsTxt(siteURL, outputDir);
-  GenerateSitemap(pages, siteURL, outputDir);
-  Generate404Page(cssContent, outputDir);
+  // 1. Robots.txt
+  std::ofstream robots(outputDir + "/robots.txt");
+  if (robots) {
+    robots << "User-agent: *\nDisallow:\n\nSitemap: " << siteURL
+           << "/sitemap.xml\n";
+  }
+
+  // 2. Sitemap.xml
+  std::ofstream sitemap(outputDir + "/sitemap.xml");
+  if (sitemap) {
+    sitemap << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    sitemap
+        << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+    for (const auto &page : pages) {
+      sitemap << "  <url>\n";
+      sitemap << "    <loc>" << siteURL << "/" << page << "</loc>\n";
+      // Optional: lastmod, changefreq, priority
+      sitemap << "  </url>\n";
+    }
+    sitemap << "</urlset>\n";
+  }
+
+  // 3. 404.html
+  std::ofstream notFound(outputDir + "/404.html");
+  if (notFound) {
+    notFound << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"
+             << "  <meta charset=\"UTF-8\">\n"
+             << "  <title>404 - Page Not Found</title>\n"
+             << "  <style>" << cssContent << "</style>\n"
+             << "</head>\n<body>\n"
+             << "  <main style=\"text-align: center; padding: 50px;\">\n"
+             << "    <h1>404</h1>\n"
+             << "    <p>Page not found.</p>\n"
+             << "    <a href=\"/\">Go Home</a>\n"
+             << "  </main>\n</body>\n</html>";
+  }
 }
 } // namespace Meta

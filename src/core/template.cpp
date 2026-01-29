@@ -1,12 +1,16 @@
+#include "template.hpp"
 #include "../parser/nav.hpp"
 #include "../parser/parser.hpp"
-#include "../parser/seo.hpp"
-#include "config.hpp"
 #include <fstream>
 
+#include <sstream>
+#include <vector>
+
 namespace Template {
-auto BuildTemplate(Config::ConfigINI &ini, const std::string contentDir)
+auto BuildTemplate(const Config::ConfigINI &ini, const std::string &contentDir)
     -> std::string {
+  std::ostringstream html;
+
   auto readFile = [](const std::string &basePath) -> std::string {
     const std::vector<std::string> extensions = {".smd", ".slam"};
     for (const auto &ext : extensions) {
@@ -19,85 +23,62 @@ auto BuildTemplate(Config::ConfigINI &ini, const std::string contentDir)
     return "";
   };
 
-  std::string headerMarkdown = readFile(contentDir + "/include/header");
-  std::string navMarkdown = readFile(contentDir + "/include/nav");
-  std::string footerMarkdown = readFile(contentDir + "/include/footer");
+  std::string rawHeader = readFile(contentDir + "/include/header");
+  std::string rawNav = readFile(contentDir + "/include/nav");
+  std::string rawFooter = readFile(contentDir + "/include/footer");
 
-  SEO::SEOData dummySEO = SEO::GetDefault(ini);
+  std::string header = Parser::ParseMarkdown(rawHeader);
+  std::string nav = Nav::ParseNavigation(rawNav);
+  std::string footer = Parser::ParseMarkdown(rawFooter);
 
-  std::string headerContent = Parser::ParseMarkdown(headerMarkdown, nullptr);
-  std::string navContent = Nav::ParseNavigation(navMarkdown);
-  std::string footerContent = Parser::ParseMarkdown(footerMarkdown, nullptr);
+  html << "<!DOCTYPE html>\n"
+       << "<html lang=\"en\">\n"
+       << "<head>\n"
+       << "  <meta charset=\"UTF-8\">\n"
+       << "  <meta name=\"viewport\" content=\"width=device-width, "
+          "initial-scale=1.0\">\n"
+       << "  <title>{{TITLE}}</title>\n"
+       << "  <style>{{CSS}}</style>\n"
+       << "  <link rel=\"icon\" href=\"" << ini.faviconPath
+       << "\" type=\"image/x-icon\">\n"
+       << "  {{SEO_META}}\n"
+       << "  " << header << "\n"
+       << "</head>\n"
+       << "<body>\n"
+       << "  <header>" << ini.siteName << "</header>\n"
+       << "  <nav>" << nav << "</nav>\n"
+       << "  <main>\n"
+       << "    {{CONTENT}}\n"
+       << "  </main>\n"
+       << "  <footer>" << footer << "</footer>\n"
+       << "</body>\n"
+       << "</html>";
 
-  std::string tmpl = "<!DOCTYPE html>\n"
-                     "<html>\n"
-                     "<head>\n"
-                     "    <meta charset=\"UTF-8\">\n"
-                     "    <meta name=\"viewport\" "
-                     "content=\"width=device-width, initial-scale=1.0\">\n"
-                     "    <title>{{ title }}</title>\n"
-                     "    {{ favicon }}\n"
-                     "    {{ meta }}\n"
-                     "    <style>\n"
-                     "    {{ css }}\n"
-                     "    </style>\n"
-                     "</head>\n"
-                     "<body>\n"
-                     "    <header>\n"
-                     "       " +
-                     headerContent +
-                     "\n"
-                     "    </header>\n"
-                     "    " +
-                     navContent +
-                     "\n"
-                     "    <main>\n"
-                     "       {{ content }}\n"
-                     "    </main>\n"
-                     "    <footer>\n"
-                     "       " +
-                     footerContent +
-                     "\n"
-                     "    </footer>\n"
-                     "</body>\n"
-                     "</html>\n";
-  return tmpl;
+  return html.str();
 }
 
 auto ApplyTemplateFromString(const std::string &content,
                              const std::string &templateString,
                              const std::string &cssContent, SEO::SEOData &seo)
     -> std::string {
+  std::string out = templateString;
   std::string seoMeta = SEO::GetMetaTags(seo);
-  std::string tmplStr = templateString;
-  size_t pos = tmplStr.find("{{ css }}");
-  if (pos != std::string::npos) {
-    tmplStr.replace(pos, 9, cssContent);
-  }
-  pos = tmplStr.find("{{ content }}");
-  if (pos != std::string::npos) {
-    tmplStr.replace(pos, 13, content);
-  } else {
-    tmplStr += content;
-  }
-  pos = tmplStr.find("{{ title }}");
-  if (pos != std::string::npos) {
-    tmplStr.replace(pos, 11, seo.siteTitle);
-  }
-  pos = tmplStr.find("{{ favicon }}");
-  if (pos != std::string::npos) {
-    if (!seo.siteFavicon.empty()) {
-      std::string tag = "<link rel=\"icon\" type=\"image/x-icon\" href=\"" +
-                        seo.siteFavicon + "\">";
-      tmplStr.replace(pos, 13, tag);
-    } else {
-      tmplStr.replace(pos, 13, "");
+
+  auto replaceAll = [&](std::string &s, const std::string &from,
+                        const std::string &to) {
+    size_t pos = 0;
+    while ((pos = s.find(from, pos)) != std::string::npos) {
+      s.replace(pos, from.length(), to);
+      pos += to.length();
     }
-  }
-  pos = tmplStr.find("{{ meta }}");
-  if (pos != std::string::npos) {
-    tmplStr.replace(pos, 10, seoMeta);
-  }
-  return tmplStr;
+  };
+
+  std::string title = seo.siteTitle.empty() ? "Slamhaus Site" : seo.siteTitle;
+  replaceAll(out, "{{TITLE}}", title);
+  replaceAll(out, "{{CSS}}", cssContent);
+  replaceAll(out, "{{CONTENT}}", content);
+  replaceAll(out, "{{SEO_META}}", seoMeta);
+
+  return out;
 }
 } // namespace Template

@@ -15,17 +15,20 @@ auto ExtractIDTag(const std::string &line) -> std::string {
 auto ApplyIDTag(const std::string &htmlLine, const std::string &markdownLine)
     -> std::string {
   std::string id = ExtractIDTag(markdownLine);
-  if (id.empty())
+  if (id.empty()) {
     return htmlLine;
+  }
 
   std::string result = htmlLine;
 
   size_t tag_end = result.find('>');
-  if (tag_end == std::string::npos)
+  if (tag_end == std::string::npos) {
     return htmlLine;
+  }
 
-  if (result.find("id=") != std::string::npos)
+  if (result.find("id=") != std::string::npos) {
     return htmlLine;
+  }
 
   size_t insert_pos = result.find(' ');
   if (insert_pos == std::string::npos || insert_pos > tag_end) {

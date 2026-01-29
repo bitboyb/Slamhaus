@@ -56,8 +56,9 @@ auto HandleHeroOpen(const std::string &line, std::ostringstream &html,
 
 auto HandleHeroClose(const std::string &line, std::ostringstream &html)
     -> bool {
-  if (String::Trim(line) != ":/hero")
+  if (String::Trim(line) != ":/hero") {
     return false;
+  }
 
   html << "  </div>\n";
   html << "</section>\n";

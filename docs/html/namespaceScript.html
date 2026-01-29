@@ -100,17 +100,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a54082391cd6714d3f5bdb87e9882cdb9" id="r_a54082391cd6714d3f5bdb87e9882cdb9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a54082391cd6714d3f5bdb87e9882cdb9">WriteInputCollection</a> (std::ostringstream &amp;html, const std::vector&lt; std::string &gt; &amp;argNames)</td></tr>
 <tr class="memitem:aff2e366632faecfd0c6f358749d7a72c" id="r_aff2e366632faecfd0c6f358749d7a72c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aff2e366632faecfd0c6f358749d7a72c">ValidateArgumentMatch</a> (const std::vector&lt; std::string &gt; &amp;argNames, const std::vector&lt; std::string &gt; &amp;argTypes)</td></tr>
 <tr class="memitem:add827aa288942e88373189cda1eaede0" id="r_add827aa288942e88373189cda1eaede0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#add827aa288942e88373189cda1eaede0">WriteGlueScript</a> (std::ostringstream &amp;html, const std::string &amp;src, const std::string &amp;call, const std::string &amp;bind, const std::string &amp;event, const std::vector&lt; std::string &gt; &amp;argNames, const std::vector&lt; std::string &gt; &amp;argTypes, const std::string &amp;returnType, const std::string &amp;result, bool loop)</td></tr>
-<tr class="memitem:a348e73dad5576bc390d8ebd4c8d2a493" id="r_a348e73dad5576bc390d8ebd4c8d2a493"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a348e73dad5576bc390d8ebd4c8d2a493">HandleScript</a> (const std::string &amp;line, std::istringstream &amp;iss, std::ostringstream &amp;html, <a class="el" href="structParser_1_1ParseState.html">Parser::ParseState</a> &amp;pState)</td></tr>
+<tr class="memitem:a1a62c2760bd1595e486e40b5556f5adb" id="r_a1a62c2760bd1595e486e40b5556f5adb"><td class="memItemLeft">auto&#160;</td><td class="memItemRight"><a class="el" href="#a1a62c2760bd1595e486e40b5556f5adb">HandleScript</a> (const std::string &amp;line, std::istringstream &amp;iss, std::ostringstream &amp;html, <a class="el" href="structParser_1_1ParseState.html">Parser::ParseState</a> &amp;pState) -&gt; bool</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a348e73dad5576bc390d8ebd4c8d2a493" name="a348e73dad5576bc390d8ebd4c8d2a493"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a348e73dad5576bc390d8ebd4c8d2a493">&#9670;&#160;</a></span>HandleScript()</h2>
+<a id="a1a62c2760bd1595e486e40b5556f5adb" name="a1a62c2760bd1595e486e40b5556f5adb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a62c2760bd1595e486e40b5556f5adb">&#9670;&#160;</a></span>HandleScript()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool Script::HandleScript </td>
+          <td class="memname">auto Script::HandleScript </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
         </tr>
@@ -127,16 +127,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structParser_1_1ParseState.html">Parser::ParseState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pState</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structParser_1_1ParseState.html">Parser::ParseState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pState</em></span>&#160;) -&gt;  bool</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Handles a single <span class="tt">@script[...]()</span> block and emits the corresponding &lt;script&gt; glue code. Parses attributes like <span class="tt">src</span>, <span class="tt">call</span>, <span class="tt">args</span>, and <span class="tt">types</span>, and generates JavaScript that binds to WebAssembly-compiled C++ functions using Emscripten's <span class="tt">ccall</span> interface.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">line</td><td>The raw @script[...]() line. </td></tr>
-    <tr><td class="paramname">iss</td><td>Input stream for the rest of the Markdown file (for future expansion). </td></tr>
-    <tr><td class="paramname">html</td><td>Output stream for writing generated HTML/JS. </td></tr>
     <tr><td class="paramname">pState</td><td>Current parser state (used to close lists/paragraphs before insertion). </td></tr>
   </table>
   </dd>

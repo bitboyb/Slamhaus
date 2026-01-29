@@ -1,10 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"structParser_1_1ColumnState.html#a12d43e1666a95cbb009f1c580c380a8f":[1,0,1,1,1],
-"structParser_1_1ColumnState.html#aa5cecb0657f8e24d74599d8b78bd6d56":[0,0,13,1,0],
-"structParser_1_1ColumnState.html#aa5cecb0657f8e24d74599d8b78bd6d56":[1,0,1,1,0],
-"structParser_1_1ParseState.html":[0,0,13,0],
-"structParser_1_1ParseState.html":[1,0,1,0],
 "structParser_1_1ParseState.html#a25d31353533c983bce28a40d4ef7c936":[0,0,13,0,2],
 "structParser_1_1ParseState.html#a25d31353533c983bce28a40d4ef7c936":[1,0,1,0,2],
 "structParser_1_1ParseState.html#a26904f3bef04ed451822046e428d259a":[0,0,13,0,5],

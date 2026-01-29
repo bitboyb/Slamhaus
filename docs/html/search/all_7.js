@@ -13,7 +13,7 @@ var searchData=
   ['handleheroclose_10',['HandleHeroClose',['../namespaceSection.html#afdae73c4a332cef2a05a774b0a3b3711',1,'Section']]],
   ['handleheroopen_11',['HandleHeroOpen',['../namespaceSection.html#abf99eea12889e5756771044af04b936a',1,'Section']]],
   ['handlemetalines_12',['HandleMetaLines',['../namespaceSEO.html#a8f0f46a8765b0a97893b16878d6d9e95',1,'SEO']]],
-  ['handlescript_13',['HandleScript',['../namespaceScript.html#a348e73dad5576bc390d8ebd4c8d2a493',1,'Script']]],
+  ['handlescript_13',['HandleScript',['../namespaceScript.html#a1a62c2760bd1595e486e40b5556f5adb',1,'Script']]],
   ['handlesectionclose_14',['HandleSectionClose',['../namespaceSection.html#af7e92ef08340eb39897de427bf3fb89c',1,'Section']]],
   ['handlesectionopen_15',['HandleSectionOpen',['../namespaceSection.html#aa1d44ebf82cde2097bfdf0c568df9d24',1,'Section']]],
   ['handletextblocks_16',['HandleTextBlocks',['../namespaceText.html#a9f290482717ad3800350cfea9ee0b425',1,'Text']]],

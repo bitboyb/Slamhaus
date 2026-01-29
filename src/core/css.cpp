@@ -16,8 +16,9 @@ auto LoadCSS(const std::string &directoryPath) -> std::string {
 
   for (const auto &entry : fs::recursive_directory_iterator(
            directoryPath, fs::directory_options::skip_permission_denied)) {
-    if (!entry.is_regular_file())
+    if (!entry.is_regular_file()) {
       continue;
+    }
 
     const fs::path &path = entry.path();
     if (path.extension() == ".css") {

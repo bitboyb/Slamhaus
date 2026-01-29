@@ -15,11 +15,11 @@
 
 namespace Generator {
 auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
-    -> void {
+    -> bool {
   if (!std::filesystem::exists(contentDir) ||
       !std::filesystem::is_directory(contentDir)) {
     std::cerr << "Content directory not found: " << contentDir << "\n";
-    return;
+    return false;
   }
   if (std::filesystem::exists(outputDir)) {
     std::cout << "Output directory \"" << outputDir
@@ -29,7 +29,7 @@ auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     if (confirm != 'y' && confirm != 'Y') {
       std::cout << "Aborting build.\n";
-      return;
+      return false;
     }
     std::filesystem::remove_all(outputDir);
   }
@@ -46,7 +46,10 @@ auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
   Config::ConfigINI ini = Config::GetConfig(contentDir);
   std::vector<std::string> generatedPages;
   std::string templateString = Template::BuildTemplate(ini, contentDir);
-  Asset::CopyAssets(contentDir + "/assets/", outputDir + "/assets");
+  if (!Asset::CopyAssets(contentDir + "/assets/", outputDir + "/assets")) {
+    std::cerr << "Failed to copy assets.\n";
+    return false;
+  }
   for (const auto &entry :
        std::filesystem::recursive_directory_iterator(contentDir)) {
     if (entry.is_regular_file() && entry.path().extension() == ".cpp") {
@@ -59,6 +62,7 @@ auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
       bool success = WASM::Compile({wasmFile}, "emcc");
       if (!success) {
         std::cerr << "Failed to compile WASM: " << wasmFile.inputPath << "\n";
+        return false;
       }
     } else if (entry.is_regular_file() && SMD::IsContentFile(entry.path())) {
       std::string ext = entry.path().extension().string();
@@ -103,5 +107,6 @@ auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
   }
   Meta::GenerateSiteMetaFiles(ini.siteName, cssContent, outputDir,
                               generatedPages);
+  return true;
 }
 } // namespace Generator

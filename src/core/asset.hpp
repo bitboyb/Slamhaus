@@ -14,7 +14,7 @@ namespace Asset {
 /// @param destDir   Path to the output directory for assets (e.g.
 /// ./output/assets/)
 auto CopyAssets(const std::string &sourceDir, const std::string &destDir)
-    -> void;
+    -> bool;
 } // namespace Asset
 
 #endif // ASSET_HPP

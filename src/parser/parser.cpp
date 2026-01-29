@@ -23,8 +23,15 @@ auto ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
 
   while (std::getline(iss, line)) {
     std::string trimmed = line;
-    trimmed.erase(0, trimmed.find_first_not_of(" \t"));
-    trimmed.erase(trimmed.find_last_not_of(" \t") + 1);
+    size_t first = trimmed.find_first_not_of(" \t");
+    if (first == std::string::npos) {
+      continue;
+    }
+    trimmed.erase(0, first);
+    size_t last = trimmed.find_last_not_of(" \t");
+    if (last != std::string::npos) {
+      trimmed.erase(last + 1);
+    }
     std::string raw;
     if (!pState.isBuffering) {
       if (!trimmed.empty() &&
@@ -52,22 +59,30 @@ auto ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
       html << raw << "\n";
       continue;
     }
-    if (Script::HandleScript(raw, iss, html, pState))
+    if (Script::HandleScript(raw, iss, html, pState)) {
       continue;
-    if (SEO::HandleMetaLines(raw, seo))
+    }
+    if (SEO::HandleMetaLines(raw, seo)) {
       continue;
-    if (Section::HandleBlockElements(raw, html, pState, cState, seo))
+    }
+    if (Section::HandleBlockElements(raw, html, pState, cState, seo)) {
       continue;
-    if (Form::HandleFormElements(raw, html, pState))
+    }
+    if (Form::HandleFormElements(raw, html, pState)) {
       continue;
-    if (Interaction::IsInteraction(raw, html, pState))
+    }
+    if (Interaction::IsInteraction(raw, html, pState)) {
       continue;
-    if (Embed::HandleEmbeds(raw, html, pState))
+    }
+    if (Embed::HandleEmbeds(raw, html, pState)) {
       continue;
-    if (Snippet::HandleCodeOrTable(raw, iss, html, pState))
+    }
+    if (Snippet::HandleCodeOrTable(raw, iss, html, pState)) {
       continue;
-    if (Text::HandleTextBlocks(raw, html, pState))
+    }
+    if (Text::HandleTextBlocks(raw, html, pState)) {
       continue;
+    }
   }
   Text::CloseLists(html, pState);
   return html.str();

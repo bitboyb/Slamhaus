@@ -4,12 +4,15 @@
 
 namespace Asset {
 auto CopyAssets(const std::string &sourceDir, const std::string &destDir)
-    -> void {
+    -> bool {
   try {
     if (!std::filesystem::exists(sourceDir)) {
       std::cerr << "Source directory does not exist: " << sourceDir
                 << std::endl;
-      return;
+      // User "Avoid silent failures". If source dir missing, it's likely a
+      // config error or user error. The original code returned (void) after
+      // logging. I will return false to be explicit.
+      return false;
     }
     std::filesystem::create_directories(destDir);
     for (const auto &entry :
@@ -26,8 +29,13 @@ auto CopyAssets(const std::string &sourceDir, const std::string &destDir)
                             std::filesystem::copy_options::overwrite_existing);
       std::cout << "Copied: " << srcPath << " -> " << destPath << std::endl;
     }
+    return true;
   } catch (const std::filesystem::filesystem_error &e) {
     std::cerr << "Error copying assets: " << e.what() << std::endl;
+    return false;
+  } catch (const std::exception &e) {
+    std::cerr << "Error in CopyAssets: " << e.what() << "\n";
+    return false;
   }
 }
 } // namespace Asset

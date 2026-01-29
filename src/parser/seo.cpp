@@ -16,6 +16,7 @@ auto GetDefault(Config::ConfigINI &ini) -> SEO::SEOData {
 auto IsSiteLine(const std::string &line) -> bool {
   return line.find("$site[") == 0;
 }
+
 auto IsPageLine(const std::string &line) -> bool {
   return line.find("$page[") == 0;
 }
@@ -28,8 +29,9 @@ auto ParseAttributes(const std::string &line)
 
   auto contentStart = line.find('[');
   auto contentEnd = line.find(']');
-  if (contentStart == std::string::npos || contentEnd == std::string::npos)
+  if (contentStart == std::string::npos || contentEnd == std::string::npos) {
     return attributes;
+  }
 
   std::string content =
       line.substr(contentStart + 1, contentEnd - contentStart - 1);
@@ -43,22 +45,28 @@ auto ParseAttributes(const std::string &line)
 
 auto ProcessSiteLine(const std::string &line, SEOData &seo) -> void {
   auto attrs = ParseAttributes(line);
-  if (attrs.count("title"))
+  if (attrs.count("title")) {
     seo.siteTitle = attrs["title"];
-  if (attrs.count("description"))
+  }
+  if (attrs.count("description")) {
     seo.siteDescription = attrs["description"];
-  if (attrs.count("url"))
+  }
+  if (attrs.count("url")) {
     seo.siteUrl = attrs["url"];
-  if (attrs.count("favicon"))
+  }
+  if (attrs.count("favicon")) {
     seo.siteFavicon = attrs["favicon"];
+  }
 }
 
 auto ProcessPageLine(const std::string &line, SEOData &seo) -> void {
   auto attrs = ParseAttributes(line);
-  if (attrs.count("description"))
+  if (attrs.count("description")) {
     seo.pageDescription = attrs["description"];
-  if (attrs.count("keywords"))
+  }
+  if (attrs.count("keywords")) {
     seo.pageKeywords = attrs["keywords"];
+  }
 }
 
 auto GetMetaTags(const SEOData &seo) -> std::string {

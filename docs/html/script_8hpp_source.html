@@ -97,21 +97,17 @@ $(function(){initNavTree('script_8hpp_source.html','',''); });
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#ifndef SCRIPT_HPP</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="script_8hpp.html#a1ff507d97c263b52e7d065abcd7f37f8">    4</a></span><span class="preprocessor">#define SCRIPT_HPP</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="parser_8hpp.html">../parser/parser.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceScript.html">Script</a></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceScript.html#a348e73dad5576bc390d8ebd4c8d2a493">HandleScript</a>(<span class="keyword">const</span> std::string&amp; line,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                      std::istringstream&amp; iss,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                      std::ostringstream&amp; html,</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                      <a class="code hl_struct" href="structParser_1_1ParseState.html">Parser::ParseState</a>&amp; pState);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif </span><span class="comment">// SCRIPT_HPP</span></div>
-<div class="ttc" id="anamespaceScript_html"><div class="ttname"><a href="namespaceScript.html">Script</a></div><div class="ttdef"><b>Definition</b> script.cpp:14</div></div>
-<div class="ttc" id="anamespaceScript_html_a348e73dad5576bc390d8ebd4c8d2a493"><div class="ttname"><a href="namespaceScript.html#a348e73dad5576bc390d8ebd4c8d2a493">Script::HandleScript</a></div><div class="ttdeci">bool HandleScript(const std::string &amp;line, std::istringstream &amp;iss, std::ostringstream &amp;html, Parser::ParseState &amp;pState)</div><div class="ttdef"><b>Definition</b> script.cpp:152</div></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="parser_8hpp.html">../parser/parser.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceScript.html">Script</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">auto</span> <a class="code hl_function" href="namespaceScript.html#a1a62c2760bd1595e486e40b5556f5adb">HandleScript</a>(<span class="keyword">const</span> std::string &amp;line, std::istringstream &amp;iss,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>                  std::ostringstream &amp;html, <a class="code hl_struct" href="structParser_1_1ParseState.html">Parser::ParseState</a> &amp;pState) -&gt; bool;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>} <span class="comment">// namespace Script</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif </span><span class="comment">// SCRIPT_HPP</span></div>
+<div class="ttc" id="anamespaceScript_html"><div class="ttname"><a href="namespaceScript.html">Script</a></div><div class="ttdef"><b>Definition</b> script.cpp:11</div></div>
+<div class="ttc" id="anamespaceScript_html_a1a62c2760bd1595e486e40b5556f5adb"><div class="ttname"><a href="namespaceScript.html#a1a62c2760bd1595e486e40b5556f5adb">Script::HandleScript</a></div><div class="ttdeci">auto HandleScript(const std::string &amp;line, std::istringstream &amp;iss, std::ostringstream &amp;html, Parser::ParseState &amp;pState) -&gt; bool</div><div class="ttdef"><b>Definition</b> script.cpp:125</div></div>
 <div class="ttc" id="aparser_8hpp_html"><div class="ttname"><a href="parser_8hpp.html">parser.hpp</a></div></div>
 <div class="ttc" id="astructParser_1_1ParseState_html"><div class="ttname"><a href="structParser_1_1ParseState.html">Parser::ParseState</a></div><div class="ttdef"><b>Definition</b> parser.hpp:14</div></div>
 </div><!-- fragment --></div><!-- contents -->

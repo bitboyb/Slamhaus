@@ -14,8 +14,9 @@ auto ParseNavigation(const std::string &navMarkdown) -> std::string {
   html += "<ul>\n";
   while (std::getline(stream, line)) {
     size_t indent = line.find_first_not_of(" ");
-    if (indent == std::string::npos)
+    if (indent == std::string::npos) {
       continue;
+    }
     size_t depth = indent / 4;
 
     while (indentStack.size() > depth) {
@@ -29,8 +30,9 @@ auto ParseNavigation(const std::string &navMarkdown) -> std::string {
       size_t hrefStart = line.find("(", linkEnd) + 1;
       size_t hrefEnd = line.find(")", hrefStart);
       if (linkEnd == std::string::npos || hrefStart == std::string::npos ||
-          hrefEnd == std::string::npos)
+          hrefEnd == std::string::npos) {
         continue;
+      }
 
       std::string text = line.substr(linkStart, linkEnd - linkStart);
       std::string href = line.substr(hrefStart, hrefEnd - hrefStart);

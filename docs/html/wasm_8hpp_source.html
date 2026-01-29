@@ -100,26 +100,25 @@ $(function(){initNavTree('wasm_8hpp_source.html','',''); });
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceWASM.html">WASM</a></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
-<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="structWASM_1_1WASMFile.html">   13</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structWASM_1_1WASMFile.html">WASMFile</a> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structWASM_1_1WASMFile.html#ac3b6102dda61d7f2750c508170a7c4fa">   15</a></span>        std::string <a class="code hl_variable" href="structWASM_1_1WASMFile.html#ac3b6102dda61d7f2750c508170a7c4fa">inputPath</a>;   </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structWASM_1_1WASMFile.html#a2ab51b0da76db15a483964a0dff4eb1b">   16</a></span>        std::string <a class="code hl_variable" href="structWASM_1_1WASMFile.html#a2ab51b0da76db15a483964a0dff4eb1b">outputPath</a>;  </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    };</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceWASM.html">WASM</a> {</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="structWASM_1_1WASMFile.html">   12</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structWASM_1_1WASMFile.html">WASMFile</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="structWASM_1_1WASMFile.html#ac3b6102dda61d7f2750c508170a7c4fa">   13</a></span>  std::string <a class="code hl_variable" href="structWASM_1_1WASMFile.html#ac3b6102dda61d7f2750c508170a7c4fa">inputPath</a>; </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>  std::string</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structWASM_1_1WASMFile.html#a2ab51b0da76db15a483964a0dff4eb1b">   15</a></span>      <a class="code hl_variable" href="structWASM_1_1WASMFile.html#a2ab51b0da76db15a483964a0dff4eb1b">outputPath</a>; </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>};</div>
 </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceWASM.html#a27e5134bda52dad691b93e399916e369">Compile</a>(<span class="keyword">const</span> std::vector&lt;WASMFile&gt;&amp; files, </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                 <span class="keyword">const</span> std::string&amp; emccPath = <span class="stringliteral">&quot;emcc&quot;</span>);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">auto</span> <a class="code hl_function" href="namespaceWASM.html#ac68be9e122812b1b1cf73cfb94b54a84">Compile</a>(<span class="keyword">const</span> std::vector&lt;WASMFile&gt; &amp;files,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>             <span class="keyword">const</span> std::string &amp;emccPath = <span class="stringliteral">&quot;emcc&quot;</span>) -&gt; bool;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <span class="comment">// namespace WASM</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif </span><span class="comment">// WASM_HPP</span></div>
-<div class="ttc" id="anamespaceWASM_html"><div class="ttname"><a href="namespaceWASM.html">WASM</a></div><div class="ttdef"><b>Definition</b> wasm.cpp:9</div></div>
-<div class="ttc" id="anamespaceWASM_html_a27e5134bda52dad691b93e399916e369"><div class="ttname"><a href="namespaceWASM.html#a27e5134bda52dad691b93e399916e369">WASM::Compile</a></div><div class="ttdeci">bool Compile(const std::vector&lt; WASMFile &gt; &amp;files, const std::string &amp;emccPath)</div><div class="ttdef"><b>Definition</b> wasm.cpp:10</div></div>
-<div class="ttc" id="astructWASM_1_1WASMFile_html"><div class="ttname"><a href="structWASM_1_1WASMFile.html">WASM::WASMFile</a></div><div class="ttdef"><b>Definition</b> wasm.hpp:14</div></div>
-<div class="ttc" id="astructWASM_1_1WASMFile_html_a2ab51b0da76db15a483964a0dff4eb1b"><div class="ttname"><a href="structWASM_1_1WASMFile.html#a2ab51b0da76db15a483964a0dff4eb1b">WASM::WASMFile::outputPath</a></div><div class="ttdeci">std::string outputPath</div><div class="ttdoc">Path (excluding extension) for output .js and .wasm.</div><div class="ttdef"><b>Definition</b> wasm.hpp:16</div></div>
-<div class="ttc" id="astructWASM_1_1WASMFile_html_ac3b6102dda61d7f2750c508170a7c4fa"><div class="ttname"><a href="structWASM_1_1WASMFile.html#ac3b6102dda61d7f2750c508170a7c4fa">WASM::WASMFile::inputPath</a></div><div class="ttdeci">std::string inputPath</div><div class="ttdoc">Path to the input .cpp file.</div><div class="ttdef"><b>Definition</b> wasm.hpp:15</div></div>
+<div class="ttc" id="anamespaceWASM_html"><div class="ttname"><a href="namespaceWASM.html">WASM</a></div><div class="ttdef"><b>Definition</b> wasm.cpp:8</div></div>
+<div class="ttc" id="anamespaceWASM_html_ac68be9e122812b1b1cf73cfb94b54a84"><div class="ttname"><a href="namespaceWASM.html#ac68be9e122812b1b1cf73cfb94b54a84">WASM::Compile</a></div><div class="ttdeci">auto Compile(const std::vector&lt; WASMFile &gt; &amp;files, const std::string &amp;emccPath) -&gt; bool</div><div class="ttdef"><b>Definition</b> wasm.cpp:9</div></div>
+<div class="ttc" id="astructWASM_1_1WASMFile_html"><div class="ttname"><a href="structWASM_1_1WASMFile.html">WASM::WASMFile</a></div><div class="ttdef"><b>Definition</b> wasm.hpp:12</div></div>
+<div class="ttc" id="astructWASM_1_1WASMFile_html_a2ab51b0da76db15a483964a0dff4eb1b"><div class="ttname"><a href="structWASM_1_1WASMFile.html#a2ab51b0da76db15a483964a0dff4eb1b">WASM::WASMFile::outputPath</a></div><div class="ttdeci">std::string outputPath</div><div class="ttdoc">Path (excluding extension) for output .js and .wasm.</div><div class="ttdef"><b>Definition</b> wasm.hpp:15</div></div>
+<div class="ttc" id="astructWASM_1_1WASMFile_html_ac3b6102dda61d7f2750c508170a7c4fa"><div class="ttname"><a href="structWASM_1_1WASMFile.html#ac3b6102dda61d7f2750c508170a7c4fa">WASM::WASMFile::inputPath</a></div><div class="ttdeci">std::string inputPath</div><div class="ttdoc">Path to the input .cpp file.</div><div class="ttdef"><b>Definition</b> wasm.hpp:13</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

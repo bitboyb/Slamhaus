@@ -14,7 +14,7 @@ namespace Generator {
 /// @param contentDir Path to your Markdown source directory (e.g. ./content)
 /// @param outputDir  Destination for the compiled static site (e.g. ./output)
 auto GenerateSite(const std::string &contentDir, const std::string &outputDir)
-    -> void;
+    -> bool;
 } // namespace Generator
 
 #endif // GENERATOR_HPP

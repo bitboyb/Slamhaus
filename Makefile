@@ -8,12 +8,14 @@ ifeq ($(OS),Windows_NT)
 endif
 
 # Find all directories in src (for includes)
-INCLUDE_DIRS := $(shell find src -type d)
+# Find all directories in src (for includes)
+INCLUDE_DIRS := src $(wildcard src/*/)
 INCLUDES := $(foreach dir, $(INCLUDE_DIRS), -I$(dir))
 CXXFLAGS += $(INCLUDES)
 
 # Find all .cpp files under src.
-SRC := $(shell find src -type f -name '*.cpp')
+# Find all .cpp files under src using wildcard (assumes 1 level of nesting + main.cpp)
+SRC := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
 # Convert each src/xxx.cpp into build/xxx.o
 OBJ := $(patsubst src/%, build/%, $(SRC:.cpp=.o))
 
