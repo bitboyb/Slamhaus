@@ -5,16 +5,15 @@
 
 #include <string>
 
-namespace CSS
-{
-    /// Loads and concatenates all `.css` files in the specified directory.
-    /// - Recursively traverses subdirectories
-    /// - Skips unreadable files and logs failures to stderr
-    /// - Adds comments with filenames between file contents
-    ///
-    /// @param cssPath Path to a directory containing CSS files
-    /// @return A single string containing all CSS content
-    std::string LoadCSS(const std::string& cssPath);
-}
+namespace CSS {
+/// Loads and concatenates all `.css` files in the specified directory.
+/// - Recursively traverses subdirectories
+/// - Skips unreadable files and logs failures to stderr
+/// - Adds comments with filenames between file contents
+///
+/// @param cssPath Path to a directory containing CSS files
+/// @return A single string containing all CSS content
+auto LoadCSS(const std::string &cssPath) -> std::string;
+} // namespace CSS
 
 #endif // CSS_HPP

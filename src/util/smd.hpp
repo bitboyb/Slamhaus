@@ -5,14 +5,13 @@
 
 #include <filesystem>
 
-namespace SMD
-{
-    /// Returns true if the file has a supported Slamhaus Markdown extension.
-    /// Supported formats include: `.md`, `.smd`, `.slam`
-    ///
-    /// @param path Filesystem path to check.
-    /// @return True if the extension is a Slamhaus Markdown type.
-    bool IsContentFile(const std::filesystem::path& path);
-}
+namespace SMD {
+/// Returns true if the file has a supported Slamhaus Markdown extension.
+/// Supported formats include: `.smd`, `.slam`
+///
+/// @param path Filesystem path to check.
+/// @return True if the extension is a Slamhaus Markdown type.
+bool IsContentFile(const std::filesystem::path &path);
+} // namespace SMD
 
 #endif // SMD_HPP
