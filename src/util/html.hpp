@@ -6,12 +6,12 @@
 #include <string>
 
 namespace HTML {
-/// Rewrites Markdown-style links (`.smd`, `.slam`) in generated HTML to
-/// `.html`. For example: href="about.slam" → href="about.html"
+/// Rewrites Markdown-style links S(.smd, .slam) in generated HTML to
+/// .html. For example: href="about.slam" -> href="about.html"
 ///
 /// @param html A string of generated HTML content.
 /// @return A new HTML string with all `.smd`/`.slam` links converted to
-/// `.html".
+/// `.html`.
 auto AdjustLinks(const std::string &html) -> std::string;
 
 /// Converts internal Markdown-like paths (.smd, .slam) to `.html` for use

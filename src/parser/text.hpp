@@ -11,7 +11,7 @@ namespace Text {
 /// Closes unclosed paragraph tags at the end of document parsing.
 auto CloseParagraphs(std::ostringstream &html) -> void;
 
-/// Closes any open <ul> or <ol> lists in the HTML stream.
+/// Closes any open `<ul>` or `<ol>` lists in the HTML stream.
 ///
 /// @param html Output stream to write HTML to
 /// @param pState Current parser state
@@ -27,7 +27,7 @@ auto IsTableLine(const std::string &line) -> bool;
 ///
 /// @param iss       Stream containing lines after the table start
 /// @param firstLine The initial line that triggered the table
-/// @return HTML string containing <table> markup
+/// @return HTML string containing `<table>` markup
 auto ParseTable(std::istream &iss, const std::string &firstLine) -> std::string;
 
 /// Parses all standard text blocks (headings, paragraphs, lists, rules).

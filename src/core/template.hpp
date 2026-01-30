@@ -21,7 +21,7 @@ auto BuildTemplate(const Config::ConfigINI &ini, const std::string &contentDir)
 /// Injects dynamic content into the base template.
 /// Replaces keywords like {{CONTENT}}, {{TITLE}} with actual page data.
 ///
-/// @param htmlContent The body HTML of the specific page
+/// @param content The body HTML of the specific page
 /// @param templateString The base template from `BuildTemplate`
 /// @param cssContent Global CSS for inline injection
 /// @param seo Specific SEO metadata for this page

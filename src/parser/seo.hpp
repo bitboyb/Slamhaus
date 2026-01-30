@@ -34,11 +34,11 @@ auto HandleMetaLines(const std::string &line, SEO::SEOData *seo) -> bool;
 /// @return A default SEOData struct
 auto GetDefault(Config::ConfigINI &ini) -> SEO::SEOData;
 
-/// Generates the HTML <meta> tags for OpenGraph, description, keywords, and
+/// Generates the HTML `<meta>` tags for OpenGraph, description, keywords, and
 /// canonical URL.
 ///
 /// @param seo The current SEO data for the page
-/// @return A block of HTML <meta> tags
+/// @return A block of HTML `<meta>` tags
 auto GetMetaTags(const SEOData &seo) -> std::string;
 } // namespace SEO
 

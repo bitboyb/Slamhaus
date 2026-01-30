@@ -16,6 +16,12 @@ struct WASMFile {
       outputPath; ///< Path (excluding extension) for output `.js` and `.wasm`.
 };
 
+/// Checks if a file is a C++ source file suitable for WASM compilation.
+///
+/// @param path path to check
+/// @return true if it is a source file
+bool IsSourceFile(const std::filesystem::path &path);
+
 /// Compiles one or more C++ source files into WebAssembly modules using
 /// Emscripten. Produces `.js` and `.wasm` files for each input using ES6 and
 /// `MODULARIZE` mode.
@@ -23,9 +29,6 @@ struct WASMFile {
 /// @param files     A list of WASMFile structs representing files to compile.
 /// @param emccPath  Optional path to the `emcc` compiler (default is `"emcc"`).
 /// @return True if all files compiled successfully, false otherwise.
-/// Checks if a file is a C++ source file suitable for WASM compilation.
-bool IsSourceFile(const std::filesystem::path &path);
-
 auto Compile(const std::vector<WASMFile> &files,
              const std::string &emccPath = "emcc") -> bool;
 } // namespace WASM

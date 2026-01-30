@@ -10,7 +10,7 @@
 namespace Form {
 /// Handles Slamhaus form block syntax.
 /// Supports opening and closing tags like:
-///   ?form[action:"/submit":method:"post"](#form-id)
+///   `?form[action:"/submit":method:"post"](#form-id)`
 ///   ?/form[]()
 ///
 /// Emits a valid `<form>` HTML block with parsed attributes.
