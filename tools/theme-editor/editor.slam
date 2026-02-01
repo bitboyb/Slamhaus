@@ -1,0 +1,34 @@
+$page[title:"Theme Editor"]()
+
+:column[size:1 id:"panel" class:"panel"](#editor-container)
+
+## Theme Controls
+
+:div[id:"controls"](#controls)
+  Loading controls...
+:/div
+
+?button[text:"Save Theme" id:"save-btn"]()
+?button[text:"Toggle Mobile" id:"mobile-btn"]()
+
+:column[id:"preview-container" class:"preview-container"]()
+
+## Preview
+
+:div[id:"frame-wrapper" class:"frame-wrapper"](#frame-wrapper)
+!iframe[width:"100%" height:"600px" id:"preview-frame"](/preview/index.html)
+:/div
+
+:/column
+
+@script[
+  src:"/tools/theme-editor/editor.js"
+  bind:"#save-btn"
+  call:"SaveTheme"
+]()
+
+<!-- Interactive logic to populate controls and handle updates -->
+<script type="module">
+  import { Init } from '/tools/theme-editor/editor.js';
+  Init();
+</script>
