@@ -21,14 +21,4 @@ $page[title:"Theme Editor"]()
 
 :/column
 
-@script[
-  src:"/tools/theme-editor/editor.js"
-  bind:"#save-btn"
-  call:"SaveTheme"
-]()
 
-<!-- Interactive logic to populate controls and handle updates -->
-<script type="module">
-  import { Init } from '/tools/theme-editor/editor.js';
-  Init();
-</script>

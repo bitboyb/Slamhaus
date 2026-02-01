@@ -1,4 +1,5 @@
 #include "tools.hpp"
+#include "../core/generator.hpp"
 #include "../util/json.hpp"
 #include "../util/log.hpp"
 #include "../util/server.hpp"
@@ -28,7 +29,7 @@ std::string GetMimeType(const std::string &path) {
   if (ext == ".wasm")
     return "application/wasm";
   if (ext == ".slam")
-    return "text/plain"; // Served as raw text for debug or managed explicitly
+    return "text/plain";
   return "application/octet-stream";
 }
 
@@ -65,41 +66,80 @@ bool LaunchTool(ToolSession &session, const ToolSpec &spec,
   session.port = 8090;
   session.server = std::make_shared<Util::Server::ServerContext>(session.port);
 
-  std::filesystem::path toolRoot = std::filesystem::absolute(spec.assetPath);
-  std::filesystem::path distRoot =
+  std::filesystem::path toolSource = std::filesystem::absolute(spec.assetPath);
+  std::filesystem::path toolDist = toolSource / "dist";
+  std::filesystem::path projectDist =
       std::filesystem::absolute(projectRoot) / "output";
 
-  // 1. Serve Tool Assets
+  // Build the tool itself!
+  Log::Info("Building tool assets from " + toolSource.string());
+
+  // Clean output first to avoid interactive prompt in Generator::GenerateSite
+  if (std::filesystem::exists(toolDist)) {
+    std::filesystem::remove_all(toolDist);
+  }
+
+  // Ensure assets directory exists to satisfy Generator strictness
+  std::filesystem::create_directories(toolSource / "assets/theme");
+
+  // Copy Project Theme to Tool Assets (as requested by user)
+  std::filesystem::path projectTheme =
+      std::filesystem::absolute(projectRoot) / "content/assets/theme";
+  std::filesystem::path toolTheme = toolSource / "assets/theme";
+
+  if (std::filesystem::exists(projectTheme)) {
+    try {
+      // Copy options: recursive, overwrite
+      std::filesystem::copy(
+          projectTheme, toolTheme,
+          std::filesystem::copy_options::recursive |
+              std::filesystem::copy_options::overwrite_existing);
+    } catch (std::exception &e) {
+      Log::Error("Failed to copy project theme to editor: " +
+                 std::string(e.what()));
+    }
+  }
+
+  // Ensure we have a minimal environment for the generator if needed.
+  // The generator might expect the destination to be empty or valid.
+  // We'll trust it works.
+  if (!Generator::GenerateSite(toolSource, toolDist)) {
+    Log::Error("Failed to build tool assets.");
+    return false;
+  }
+
+  // 1. Serve built Tool Assets
   auto toolPrefix = "/tools/" + spec.id + "/";
   Util::Server::RegisterRoute(
       *session.server, "GET", toolPrefix,
-      [toolRoot, toolPrefix](const Util::Server::Request &req) {
+      [toolDist, toolPrefix](const Util::Server::Request &req) {
         std::string subPath = req.path.substr(toolPrefix.length());
+
+        // Default entry
+        if (subPath.empty())
+          subPath = "index.html";
+
+        // Map editor.slam request to editor.html which exists in dist now
+        if (subPath == "editor.slam")
+          subPath = "editor.html";
+
         if (subPath.find("..") != std::string::npos)
           return Util::Server::NotFound();
 
-        // Handle "editor.html" request by serving "editor.slam" or the actual
-        // .html if present As per user request, Slamhaus should
-        // generate/compile it. For now, if we cannot trigger a build easily, we
-        // will serve the raw files OR rely on the fact that we might have
-        // pre-built? The user said "you can compile the editor with this
-        // workflow" but then it failed. We will stick to serving files for now,
-        // but ensure we server editor.html even if it maps to editor.html shim.
-
-        return Util::Server::File((toolRoot / subPath).string(),
+        return Util::Server::File((toolDist / subPath).string(),
                                   GetMimeType(subPath));
       });
 
   // 2. Serve Project Output
   Util::Server::RegisterRoute(*session.server, "GET", "/preview/",
-                              [distRoot](const Util::Server::Request &req) {
+                              [projectDist](const Util::Server::Request &req) {
                                 std::string subPath = req.path.substr(9);
                                 if (subPath.empty())
                                   subPath = "index.html";
                                 if (subPath.find("..") != std::string::npos)
                                   return Util::Server::NotFound();
                                 return Util::Server::File(
-                                    (distRoot / subPath).string(),
+                                    (projectDist / subPath).string(),
                                     GetMimeType(subPath));
                               });
 
@@ -135,6 +175,7 @@ bool LaunchTool(ToolSession &session, const ToolSpec &spec,
   Util::Server::Start(*session.server);
   session.isRunning = true;
 
+  // We point to editor.html (which is what editor.slam compiles to)
   std::string startUrl = "http://localhost:8090" + toolPrefix + "editor.html";
   OpenBrowser(startUrl);
 

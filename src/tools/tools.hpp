@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace Util::Server {
-struct Server;
+struct ServerContext;
 }
 
 namespace Tools {
@@ -28,7 +28,7 @@ struct ToolSession {
   int port;
   std::string projectRoot;
   bool isRunning;
-  std::shared_ptr<Util::Server::Server> server;
+  std::shared_ptr<Util::Server::ServerContext> server;
 
   ToolSession();
   ~ToolSession();

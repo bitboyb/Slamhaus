@@ -1,0 +1,30 @@
+:root {
+    /* Backgrounds & Surfaces */
+    --color-background-body: #0e0e0e;         /* Primary (darkest) background */
+    --color-background-secondary: #1a1a1a;    /* Slightly lighter background for sections/cards */
+    --color-background-container: #222222;    /* General container/card background */
+    --color-background-hover: #2e2e2e;        /* Hover state for backgrounds or subtle raised elements */
+    --color-background-button-hover: #181818; /* Specific button background on hover */
+    --color-background-input: #202020;        /* Input field background */
+    --color-background-deep: #141414;         /* Very deep/dark background, e.g., footer */
+
+    /* Borders & Dividers */
+    --color-border-primary: #2a2a2a;          /* Main border/outline color */
+    --color-border-input: #232323;            /* Input field border */
+
+    /* Text Colors */
+    --color-text-body: #aaaaaa;               /* Default/muted body text color */
+    --color-text-light: #f0f0f0;              /* Light text color (e.g., on dark backgrounds) */
+    --color-text-h3: #cccccc;                 /* Text for subtitles or secondary headings */
+    --color-text-accent-secondary: #ffcb6b;   /* Secondary text accent (e.g., for highlights or specific elements) */
+
+    /* Accents & Interactive Elements */
+    --color-accent-primary: #03dac6;          /* Primary accent color (e.g., buttons, links, main highlights) */
+    --color-accent-secondary: #bb86fc;        /* Secondary accent color (e.g., alternative highlights, less frequent interactions) */
+    --color-accent-link-alt: #82aaff;         /* Alternative link or interaction color */
+    --color-accent-muted-purple: #c792ea;     /* Muted purple accent for optional use */
+    --color-accent-error: #f07178;            /* Error or warning state color */
+
+    /* Shadows & Overlays */
+    --color-shadow-overlay: rgba(0, 0, 0, 0.6); /* General overlay or shadow color with transparency */
+}
