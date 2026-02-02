@@ -109,59 +109,99 @@ void Start(ServerContext &ctx) {
         continue;
       }
 
-      std::thread([clientFd, &ctx]() { // Capture ctx by reference carefully?
-                                       // No, unsafe if ctx dies.
-        // Wait, passing &ctx to a detached thread is unsafe if main thread
-        // kills ctx. But Stop() joins the worker, so the worker ensures ctx
-        // stays alive during loop. The client handler threads however are
-        // detached. They might outlive ctx. Ideally we should track them or use
-        // a pool. For this minimal implementation, effectively we assume
-        // shutdown waits enough or we simply take the risk for local dev tool.
-        // To be safer, we copy the routes? Expensive.
-        // Let's assume for this single-user tool it's acceptable.
-
+      std::thread([clientFd, &ctx]() {
         ScopedSocket client(clientFd);
-        char buffer[4096] = {0};
-        int bytesRead = recv(client, buffer, 4096, 0);
-        if (bytesRead <= 0)
-          return;
 
-        std::string raw(buffer, bytesRead);
-        std::istringstream stream(raw);
+        // Robust reading of headers and body
+        std::string raw;
+        const int BUF_SIZE = 4096;
+        char buffer[BUF_SIZE];
+
+        // 1. Read until we have headers
+        while (raw.find("\r\n\r\n") == std::string::npos) {
+          int bytes = recv(client, buffer, BUF_SIZE, 0);
+          if (bytes <= 0)
+            return;
+          raw.append(buffer, bytes);
+          if (raw.size() > 1024 * 64)
+            return; // Safety limit 64KB headers
+        }
+
+        size_t headerEnd = raw.find("\r\n\r\n");
+        std::string headerPart = raw.substr(0, headerEnd);
+        std::string bodyPart = raw.substr(headerEnd + 4);
+
+        // 2. Parse Headers
+        std::istringstream stream(headerPart);
         std::string method, path, proto;
         stream >> method >> path >> proto;
 
         std::map<std::string, std::string> headers;
         std::string line;
-        std::getline(stream, line);
+        std::getline(stream, line); // Skip request line (already read)
         while (std::getline(stream, line) && line != "\r") {
+          if (!line.empty() && line.back() == '\r')
+            line.pop_back();
           auto colon = line.find(':');
           if (colon != std::string::npos) {
-            headers[line.substr(0, colon)] =
-                line.substr(colon + 2, line.length() - colon - 3);
+            std::string key = line.substr(0, colon);
+            std::string val = line.substr(colon + 1);
+            // Trim whitespace
+            while (!val.empty() && val.front() == ' ')
+              val.erase(0, 1);
+            headers[key] = val;
           }
         }
 
-        size_t bodyPos = raw.find("\r\n\r\n");
-        std::string body;
-        if (bodyPos != std::string::npos) {
-          body = raw.substr(bodyPos + 4);
+        // 3. Read Body based on Content-Length
+        size_t contentLength = 0;
+        if (headers.count("Content-Length")) {
+          contentLength = std::stoul(headers["Content-Length"]);
         }
 
-        Request req{method, path, headers, body};
+        while (bodyPart.size() < contentLength) {
+          int bytes = recv(client, buffer, BUF_SIZE, 0);
+          if (bytes <= 0)
+            break;
+          bodyPart.append(buffer, bytes);
+        }
+
+        Request req{method, path, headers, bodyPart};
         Response res = NotFound();
 
         // access ctx.routes
-        // Note: thread safety of reading map while not writing? ok.
+        // Longest Prefix Match logic
+        std::string bestRoute;
+        Handler bestHandler = nullptr;
+
         for (const auto &[route, handler] : ctx.routes) {
           if (path == route || (path.find(route) == 0 && route.back() == '/')) {
-            res = handler(req);
-            break;
+            if (route.length() > bestRoute.length()) {
+              bestRoute = route;
+              bestHandler = handler;
+            }
           }
         }
 
+        if (bestHandler) {
+          res = bestHandler(req);
+        }
+
+        std::string statusMsg = "OK";
+        if (res.status == 400)
+          statusMsg = "Bad Request";
+        else if (res.status == 403)
+          statusMsg = "Forbidden";
+        else if (res.status == 404)
+          statusMsg = "Not Found";
+        else if (res.status == 409)
+          statusMsg = "Conflict";
+        else if (res.status == 500)
+          statusMsg = "Internal Server Error";
+
         std::ostringstream responseStream;
-        responseStream << "HTTP/1.1 " << res.status << " OK\r\n";
+        responseStream << "HTTP/1.1 " << res.status << " " << statusMsg
+                       << "\r\n";
         responseStream << "Content-Type: " << res.contentType << "\r\n";
         responseStream << "Content-Length: " << res.body.size() << "\r\n";
         responseStream << "Access-Control-Allow-Origin: *\r\n";
@@ -170,8 +210,7 @@ void Start(ServerContext &ctx) {
 
         std::string responseStr = responseStream.str();
         send(client, responseStr.c_str(), responseStr.size(), 0);
-      })
-          .detach();
+      }).detach();
     }
 
     CLOSE_SOCKET(serverFd);

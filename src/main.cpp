@@ -34,54 +34,30 @@ int main() {
 
   std::cout << CLI::GetSlamhausLogo() << "\n\n" << CLI::GetInfo() << "\n\n";
 
+  // Auto-Launch Dashboard
+  Log::Info("Launching Slamhaus Dashboard...");
+  if (Tools::LaunchTool(g_toolSession, ".")) {
+    Log::Info("Dashboard running at http://localhost:8090");
+    Log::Info("Use the Web Interface to Build, Edit, and Manage your project.");
+  } else {
+    Log::Error("Failed to launch dashboard.");
+    return 1;
+  }
+
+  // Simple keep-alive loop
   while (true) {
-    CLI::ShowMenu();
-    int choice = CLI::GetMenuChoice(1, 4);
+    // We could just sleep, or provide a minimal text menu
+    std::cout << "\n[Server Running] Type 'q' to exit, 'o' to open browser: ";
+    std::string input;
+    std::cin >> input;
 
-    if (choice == 4) {
-      Log::Info("Goodbye!");
+    if (input == "q" || input == "exit") {
       break;
     }
-
-    switch (choice) {
-    case 1: {
-      Log::Info("\nGenerating site from ./content …");
-      Generator::GenerateSite("content", "output");
-      Log::Info("Done.\n");
-      break;
-    }
-    case 2: {
-      auto dir =
-          CLI::Prompt("\nEnter path to your content directory", "content");
-      Log::Info("Generating site from " + dir + " …");
-      Generator::GenerateSite(dir, "output");
-      Log::Info("Done.\n");
-      break;
-    }
-    case 3: {
-      Log::Info("\nLaunching Theme Editor...");
-      auto *spec = Tools::FindToolSpec("theme-editor");
-      if (spec) {
-        // Defaulting to ./content as project root for this tool invocation
-        // Ideally this should ask for the project root if not known, similar to
-        // option 2.
-        // For now, consistent with Option 1: use current dir.
-        if (Tools::LaunchTool(g_toolSession, *spec, ".")) {
-          // Keep running? The server runs in background.
-          // The menu loop continues, so user can do other things?
-          // Or should we block?
-          // The prompt says "integrated into existing interactive prompt".
-          // So we return to menu.
-          Log::Info("Theme Editor running in background.");
-        } else {
-          Log::Error("Failed to launch Theme Editor.");
-        }
-      } else {
-        Log::Error("Theme Editor tool not found in registry.");
-      }
-      break;
-    }
+    if (input == "o") {
+      Tools::OpenBrowser("http://localhost:8090/");
     }
   }
+
   return 0;
 }

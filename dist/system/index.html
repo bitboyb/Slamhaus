@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slamhaus Theme Editor</title>
+  <style></style>
+  <link rel="icon" href="assets/icons/ic-terminal.png" type="image/x-icon">
+      <meta property="og:title" content="Slamhaus Theme Editor">
+    <link rel="canonical" href="https://nourl.dev">
+    <meta property="og:url" content="https://nourl.dev">
+
+  <!-- Header -->
+<img src="assets/icons/ic-terminal.png" alt="logo">
+</head>
+<body>
+  <header>Slamhaus Theme Editor</header>
+  <nav><nav>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+  <label for="nav-toggle" class="nav-toggle-label">
+    <span></span>
+  </label>
+  <div class="nav-menu">
+<ul>
+</li>
+</ul>
+  </div>
+</nav>
+</nav>
+  <main>
+    <hr>
+<p>title: Slamhaus Dashboard</p>
+<hr>
+<div class="dashboard-container">
+<p>    <header class="main-header"></p>
+<p>        <h1>Slamhaus Dashboard</h1></p>
+<p>        <div class="status-bar"></p>
+<p>            <span>Project: <strong id="project-path">Loading...</strong></span></p>
+<p>            <span class="status-indicator" id="system-status">Ready</span></p>
+<p>        </div></p>
+<p>    </header></p>
+<p>    <main class="grid-menu"></p>
+<p>        <div class="card action-card" onclick="app.buildProject()"></p>
+<p>            <div class="icon">🔨</div></p>
+<p>            <h3>Build Site</h3></p>
+<p>            <p>Compile your project to static HTML.</p></p>
+<p>        </div></p>
+<p>        <a href="/theme-editor.html" class="card action-card"></p>
+<p>            <div class="icon">🎨</div></p>
+<p>            <h3>Theme Editor</h3></p>
+<p>            <p>Visually edit your site's styles.</p></p>
+<p>        </a></p>
+<p>        <div class="card action-card" onclick="app.browseProject()"></p>
+<p>            <div class="icon">📂</div></p>
+<p>            <h3>Switch Project</h3></p>
+<p>            <p>Select a different content directory.</p></p>
+<p>        </div></p>
+<p>        <div class="card action-card danger" onclick="app.exitSystem()"></p>
+<p>            <div class="icon">❌</div></p>
+<p>            <h3>Exit</h3></p>
+<p>            <p>Stop the server and close the tool.</p></p>
+<p>        </div></p>
+<p>    </main></p>
+<p>    <div id="log-console" class="log-console"></p>
+<p>        <div class="log-header"></p>
+<p>            <span>Build Logs</span></p>
+<p>            <button onclick="app.clearLogs()">Clear</button></p>
+<p>        </div></p>
+<p>        <pre id="log-output"></pre></p>
+<p>    </div></p>
+</div>
+<script src="/assets/js/app.js"></script>
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+
+  </main>
+  <footer></footer>
+</body>
+</html>

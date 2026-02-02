@@ -17,21 +17,28 @@
 
 namespace Generator {
 auto GenerateSite(const std::filesystem::path &contentDir,
-                  const std::filesystem::path &outputDir) -> bool {
+                  const std::filesystem::path &outputDir, bool skipConfirmation,
+                  bool quiet) -> bool {
   if (!std::filesystem::exists(contentDir) ||
       !std::filesystem::is_directory(contentDir)) {
     std::cerr << "Content directory not found: " << contentDir << "\n";
     return false;
   }
   if (std::filesystem::exists(outputDir)) {
-    std::cout << "Output directory \"" << outputDir
-              << "\" already exists and will be deleted. Continue? [y/N] ";
-    char confirm = 'n';
-    std::cin >> confirm;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    if (confirm != 'y' && confirm != 'Y') {
-      std::cout << "Aborting build.\n";
-      return false;
+    if (!skipConfirmation) {
+      if (!quiet) {
+        std::cout << "Output directory \"" << outputDir
+                  << "\" already exists and will be deleted. Continue? [y/N] ";
+      }
+      char confirm = 'n';
+      std::cin >> confirm;
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      if (confirm != 'y' && confirm != 'Y') {
+        if (!quiet) {
+          std::cout << "Aborting build.\n";
+        }
+        return false;
+      }
     }
     std::filesystem::remove_all(outputDir);
   }
@@ -41,7 +48,8 @@ auto GenerateSite(const std::filesystem::path &contentDir,
     std::filesystem::copy_file(
         htaccessPath, outputDir / Constants::kFileHtaccess,
         std::filesystem::copy_options::overwrite_existing);
-    Log::Info("Copied .htaccess to output.");
+    if (!quiet)
+      Log::Info("Copied .htaccess to output.");
   }
   std::string cssContent = CSS::LoadCSS((contentDir / "assets/theme").string());
   Config::ConfigINI ini = Config::GetConfig(contentDir.string());
@@ -61,7 +69,9 @@ auto GenerateSite(const std::filesystem::path &contentDir,
       std::filesystem::path outBase = std::filesystem::path(outputDir) /
                                       relPath.parent_path() / relPath.stem();
       WASM::WASMFile wasmFile{entry.path().string(), outBase.string()};
-      std::cout << "Compiling WASM: " << wasmFile.inputPath << "\n";
+      if (!quiet) {
+        std::cout << "Compiling WASM: " << wasmFile.inputPath << "\n";
+      }
       bool success = WASM::Compile({wasmFile}, "emcc");
       if (!success) {
         std::cerr << "Failed to compile WASM: " << wasmFile.inputPath << "\n";
@@ -70,7 +80,8 @@ auto GenerateSite(const std::filesystem::path &contentDir,
     } else if (entry.is_regular_file() && SMD::IsContentFile(entry.path())) {
       std::string ext = entry.path().extension().string();
       if (ext == Constants::kExtSmd) {
-        std::cout << "Skipping partial file: " << entry.path() << std::endl;
+        if (!quiet)
+          std::cout << "Skipping partial file: " << entry.path() << std::endl;
         continue;
       }
 
@@ -104,7 +115,8 @@ auto GenerateSite(const std::filesystem::path &contentDir,
         continue;
       }
       outFile << finalHtml;
-      std::cout << "Generated: " << outputPath << std::endl;
+      if (!quiet)
+        std::cout << "Generated: " << outputPath << std::endl;
       generatedPages.push_back(relPath.generic_string());
     }
   }

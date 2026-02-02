@@ -1,24 +1,19 @@
 $page[title:"Theme Editor"]()
 
-:column[size:1 id:"panel" class:"panel"](#editor-container)
+<link rel="stylesheet" href="/tools/theme-editor/assets/editor.css">
 
-## Theme Controls
+<div id="preview-container" class="preview-container">
+<iframe width="100%" height="500px" id="preview-frame" style="border:1px solid #333;" src="/preview/index.html"></iframe>
+</div>
 
-:div[id:"controls"](#controls)
-  Loading controls...
-:/div
+<div id="controls-container" class="controls-container">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:10px;">
+<h2>Theme Controls</h2>
+<button id="save-btn" style="padding: 10px 20px; background: #03dac6; border: none; font-weight: bold; cursor: pointer;">Save Theme</button>
+</div>
+<div id="controls">
+Loading controls...
+</div>
+</div>
 
-?button[text:"Save Theme" id:"save-btn"]()
-?button[text:"Toggle Mobile" id:"mobile-btn"]()
-
-:column[id:"preview-container" class:"preview-container"]()
-
-## Preview
-
-:div[id:"frame-wrapper" class:"frame-wrapper"](#frame-wrapper)
-!iframe[width:"100%" height:"600px" id:"preview-frame"](/preview/index.html)
-:/div
-
-:/column
-
-
+<script type="module">import {Init} from '/tools/theme-editor/assets/editor.js'; if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',Init);}else{Init();}</script>
