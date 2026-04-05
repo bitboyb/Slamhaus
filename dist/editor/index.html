@@ -23,8 +23,10 @@
 
 <link rel="stylesheet" href="assets/css/dashboard.css">
 <link rel="stylesheet" href="assets/css/editor.css">
+<link rel="stylesheet" href="assets/css/ide.css">
 <script defer src="assets/js/app.js"></script>
 <script type="module" src="assets/js/editor.js"></script>
+<script type="module" src="assets/js/project-editor.js"></script>
 </head>
 <body>
   <header>Slamhaus Editor</header>
@@ -47,6 +49,9 @@
 </div><div class="column"><h2>Theme Editor</h2>
 <p>Open the dedicated theme controls and live preview.</p>
 <button onclick="window.location.href='/theme-editor.html'" id="open-theme-editor" type="button">Open Theme Editor</button>
+</div><div class="column"><h2>Project Editor</h2>
+<p>Open the text-based project editor and compiler workspace.</p>
+<button onclick="window.location.href='/project-editor.html'" id="open-project-editor" type="button">Open Project Editor</button>
 </div><div class="column"><h2>Stop Editor</h2>
 <p>Stop the local editor server when you are done.</p>
 <button onclick="editorApp.exitEditor()" id="stop-editor" type="button">Stop Editor</button>

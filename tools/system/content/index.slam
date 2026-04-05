@@ -22,7 +22,7 @@ Loading...
 Ready
 :/div
 
-:column[size:"3"]()
+:column[size:"4"]()
 
 ## Build Site
 Compile your current project to static HTML.
@@ -33,6 +33,12 @@ Compile your current project to static HTML.
 ## Theme Editor
 Open the dedicated theme controls and live preview.
 ?button[action:"/theme-editor.html" text:"Open Theme Editor" type:"button"](#open-theme-editor)
+
+:column[]()
+
+## Project Editor
+Open the text-based project editor and compiler workspace.
+?button[action:"/project-editor.html" text:"Open Project Editor" type:"button"](#open-project-editor)
 
 :column[]()
 

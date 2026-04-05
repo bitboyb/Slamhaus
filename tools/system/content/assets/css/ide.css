@@ -1,0 +1,158 @@
+#project-editor-app {
+    max-width: none;
+    width: 100%;
+    min-height: calc(100vh - 12rem);
+    display: flex;
+    flex-direction: column;
+}
+
+#project-editor-app h1,
+#project-editor-app h2 {
+    text-align: left;
+}
+
+#ide-toolbar {
+    display: flex;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+    margin-bottom: var(--margin-lg);
+}
+
+#compile-project {
+    background-color: var(--color-accent-secondary);
+    color: var(--color-background-body);
+}
+
+#delete-file {
+    background-color: var(--color-accent-error);
+    color: var(--color-background-body);
+}
+
+#ide-status,
+#ide-project-root,
+#editor-path,
+#project-tree,
+#editor-text-wrap {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--pad-md);
+}
+
+#ide-status,
+#ide-project-root,
+#editor-path {
+    margin-bottom: var(--margin-md);
+}
+
+#ide-project-root p,
+#ide-status p,
+#editor-path p {
+    margin: 0;
+}
+
+#ide-shell {
+    display: grid;
+    grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr);
+    gap: var(--gap-md);
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+}
+
+#project-tree-pane,
+#editor-pane {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+}
+
+#project-tree-pane,
+#editor-pane,
+#editor-text-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+#editor-text-wrap {
+    flex: 1;
+    min-height: 0;
+}
+
+#project-tree {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.project-tree-root,
+.project-tree-children {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.project-tree-folder {
+    padding-left: var(--pad-xs);
+}
+
+.project-tree-folder details {
+    border-left: 1px solid var(--color-border-primary);
+    padding-left: var(--pad-sm);
+}
+
+.project-tree-folder summary {
+    cursor: pointer;
+    color: var(--color-text-h3);
+    margin-bottom: var(--margin-xs);
+}
+
+.project-tree-file {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-bottom: var(--gap-xs);
+}
+
+.project-tree-file[aria-current="true"] {
+    background-color: var(--color-accent-primary);
+    color: var(--color-background-body);
+}
+
+#editor-text-wrap p {
+    margin: 0;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+}
+
+#editor-text {
+    width: 100%;
+    flex: 1;
+    height: 100%;
+    min-height: 100%;
+    resize: vertical;
+    background-color: var(--color-background-body);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--pad-md);
+    font-family: 'SpaceMono', monospace;
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+}
+
+@media (max-width: 900px) {
+    #ide-shell {
+        grid-template-columns: 1fr;
+    }
+
+    #project-tree {
+        max-height: 20rem;
+        min-height: 20rem;
+    }
+
+    #editor-text {
+        min-height: 28rem;
+    }
+}

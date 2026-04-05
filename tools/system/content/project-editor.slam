@@ -1,0 +1,48 @@
+$page[
+    title:"Project Editor"
+    description:"IDE-like text editor for Slamhaus project files."
+]()
+
+:section[](#project-editor-app)
+
+# Project Editor
+Browse text files in the current Slamhaus source tree, edit them, save, and compile.
+
+:div[](#ide-project-root)
+Loading project root...
+:/div
+
+:div[](#ide-toolbar)
+?button[action:"/" text:"Back" type:"button"](#ide-back)
+?button[action:"projectEditor.createFile" text:"New File" type:"button"](#new-file)
+?button[action:"projectEditor.deleteFile" text:"Delete File" type:"button"](#delete-file)
+?button[action:"projectEditor.saveFile" text:"Save File" type:"button"](#save-file)
+?button[action:"projectEditor.compileProject" text:"Build Project" type:"button"](#compile-project)
+?button[action:"projectEditor.openPreview" text:"Open Preview" type:"button"](#open-preview)
+:/div
+
+:div[](#ide-status)
+Choose a file from the project tree.
+:/div
+
+:div[](#ide-shell)
+
+:div[](#project-tree-pane)
+## Project Files
+:div[](#project-tree)
+Loading project files...
+:/div
+:/div
+
+:div[](#editor-pane)
+:div[](#editor-path)
+No file selected.
+:/div
+:div[](#editor-text-wrap)
+?textarea[id:"editor-text" spellcheck:"false"]()
+:/div
+:/div
+
+:/div
+
+:/section

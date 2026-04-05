@@ -1,15 +1,30 @@
 #include "editor.hpp"
 #include "../core/generator.hpp"
+#include "../util/json.hpp"
 #include "../util/log.hpp"
 #include "../util/server.hpp"
+#include <algorithm>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <set>
+#include <vector>
 
 namespace Editor {
 
 namespace {
+auto GetEditableProjectRoot(const std::filesystem::path &projectRoot)
+    -> std::filesystem::path {
+  auto contentRoot = projectRoot / "content";
+  if (std::filesystem::exists(contentRoot) &&
+      std::filesystem::is_directory(contentRoot)) {
+    return contentRoot;
+  }
+
+  return projectRoot;
+}
+
 auto GetMimeType(const std::string &path) -> std::string {
   std::string ext = std::filesystem::path(path).extension().string();
   if (ext == ".html")
@@ -31,6 +46,91 @@ auto GetMimeType(const std::string &path) -> std::string {
   if (ext == ".ttf")
     return "font/ttf";
   return "application/octet-stream";
+}
+
+auto IsTextProjectFile(const std::filesystem::path &path) -> bool {
+  static const std::set<std::string> textExtensions = {
+      ".slam", ".smd", ".css",  ".js",   ".json", ".md",  ".txt",
+      ".ini",  ".cpp", ".hpp",  ".c",    ".h",    ".yaml",".yml",
+      ".html", ".htm", ".xml",  ".svg",  ".sh",   ".cmake"};
+  static const std::set<std::string> textFileNames = {
+      ".htaccess", "Makefile", "README", "README.md", "README.txt"};
+
+  auto filename = path.filename().string();
+  auto ext = path.extension().string();
+  return textExtensions.count(ext) > 0 || textFileNames.count(filename) > 0;
+}
+
+auto IsIgnoredProjectPath(const std::filesystem::path &relativePath) -> bool {
+  for (const auto &part : relativePath) {
+    auto name = part.string();
+    if (name == ".git" || name == "output" || name == "dist" ||
+        name == "build" || name == "node_modules") {
+      return true;
+    }
+  }
+  return false;
+}
+
+auto ResolveProjectFilePath(const std::filesystem::path &projectRoot,
+                            const std::string &relativePath,
+                            std::filesystem::path &resolvedPath) -> bool {
+  if (relativePath.empty()) {
+    return false;
+  }
+
+  std::filesystem::path requested(relativePath);
+  if (requested.is_absolute()) {
+    return false;
+  }
+
+  auto canonicalRoot = std::filesystem::weakly_canonical(projectRoot);
+  auto candidate = std::filesystem::weakly_canonical(projectRoot / requested);
+  auto relative = candidate.lexically_relative(canonicalRoot);
+
+  if (relative.empty() || relative.string().rfind("..", 0) == 0 ||
+      IsIgnoredProjectPath(relative)) {
+    return false;
+  }
+
+  resolvedPath = candidate;
+  return true;
+}
+
+auto PruneEmptyDirectories(const std::filesystem::path &rootPath,
+                           std::filesystem::path currentPath) -> void {
+  while (currentPath != rootPath && std::filesystem::exists(currentPath) &&
+         std::filesystem::is_directory(currentPath) &&
+         std::filesystem::is_empty(currentPath)) {
+    std::filesystem::remove(currentPath);
+    currentPath = currentPath.parent_path();
+  }
+}
+
+auto GetProjectTextFiles(const std::filesystem::path &projectRoot)
+    -> std::vector<std::string> {
+  std::vector<std::string> files;
+  if (!std::filesystem::exists(projectRoot) ||
+      !std::filesystem::is_directory(projectRoot)) {
+    return files;
+  }
+
+  for (const auto &entry :
+       std::filesystem::recursive_directory_iterator(projectRoot)) {
+    if (!entry.is_regular_file()) {
+      continue;
+    }
+
+    auto relative = std::filesystem::relative(entry.path(), projectRoot);
+    if (IsIgnoredProjectPath(relative) || !IsTextProjectFile(entry.path())) {
+      continue;
+    }
+
+    files.push_back(relative.generic_string());
+  }
+
+  std::sort(files.begin(), files.end());
+  return files;
 }
 } // namespace
 
@@ -110,9 +210,17 @@ auto Launch(Session &session, const std::string &projectRoot, int port,
 
   Util::Server::RegisterRoute(*session.server, "GET", "/api/project/status",
                               [&session](const Util::Server::Request &req) {
-                                return Util::Server::JSON("{\"path\": \"" +
-                                                          session.projectRoot +
-                                                          "\"}");
+                                auto projectRoot =
+                                    std::filesystem::absolute(session.projectRoot);
+                                auto sourceRoot =
+                                    GetEditableProjectRoot(projectRoot);
+                                Util::JSON::Object data;
+                                data["path"] = Util::JSON::Node{
+                                    projectRoot.generic_string()};
+                                data["sourcePath"] = Util::JSON::Node{
+                                    sourceRoot.generic_string()};
+                                return Util::Server::JSON(
+                                    Util::JSON::Stringify(Util::JSON::Node{data}));
                               });
 
   Util::Server::RegisterRoute(
@@ -139,6 +247,127 @@ auto Launch(Session &session, const std::string &projectRoot, int port,
           return Util::Server::JSON("{\"success\": true}");
         }
         return Util::Server::Response{500, "text/plain", "Build Failed"};
+      });
+
+  Util::Server::RegisterRoute(
+      *session.server, "GET", "/api/project/files",
+      [&session](const Util::Server::Request &req) {
+        auto projectRoot = std::filesystem::absolute(session.projectRoot);
+        auto sourceRoot = GetEditableProjectRoot(projectRoot);
+        Util::JSON::Array items;
+        for (const auto &file : GetProjectTextFiles(sourceRoot)) {
+          items.push_back(Util::JSON::Node{file});
+        }
+        return Util::Server::JSON(
+            Util::JSON::Stringify(Util::JSON::Node{items}));
+      });
+
+  Util::Server::RegisterRoute(
+      *session.server, "GET", "/api/project/file/read",
+      [&session](const Util::Server::Request &req) {
+        auto it = req.headers.find("X-File");
+        if (it == req.headers.end()) {
+          return Util::Server::Response{400, "text/plain", "Missing Header"};
+        }
+
+        auto projectRoot = std::filesystem::absolute(session.projectRoot);
+        auto sourceRoot = GetEditableProjectRoot(projectRoot);
+        std::filesystem::path filePath;
+        if (!ResolveProjectFilePath(sourceRoot, it->second, filePath) ||
+            !std::filesystem::exists(filePath)) {
+          return Util::Server::NotFound();
+        }
+
+        return Util::Server::File(filePath.string(), "text/plain");
+      });
+
+  Util::Server::RegisterRoute(
+      *session.server, "POST", "/api/project/file/write",
+      [&session](const Util::Server::Request &req) {
+        auto it = req.headers.find("X-File");
+        if (it == req.headers.end()) {
+          return Util::Server::Response{400, "text/plain", "Missing Header"};
+        }
+
+        auto projectRoot = std::filesystem::absolute(session.projectRoot);
+        auto sourceRoot = GetEditableProjectRoot(projectRoot);
+        std::filesystem::path filePath;
+        if (!ResolveProjectFilePath(sourceRoot, it->second, filePath) ||
+            !std::filesystem::exists(filePath)) {
+          return Util::Server::NotFound();
+        }
+
+        std::ofstream out(filePath);
+        if (!out) {
+          return Util::Server::Response{500, "text/plain",
+                                        "Failed To Write File"};
+        }
+
+        out << req.body;
+        return Util::Server::JSON("{\"success\": true}");
+      });
+
+  Util::Server::RegisterRoute(
+      *session.server, "POST", "/api/project/file/create",
+      [&session](const Util::Server::Request &req) {
+        auto it = req.headers.find("X-File");
+        if (it == req.headers.end()) {
+          return Util::Server::Response{400, "text/plain", "Missing Header"};
+        }
+
+        std::filesystem::path requested(it->second);
+        if (!IsTextProjectFile(requested)) {
+          return Util::Server::Response{403, "text/plain",
+                                        "Unsupported File Type"};
+        }
+
+        auto projectRoot = std::filesystem::absolute(session.projectRoot);
+        auto sourceRoot = GetEditableProjectRoot(projectRoot);
+        std::filesystem::path filePath;
+        if (!ResolveProjectFilePath(sourceRoot, it->second, filePath)) {
+          return Util::Server::Response{403, "text/plain", "Invalid Path"};
+        }
+
+        if (std::filesystem::exists(filePath)) {
+          return Util::Server::Response{409, "text/plain", "File Exists"};
+        }
+
+        std::filesystem::create_directories(filePath.parent_path());
+        std::ofstream out(filePath);
+        if (!out) {
+          return Util::Server::Response{500, "text/plain",
+                                        "Failed To Create File"};
+        }
+
+        out << req.body;
+        return Util::Server::JSON("{\"success\": true}");
+      });
+
+  Util::Server::RegisterRoute(
+      *session.server, "POST", "/api/project/file/delete",
+      [&session](const Util::Server::Request &req) {
+        auto it = req.headers.find("X-File");
+        if (it == req.headers.end()) {
+          return Util::Server::Response{400, "text/plain", "Missing Header"};
+        }
+
+        auto projectRoot = std::filesystem::absolute(session.projectRoot);
+        auto sourceRoot = GetEditableProjectRoot(projectRoot);
+        std::filesystem::path filePath;
+        if (!ResolveProjectFilePath(sourceRoot, it->second, filePath) ||
+            !std::filesystem::exists(filePath) ||
+            !std::filesystem::is_regular_file(filePath)) {
+          return Util::Server::NotFound();
+        }
+
+        if (!IsTextProjectFile(filePath)) {
+          return Util::Server::Response{403, "text/plain",
+                                        "Unsupported File Type"};
+        }
+
+        std::filesystem::remove(filePath);
+        PruneEmptyDirectories(sourceRoot, filePath.parent_path());
+        return Util::Server::JSON("{\"success\": true}");
       });
 
   Util::Server::RegisterRoute(

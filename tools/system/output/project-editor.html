@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Editor</title>
+  <link rel="stylesheet" href="assets/theme/body.css">
+  <link rel="stylesheet" href="assets/theme/desktop-nav.css">
+  <link rel="stylesheet" href="assets/theme/embed.css">
+  <link rel="stylesheet" href="assets/theme/fonts.css">
+  <link rel="stylesheet" href="assets/theme/footer.css">
+  <link rel="stylesheet" href="assets/theme/interactions.css">
+  <link rel="stylesheet" href="assets/theme/mobile-nav.css">
+  <link rel="stylesheet" href="assets/theme/palette.css">
+  <link rel="stylesheet" href="assets/theme/section.css">
+  <link rel="stylesheet" href="assets/theme/spacing.css">
+  <link rel="icon" href="assets/icons/ic-terminal.png" type="image/x-icon">
+      <meta name="description" content="IDE-like text editor for Slamhaus project files.">
+    <meta property="og:description" content="IDE-like text editor for Slamhaus project files.">
+    <meta property="og:title" content="Project Editor">
+    <link rel="canonical" href="https://nourl.dev">
+    <meta property="og:url" content="https://nourl.dev">
+
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<link rel="stylesheet" href="assets/css/editor.css">
+<link rel="stylesheet" href="assets/css/ide.css">
+<script defer src="assets/js/app.js"></script>
+<script type="module" src="assets/js/editor.js"></script>
+<script type="module" src="assets/js/project-editor.js"></script>
+</head>
+<body>
+  <header>Slamhaus Editor</header>
+    <main>
+    <section id="project-editor-app">
+<h1>Project Editor</h1>
+<p>Browse text files in the current Slamhaus source tree, edit them, save, and compile.</p>
+<div id="ide-project-root">
+<p>Loading project root...</p>
+</div>
+<div id="ide-toolbar">
+<button onclick="window.location.href='/'" id="ide-back" type="button">Back</button>
+<button onclick="projectEditor.createFile()" id="new-file" type="button">New File</button>
+<button onclick="projectEditor.deleteFile()" id="delete-file" type="button">Delete File</button>
+<button onclick="projectEditor.saveFile()" id="save-file" type="button">Save File</button>
+<button onclick="projectEditor.compileProject()" id="compile-project" type="button">Build Project</button>
+<button onclick="projectEditor.openPreview()" id="open-preview" type="button">Open Preview</button>
+</div>
+<div id="ide-status">
+<p>Choose a file from the project tree.</p>
+</div>
+<div id="ide-shell">
+<div id="project-tree-pane">
+<h2>Project Files</h2>
+<div id="project-tree">
+<p>Loading project files...</p>
+</div>
+</div>
+<div id="editor-pane">
+<div id="editor-path">
+<p>No file selected.</p>
+</div>
+<div id="editor-text-wrap">
+<p><textarea id="editor-text" spellcheck="false"></textarea></p>
+</div>
+</div>
+</div>
+</section>
+
+  </main>
+  <footer></footer>
+</body>
+</html>
