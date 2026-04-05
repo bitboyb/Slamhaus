@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slamhaus Editor</title>
+  <link rel="stylesheet" href="assets/theme/body.css">
+  <link rel="stylesheet" href="assets/theme/desktop-nav.css">
+  <link rel="stylesheet" href="assets/theme/embed.css">
+  <link rel="stylesheet" href="assets/theme/fonts.css">
+  <link rel="stylesheet" href="assets/theme/footer.css">
+  <link rel="stylesheet" href="assets/theme/interactions.css">
+  <link rel="stylesheet" href="assets/theme/mobile-nav.css">
+  <link rel="stylesheet" href="assets/theme/palette.css">
+  <link rel="stylesheet" href="assets/theme/section.css">
+  <link rel="stylesheet" href="assets/theme/spacing.css">
+  <link rel="icon" href="assets/icons/ic-terminal.png" type="image/x-icon">
+      <meta name="description" content="Build and edit Slamhaus projects from the separate editor frontend.">
+    <meta property="og:description" content="Build and edit Slamhaus projects from the separate editor frontend.">
+    <meta property="og:title" content="Slamhaus Editor">
+    <link rel="canonical" href="https://nourl.dev">
+    <meta property="og:url" content="https://nourl.dev">
+
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<link rel="stylesheet" href="assets/css/editor.css">
+<script defer src="assets/js/app.js"></script>
+<script type="module" src="assets/js/editor.js"></script>
+</head>
+<body>
+  <header>Slamhaus Editor</header>
+    <main>
+    <section id="dashboard-container">
+<h1>Slamhaus Editor</h1>
+<p>Build, preview, and theme your current Slamhaus project.</p>
+<h2>Status</h2>
+<p><strong>Project</strong></p>
+<div id="project-path">
+<p>Loading...</p>
+</div>
+<p><strong>State</strong></p>
+<div id="system-status">
+<p>Ready</p>
+</div>
+<div class="columns-container responsive-columns"><div class="column"><h2>Build Site</h2>
+<p>Compile your current project to static HTML.</p>
+<button onclick="editorApp.buildProject()" id="build-project" type="button">Build Website</button>
+</div><div class="column"><h2>Theme Editor</h2>
+<p>Open the dedicated theme controls and live preview.</p>
+<button onclick="window.location.href='/theme-editor.html'" id="open-theme-editor" type="button">Open Theme Editor</button>
+</div><div class="column"><h2>Stop Editor</h2>
+<p>Stop the local editor server when you are done.</p>
+<button onclick="editorApp.exitEditor()" id="stop-editor" type="button">Stop Editor</button>
+</div></div><div class="columns-container responsive-columns"><div class="column"><h2>Switch Project</h2>
+<p>Point the editor at another Slamhaus project root.</p>
+<button onclick="editorApp.browseProject()" id="browse-project" type="button">Choose Project</button>
+</div></div><h2>Build Logs</h2>
+<button onclick="editorApp.clearLogs()" id="clear-logs" type="button">Clear Log</button>
+<div id="log-output">
+<p>Waiting for a build...</p>
+</div>
+</section>
+
+  </main>
+  <footer></footer>
+</body>
+</html>

@@ -46,4 +46,5 @@
     /* Shadows & Overlays */
     --color-shadow-overlay: rgba(0, 0, 0, 0.6);
     /* General overlay or shadow color with transparency */
+    --color-19: rgba(0, 0, 0, 0.4);
 }

@@ -1,40 +1,57 @@
-const app = {
+const editorApp = {
+    setStatus: (message) => {
+        const status = document.getElementById('system-status');
+        if (status) {
+            status.textContent = message;
+        }
+    },
+
     init: async () => {
-        // Fetch project status
+        const projectPath = document.getElementById('project-path');
+        if (!projectPath) {
+            return;
+        }
+
+        editorApp.setStatus("Connecting...");
+
         try {
             const res = await fetch('/api/project/status');
             if (res.ok) {
                 const status = await res.json();
-                document.getElementById('project-path').innerText = status.path;
+                projectPath.textContent = status.path;
+                editorApp.setStatus("Ready");
+            } else {
+                editorApp.setStatus("Unavailable");
             }
         } catch (e) {
-            console.error("Failed to connect to backend");
+            console.error("Failed to connect to backend", e);
+            projectPath.textContent = "Backend unavailable.";
+            editorApp.setStatus("Offline");
         }
     },
 
     buildProject: async () => {
-        app.log("Starting build...");
+        editorApp.log("Starting build...");
+        editorApp.setStatus("Building...");
         try {
-            // Use the existing build API we created for theme editor, 
-            // but maybe generalize it? Or just call it.
-            // Tools.cpp exposes /api/system/build which builds the CURRENT project root.
-            const res = await fetch('/api/system/build', { method: 'POST' });
+            const res = await fetch('/api/project/build', { method: 'POST' });
             if (res.ok) {
-                app.log("Build Successful!");
-                alert("Site built successfully!");
+                editorApp.log("Build successful.");
+                editorApp.setStatus("Built");
             } else {
-                app.log("Build Failed. Check server logs.");
-                alert("Build Failed");
+                editorApp.log("Build failed. Check server logs.");
+                editorApp.setStatus("Build failed");
             }
         } catch (e) {
-            app.log("Error: " + e.message);
+            editorApp.log("Error: " + e.message);
+            editorApp.setStatus("Build failed");
         }
     },
 
     browseProject: () => {
-        // Placeholder for now, requires a file browser UI or prompt
         const newPath = prompt("Enter new project path (absolute):");
         if (newPath) {
+            editorApp.setStatus("Switching project...");
             fetch('/api/project/set-root', {
                 method: 'POST',
                 body: newPath
@@ -42,25 +59,36 @@ const app = {
         }
     },
 
-    exitSystem: async () => {
-        if (confirm("Are you sure you want to stop the server and exit?")) {
-            await fetch('/api/system/exit', { method: 'POST' });
-            document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:20%'>Server Stopped. You can close this tab.</h1>";
+    exitEditor: async () => {
+        if (!confirm("Are you sure you want to stop the server and exit?")) {
+            return;
         }
+
+        editorApp.setStatus("Stopping...");
+        await fetch('/api/editor/exit', { method: 'POST' });
+        document.body.textContent = "Editor stopped. Press Enter in the terminal to finish shutting it down.";
     },
 
     log: (msg) => {
         const consoleEl = document.getElementById('log-output');
+        if (!consoleEl) {
+            return;
+        }
+
         const time = new Date().toLocaleTimeString();
         consoleEl.textContent += `[${time}] ${msg}\n`;
         consoleEl.scrollTop = consoleEl.scrollHeight;
     },
 
     clearLogs: () => {
-        document.getElementById('log-output').textContent = "";
+        const consoleEl = document.getElementById('log-output');
+        if (consoleEl) {
+            consoleEl.textContent = "";
+        }
     }
 };
 
-// Make globally available for onclick handlers
-window.app = app;
-document.addEventListener('DOMContentLoaded', app.init);
+window.editorApp = editorApp;
+document.addEventListener('DOMContentLoaded', () => {
+    editorApp.init();
+});

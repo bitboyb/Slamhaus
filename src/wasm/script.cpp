@@ -5,10 +5,39 @@
 #include <iostream>
 #include <regex>
 #include <sstream>
+#include <set>
 #include <string>
 #include <vector>
 
 namespace Script {
+auto HandleStyle(const std::string &line, std::ostringstream &html,
+                 Parser::ParseState &pState) -> bool {
+  std::string trimmed = line;
+  trimmed.erase(0, trimmed.find_first_not_of(" \t"));
+  trimmed.erase(trimmed.find_last_not_of(" \t") + 1);
+
+  static const std::regex blockRegex(R"(^@style\[(.*?)\]\(\)$)");
+  std::smatch match;
+  if (!std::regex_match(trimmed, match, blockRegex)) {
+    return false;
+  }
+
+  auto attrs = Attributes::ParseAttributes(trimmed, "@style");
+  if (!attrs.count("src")) {
+    return false;
+  }
+
+  Text::CloseLists(html, pState);
+  Text::CloseParagraphs(html);
+
+  html << "<link rel=\"stylesheet\" href=\"" << attrs["src"] << "\"";
+  if (attrs.count("media") && !attrs["media"].empty()) {
+    html << " media=\"" << attrs["media"] << "\"";
+  }
+  html << ">\n";
+  return true;
+}
+
 static std::string Sanitize(const std::string &s) {
   std::string out;
   out.reserve(s.size());
@@ -122,6 +151,42 @@ void WriteGlueScript(std::ostringstream &html, const std::string &src,
   html << "});\n</script>\n";
 }
 
+void WriteExternalScript(
+    std::ostringstream &html,
+    const std::map<std::string, std::string> &attrs) {
+  static const std::set<std::string> reservedAttrs = {
+      "call", "bind", "event", "args", "types", "rtype", "result", "loop"};
+  static const std::set<std::string> boolAttrs = {"async", "defer",
+                                                  "nomodule"};
+
+  html << "<script";
+  for (const auto &[key, value] : attrs) {
+    if (reservedAttrs.count(key) || key == "src") {
+      continue;
+    }
+
+    if (key == "module" && value == "true") {
+      html << " type=\"module\"";
+      continue;
+    }
+
+    if (boolAttrs.count(key) && (value.empty() || value == "true")) {
+      html << " " << key;
+      continue;
+    }
+
+    if (!value.empty()) {
+      html << " " << key << "=\"" << value << "\"";
+    }
+  }
+
+  if (attrs.count("src")) {
+    html << " src=\"" << attrs.at("src") << "\"";
+  }
+
+  html << "></script>\n";
+}
+
 auto HandleScript(const std::string &line, std::istringstream &iss,
                   std::ostringstream &html, Parser::ParseState &pState)
     -> bool {
@@ -135,14 +200,32 @@ auto HandleScript(const std::string &line, std::istringstream &iss,
   }
 
   auto attrs = Attributes::ParseAttributes(trimmed, "@script");
-  const auto &src = attrs["src"];
-  const auto &call = attrs["call"];
+  const auto src = attrs.count("src") ? attrs.at("src") : std::string{};
+  const auto call = attrs.count("call") ? attrs.at("call") : std::string{};
+
+  Text::CloseLists(html, pState);
+  Text::CloseParagraphs(html);
+
+  if (call.empty()) {
+    if (src.empty()) {
+      return false;
+    }
+    WriteExternalScript(html, attrs);
+    return true;
+  }
+
+  if (src.empty()) {
+    std::cerr << "Missing src in @script.\n";
+    return false;
+  }
+
   const auto bind = attrs.count("bind") ? attrs.at("bind") : std::string{};
   const auto event =
       attrs.count("event") ? attrs.at("event") : std::string{"click"};
-  const auto args = attrs["args"];
-  const auto types = attrs["types"];
-  const auto result = attrs["result"];
+  const auto args = attrs.count("args") ? attrs.at("args") : std::string{};
+  const auto types = attrs.count("types") ? attrs.at("types") : std::string{};
+  const auto result =
+      attrs.count("result") ? attrs.at("result") : std::string{};
   const auto loop = attrs.count("loop") ? attrs.at("loop") == "true" : false;
 
   auto argNames = args.empty() ? std::vector<std::string>{} : ParseList(args);
@@ -165,8 +248,6 @@ auto HandleScript(const std::string &line, std::istringstream &iss,
     returnType = allNumeric ? "number" : "string";
   }
 
-  Text::CloseLists(html, pState);
-  Text::CloseParagraphs(html);
   WriteGlueScript(html, src, call, bind, event, argNames, argTypes, returnType,
                   result, loop);
 

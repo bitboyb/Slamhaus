@@ -3,7 +3,7 @@
 #include <regex>
 
 namespace SEO {
-auto GetDefault(Config::ConfigINI &ini) -> SEO::SEOData {
+auto GetDefault(const Config::ConfigINI &ini) -> SEO::SEOData {
   SEO::SEOData seo;
   seo.siteTitle = ini.siteName;
   seo.siteDescription = ini.description;
@@ -61,6 +61,9 @@ auto ProcessSiteLine(const std::string &line, SEOData &seo) -> void {
 
 auto ProcessPageLine(const std::string &line, SEOData &seo) -> void {
   auto attrs = ParseAttributes(line);
+  if (attrs.count("title")) {
+    seo.siteTitle = attrs["title"];
+  }
   if (attrs.count("description")) {
     seo.pageDescription = attrs["description"];
   }

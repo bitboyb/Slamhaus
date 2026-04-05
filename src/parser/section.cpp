@@ -2,6 +2,32 @@
 #include "../util/string.hpp"
 #include "attributes.hpp"
 #include "text.hpp"
+#include <set>
+
+namespace {
+auto EmitAttributes(std::ostringstream &html,
+                    const std::map<std::string, std::string> &attrs,
+                    const std::set<std::string> &excluded = {}) -> void {
+  for (const auto &[key, value] : attrs) {
+    if (excluded.count(key) || value.empty()) {
+      continue;
+    }
+    html << " " << key << "=\"" << value << "\"";
+  }
+}
+
+auto MergeClass(const std::string &baseClass,
+                const std::map<std::string, std::string> &attrs)
+    -> std::string {
+  if (!attrs.count("class") || attrs.at("class").empty()) {
+    return baseClass;
+  }
+  if (baseClass.empty()) {
+    return attrs.at("class");
+  }
+  return baseClass + " " + attrs.at("class");
+}
+} // namespace
 
 namespace Section {
 auto HandleHeroOpen(const std::string &line, std::ostringstream &html,
@@ -16,7 +42,6 @@ auto HandleHeroOpen(const std::string &line, std::ostringstream &html,
   auto attrs = Attributes::ParseAttributes(line, ":hero");
   std::string type = "standard";
   std::string media;
-  std::string id;
 
   if (attrs.count("type")) {
     type = attrs["type"];
@@ -24,31 +49,26 @@ auto HandleHeroOpen(const std::string &line, std::ostringstream &html,
   if (attrs.count("media")) {
     media = attrs["media"];
   }
-  if (attrs.count("id")) {
-    id = attrs["id"];
-  }
 
   if (type == "video") {
-    html << "<section class=\"hero-video\"";
-    if (!id.empty()) {
-      html << " id=\"" << id << "\"";
-    }
+    html << "<section class=\"" << MergeClass("hero-video", attrs) << "\"";
+    EmitAttributes(html, attrs, {"type", "media", "class"});
     html << ">\n";
     html << "<video src=\"" << media
          << "\" autoplay muted loop playsinline preload=\"auto\"></video>\n";
     html << "<div class=\"hero-content\">\n";
   } else if (type == "image") {
-    html << "<section class=\"hero-image\"";
-    if (!id.empty()) {
-      html << " id=\"" << id << "\"";
+    html << "<section class=\"" << MergeClass("hero-image", attrs) << "\"";
+    EmitAttributes(html, attrs, {"type", "media", "class", "style"});
+    html << " style=\"background-image: url('" << media << "');";
+    if (attrs.count("style") && !attrs.at("style").empty()) {
+      html << " " << attrs.at("style");
     }
-    html << " style=\"background-image: url('" << media << "');\">\n";
+    html << "\">\n";
     html << "<div class=\"hero-content\">\n";
   } else {
-    html << "<section class=\"hero\"";
-    if (!id.empty()) {
-      html << " id=\"" << id << "\"";
-    }
+    html << "<section class=\"" << MergeClass("hero", attrs) << "\"";
+    EmitAttributes(html, attrs, {"type", "media", "class"});
     html << ">\n";
   }
   return true;
@@ -76,9 +96,7 @@ auto HandleSectionOpen(const std::string &line, std::ostringstream &html,
   html << "<section";
 
   auto attrs = Attributes::ParseAttributes(line, ":section");
-  if (attrs.count("id")) {
-    html << " id=\"" << attrs["id"] << "\"";
-  }
+  EmitAttributes(html, attrs);
   html << ">\n";
   return true;
 }
@@ -139,11 +157,9 @@ auto ApplyColumns(int fallbackNumber, const std::vector<std::string> &text,
     std::string content = i < (int)text.size() ? text[i] : "";
     std::string openLine = i < (int)openLines.size() ? openLines[i] : "";
 
-    oss << "<div class=\"column\"";
     auto attrs = Attributes::ParseAttributes(openLine, ":column");
-    if (attrs.count("id")) {
-      oss << " id=\"" << attrs["id"] << "\"";
-    }
+    oss << "<div class=\"" << MergeClass("column", attrs) << "\"";
+    EmitAttributes(oss, attrs, {"size", "class"});
     oss << ">";
     oss << content << "</div>";
   }
@@ -183,9 +199,7 @@ auto HandleDivOpen(const std::string &line, std::ostringstream &html,
   html << "<div";
 
   auto attrs = Attributes::ParseAttributes(trimmed, ":div");
-  if (attrs.count("id")) {
-    html << " id=\"" << attrs["id"] << "\"";
-  }
+  EmitAttributes(html, attrs);
   html << ">\n";
   return true;
 }

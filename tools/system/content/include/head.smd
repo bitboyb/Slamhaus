@@ -1,0 +1,4 @@
+@style[src:"assets/css/dashboard.css"]()
+@style[src:"assets/css/editor.css"]()
+@script[src:"assets/js/app.js" defer:"true"]()
+@script[src:"assets/js/editor.js" module:"true"]()

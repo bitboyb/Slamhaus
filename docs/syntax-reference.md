@@ -244,6 +244,27 @@ Use native C++ functions in the browser with no JavaScript by binding them to el
 
 ---
 
+## 🟨 Project JavaScript
+
+Slamhaus supports two project-level JavaScript patterns:
+
+1. Declarative external scripts with `@script[src:"scripts/app.js"]()`
+2. Raw `<script>` blocks directly inside `.slam` files for inline JavaScript
+
+Project `.js` files placed in `content/scripts/` are copied to `output/scripts/`, while `.cpp` files in the same folder are compiled to WASM glue and `.wasm` output.
+
+```slamhaus
+@script[src:"scripts/app.js"]()
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Inline JS from a .slam file');
+});
+</script>
+```
+
+---
+
 ## ⚙️ Sample C++ Code (WASM)
 
 #### **Requires [Emscripten](https://emscripten.org/)**

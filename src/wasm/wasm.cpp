@@ -11,6 +11,16 @@ bool IsSourceFile(const std::filesystem::path &path) {
   return path.extension() == ".cpp";
 }
 
+auto IsCompilerAvailable(const std::string &emccPath) -> bool {
+  std::ostringstream cmd;
+#ifdef _WIN32
+  cmd << emccPath << " --version > NUL 2>&1";
+#else
+  cmd << emccPath << " --version > /dev/null 2>&1";
+#endif
+  return std::system(cmd.str().c_str()) == 0;
+}
+
 auto Compile(const std::vector<WASMFile> &files, const std::string &emccPath)
     -> bool {
   bool allSuccess = true;

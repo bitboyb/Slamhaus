@@ -2,7 +2,7 @@
 #include <fstream>
 namespace Meta {
 auto GenerateSiteMetaFiles(const std::string &siteURL,
-                           const std::string &cssContent,
+                           const std::string &stylesheetTags,
                            const std::string &outputDir,
                            const std::vector<std::string> &pages) -> void {
   std::ofstream robots(outputDir + "/robots.txt");
@@ -29,7 +29,7 @@ auto GenerateSiteMetaFiles(const std::string &siteURL,
     notFound << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"
              << "  <meta charset=\"UTF-8\">\n"
              << "  <title>404 - Page Not Found</title>\n"
-             << "  <style>" << cssContent << "</style>\n"
+             << stylesheetTags
              << "</head>\n<body>\n"
              << "  <main style=\"text-align: center; padding: 50px;\">\n"
              << "    <h1>404</h1>\n"

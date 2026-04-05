@@ -32,7 +32,7 @@ auto HandleMetaLines(const std::string &line, SEO::SEOData *seo) -> bool;
 ///
 /// @param ini The parsed global config
 /// @return A default SEOData struct
-auto GetDefault(Config::ConfigINI &ini) -> SEO::SEOData;
+auto GetDefault(const Config::ConfigINI &ini) -> SEO::SEOData;
 
 /// Generates the HTML `<meta>` tags for OpenGraph, description, keywords, and
 /// canonical URL.

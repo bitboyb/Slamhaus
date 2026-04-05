@@ -10,12 +10,12 @@ body, h1, h2, h3, p, ul, ol, li {
 /* Base */
 body {
     font-family: 'SpaceMono', monospace, sans-serif;
-    line-height: 1.75;
+    line-height: var(--line-height-body);
     background-color: var(--color-background-body);
     color: var(--color-text-body);
     padding: var(--pad-md);
     max-width: 100%;
-    font-size: 1.1rem;
+    font-size: var(--font-size-body);
 }
 
 /* Headings */
@@ -25,15 +25,15 @@ h1, h2, h3 {
     text-align: center;
 }
 h1 {
-    font-size: 2rem;
+    font-size: var(--font-size-h1);
     color: var(--color-accent-secondary);
 }
 h2 {
-    font-size: 1.75rem;
+    font-size: var(--font-size-h2);
     color: var(--color-accent-primary);
 }
 h3 {
-    font-size: 1.5rem;
+    font-size: var(--font-size-h3);
     color: var(--color-text-h3);
 }
 h4, h5, h6 {
@@ -42,15 +42,15 @@ h4, h5, h6 {
     color: var(--color-accent-link-alt);
 }
 h4 {
-    font-size: 1.25rem;
+    font-size: var(--font-size-h4);
     color: var(--color-accent-muted-purple);
 }
 h5 {
-    font-size: 1.1rem;
+    font-size: var(--font-size-h5);
     color: var(--color-accent-error);
 }
 h6 {
-    font-size: 1rem;
+    font-size: var(--font-size-h6);
     color: var(--color-background-deep);
 }
 
@@ -85,7 +85,7 @@ ol {
 /* Header */
 header {
     background-color: var(--color-shadow-overlay);
-    padding: var(--pad-md);
+    padding: var(--header-padding);
     text-align: center;
     border-bottom: 2px solid var(--color-accent-secondary);
     color: white;
@@ -94,8 +94,8 @@ header {
 /* Main */
 main {
     background-color: var(--color-background-button-hover);
-    padding: var(--pad-lg);
-    margin-top: var(--margin-lg);
+    padding: var(--main-padding);
+    margin-top: var(--main-margin-top);
     border-radius: var(--radius-md);
     box-shadow: 0 0 12px var(--color-19);
 }

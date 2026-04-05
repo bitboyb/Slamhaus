@@ -1,21 +1,8 @@
-
-#include "../util/log.hpp"
-#include <iostream>
-#include <limits>
+#include "cli.hpp"
 #include <string>
-
-#ifdef _WIN32
-#include <fcntl.h>
-#include <io.h>
-#include <windows.h>
-#endif
 
 namespace CLI {
 std::string GetSlamhausLogo() {
-  // #ifdef _WIN32
-  //     SetConsoleOutputCP(CP_UTF8);
-  //     _setmode(_fileno(stdout), _O_U8TEXT);
-  // #endif
   return R"(
    _____ __                __                    
   / ___// /___ _____ ___  / /_  ____ ___  _______
@@ -33,49 +20,21 @@ std::string GetInfo() {
             Version: 0.1.0
     
             License: MIT License
-    
-            Quick Start:
-              1. Download a starter template and rename the folder to `content/` next to this executable:
-              2. Then re-run Slamhaus to build your new site!
+
+            CLI-first static site generation with an optional editor frontend.
         )";
 }
 
-void ShowMenu() {
-  Log::Info("Select an option:\n"
-            "  1) Compile current site in ./content\n"
-            "  2) Compile site from another directory (relative or absolute)\n"
-            "  3) Theme Editor\n"
-            "  4) Exit");
-}
+std::string GetUsage() {
+  return R"(Usage:
+  slamhaus build [project-root] [--force] [--quiet]
+  slamhaus editor [project-root] [--port 8090] [--no-open]
+  slamhaus help
 
-void ClearInputBuffer() {
-  std::cin.clear();
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
-int GetMenuChoice(int min, int max) {
-  while (true) {
-    std::cout << "Enter choice [" << min << "-" << max << "]: ";
-    int choice;
-    if (std::cin >> choice && choice >= min && choice <= max) {
-      ClearInputBuffer();
-      return choice;
-    }
-    ClearInputBuffer();
-    Log::Error(" ➞ Invalid; please enter a number between " +
-               std::to_string(min) + " and " + std::to_string(max) + ".");
-  }
-}
-
-std::string Prompt(const std::string &question,
-                   const std::string &defaultValue) {
-  std::cout << question;
-  if (!defaultValue.empty()) {
-    std::cout << " [" << defaultValue << "]";
-  }
-  std::cout << ": ";
-  std::string line;
-  std::getline(std::cin, line);
-  return line.empty() ? defaultValue : line;
+Commands:
+  build   Build the project at the given root (defaults to current directory)
+  editor  Launch the separate Slamhaus editor frontend for a project
+  help    Show this help text
+)";
 }
 } // namespace CLI

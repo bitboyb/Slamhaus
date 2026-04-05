@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Standalone Theme Editor</title>
+  <link rel="stylesheet" href="assets/theme/body.css">
+  <link rel="stylesheet" href="assets/theme/desktop-nav.css">
+  <link rel="stylesheet" href="assets/theme/embed.css">
+  <link rel="stylesheet" href="assets/theme/fonts.css">
+  <link rel="stylesheet" href="assets/theme/footer.css">
+  <link rel="stylesheet" href="assets/theme/interactions.css">
+  <link rel="stylesheet" href="assets/theme/mobile-nav.css">
+  <link rel="stylesheet" href="assets/theme/palette.css">
+  <link rel="stylesheet" href="assets/theme/section.css">
+  <link rel="stylesheet" href="assets/theme/spacing.css">
+  <link rel="icon" href="assets/icons/ic-terminal.png" type="image/x-icon">
+      <meta name="description" content="Standalone Slamhaus theme editor project.">
+    <meta property="og:description" content="Standalone Slamhaus theme editor project.">
+    <meta property="og:title" content="Standalone Theme Editor">
+    <link rel="canonical" href="https://nourl.dev">
+    <meta property="og:url" content="https://nourl.dev">
+
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<link rel="stylesheet" href="assets/css/editor.css">
+<script type="module" src="assets/js/editor.js"></script>
+</head>
+<body>
+  <header>Slamhaus Theme Editor</header>
+    <main>
+    <section id="theme-editor-app">
+<h1>Standalone Theme Editor</h1>
+<p>Theme controls and preview UI written directly in Slamhaus.</p>
+<p>Run this within the editor server for live preview and theme save support.</p>
+<div id="theme-toolbar">
+<button onclick="themeEditor.showMobilePreview()" id="mobile-preview" type="button">Mobile</button>
+<button onclick="themeEditor.showDesktopPreview()" id="desktop-preview" type="button">Desktop</button>
+<button onclick="themeEditor.saveTheme()" id="save-btn" type="button">Save Theme</button>
+</div>
+<h2>Preview</h2>
+<div id="preview-shell">
+<div class="embed-container">
+<iframe src="/preview/index.html" height="844px" id="preview-frame" style="width:&quot;390px&quot;; height:&quot;844px&quot;; " width="390px" frameborder="0" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+</div>
+<div id="preview-caption">
+<p>Generic mobile preview</p>
+</div>
+<div id="controls-heading">
+<h2>Theme Controls</h2>
+</div>
+<div id="file-switcher">
+<p>Loading files...</p>
+</div>
+<div id="controls">
+<p>Loading controls...</p>
+</div>
+<div id="controls-footer">
+<p>Changes appear in the preview as you edit and rebuild.</p>
+</div>
+</section>
+
+  </main>
+  <footer></footer>
+</body>
+</html>

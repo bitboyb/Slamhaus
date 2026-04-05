@@ -1,28 +1,40 @@
-$page[title:"Theme Editor"]()
+$page[
+    title:"Theme Editor"
+    description:"Theme editor frontend for Slamhaus projects."
+]()
 
-<link rel="stylesheet" href="/assets/css/dashboard.css">
-<link rel="stylesheet" href="/assets/css/editor.css">
+:section[](#theme-editor-app)
 
-<div class="dashboard-container">
-    <header class="main-header" style="margin-bottom: 20px;">
-        <div style="display:flex; align-items:center; gap:15px;">
-            <a href="/" class="button" style="text-decoration:none; color:white; font-size:20px;">&larr;</a>
-            <h1>Theme Editor</h1>
-        </div>
-        <div style="display:flex; aliogn-items:center;">
-             <button id="save-btn" style="padding: 10px 20px; background: #03dac6; border: none; font-weight: bold; cursor: pointer; border-radius:4px;">Save Theme</button>
-        </div>
-    </header>
+# Theme Editor
+Adjust the active project theme and preview changes instantly.
 
-    <div id="preview-container" class="preview-container">
-        <iframe width="100%" height="500px" id="preview-frame" style="border:1px solid #333;" src="/preview/index.html"></iframe>
-    </div>
+Use the controls to update theme variables, then rebuild the preview.
 
-    <div id="controls-container" class="controls-container">
-        <div id="controls">
-            Loading controls...
-        </div>
-    </div>
-</div>
+:div[](#theme-toolbar)
+?button[action:"/" text:"Back" type:"button"](#back-home)
+?button[action:"themeEditor.showMobilePreview" text:"Mobile" type:"button"](#mobile-preview)
+?button[action:"themeEditor.showDesktopPreview" text:"Desktop" type:"button"](#desktop-preview)
+?button[action:"themeEditor.saveTheme" text:"Save Theme" type:"button"](#save-btn)
+:/div
 
-<script type="module">import {Init} from '/assets/js/editor.js'; if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',Init);}else{Init();}</script>
+## Preview
+:div[](#preview-shell)
+!iframe[width:"390px" height:"844px" id:"preview-frame"](/preview/index.html)
+:/div
+:div[](#preview-caption)
+Generic mobile preview
+:/div
+:div[](#controls-heading)
+## Theme Controls
+:/div
+:div[](#file-switcher)
+Loading files...
+:/div
+:div[](#controls)
+Loading controls...
+:/div
+:div[](#controls-footer)
+Changes appear in the preview as you edit and rebuild.
+:/div
+
+:/section

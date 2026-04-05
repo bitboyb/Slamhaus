@@ -110,7 +110,7 @@ chmod +x slamhaus-linux-*
 From the folder containing `slamhaus`, run:
 
 ```bash
-./slamhaus-linux-*
+./slamhaus-linux-* build
 ```
 
 > On Windows, just double-click `slamhaus.exe` or run it from `cmd.exe` or PowerShell.
@@ -210,16 +210,13 @@ Slamhaus/
         └── nav.md
 ```
 
-3. Run Slamhaus and choose how you want to build:
+3. Run Slamhaus from the terminal:
 
 ```bash
-./slamhaus
+./slamhaus build
 ```
 
 > On Windows: run `slamhaus.exe` in PowerShell or CMD.
-
-* Press `1` to generate your site from the default `./content/` directory.
-* Press `2` to specify a different folder (absolute or relative).
 
 ---
 
@@ -254,7 +251,7 @@ The structure below shows how a typical Slamhaus project is organized:
 ├── content/                     ← Your source files (.slam pages, partials, assets)
 │   ├── assets/                 
 │   │   ├── media/              ← Images, videos, audio files, and other media
-│   │   └── theme/              ← CSS stylesheets (merged and inlined into the final HTML)
+│   │   └── theme/              ← CSS stylesheets copied into output/assets/theme and linked by pages
 │   ├── include/                
 │   │   ├── config.ini          ← Site-wide metadata and default SEO settings
 │   │   ├── header.smd          ← Partial: content rendered into the <header> tag
@@ -274,6 +271,7 @@ The structure below shows how a typical Slamhaus project is organized:
 * Partials in `include/` (e.g. `header.smd`, `footer.smd`, `nav.smd`) are **automatically rendered** into the final page template.
 * The `output/` folder is regenerated on every build. It is safe to delete between builds.
 * You can link between pages using `.slam` extensions in your Markdown or Slamhaus tags; these are automatically rewritten to `.html`.
+* Theme CSS is emitted as normal files under `output/assets/theme/` and linked in generated pages instead of being inlined.
 
 
 </details>
@@ -307,7 +305,7 @@ git clone https://github.com/bitboyb/Slamhaus-OnePagePortfolio-Template content
 Then just run:
 
 ```bash
-./slamhaus
+./slamhaus build
 ```
 
 Your site will be built into the `output/` folder—ready to deploy.
@@ -398,8 +396,9 @@ Slamhaus is written in modern **C++17**, designed to be lightweight, modular, an
 
 ```
 src/
-├── cli/        ← CLI utilities and menus
+├── cli/        ← CLI output and help text
 ├── core/       ← Site generation, config, templates, assets
+├── editor/     ← Separate editor server/runtime
 ├── parser/     ← Markdown parsing and Slamhaus tag logic
 ├── util/       ← Small helper modules (e.g., string utils)
 ├── wasm/       ← Optional C++→WASM compilation logic
@@ -433,7 +432,8 @@ Slamhaus is structured for clarity and exploration — all public functions are 
 | `src/parser/`      | Markdown parsing + Slamhaus syntax handlers (`:section[]()`, `?form[]()`, etc.)    |
 | `src/wasm/`        | WebAssembly integration (via Emscripten) and HTML/DOM glue                         |
 | `src/util/`        | General-purpose helpers for string trimming, link adjustments, etc.                |
-| `src/cli/`         | CLI menus, ASCII branding, and interactive prompts                                 |
+| `src/cli/`         | CLI output, branding, and command usage                                            |
+| `src/editor/`      | Separate editor runtime layered on top of the shared core                          |
 
 ---
 
@@ -522,7 +522,7 @@ Nope! You can use Slamhaus with just Markdown. The C++ integration (via WebAssem
 <details>
 <summary>How do I preview my site locally?</summary>
 
-Run `slamhaus` to generate the site, then preview it using:
+Run `slamhaus build` to generate the site, then preview it using:
 
 ```bash
 ./scripts/serve.sh
@@ -542,7 +542,7 @@ After building, everything is placed in the `output/` folder — ready to deploy
 <details>
 <summary>Can I use my own theme or CSS framework?</summary>
 
-Absolutely. Slamhaus includes a minimal CSS theme by default, but you can customize or replace it entirely. Just add or override files in `content/assets/theme/`.
+Absolutely. Slamhaus includes a minimal CSS theme by default, but you can customize or replace it entirely. Just add or override files in `content/assets/theme/`. Generated pages link those files directly from `output/assets/theme/`.
 
 </details>
 

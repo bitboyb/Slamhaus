@@ -7,7 +7,6 @@
 
 namespace Asset {
 /// Recursively copies all assets from the source directory to the destination.
-/// - Skips any `.css` files found during the copy operation
 /// - Maintains folder structure within the destination directory
 ///
 /// @param sourceDir Path to the source asset directory (e.g. ./content/assets/)

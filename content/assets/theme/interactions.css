@@ -5,7 +5,7 @@ button, .slam-button {
     border: 2px solid var(--color-accent-primary);
     padding: var(--pad-button-y) var(--pad-button-x);
     font-family: 'SpaceMono', monospace;
-    font-size: 1rem;
+    font-size: var(--font-size-button);
     border-radius: var(--radius-button);
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, transform 0.2s;
@@ -29,7 +29,7 @@ form textarea {
     padding: var(--pad-sm) var(--pad-md);
     margin-bottom: var(--margin-md);
     font-family: 'SpaceMono', monospace;
-    font-size: 1rem;
+    font-size: var(--font-size-body);
     background-color: var(--color-background-secondary);
     color: var(--color-text-light); 
     border: 1px solid var(--color-border-primary);
@@ -69,7 +69,7 @@ form .slam-button {
 
 @media (max-width: 480px) {
   button, .slam-button {
-    font-size: 0.9rem;
+    font-size: var(--font-size-button);
     padding: 0.5rem 1rem;
   }
 
@@ -82,7 +82,7 @@ form .slam-button {
   }
 
   body {
-    font-size: 1rem;
+    font-size: var(--font-size-body);
     padding: var(--pad-sm);
   }
 

@@ -2,7 +2,7 @@
 footer {
     margin-top: var(--margin-lg);
     text-align: center;
-    font-size: 0.9em;
+    font-size: var(--font-size-footer);
     color: var(--color-text-body);
     border-top: 2px solid var(--color-accent-primary);
     padding-top: var(--pad-md);

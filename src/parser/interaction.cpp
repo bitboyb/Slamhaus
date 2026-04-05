@@ -43,15 +43,17 @@ auto ProcessButton(const std::string &line, Parser::ParseState &pState)
     -> std::string {
   auto trimmed = String::Trim(line);
   auto attrs = Attributes::ParseAttributes(trimmed, "?button");
-  if (!attrs.count("type")) {
-    attrs["type"] = "submit";
-  }
   std::string action = attrs.count("action") ? attrs["action"] : "";
   std::string label = attrs.count("text") ? attrs["text"] : "Submit";
-  std::string id = attrs.count("id") ? attrs["id"] : "";
+  std::string type =
+      attrs.count("type") ? attrs["type"] : (action.empty() ? "submit" : "button");
+
+  attrs.erase("action");
+  attrs.erase("text");
+  attrs["type"] = type;
 
   std::ostringstream html;
-  html << "<button type=\"" << (action.empty() ? "submit\"" : "button\"");
+  html << "<button";
 
   if (!action.empty()) {
     if (action.rfind("mailto:", 0) == 0 || action.rfind("http://", 0) == 0 ||
@@ -63,10 +65,7 @@ auto ProcessButton(const std::string &line, Parser::ParseState &pState)
     }
   }
 
-  if (!id.empty()) {
-    html << " id=\"" << id << "\"";
-  }
-
+  EmitAttributes(html, attrs);
   html << ">" << label << "</button>";
 
   return html.str();

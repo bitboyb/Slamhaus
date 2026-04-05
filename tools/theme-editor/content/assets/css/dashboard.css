@@ -1,0 +1,43 @@
+footer {
+    display: none;
+}
+
+#dashboard-container,
+#theme-editor-app {
+    max-width: 72rem;
+    margin: 0 auto;
+}
+
+#dashboard-container .columns-container,
+#theme-editor-app .columns-container {
+    align-items: stretch;
+}
+
+#project-path,
+#system-status,
+#log-output,
+#controls {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--pad-md);
+    margin-bottom: var(--margin-md);
+}
+
+#theme-toolbar {
+    display: flex;
+    gap: var(--gap-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--margin-lg);
+}
+
+#clear-logs {
+    margin-bottom: var(--margin-md);
+}
+
+#log-output {
+    min-height: 14rem;
+    overflow: auto;
+    white-space: pre-wrap;
+}

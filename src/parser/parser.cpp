@@ -1,4 +1,5 @@
 #include "parser.hpp"
+#include "../util/string.hpp"
 #include "../wasm/script.hpp"
 #include "embed.hpp"
 #include "form.hpp"
@@ -14,12 +15,12 @@ namespace {
 bool TryHandleBlock(const std::string &raw, std::istringstream &iss,
                     std::ostringstream &html, Parser::ParseState &pState,
                     Parser::ColumnState &cState, SEO::SEOData *seo) {
-  if (raw.empty()) {
-    return false;
-  }
-  if (raw[0] == '<') {
+  if (!raw.empty() && raw[0] == '<') {
     Text::CloseLists(html, pState);
     html << raw << "\n";
+    return true;
+  }
+  if (Script::HandleStyle(raw, html, pState)) {
     return true;
   }
   if (Script::HandleScript(raw, iss, html, pState)) {
@@ -62,16 +63,30 @@ auto ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
   Parser::ColumnState cState;
 
   while (std::getline(iss, line)) {
-    std::string trimmed = line;
-    size_t first = trimmed.find_first_not_of(" \t");
-    if (first == std::string::npos) {
+    std::string trimmed = String::Trim(line);
+
+    if (!pState.rawHtmlBlockTag.empty()) {
+      html << line << "\n";
+      if (trimmed.find("</" + pState.rawHtmlBlockTag) != std::string::npos) {
+        pState.rawHtmlBlockTag.clear();
+      }
       continue;
     }
-    trimmed.erase(0, first);
-    size_t last = trimmed.find_last_not_of(" \t");
-    if (last != std::string::npos) {
-      trimmed.erase(last + 1);
+
+    if (!trimmed.empty() && trimmed[0] == '<') {
+      Text::CloseLists(html, pState);
+      html << trimmed << "\n";
+
+      if (trimmed.rfind("<script", 0) == 0 &&
+          trimmed.find("</script>") == std::string::npos) {
+        pState.rawHtmlBlockTag = "script";
+      } else if (trimmed.rfind("<style", 0) == 0 &&
+                 trimmed.find("</style>") == std::string::npos) {
+        pState.rawHtmlBlockTag = "style";
+      }
+      continue;
     }
+
     std::string raw;
     if (!pState.isBuffering) {
       if (!trimmed.empty() &&
@@ -83,7 +98,7 @@ auto ParseMarkdown(const std::string &markdown, SEO::SEOData *seo)
         buffer = line;
         continue;
       } else {
-        raw = line;
+        raw = trimmed.empty() ? std::string{} : line;
       }
     } else {
       buffer += "\n" + line;

@@ -1,6 +1,7 @@
 #include "template.hpp"
 #include "../parser/nav.hpp"
 #include "../parser/parser.hpp"
+#include "../util/string.hpp"
 #include <fstream>
 
 #include <sstream>
@@ -24,12 +25,18 @@ auto BuildTemplate(const Config::ConfigINI &ini, const std::string &contentDir)
   };
 
   std::string rawHeader = readFile(contentDir + "/include/header");
+  std::string rawHead = readFile(contentDir + "/include/head");
   std::string rawNav = readFile(contentDir + "/include/nav");
   std::string rawFooter = readFile(contentDir + "/include/footer");
 
-  std::string header = Parser::ParseMarkdown(rawHeader);
-  std::string nav = Nav::ParseNavigation(rawNav);
-  std::string footer = Parser::ParseMarkdown(rawFooter);
+  std::string header =
+      String::Trim(rawHeader).empty() ? "" : Parser::ParseMarkdown(rawHeader);
+  std::string head =
+      String::Trim(rawHead).empty() ? "" : Parser::ParseMarkdown(rawHead);
+  std::string nav =
+      String::Trim(rawNav).empty() ? "" : Nav::ParseNavigation(rawNav);
+  std::string footer =
+      String::Trim(rawFooter).empty() ? "" : Parser::ParseMarkdown(rawFooter);
 
   html << "<!DOCTYPE html>\n"
        << "<html lang=\"en\">\n"
@@ -38,16 +45,26 @@ auto BuildTemplate(const Config::ConfigINI &ini, const std::string &contentDir)
        << "  <meta name=\"viewport\" content=\"width=device-width, "
           "initial-scale=1.0\">\n"
        << "  <title>{{TITLE}}</title>\n"
-       << "  <style>{{CSS}}</style>\n"
-       << "  <link rel=\"icon\" href=\"" << ini.faviconPath
-       << "\" type=\"image/x-icon\">\n"
+       << "{{STYLESHEETS}}"
+       << "  <link rel=\"icon\" href=\"{{FAVICON}}\" type=\"image/x-icon\">\n"
        << "  {{SEO_META}}\n"
-       << "  " << header << "\n"
+       << head
        << "</head>\n"
        << "<body>\n"
-       << "  <header>" << ini.siteName << "</header>\n"
-       << "  <nav>" << nav << "</nav>\n"
-       << "  <main>\n"
+       << "  <header>" << ini.siteName;
+
+  if (!header.empty()) {
+    html << "\n" << header;
+  }
+
+  html << "</header>\n"
+       << "  ";
+
+  if (!nav.empty()) {
+    html << nav << "\n";
+  }
+
+  html << "  <main>\n"
        << "    {{CONTENT}}\n"
        << "  </main>\n"
        << "  <footer>" << footer << "</footer>\n"
@@ -59,7 +76,8 @@ auto BuildTemplate(const Config::ConfigINI &ini, const std::string &contentDir)
 
 auto ApplyTemplateFromString(const std::string &content,
                              const std::string &templateString,
-                             const std::string &cssContent, SEO::SEOData &seo)
+                             const std::string &stylesheetTags,
+                             const std::string &faviconHref, SEO::SEOData &seo)
     -> std::string {
   std::string out = templateString;
   std::string seoMeta = SEO::GetMetaTags(seo);
@@ -75,7 +93,8 @@ auto ApplyTemplateFromString(const std::string &content,
 
   std::string title = seo.siteTitle.empty() ? "Slamhaus Site" : seo.siteTitle;
   replaceAll(out, "{{TITLE}}", title);
-  replaceAll(out, "{{CSS}}", cssContent);
+  replaceAll(out, "{{STYLESHEETS}}", stylesheetTags);
+  replaceAll(out, "{{FAVICON}}", faviconHref);
   replaceAll(out, "{{CONTENT}}", content);
   replaceAll(out, "{{SEO_META}}", seoMeta);
 

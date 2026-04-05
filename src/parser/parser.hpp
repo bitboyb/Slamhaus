@@ -18,6 +18,7 @@ struct ParseState {
   bool inColumn = false;
   bool inForm = false;
   bool isBuffering = false;
+  std::string rawHtmlBlockTag;
 };
 
 /// Tracks state for managing multi-column layouts during parsing.

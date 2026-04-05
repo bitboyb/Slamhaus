@@ -58,7 +58,7 @@
 
 /* Section: Hero (Default) */
 .hero {
-    padding: 4rem 2rem;
+    padding: var(--hero-padding-y) var(--hero-padding-x);
     background: linear-gradient(135deg, var(--color-background-button-hover), var(--color-border-input));
     color: var(--color-text-body);
     text-align: center;
@@ -88,25 +88,26 @@
 }
 
 .hero h1 {
-    font-size: 2.5rem;
+    font-size: var(--hero-title-size);
     margin-bottom: 1rem;
     color: var(--color-accent-secondary);
 }
 
 .hero p {
-    font-size: 1.15rem;
-    max-width: 700px;
+    font-size: var(--hero-text-size);
+    max-width: var(--hero-content-max-width);
     margin: 0 auto 2rem;
     color: var(--color-text-h3);
 }
 
 .hero .button {
     display: inline-block;
-    padding: 0.75rem 2rem;
+    padding: var(--hero-button-padding-y) var(--hero-button-padding-x);
     background-color: var(--color-background-body);
     color: var(--color-accent-secondary);
     border-radius: var(--radius-md);
     font-weight: bold;
+    font-size: var(--hero-button-size);
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: background 0.3s, color 0.3s, transform 0.2s;
@@ -166,7 +167,7 @@
     transform: translate(-50%, -50%);
     z-index: 1;
     width: 100%;
-    max-width: 680px;
+    max-width: var(--hero-media-content-max-width);
     padding: clamp(1rem, 5vw, 2rem);
     color: var(--color-text-light);
     text-align: center;
@@ -175,22 +176,22 @@
 }
 
 .hero-video .hero-content h1 {
-    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-size: var(--hero-title-size);
     color: var(--color-accent-secondary);
     margin-bottom: 1rem;
     line-height: 1.2;
 }
 
 .hero-video .hero-content p {
-    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-size: var(--hero-text-size);
     color: var(--color-text-h3);
     margin-bottom: 2rem;
     line-height: 1.4;
 }
 
 .hero-video .hero-content .button {
-    font-size: clamp(0.9rem, 3vw, 1rem);
-    padding: 0.65rem 1.5rem;
+    font-size: var(--hero-button-size);
+    padding: var(--hero-button-padding-y) var(--hero-button-padding-x);
 }
 
 @media (max-width: 480px) {
@@ -202,7 +203,7 @@
 .hero-image {
     position: relative;
     width: 100%;
-    min-height: 90vh;
+    min-height: var(--hero-image-min-height);
     background: url('../media/your-image.jpg') no-repeat center center / cover;
     display: flex;
     align-items: center;
@@ -211,7 +212,7 @@
     color: var(--color-text-light);
     overflow: hidden;
     margin-bottom: var(--margin-xl);
-    padding: 2rem 1rem; /* fallback padding for spacing */
+    padding: var(--hero-padding-y) var(--hero-padding-x); /* fallback padding for spacing */
     box-sizing: border-box;
     flex-direction: column; /* ensure vertical stacking */
 }
@@ -231,26 +232,26 @@
     position: relative;
     z-index: 1;
     padding: clamp(1rem, 5vw, 2rem);
-    max-width: 680px;
+    max-width: var(--hero-media-content-max-width);
     width: 100%;
     box-sizing: border-box;
 }
 
 .hero-image .hero-content h1 {
-    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-size: var(--hero-title-size);
     color: var(--color-accent-secondary);
     margin-bottom: 1rem;
 }
 
 .hero-image .hero-content p {
-    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-size: var(--hero-text-size);
     color: var(--color-text-h3);
     margin-bottom: 2rem;
 }
 
 .hero-image .hero-content .button {
-    font-size: clamp(0.9rem, 3vw, 1rem);
-    padding: 0.65rem 1.5rem;
+    font-size: var(--hero-button-size);
+    padding: var(--hero-button-padding-y) var(--hero-button-padding-x);
 }
 
 /* Responsive fallback for small screens */

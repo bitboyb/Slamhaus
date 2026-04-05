@@ -16,6 +16,7 @@
     --margin-sm: 0.5rem;
     --margin-md: 1rem;
     --margin-lg: 2rem;
+    --margin-xl: 3rem;
   
     /* Border Radius */
     --radius-sm: 4px;
@@ -27,5 +28,35 @@
     --pad-button-y: 0.6em;
     --pad-button-x: 1.2em;
     --radius-button: 6px;
+
+    /* Typography */
+    --line-height-body: 1.75;
+    --font-size-body: 1.1rem;
+    --font-size-h1: 2rem;
+    --font-size-h2: 1.75rem;
+    --font-size-h3: 1.5rem;
+    --font-size-h4: 1.25rem;
+    --font-size-h5: 1.1rem;
+    --font-size-h6: 1rem;
+    --font-size-nav: 1.1rem;
+    --font-size-button: 1rem;
+    --font-size-code: 0.95em;
+    --font-size-footer: 0.9em;
+
+    /* Layout */
+    --header-padding: 1rem;
+    --main-padding: 2rem;
+    --main-margin-top: 2rem;
+    --hero-padding-y: 4rem;
+    --hero-padding-x: 2rem;
+    --hero-title-size: 2.5rem;
+    --hero-text-size: 1.15rem;
+    --hero-button-size: 1rem;
+    --hero-button-padding-y: 0.75rem;
+    --hero-button-padding-x: 2rem;
+    --hero-content-max-width: 700px;
+    --hero-media-content-max-width: 680px;
+    --hero-image-min-height: 90vh;
+    --table-cell-padding-y: 0.75rem;
 }
   

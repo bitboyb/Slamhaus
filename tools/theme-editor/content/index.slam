@@ -1,0 +1,38 @@
+$page[
+    title:"Standalone Theme Editor"
+    description:"Standalone Slamhaus theme editor project."
+]()
+
+:section[](#theme-editor-app)
+
+# Standalone Theme Editor
+Theme controls and preview UI written directly in Slamhaus.
+Run this within the editor server for live preview and theme save support.
+
+:div[](#theme-toolbar)
+?button[action:"themeEditor.showMobilePreview" text:"Mobile" type:"button"](#mobile-preview)
+?button[action:"themeEditor.showDesktopPreview" text:"Desktop" type:"button"](#desktop-preview)
+?button[action:"themeEditor.saveTheme" text:"Save Theme" type:"button"](#save-btn)
+:/div
+
+## Preview
+:div[](#preview-shell)
+!iframe[width:"390px" height:"844px" id:"preview-frame"](/preview/index.html)
+:/div
+:div[](#preview-caption)
+Generic mobile preview
+:/div
+:div[](#controls-heading)
+## Theme Controls
+:/div
+:div[](#file-switcher)
+Loading files...
+:/div
+:div[](#controls)
+Loading controls...
+:/div
+:div[](#controls-footer)
+Changes appear in the preview as you edit and rebuild.
+:/div
+
+:/section
