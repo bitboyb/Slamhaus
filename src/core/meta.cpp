@@ -5,14 +5,12 @@ auto GenerateSiteMetaFiles(const std::string &siteURL,
                            const std::string &cssContent,
                            const std::string &outputDir,
                            const std::vector<std::string> &pages) -> void {
-  // 1. Robots.txt
   std::ofstream robots(outputDir + "/robots.txt");
   if (robots) {
     robots << "User-agent: *\nDisallow:\n\nSitemap: " << siteURL
            << "/sitemap.xml\n";
   }
 
-  // 2. Sitemap.xml
   std::ofstream sitemap(outputDir + "/sitemap.xml");
   if (sitemap) {
     sitemap << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -21,13 +19,11 @@ auto GenerateSiteMetaFiles(const std::string &siteURL,
     for (const auto &page : pages) {
       sitemap << "  <url>\n";
       sitemap << "    <loc>" << siteURL << "/" << page << "</loc>\n";
-      // Optional: lastmod, changefreq, priority
       sitemap << "  </url>\n";
     }
     sitemap << "</urlset>\n";
   }
 
-  // 3. 404.html
   std::ofstream notFound(outputDir + "/404.html");
   if (notFound) {
     notFound << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"

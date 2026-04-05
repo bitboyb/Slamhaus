@@ -9,9 +9,6 @@ auto CopyAssets(const std::string &sourceDir, const std::string &destDir)
     if (!std::filesystem::exists(sourceDir)) {
       std::cerr << "Source directory does not exist: " << sourceDir
                 << std::endl;
-      // User "Avoid silent failures". If source dir missing, it's likely a
-      // config error or user error. The original code returned (void) after
-      // logging. I will return false to be explicit.
       return false;
     }
     std::filesystem::create_directories(destDir);
