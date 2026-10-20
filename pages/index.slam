@@ -1,0 +1,44 @@
+---
+title: Slamhaus
+description: Build static sites and interactive browser applications with Markdown and C++.
+---
+# Slamhaus
+
+Slamhaus is a command-line static-site compiler for game developers. Write
+ordinary GitHub Flavored Markdown, add typed UI declarations when needed, and
+embed C++ that Slamhaus compiles to WebAssembly.
+
+[View examples](examples.md)
+
+The project emits no JavaScript for static pages and requires no handwritten
+JavaScript for supported interaction.
+
+## A small language
+
+Pages use `.md` when they should remain portable and `.slam` when they need
+Slam UI or executable code. Site configuration lives in `slamhaus.yaml`.
+
+```slam-ui
+Number Left("Left", value: 2);
+Number Right("Right", value: 3);
+Button Calculate("Add") => Add(Left, Right) -> Result;
+Output Result("Ready");
+```
+
+The complete working version is on the [WebAssembly page](wasm.slam).
+
+```cpp wasm
+auto Add(int32 A, int32 B) -> int32 {
+  return A + B;
+}
+```
+
+## Start a project
+
+```sh
+slamhaus init my-site
+cd my-site
+slamhaus check --strict
+slamhaus build
+slamhaus serve
+```

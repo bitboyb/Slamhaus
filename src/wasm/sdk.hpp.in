@@ -1,0 +1,7 @@
+#pragma once
+#include <string_view>
+namespace Wasm {
+inline constexpr std::string_view SdkHeader = R"SLAMHAUS_SDK(
+@SLAMHAUS_SDK_HEADER@
+)SLAMHAUS_SDK";
+}

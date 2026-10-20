@@ -1,0 +1,24 @@
+:root {
+  --accent: #cf3f67;
+}
+
+body > header {
+  padding-top: 1rem;
+  font-size: 1.15rem;
+}
+
+body > nav {
+  display: flex;
+  gap: 1rem;
+  padding-block: .75rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+
+a {
+  color: var(--accent);
+}
+
+body > footer {
+  padding-block: 2rem;
+  opacity: .75;
+}

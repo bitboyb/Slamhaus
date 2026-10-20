@@ -1,0 +1,30 @@
+---
+title: C++ and WebAssembly
+description: Typed C++ functions connected without selectors or handwritten JavaScript.
+---
+# C++ and WebAssembly
+
+Component names connect values, events, and results. Slamhaus derives the DOM
+identifiers, module URL, export list, and argument conversion.
+
+```slam-ui
+Column Calculator() {
+  TextInput Name("Player name", placeholder: "Ada");
+  Button GreetButton("Greet") => Greet(Name) -> Greeting;
+  Output Greeting("Ready");
+  Number Left("Left", value: 2);
+  Number Right("Right", value: 3);
+  Button AddButton("Add") => Add(Left, Right) -> Answer;
+  Output Answer("Ready");
+};
+```
+
+```cpp wasm
+auto Greet(FString Name) -> FString {
+  return "Hello, " + Name + "!";
+}
+
+auto Add(int32 A, int32 B) -> int32 {
+  return A + B;
+}
+```

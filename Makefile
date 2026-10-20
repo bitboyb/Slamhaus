@@ -1,35 +1,18 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall
-LDFLAGS = 
+.PHONY: all test clean install
 
-# Detect platform and force static linking on Windows (for GitHub Actions or local MSYS2 builds)
-ifeq ($(OS),Windows_NT)
-    LDFLAGS += -static -static-libgcc -static-libstdc++
-endif
+all:
+	cmake -S . -B build -DBUILD_TESTING=OFF
+	cmake --build build
+	cp build/slamhaus$(if $(filter Windows_NT,$(OS)),.exe,) .
 
-# Find all directories in src (for includes)
-# Find all directories in src (for includes)
-INCLUDE_DIRS := src $(wildcard src/*/)
-INCLUDES := $(foreach dir, $(INCLUDE_DIRS), -I$(dir))
-CXXFLAGS += $(INCLUDES)
+test:
+	cmake -S . -B build -DBUILD_TESTING=ON
+	cmake --build build
+	ctest --test-dir build --output-on-failure
 
-# Find all .cpp files under src.
-# Find all .cpp files under src using wildcard (assumes 1 level of nesting + main.cpp)
-SRC := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
-# Convert each src/xxx.cpp into build/xxx.o
-OBJ := $(patsubst src/%, build/%, $(SRC:.cpp=.o))
-
-EXEC = slamhaus
-
-all: $(EXEC)
-
-$(EXEC): $(OBJ)
-	$(CXX) $(OBJ) -o $(EXEC) $(LDFLAGS)
-
-# Pattern rule: for any file src/anything.cpp, compile to build/anything.o
-build/%.o: src/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+install:
+	cmake --install build
 
 clean:
-	rm -rf build $(EXEC)
+	cmake -E remove_directory build
+	cmake -E rm -f slamhaus slamhaus.exe

@@ -1,293 +1,113 @@
-# Slamhaus Syntax Reference - Cheat Sheet
+# Slamhaus language reference
 
-Slamhaus extends Markdown with smart, composable tags for layout, interactivity, scripting, and more — all in a way that’s readable, reusable, and familiar. Use this page as your reference while building.
+## Source formats
 
+`.md` is portable GitHub Flavored Markdown. `.slam` uses the same Markdown and
+adds executable Slamhaus fences. Both accept optional YAML front matter:
+
+```yaml
 ---
-
-## 📄 Basic Markdown Support
-
-Slamhaus fully supports **standard Markdown syntax**.
-
-```markdown
-# Heading 1
-## Heading 2
-
-- Bullet list
-
-**Bold**, *Italic*, ***BoldItalic***
-
-[Link Text](page.slam)
+title: Release notes
+description: Changes in Slamhaus
+keywords: [slamhaus, wasm]
+date: 2026-08-16
+tags: [release, cpp]
+draft: false
+noindex: false
+canonical: https://example.com/releases/current
+permalink: /releases/current/
+toc: false
+runtime:
+  module: shared
+  application: FGame
+  canvas: Game
+---
 ```
 
----
+Unknown fields are errors. `runtime.module` selects code from `code/` and
+cannot be combined with page-local executable C++. `application` requires a
+named `Canvas` component.
 
-## 📦 Layout: Sections & Columns
+## Slam UI grammar
 
-Structure your content with readable layout blocks using `:section[]()` and `:column[]()`.
+Slam UI is declarative and C-like:
 
-**Section Example:**
-
-```slamhaus
-:section[align:center](#about)
-
-### Centered Section
-
-:/section
+```text
+Type [Name](positional, property: value) [on Event => Function(args) -> Output];
 ```
 
-**Multi-column Layout:**
+Values are strings, numbers, booleans, identifiers, or lists. Commas are
+required between arguments. `//` and `/* */` comments are supported.
 
-```slamhaus
-:column[size:3](#intro-columns)
-
-Left Content
-
-:column[]() 
-
-Middle content
-
-:column[]() 
-
-Right content
-
-:/column
+```slam-ui
+Column Settings() {
+  TextInput Player("Player", placeholder: "Ada");
+  Number Lives("Lives", value: 3, min: 1);
+  Range Volume("Volume", value: 75, min: 0, max: 100);
+  Checkbox Sound("Sound", checked: true);
+  Select Difficulty("Difficulty", options: ["Easy", "Hard"]);
+  Button Save("Save") => Store(Player, Lives, Volume, Sound, Difficulty) -> Status;
+  Output Status("Ready");
+};
 ```
 
----
+Names form a page-local symbol table. Slamhaus generates private DOM IDs;
+bindings refer to symbols, never CSS selectors.
 
-## 🖼️ Media Embeds
+### Components
 
-Embed images, video, audio, SVG, and iframes with dedicated tags like `![alt-text](src)`, `!video[]()`, `!audio[]()`, `!svg[]()`, and `!iframe[]()`.
+- Layout: `Row`, `Column`, `Panel`, `Form`.
+- Controls: `Button`, `TextInput`, `Number`, `Range`, `Checkbox`, `Select`,
+  `TextArea`.
+- Content: `Text`, `Output`, `Image`, `Audio`, `Video`, `Canvas`.
+- Composition: `Include("name")` loads `.md` or `.slam` from `partials/`.
+- Escape hatch: `Element("details")` accepts only safe semantic container tags.
 
-```slamhaus
-![width:"100%" height:"300px"](assets/awesome.jpg)
-![width:"50%" link:"https://example.com"](assets/logo.png)
+Controls require accessible labels and images require `alt`. `Output` is an
+ARIA live region. Inline event handlers, unsafe URLs, and `srcdoc` are not part
+of the language.
 
-!video[width:100% height:350px](assets/demo.mp4)
-!audio[controls loop](assets/sample.mp3)
-!svg[width:"64" height:"64"](assets/icon.svg)
-!iframe[width:100% height:350px link:"https://www.youtube.com/embed/dQw4w9WgXcQ"]()
-```
+Default events are `Click` for buttons, `Submit` for forms, `Input` for ranges,
+and `Change` for other controls. Use `on Event` to override the default.
 
----
+## Embedded behavior
 
-## 💻 Code Blocks & Tables
+A `.slam` page may contain one executable fence:
 
-Slamhaus uses **standard Markdown** for code blocks and tables.
-
-**Code Blocks:**
-
-```cpp
-#include <iostream>
-int main() {
-  std::cout << "Hello!";
+```cpp wasm
+auto Add(int32 A, int32 B) -> int32 {
+  return A + B;
 }
 ```
 
-**Tables:**
+Slamhaus injects the SDK include and namespace and automatically exports
+page-local namespace-scope free functions referenced by Slam UI. Exported
+functions cannot be overloaded. Compiler diagnostics map back to the `.slam`
+source through `#line` directives.
 
-```markdown
-| Feature     | Supported |
-| ----------- | --------- |
-| Images      | ✅        |
-| Video       | ✅        |
-| Audio       | ✅        |
-| SVG         | ✅        |
-| iFrame      | ✅        |
-| Code Blocks | ✅        |
+Ordinary `cpp`, `csharp`, and `python` fences are displayed and highlighted.
+`csharp wasm` and `python wasm` are reserved and currently produce a clear
+unsupported-adapter diagnostic.
+
+Larger modules live in `code/name.cpp` or `code/name/*.cpp`. Shared code is
+normal C++ and uses explicit SDK registration.
+
+## Routing
+
+Pretty routes are enabled by default:
+
+```text
+pages/index.slam       -> /
+pages/about.md         -> /about/
+pages/guide/start.md   -> /guide/start/
 ```
 
----
+Markdown links point at source pages, such as `[About](about.md)`. Slamhaus
+resolves the complete route graph and emits site-root URLs under `base_path`.
+Traversal, missing pages, route collisions, and partial links are errors.
 
-## 🔘 Buttons & Interactivity
+## HTML and highlighting
 
-Attach links, actions, or even C++ functions to buttons using `?button[]()`.
-
-```slamhaus
-?button[action:"mailto:hi@example.com" text:"Email Us"](#email)
-?button[action:"/contact" text:"Contact Page"](#contact)
-?button[action:"https://example.com" text:"Visit Site"](#external)
-```
-
----
-
-## 📝 Forms & Inputs
-
-Slamhaus supports fully styled HTML forms, including inputs, textarea, and submission buttons, using `?form[]()` and nested `?input[]()`/`?textarea[]()`.
-
-```slamhaus
-?form[action:"https://formsubmit.co/you@example.com":method:"post"](#contact-form)
-
-?input[type:"email":name:"email":placeholder:"Your Email":required:""](#email)
-?input[type:"text":name:"name":placeholder:"Your Name":required:""](#name)
-?textarea[name:"message":placeholder:"Your Message":rows:"6":required:""](#message)
-
-?button[text:"Send"](#send-btn)
-
-?/form[]()
-```
-
----
-
-## 🖼️ Hero Sections
-
-Create prominent, engaging hero sections at the top of your pages using `:hero[]()`. These can feature video backgrounds, image backgrounds, or content with an image in the foreground.
-
-**Hero with Video Background:**
-
-This example uses a video as the background, perfect for dynamic introductions.
-
-```slamhaus
-:hero[type:"video" media:"assets/media/demo.mp4"](#landing-hero)
-
-# Welcome to Your New Site!
-
-This is a hero section. Introduce your site, product, or idea in one strong sentence — and direct users to learn more or take action.
-
-?button[action:"about.html" text:"Learn More"](#home-btn)
-
-:/hero
-```
-
-**Hero with Foreground Image:**
-
-This hero places an image directly within the content area, alongside text and buttons.
-
-```slamhaus
-:hero[](#vscode-extension)
-
-## 🧩 A Hero With A Picture
-
-![width:"50%"](assets/media/demo.jpg)
-
-Cool picture!
-
-?button[action:"about.slam" text:"Press Me!"](#btn-example)
-
-:/hero
-```
-
-**Hero with Background Image:**
-
-Here, an image serves as the full background for the hero section, with text and other elements overlaid.
-
-```slamhaus
-:hero[type:"image" media:"assets/media/demo.jpg"](#vscode-extension)
-
-## 🧩 A Hero With A Picture... As The Background!
-
-Cool picture!
-
-?button[action:"about.slam" text:"Press Me!"](#btn-example)
-
-:/hero
-```
-
----
-
-## 🔍 Page & Site Metadata
-
-Control SEO metadata and page-level info with `$page[]()` and `$site[]()` tags.
-
-```slamhaus
-$page[
-  title:"My Page Title"
-  description:"This page is awesome"
-  keywords:"markdown, static site, seo"
-]()
-
-$site[
-  title:"My Cool Site"
-  url:"https://yoursite.com"
-  favicon:"/assets/favicon.ico"
-]()
-```
-
----
-
-## 🧠 WebAssembly via `@script[]()`
-
-Use native C++ functions in the browser with no JavaScript by binding them to elements using `@script[]()`.
-
-```slamhaus
-@script[
-  src:"/scripts/greet.js"
-  bind:"#greet-btn"
-  call:"Greet"
-  args:"name-input"
-  types:"string"
-  result:"greeting-output"
-]()
-```
-
-```slamhaus
-@script[
-  src:"/scripts/add.js"
-  bind:"#add-btn"
-  call:"Add"
-  args:"num1,num2"
-  types:"int,int"
-  rtype:"number"
-  result:"sum-result"
-]()
-```
-
-| Attribute   | Description                     |
-| :---------- | :------------------------------ |
-| `src`       | Path to generated JS glue       |
-| `bind`      | Element ID (e.g., `#btn`)       |
-| `call`      | C++ function name               |
-| `args`      | Comma-separated IDs of inputs   |
-| `types`     | C++ parameter types             |
-| `rtype`     | Optional return type            |
-| `result`    | Element to display result       |
-
----
-
-## ⚙️ Sample C++ Code (WASM)
-
-#### **Requires [Emscripten](https://emscripten.org/)**
-
-This is an example of the C++ code that Slamhaus compiles to WebAssembly (`.wasm`).
-
-#### slam.cpp
-
-```
-SFUNCTION(const char*, Greet, const char* name)
-{
-    static std::string greeting;
-    greeting = "Hello, " + std::string(name) + "!";
-    return greeting.c_str();
-}
-
-#### wasm.slam
-
-```slamhaus
-?input[type:"text" id:"nameInput" placeholder:"Your Name"]()
-?button[id:"greet-btn" type:"button" text:"Say Hello"]()
-
-:div[class:"greet-result"](#greet-result)
-
-Please Type Your Name!
-
-:/div
-
-@script[src:"/scripts/slam.js"bind:"#greet-btn"call:"Greet"args:"nameInput"types:"string"result:"greet-result"]()
-```
-
-Just place the `.cpp` file in your `scripts/` folder — Slamhaus will compile it to `.wasm` and generate the necessary glue code for browser use. Requires the [slam.hpp](content/scripts/slam.hpp) which included in repository or wrap your functions like this:
-
-```cpp
-#include <emscripten.h>
-
-extern "C"
-{
-    EMSCRIPTEN_KEEPALIVE
-    const char* Greet(const char* name)
-    {
-        static std::string greeting;
-        greeting = "Hello, " + std::string(name) + "!";
-        return greeting.c_str();
-    }
-}
-```
+Raw HTML is disabled unless `build.unsafe_html` is explicitly enabled. GFM
+code fences are escaped and highlighted at build time, so generated pages do
+not need a browser highlighter. Unknown languages remain escaped plain text.

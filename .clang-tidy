@@ -1,0 +1,10 @@
+Checks: >
+  bugprone-*,
+  performance-*,
+  portability-*,
+  -portability-avoid-pragma-once,
+  -bugprone-easily-swappable-parameters,
+  readability-duplicate-include,
+  readability-redundant-*
+WarningsAsErrors: ''
+HeaderFilterRegex: 'src/.*'

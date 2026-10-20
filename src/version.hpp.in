@@ -1,0 +1,3 @@
+#pragma once
+
+#define SLAMHAUS_VERSION "@SLAMHAUS_VERSION@"
