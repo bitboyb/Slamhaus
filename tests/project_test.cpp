@@ -29,7 +29,8 @@ auto Read(const std::filesystem::path &path) -> std::string {
 
 auto Write(const std::filesystem::path &path, const std::string &value) -> void {
   std::filesystem::create_directories(path.parent_path());
-  std::ofstream(path) << value;
+  std::ofstream output(path, std::ios::binary);
+  output << value;
 }
 
 auto Diagnostics(const Project::Result &result) -> std::string {
