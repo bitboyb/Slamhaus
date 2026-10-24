@@ -3,9 +3,9 @@
 /build-*/
 /slamhaus
 /output/
-/dist/
 /browser-fixture/
 /wasm-output/
+/.emscripten_cache/
 output.zip
 /slamhaus-*.zip
 /_CPack_Packages/

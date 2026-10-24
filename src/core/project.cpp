@@ -107,8 +107,8 @@ auto LoadConfig(const std::filesystem::path &path, Config &config)
     const auto yaml = YAML::LoadFile(path.string());
     if (!yaml || !yaml.IsMap())
       throw YAML::ParserException(YAML::Mark{}, "configuration must be a mapping");
-    const std::set<std::string> rootKeys = {"site",   "build", "theme",
-                                            "layout", "pwa",   "feed"};
+    const std::set<std::string> rootKeys = {"slamhaus", "site",   "build",
+                                            "theme",    "layout", "pwa", "feed"};
     for (const auto &entry : yaml) {
       const auto key = entry.first.as<std::string>();
       if (rootKeys.count(key) == 0U)
@@ -138,6 +138,7 @@ auto LoadConfig(const std::filesystem::path &path, Config &config)
                 static_cast<std::size_t>(entry.first.Mark().column) + key.size()}}));
       }
     };
+    readMap("slamhaus", {"version"});
     readMap("site", {"name", "url", "base_path", "language", "description"});
     readMap("build", {"output", "pretty_urls", "unsafe_html"});
     readMap("theme", {"builtin", "styles"});
@@ -307,6 +308,15 @@ auto ResolvePageUrl(
   const auto tail = suffix == std::string::npos ? "" : authored.substr(suffix);
   if (rawPath.empty())
     return authored;
+  if (std::regex_match(
+          rawPath,
+          std::regex(R"(^[A-Za-z0-9.-]+\.(com|org|net|io|dev|co|uk|me|tv|ai)$)"))) {
+    diagnostics.push_back(Diagnostic(
+        source, "SH4011",
+        "URL looks like an external domain but has no scheme: " + rawPath,
+        "Use https:// or http:// explicitly."));
+    return authored;
+  }
   if (rawPath.front() == '/')
     return config.basePath + rawPath.substr(1) + tail;
   std::filesystem::path target;
@@ -410,7 +420,9 @@ auto RenderPartial(const std::string &name, const std::filesystem::path &partial
   }
   std::string source;
   Read(path, source);
-  auto document = Language::Parse(source, path, metadata);
+  // Layout regions are independent documents. Do not inherit page runtime
+  // metadata, otherwise every header/nav/footer would emit the page module.
+  auto document = Language::Parse(source, path);
   document.nodes = ExpandPartials(std::move(document.nodes), partials, metadata,
                                   diagnostics, {path});
   auto rendered = Language::Render(document, options);
@@ -463,10 +475,17 @@ auto PageHtml(const Language::Document &document, const Config &config,
   if (config.pwa)
     html << "<link rel=\"manifest\" href=\"" << config.basePath
          << "manifest.webmanifest\">\n";
-  html << "</head>\n<body>\n"
-       << header << navigation << "<main>\n"
+  html << "</head>\n<body>\n";
+  if (!header.empty())
+    html << "<header class=\"slamhaus-header\">\n" << header << "</header>\n";
+  if (!navigation.empty())
+    html << "<nav class=\"slamhaus-navigation\" aria-label=\"Primary\">\n"
+         << navigation << "</nav>\n";
+  html << "<main>\n"
        << body << "</main>\n"
-       << footer;
+       ;
+  if (!footer.empty())
+    html << "<footer class=\"slamhaus-footer\">\n" << footer << "</footer>\n";
   if (config.pwa)
     html << "<script type=\"module\" src=\"" << config.basePath
          << "slamhaus-pwa.js\"></script>\n";
@@ -487,11 +506,31 @@ auto ProtectedOutput(const std::filesystem::path &root,
 }
 
 auto CopyTree(const std::filesystem::path &from, const std::filesystem::path &to,
-              Result &result) -> void {
+              Result &result, const std::vector<std::string> &ignore = {}) -> void {
   if (!std::filesystem::is_directory(from))
     return;
   for (const auto &entry : std::filesystem::recursive_directory_iterator(from)) {
     if (!entry.is_regular_file())
+      continue;
+    const auto relative = std::filesystem::relative(entry.path(), from).generic_string();
+    const auto ignored = std::any_of(ignore.begin(), ignore.end(), [&](const auto &pattern) {
+      std::string expression = "^";
+      for (const auto character : pattern) {
+        if (character == '*')
+          expression += ".*";
+        else if (character == '?')
+          expression += ".";
+        else if (std::string(".^$|()[]{}+\\").find(character) != std::string::npos)
+          expression += std::string("\\") + character;
+        else
+          expression += character;
+      }
+      expression += "$";
+      const std::regex matcher(expression);
+      return std::regex_match(relative, matcher) ||
+             std::regex_match(entry.path().filename().generic_string(), matcher);
+    });
+    if (ignored)
       continue;
     const auto destination = to / std::filesystem::relative(entry.path(), from);
     std::filesystem::create_directories(destination.parent_path());
@@ -505,6 +544,23 @@ auto CopyTree(const std::filesystem::path &from, const std::filesystem::path &to
     else
       result.outputs.push_back(destination);
   }
+}
+
+auto AssetIgnorePatterns(const std::filesystem::path &root) -> std::vector<std::string> {
+  std::vector<std::string> patterns;
+  std::string source;
+  if (!Read(root / ".slamhausignore", source))
+    return patterns;
+  std::istringstream lines(source);
+  std::string line;
+  while (std::getline(lines, line)) {
+    const auto first = line.find_first_not_of(" \t\r");
+    if (first == std::string::npos || line[first] == '#')
+      continue;
+    const auto last = line.find_last_not_of(" \t\r");
+    patterns.push_back(line.substr(first, last - first + 1));
+  }
+  return patterns;
 }
 
 auto GeneratedCpp(const ParsedPage &page) -> std::string {
@@ -581,11 +637,13 @@ auto GenerateFiles(
 
 auto BlankProjectFiles() -> std::vector<std::pair<std::filesystem::path, std::string>> {
   return {
-      {"slamhaus.yaml", "site:\n  name: My Site\n"},
+      {"slamhaus.yaml", "slamhaus:\n  version: " + std::string(SLAMHAUS_VERSION) +
+                           "\nsite:\n  name: My Site\nlayout:\n  footer: footer\n"},
       {"pages/index.slam", "# My Site\n"},
+      {"partials/footer.md", "Made with [Slamhaus](https://www.slamhaus.com).\n"},
       {"AGENTS.md",
        "# Slamhaus site\n\nPages are GFM `.md` or enhanced `.slam` files. "
-       "Use `slam-ui` and `cpp wasm` fences for interaction; do not write "
+       "Use C++-style `slam-ui` and `cpp wasm` fences for interaction; do not write "
        "JavaScript for supported behavior. Run `slamhaus check --strict` and "
        "`slamhaus build` before publishing. Generated output belongs in `dist/`.\n"},
       {".gitignore", "dist/\n.slamhaus/\n"}};
@@ -595,7 +653,8 @@ auto ExampleProjectFiles(ExampleProfile profile)
     -> std::vector<std::pair<std::filesystem::path, std::string>> {
   auto files = BlankProjectFiles();
   files[0].second =
-      "site:\n  name: Slamhaus Examples\n  description: Generated Slamhaus project\n"
+      "slamhaus:\n  version: " + std::string(SLAMHAUS_VERSION) +
+      "\nsite:\n  name: Slamhaus Examples\n  description: Generated Slamhaus project\n"
       "theme:\n  styles: [assets/site.css]\nlayout:\n  navigation: nav\n";
   files[1].second =
       "---\ntitle: Examples\ntoc: true\n---\n# Slamhaus Examples\n\n"
@@ -614,11 +673,11 @@ auto ExampleProjectFiles(ExampleProfile profile)
                            "  canvas: Game\n");
     files[1].second +=
         "\n## Typed interaction\n\n```slam-ui\nColumn Calculator() {\n  Number "
-        "Left(\"Left\", value: 2);\n  Number Right(\"Right\", value: 3);\n  Button "
-        "Calculate(\"Add\") => Add(Left, Right) -> Result;\n  Output "
+        "Left(\"Left\") { value = 2; }\n  Number Right(\"Right\") { value = 3; }\n  Button "
+        "Calculate(\"Add\") { on Click => Add(Left, Right) -> Result; }\n  Output "
         "Result(\"Ready\");\n};\n```\n\n"
         "\n## Canvas application\n\n```slam-ui\n"
-        "Canvas Game(width: 1280, height: 720, responsive: true);\n```\n\n"
+        "Canvas Game() { width = 1280; height = 720; responsive = true; }\n```\n\n"
         "```cpp wasm\nauto Add(int32 A, int32 B) -> int32 { return A + B; }\n\n"
         "class FExampleApplication final : public FApplication {\npublic:\n"
         "  void BeginPlay() override { FLog::Information(\"Example started\"); }\n"
@@ -841,7 +900,7 @@ auto Build(const Options &options) -> Result {
   std::filesystem::create_directories(staging);
   Write(staging / "slamhaus.css", BaseCss());
   result.outputs.push_back(staging / "slamhaus.css");
-  CopyTree(assets, staging / "assets", result);
+  CopyTree(assets, staging / "assets", result, AssetIgnorePatterns(root));
 
   bool interactive = false;
   for (auto &page : parsed) {

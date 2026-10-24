@@ -34,6 +34,15 @@ process, network, and terminal effects in the project, toolchain, and CLI layers
 - Keep generated HTML semantic and accessible; controls need names, images need
   alternative text, and keyboard/mobile interaction cannot be an afterthought.
 - Update `VERSION` only once; CMake, packages, and the CLI derive from it.
+- Before changing a site, review `slamhaus.yaml`'s `slamhaus.version` against
+  `VERSION`. Read the changelog and syntax reference for parser, rendering, or
+  component changes before editing pages or Slam UI.
+- After a compiler upgrade or syntax change, run strict checking and formatting,
+  build a real site, inspect generated navigation targets and heading IDs, and
+  regenerate committed `dist/` output with `scripts/build-pages.sh`.
+- Treat responsive CSS as part of the site contract: keep readable headings,
+  wrapped navigation, touch-sized controls, visible focus states, and usable
+  form layouts at narrow widths.
 
 ## Verification
 

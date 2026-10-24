@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recipes and examples</title>
+<meta name="description" content="Project recipes for building Markdown sites, tools, and C++ browser experiences.">
+<link rel="stylesheet" href="../slamhaus.css">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="slamhaus-header">
+<p><img src="../assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><strong>Slamhaus</strong></p>
+</header>
+<nav class="slamhaus-navigation" aria-label="Primary">
+<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
+</nav>
+<main>
+<nav class="table-of-contents" aria-label="Table of contents"><ol><li class="toc-level-1"><a href="#recipes-and-examples">Recipes and examples</a></li><li class="toc-level-2"><a href="#start-with-a-static-site">Start with a static site</a></li><li class="toc-level-2"><a href="#generate-the-built-in-examples">Generate the built-in examples</a></li><li class="toc-level-2"><a href="#choose-the-smallest-useful-page">Choose the smallest useful page</a></li><li class="toc-level-2"><a href="#a-practical-project-layout">A practical project layout</a></li><li class="toc-level-2"><a href="#build-a-docs-site">Build a docs site</a></li><li class="toc-level-2"><a href="#build-a-browser-tool">Build a browser tool</a></li><li class="toc-level-2"><a href="#build-a-small-game-like-interaction">Build a small game-like interaction</a></li><li class="toc-level-2"><a href="#deploy-to-github-pages">Deploy to GitHub Pages</a></li><li class="toc-level-2"><a href="#development-loop">Development loop</a></li><li class="toc-level-2"><a href="#why-these-examples-are-deliberately-small">Why these examples are deliberately small</a></li></ol></nav>
+<h1 id="recipes-and-examples">
+Recipes and examples
+</h1>
+<p>This page is about choosing a project shape and getting it shipped. For source
+followed by live output, open the <a href="../showcase/">live showcase</a>. For the
+component and SDK lookup tables, use the <a href="../syntax/">API cheatsheet</a>.</p>
+<h2 id="start-with-a-static-site">
+Start with a static site
+</h2>
+<pre><code class="language-sh">slamhaus init my-site
+cd my-site
+slamhaus check --strict
+slamhaus build
+slamhaus serve
+</code></pre>
+<p>Use this for a portfolio, studio page, release notes, documentation, blog, or
+small project site. It produces HTML and CSS with no browser runtime.</p>
+<h2 id="generate-the-built-in-examples">
+Generate the built-in examples
+</h2>
+<p>The minimal profile demonstrates portable Markdown and a clean project layout:</p>
+<pre><code class="language-sh">slamhaus examples static-site --profile minimal
+</code></pre>
+<p>The complete profile includes typed UI, C++, WebAssembly, canvas metadata,
+mobile behavior, and PWA configuration:</p>
+<pre><code class="language-sh">slamhaus examples wasm-site --profile complete
+cd wasm-site
+slamhaus toolchain install
+slamhaus build
+</code></pre>
+<h2 id="choose-the-smallest-useful-page">
+Choose the smallest useful page
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">release</span> notes / docs / blog       -&gt; .md
+metadata or Slam UI               -&gt; .slam
+small event function              -&gt; cpp wasm fence
+growing behavior                  -&gt; <span class="tok-type">code</span>/&lt;module&gt;.cpp
+site-wide navigation/footer       -&gt; partials/
+interactive toy or tool           -&gt; .slam + typed C++
+</code></pre>
+<h2 id="a-practical-project-layout">
+A practical project layout
+</h2>
+<pre><code class="language-cpp">my-site/
+├── slamhaus.yaml
+├── AGENTS.md
+├── pages/
+│   ├── index.slam
+│   └── notes.md
+├── partials/
+│   ├── navigation.md
+│   └── footer.md
+├── assets/
+│   └── site.css
+├── code/
+│   └── tools.cpp
+└── dist/
+</code></pre>
+<p><code>slamhaus.yaml</code> records the compiler version, site metadata, theme styles, and
+layout partials. <code>AGENTS.md</code> keeps the project's local working agreements close
+to the source.</p>
+<h2 id="build-a-docs-site">
+Build a docs site
+</h2>
+<p>Keep the content ordinary Markdown and add front matter only where it helps:</p>
+<pre><code class="language-md">---
+title: Rendering notes
+description: Experiments and decisions from the graphics lab.
+tags: [graphics, tools]
+toc: true
+---
+# Rendering notes
+
+The page remains portable GFM and can be reviewed without a compiler.
+</code></pre>
+<p>Add a custom stylesheet under <code>assets/</code>, then reference it from the project:</p>
+<pre><code class="language-yaml">theme:
+  styles: [assets/site.css]
+</code></pre>
+<h2 id="build-a-browser-tool">
+Build a browser tool
+</h2>
+<p>Use the live showcase as the starting point for forms, calculators, and small
+tools. The usual flow is:</p>
+<ol>
+<li>Declare named controls and outputs in Slam UI.</li>
+<li>Bind an event to a namespace-scope C++ function.</li>
+<li>Run <code>slamhaus check --strict</code>.</li>
+<li>Build with the pinned Emscripten toolchain.</li>
+<li>Test the generated HTML and WASM module in a browser.</li>
+</ol>
+<p>The compiler generates the bridge and validates argument conversion. You do not
+maintain selectors, event glue, or a separate frontend build.</p>
+<h2 id="build-a-small-game-like-interaction">
+Build a small game-like interaction
+</h2>
+<p>The <a href="../showcase/">live maze</a> demonstrates the useful split: C++ owns state and
+movement rules, while Slam UI owns the board output and keyboard/mobile controls.
+The same pattern works for a quiz, level editor, inventory panel, debug console,
+or interactive fiction tool.</p>
+<h2 id="deploy-to-github-pages">
+Deploy to GitHub Pages
+</h2>
+<p>The repository's preferred deployment publishes committed <code>dist/</code> output:</p>
+<pre><code class="language-sh">./scripts/build-pages.sh
+git add dist
+git commit -m &quot;Regenerate site&quot;
+</code></pre>
+<p>The script uses the local Emscripten cache and rewrites local runtime/module
+URLs for project Pages paths. GitHub Actions can rebuild manually, but committed
+output is the recommended release path.</p>
+<h2 id="development-loop">
+Development loop
+</h2>
+<pre><code class="language-sh">slamhaus check . --strict
+slamhaus fmt . --check
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+</code></pre>
+<p>Use <code>slamhaus language-schema</code> and <code>slamhaus lsp</code> when integrating with an
+editor. Use <code>slamhaus doctor</code> when the compiler or Emscripten toolchain needs
+diagnosis.</p>
+<h2 id="why-these-examples-are-deliberately-small">
+Why these examples are deliberately small
+</h2>
+<p>Slamhaus is designed for composition: readable pages, a few typed behaviors,
+and a deployable result. When a project grows, move shared behavior into normal
+C++ modules and keep each page's Slam UI close to the content it controls.</p>
+</main>
+<footer class="slamhaus-footer">
+<p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "abi": 1,
+  "application": "",
+  "exports": [
+    "Add"
+  ],
+  "language": "cpp",
+  "module": "index"
+}

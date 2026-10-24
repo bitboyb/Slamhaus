@@ -1,1 +1,1 @@
-Built with [Slamhaus](https://github.com/bitboyb/Slamhaus).
+Made with [Slamhaus](https://www.slamhaus.com).

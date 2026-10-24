@@ -47,7 +47,7 @@ auto StaticOptions(const std::filesystem::path &root) -> Project::Options {
 
 TEST_CASE("blank project is compiled in and minimal") {
   const auto files = Project::BlankProjectFiles();
-  REQUIRE(files.size() == 4);
+  REQUIRE(files.size() == 5);
   REQUIRE(files[0].first == "slamhaus.yaml");
   REQUIRE(files[1].first == "pages/index.slam");
   for (const auto &[path, content] : files) {
@@ -258,6 +258,9 @@ TEST_CASE("layout partials wrap page content") {
   const auto html = Read(directory.path / "dist/index.html");
   REQUIRE(html.find("Site header") < html.find("<main>"));
   REQUIRE(html.find("Site footer") > html.find("</main>"));
+  REQUIRE(html.find("class=\"slamhaus-header\"") != std::string::npos);
+  REQUIRE(html.find("class=\"slamhaus-navigation\"") != std::string::npos);
+  REQUIRE(html.find("class=\"slamhaus-footer\"") != std::string::npos);
 }
 
 TEST_CASE("standalone source checks do not need a project") {
@@ -312,6 +315,7 @@ TEST_CASE("real embedded behavior emits module and manifest when compiler exists
   const auto html = Read(directory.path / "dist/index.html");
   REQUIRE(html.find("/modules/index.js") != std::string::npos);
   REQUIRE(html.find("slamhaus-runtime.js") != std::string::npos);
+  REQUIRE(html.find("data-slamhaus-bindings") == html.rfind("data-slamhaus-bindings"));
 }
 
 TEST_CASE("pwa project emits generated application files") {

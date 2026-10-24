@@ -137,10 +137,23 @@ target_link_libraries(slamhaus PRIVATE slamhaus_lib)
 install(TARGETS slamhaus RUNTIME DESTINATION bin)
 install(FILES LICENSE THIRD_PARTY_NOTICES.md DESTINATION share/licenses/slamhaus)
 install(FILES sdk/slam/slam.hpp DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/slam)
-install(FILES README.md CHANGELOG.md AGENTS.md docs/syntax-reference.md
-              docs/project-configuration.md docs/cpp-sdk.md docs/pwa.md
+install(FILES README.md CHANGELOG.md AGENTS.md docs/index.md docs/syntax-reference.md
+              docs/project-configuration.md docs/cpp-sdk.md docs/deployment.md docs/pwa.md
         DESTINATION ${CMAKE_INSTALL_DOCDIR})
 install(FILES toolchains.lock.json DESTINATION ${CMAKE_INSTALL_DATADIR}/slamhaus)
+
+find_package(Doxygen QUIET)
+if(Doxygen_FOUND)
+  set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/docs-build/doxygen")
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+  add_custom_target(doxygen
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${DOXYGEN_OUTPUT_DIRECTORY}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${DOXYGEN_OUTPUT_DIRECTORY}
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Generating Slamhaus API documentation")
+endif()
 
 if(BUILD_TESTING)
   find_package(Catch2 3 QUIET)
@@ -159,8 +172,11 @@ if(BUILD_TESTING)
     tests/sdk_test.cpp)
   target_include_directories(slamhaus_tests PRIVATE sdk)
   target_link_libraries(slamhaus_tests PRIVATE slamhaus_lib Catch2::Catch2WithMain)
-  include(Catch)
-  catch_discover_tests(slamhaus_tests)
+  # Run the Catch2 binary as one test. This avoids configure-time discovery
+  # dependence on the host runtime directory while preserving all test cases.
+  add_test(NAME slamhaus_unit_tests COMMAND slamhaus_tests)
+  set_tests_properties(slamhaus_unit_tests PROPERTIES
+    ENVIRONMENT "EM_CACHE=${CMAKE_SOURCE_DIR}/.emscripten_cache")
   add_test(NAME cli_version COMMAND slamhaus --version)
   set_tests_properties(cli_version PROPERTIES PASS_REGULAR_EXPRESSION "slamhaus ${SLAMHAUS_VERSION}")
   add_test(NAME cli_help COMMAND slamhaus --help)

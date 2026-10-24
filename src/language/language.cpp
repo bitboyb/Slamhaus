@@ -184,6 +184,7 @@ enum class TokenKind : std::uint8_t {
   RightBracket,
   Comma,
   Colon,
+  Equal,
   Semicolon,
   Arrow,
   Bind,
@@ -345,6 +346,8 @@ private:
       return TokenKind::Comma;
     case ':':
       return TokenKind::Colon;
+    case '=':
+      return TokenKind::Equal;
     case ';':
       return TokenKind::Semicolon;
     default:
@@ -432,12 +435,9 @@ private:
       return node;
     }
 
-    if (Is(TokenKind::LeftBrace)) {
-      Take();
-      node.children = ParseNodes(true);
-      if (spec != nullptr && !spec->container)
-        Error(type, "SH1104", node.name + " cannot contain child components.");
-    }
+    const auto hasBlock = Is(TokenKind::LeftBrace);
+    if (hasBlock)
+      ParseBlock(node, spec, type);
 
     if (Is(TokenKind::Identifier) && Current().text == "on") {
       Take();
@@ -448,8 +448,12 @@ private:
     }
     if (Is(TokenKind::Bind))
       ParseBinding(node, spec);
-    if (!Expect(TokenKind::Semicolon, "Expected ';' after component declaration."))
+    if (hasBlock) {
+      if (Is(TokenKind::Semicolon))
+        Take();
+    } else if (!Expect(TokenKind::Semicolon, "Expected ';' after component declaration.")) {
       Synchronize();
+    }
     node.range.end = tokens_[position_ == 0 ? 0 : position_ - 1].range.end;
     return node;
   }
@@ -484,6 +488,47 @@ private:
         break;
       }
     }
+  }
+
+  auto ParseBlock(Node &node, const ComponentSpec *spec, const Token &type) -> void {
+    Take();
+    while (!Is(TokenKind::RightBrace) && !Is(TokenKind::End)) {
+      if (Is(TokenKind::Identifier) && Current().text == "on") {
+        Take();
+        if (Is(TokenKind::Identifier))
+          node.binding.event = Take().text;
+        else
+          Error(Current(), "SH1105", "Expected an event name after 'on'.");
+        ParseBinding(node, spec);
+        Expect(TokenKind::Semicolon, "Expected ';' after event binding.");
+        continue;
+      }
+      if (Is(TokenKind::Identifier) && tokens_[position_ + 1].kind == TokenKind::Equal) {
+        const auto property = Take();
+        Take();
+        const auto value = ParseValue();
+        if (value.has_value())
+          node.properties[property.text] = *value;
+        if (spec != nullptr && spec->properties.count(property.text) == 0U)
+          Error(property, "SH1106", "Unknown property " + property.text + " on " +
+                                      node.name + ".");
+        Expect(TokenKind::Semicolon, "Expected ';' after property assignment.");
+        continue;
+      }
+      if (!Is(TokenKind::Identifier)) {
+        Error(Take(), "SH1101", "Expected a property assignment or child component.");
+        Synchronize();
+        continue;
+      }
+      auto child = ParseNode();
+      if (child.has_value())
+        node.children.push_back(std::move(*child));
+    }
+    if (!Expect(TokenKind::RightBrace, "Component block is not closed.") &&
+        spec != nullptr && !spec->container)
+      Error(type, "SH1104", node.name + " cannot contain child components.");
+    if (spec != nullptr && !spec->container && !node.children.empty())
+      Error(type, "SH1104", node.name + " cannot contain child components.");
   }
 
   auto ParseValue() -> std::optional<std::string> {
@@ -607,6 +652,21 @@ private:
                                   "Image requires alt text.",
                                   {},
                                   node.range});
+        if (node.name == "Element") {
+          static const std::set<std::string> allowed = {
+              "article", "aside", "details", "div", "footer", "form", "header",
+              "main", "nav", "section", "summary"};
+          const auto property = node.properties.find("tag");
+          const auto tag = Lower(property == node.properties.end() ? "div" : property->second);
+          if (allowed.count(tag) == 0U)
+            diagnostics_.push_back({path_,
+                                    Severity::Error,
+                                    "SH1118",
+                                    "Element tag is not a supported semantic container: " +
+                                        tag + ".",
+                                    "Use a safe container tag such as article, footer, main, nav, or section.",
+                                    node.range});
+        }
         for (const auto &argument : node.binding.arguments) {
           if (!StartsWith(argument, "$literal$") && !argument.empty() &&
               (std::isalpha(static_cast<unsigned char>(argument.front())) != 0 ||
@@ -1264,7 +1324,8 @@ struct Renderer {
     std::string tag = spec->tag;
     if (node.name == "Element") {
       static const std::set<std::string> allowed = {
-          "article", "aside", "details", "div", "nav", "section", "summary"};
+          "article", "aside", "details", "div", "footer", "form", "header", "main",
+          "nav", "section", "summary"};
       tag = Lower(Property(node, "tag", "div"));
       if (allowed.count(tag) == 0U)
         tag = "div";
@@ -1471,7 +1532,7 @@ auto SchemaJson() -> nlohmann::json {
          {"container", spec.container},
          {"properties", spec.properties},
          {"defaultEvent", spec.defaultEvent == nullptr ? "" : spec.defaultEvent}});
-  return {{"schema", 3},
+  return {{"schema", 4},
           {"extensions", {{"pages", {".slam", ".md"}}}},
           {"markdown", {{"dialect", "gfm"}, {"enhanced", ".slam"}}},
           {"frontMatter",
@@ -1480,6 +1541,9 @@ auto SchemaJson() -> nlohmann::json {
              {"title", "description", "keywords", "draft", "date", "tags", "canonical",
               "permalink", "noindex", "toc", "runtime"}}}},
           {"fences", {{"ui", "slam-ui"}, {"behavior", "cpp wasm"}}},
+          {"syntax", {{"style", "cpp-blocks"},
+                      {"properties", "assignment"},
+                      {"events", "on Event => Function(args) -> Output"}}},
           {"components", std::move(components)}};
 }
 

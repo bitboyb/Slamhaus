@@ -1,5 +1,13 @@
 #pragma once
 
+/** @file
+ *  Public C++17 SDK for Slamhaus WebAssembly pages.
+ *
+ *  The SDK exposes browser capabilities through small, renderer-agnostic
+ *  value types and platform helpers. Applications can include this header in
+ *  native tests; browser-only operations become safe no-ops outside Emscripten.
+ */
+
 #include <array>
 #include <cstdint>
 #include <cstdlib>
@@ -24,6 +32,7 @@
 
 namespace Slam {
 
+/** Fixed-width integer aliases used by the public SDK ABI. */
 using int8 = std::int8_t;
 using int16 = std::int16_t;
 using int32 = std::int32_t;
@@ -35,10 +44,14 @@ using uint64 = std::uint64_t;
 using FString = std::string;
 using FName = std::string;
 
+/** C++ container alias used for SDK collections. */
 template <typename T> using TArray = std::vector<T>;
+/** Optional ownership alias for SDK-created objects. */
 template <typename T> using TOptional = std::unique_ptr<T>;
+/** Callback alias used by asynchronous browser APIs. */
 template <typename Signature> using TDelegate = std::function<Signature>;
 
+/** Error categories returned by browser and platform helpers. */
 enum class EPlatformError : uint8 {
   None,
   Unsupported,
@@ -51,9 +64,12 @@ enum class EPlatformError : uint8 {
   Internal
 };
 
+/** A value-or-error result that avoids exceptions across the WASM boundary. */
 template <typename T> class TResult {
 public:
+  /** Construct a successful result. */
   static auto Ok(T Value) -> TResult { return TResult(std::move(Value)); }
+  /** Construct a failed result with a stable platform error code. */
   static auto Error(EPlatformError Code, FString Message) -> TResult {
     return TResult(Code, std::move(Message));
   }
@@ -73,9 +89,12 @@ private:
   FString Message;
 };
 
+/** Void specialization of TResult for command-style operations. */
 template <> class TResult<void> {
 public:
+  /** Construct a successful void result. */
   static auto Ok() -> TResult { return TResult(true); }
+  /** Construct a failed void result. */
   static auto Error(EPlatformError Code, FString Message) -> TResult {
     return TResult(Code, std::move(Message));
   }
@@ -93,20 +112,24 @@ private:
   FString Message;
 };
 
+/** Two-dimensional floating-point coordinate. */
 struct FVector2D {
   float X = 0.0F;
   float Y = 0.0F;
 };
+/** Two-dimensional integer coordinate. */
 struct FIntPoint {
   int32 X = 0;
   int32 Y = 0;
 };
+/** RGBA color in normalized 8-bit channels. */
 struct FColor {
   uint8 R = 0;
   uint8 G = 0;
   uint8 B = 0;
   uint8 A = 255;
 };
+/** CSS and framebuffer dimensions of the active canvas. */
 struct FCanvasSize {
   int32 Width = 0;
   int32 Height = 0;
@@ -114,31 +137,37 @@ struct FCanvasSize {
   int32 FramebufferHeight = 0;
   float DeviceScale = 1.0F;
 };
+/** Four-sided inset or padding measurement. */
 struct FInsets {
   float Top = 0;
   float Right = 0;
   float Bottom = 0;
   float Left = 0;
 };
+/** One active touch contact. */
 struct FTouchPoint {
   int32 Id = -1;
   FVector2D Position;
   float Pressure = 0.0F;
 };
+/** Snapshot of a connected gamepad's axes and buttons. */
 struct FGamepadState {
   bool bConnected = false;
   TArray<float> Axes;
   TArray<float> Buttons;
 };
+/** Result returned by an asynchronous HTTP request. */
 struct FHttpResponse {
   int32 Status = 0;
   FString Body;
 };
+/** Opaque handle used to cancel an asynchronous request. */
 struct FRequestHandle {
   uint32 Id = 0;
   explicit operator bool() const { return Id != 0; }
 };
 
+/** Keyboard codes exposed by the browser input bridge. */
 enum class EKey : int32 {
   Unknown = 0,
   Backspace = 8,
@@ -158,6 +187,7 @@ enum class EKey : int32 {
   S = 83,
   W = 87
 };
+/** Mouse button identifiers. */
 enum class EMouseButton : int32 {
   Left = 0,
   Middle = 1,
@@ -165,6 +195,7 @@ enum class EMouseButton : int32 {
   Back = 3,
   Forward = 4
 };
+/** Current viewport orientation. */
 enum class EOrientation : uint8 { Unknown, Portrait, Landscape };
 
 #ifdef __EMSCRIPTEN__
@@ -236,8 +267,10 @@ inline auto SlamAnnounce(const char *) -> int { return 0; }
 inline void SlamLogMessage(int, const char *) {}
 #endif
 
+/** Read keyboard, pointer, touch, and gamepad state. */
 class FInput {
 public:
+  /** Return whether a key is currently held. */
   static auto IsKeyDown(EKey Key) -> bool {
     return SlamInputState(0, static_cast<int>(Key)) != 0;
   }
@@ -273,6 +306,7 @@ public:
                         static_cast<float>(SlamTouchNumber(Index, 3))});
     return Values;
   }
+  /** Return the current state of a gamepad, or an empty state if absent. */
   static auto GetGamepad(int32 Index = 0) -> FGamepadState {
     FGamepadState State;
     State.bConnected = SlamGamepadNumber(Index, 0, 0) != 0;
@@ -286,8 +320,11 @@ public:
   }
 };
 
+/** Query the page canvas and request browser canvas capabilities. */
+/** Browser canvas metrics and permission-gated canvas controls. */
 class FCanvas {
 public:
+  /** Query the active canvas size and framebuffer scale. */
   static auto GetSize() -> FCanvasSize {
     return {static_cast<int32>(SlamDisplayNumber(0)),
             static_cast<int32>(SlamDisplayNumber(1)),
@@ -295,7 +332,9 @@ public:
             static_cast<int32>(SlamDisplayNumber(4)),
             static_cast<float>(SlamDisplayNumber(2))};
   }
+  /** Request browser fullscreen for the active canvas. */
   static auto RequestFullscreen() -> TResult<void> { return Command(4, ""); }
+  /** Request pointer-lock input for the active canvas. */
   static auto RequestPointerLock() -> TResult<void> { return Command(5, ""); }
 
 private:
@@ -307,15 +346,20 @@ private:
   }
 };
 
+/** Query viewport size, device scale, and orientation. */
+/** Browser viewport and display characteristics. */
 class FDisplay {
 public:
+  /** Return the browser viewport in CSS pixels. */
   static auto GetViewportSize() -> FIntPoint {
     return {static_cast<int32>(SlamDisplayNumber(0)),
             static_cast<int32>(SlamDisplayNumber(1))};
   }
+  /** Return the browser device pixel ratio. */
   static auto GetDeviceScale() -> float {
     return static_cast<float>(SlamDisplayNumber(2));
   }
+  /** Return the current screen orientation. */
   static auto GetOrientation() -> EOrientation {
     const auto Size = GetViewportSize();
     if (Size.X == 0 || Size.Y == 0)
@@ -324,29 +368,39 @@ public:
   }
 };
 
+/** Perform safe text, value, class, visibility, and focus operations. */
+/** Safe DOM operations exposed to generated or application code. */
 class FDocument {
 public:
+  /** Set text content for the first element matching Selector. */
   static auto SetText(std::string_view Selector, std::string_view Value) -> bool {
     return Command(0, Selector, Value);
   }
+  /** Set the value property of the first matching form control. */
   static auto SetValue(std::string_view Selector, std::string_view Value) -> bool {
     return Command(1, Selector, Value);
   }
+  /** Add a CSS class to the first matching element. */
   static auto AddClass(std::string_view Selector, std::string_view Value) -> bool {
     return Command(2, Selector, Value);
   }
+  /** Remove a CSS class from the first matching element. */
   static auto RemoveClass(std::string_view Selector, std::string_view Value) -> bool {
     return Command(3, Selector, Value);
   }
+  /** Set or clear the hidden state of the first matching element. */
   static auto SetHidden(std::string_view Selector, bool Hidden) -> bool {
     return Command(4, Selector, Hidden ? "1" : "0");
   }
+  /** Move browser focus to the first matching element. */
   static auto Focus(std::string_view Selector) -> bool {
     return Command(5, Selector, "");
   }
+  /** Read a form control value. */
   static auto GetValue(std::string_view Selector) -> FString {
     return Read(Selector, 0);
   }
+  /** Read text content from the first matching element. */
   static auto GetText(std::string_view Selector) -> FString {
     return Read(Selector, 1);
   }
@@ -368,13 +422,16 @@ private:
   }
 };
 
+/** Namespaced local and session storage helpers. */
 class FStorage {
 public:
+  /** Store a namespaced value in local or session storage. */
   static auto Set(std::string_view Key, std::string_view Value, bool Session = false)
       -> bool {
     const FString K(Key), V(Value);
     return SlamStorageWrite(Session, K.c_str(), V.c_str()) != 0;
   }
+  /** Read a value, returning an empty string when it is absent. */
   static auto Get(std::string_view Key, bool Session = false) -> FString {
     const FString K(Key);
     char *Raw = SlamStorageRead(Session, K.c_str());
@@ -384,41 +441,53 @@ public:
     std::free(Raw);
     return Value;
   }
+  /** Remove a stored value. */
   static auto Remove(std::string_view Key, bool Session = false) -> bool {
     const FString K(Key);
     return SlamStorageRemove(Session, K.c_str()) != 0;
   }
 };
 
+/** Clipboard write helper, subject to browser permissions and gestures. */
 class FClipboard {
 public:
+  /** Copy text after a browser user gesture when required. */
   static auto WriteText(std::string_view Text) -> bool {
     const FString V(Text);
     return SlamBrowserCommand(1, V.c_str()) != 0;
   }
 };
+/** Haptic feedback helper for supported devices. */
 class FHaptics {
 public:
+  /** Request a short device vibration. */
   static auto Pulse(int32 Milliseconds = 20) -> bool {
     const auto V = std::to_string(Milliseconds);
     return SlamBrowserCommand(0, V.c_str()) != 0;
   }
 };
+/** Current-page and external navigation helpers. */
 class FNavigation {
 public:
+  /** Navigate the current page to Url. */
   static auto Navigate(std::string_view Url) -> bool {
     const FString V(Url);
     return SlamBrowserCommand(2, V.c_str()) != 0;
   }
+  /** Open an external URL in a new browser context. */
   static auto OpenExternal(std::string_view Url) -> bool {
     const FString V(Url);
     return SlamBrowserCommand(3, V.c_str()) != 0;
   }
 };
+/** Browser-console logging helpers. */
 class FLog {
 public:
+  /** Write an informational browser-console message. */
   static void Information(std::string_view Message) { Write(0, Message); }
+  /** Write a warning to the browser console. */
   static void Warning(std::string_view Message) { Write(1, Message); }
+  /** Write an error to the browser console. */
   static void Error(std::string_view Message) { Write(2, Message); }
 
 private:
@@ -428,12 +497,15 @@ private:
   }
 };
 
+/** Handle for an audio resource owned by the browser runtime. */
 struct FAudioHandle {
   int32 Id = 0;
   explicit operator bool() const { return Id != 0; }
 };
+/** Browser audio playback helpers. */
 class FAudio {
 public:
+  /** Start loading and playing an audio source. */
   static auto Play(std::string_view Source, bool Loop = false, float Volume = 1.0F)
       -> FAudioHandle {
     const FString V(Source);
@@ -442,31 +514,40 @@ public:
   static auto Pause(FAudioHandle Handle) -> bool {
     return SlamAudioCommand(0, Handle.Id, 0) != 0;
   }
+  /** Stop playback and release an audio handle. */
   static auto Stop(FAudioHandle Handle) -> bool {
     return SlamAudioCommand(1, Handle.Id, 0) != 0;
   }
+  /** Change playback volume, clamped by the browser runtime. */
   static auto SetVolume(FAudioHandle Handle, float Volume) -> bool {
     return SlamAudioCommand(2, Handle.Id, Volume) != 0;
   }
+  /** Resume a paused audio handle. */
   static auto Resume(FAudioHandle Handle) -> bool {
     return SlamAudioCommand(3, Handle.Id, 0) != 0;
   }
 };
 
+/** Browser network capability helpers. */
 class FNetwork {
 public:
+  /** Return the browser's current online state. */
   static auto IsOnline() -> bool { return SlamBrowserCapability(0) != 0; }
 };
+/** Accessibility announcements and user-preference helpers. */
 class FAccessibility {
 public:
+  /** Announce a message through the runtime live region. */
   static auto Announce(std::string_view Message) -> bool {
     const FString V(Message);
     return SlamAnnounce(V.c_str()) != 0;
   }
   static auto PrefersReducedMotion() -> bool { return SlamBrowserCapability(4) != 0; }
 };
+/** Device orientation and acceleration readings. */
 class FSensors {
 public:
+  /** Read device orientation sensor angles. */
   static auto GetOrientation() -> std::array<float, 3> {
     return {static_cast<float>(SlamSensorNumber(0)),
             static_cast<float>(SlamSensorNumber(1)),
@@ -478,20 +559,30 @@ public:
             static_cast<float>(SlamSensorNumber(5))};
   }
 };
+/** Progressive Web App installation helpers. */
 class FPwa {
 public:
+  /** Return whether the site can currently be installed. */
   static auto CanInstall() -> bool { return SlamBrowserCapability(3) != 0; }
+  /** Ask the browser to show the install prompt. */
   static auto PromptInstall() -> bool { return SlamBrowserCommand(6, "") != 0; }
 };
 
+/** Base lifecycle object for a page-local or shared WASM application. */
 class FApplication {
 public:
   virtual ~FApplication() = default;
+  /** Called once when the runtime starts the application. */
   virtual void BeginPlay() {}
+  /** Called once per animation tick with elapsed seconds. */
   virtual void Tick(float DeltaTime) { (void)DeltaTime; }
+  /** Called when the runtime shuts the application down. */
   virtual void EndPlay() {}
+  /** Called when the page is suspended or backgrounded. */
   virtual void OnSuspend() {}
+  /** Called when the page resumes from suspension. */
   virtual void OnResume() {}
+  /** Called after the browser viewport or canvas size changes. */
   virtual void OnResize(const FCanvasSize &Size) { (void)Size; }
 };
 
@@ -636,6 +727,7 @@ inline uint32 NextRequest = 1;
 
 class FHttpClient {
 public:
+  /** Fetch a URL and deliver the response asynchronously. */
   static auto Get(std::string_view Url,
                   TDelegate<void(TResult<FHttpResponse>)> Callback) -> FRequestHandle {
     const auto Handle = Private::NextRequest++;
@@ -644,12 +736,14 @@ public:
     SlamHttpGet(static_cast<int>(Handle), Value.c_str());
     return {Handle};
   }
+  /** Cancel a pending request; returns false if it already completed. */
   static auto Cancel(FRequestHandle Handle) -> bool {
     return Private::HttpCallbacks().erase(Handle.Id) != 0;
   }
 };
 class FAssetManager {
 public:
+  /** Fetch a text asset and return only its body through Callback. */
   static auto LoadText(std::string_view Url, TDelegate<void(TResult<FString>)> Callback)
       -> FRequestHandle {
     return FHttpClient::Get(Url, [Callback = std::move(Callback)](

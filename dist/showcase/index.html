@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live showcase</title>
+<meta name="description" content="Slamhaus source examples followed by their actual rendered results.">
+<link rel="stylesheet" href="../slamhaus.css">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="slamhaus-header">
+<p><img src="../assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><strong>Slamhaus</strong></p>
+</header>
+<nav class="slamhaus-navigation" aria-label="Primary">
+<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
+</nav>
+<main>
+<h1 id="live-showcase">
+Live showcase
+</h1>
+<p>This page is deliberately executable. Each source example is followed directly
+by the result it produces.</p>
+<h2 id="a-labelled-form">
+A labelled form
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">Form</span> Signup() {
+  <span class="tok-type">TextInput</span> Name(<span class="tok-string">&quot;Name&quot;</span>) {
+    placeholder = <span class="tok-string">&quot;Ada&quot;</span>;
+    required = <span class="tok-keyword">true</span>;
+  }
+  <span class="tok-type">Select</span> Interest(<span class="tok-string">&quot;Interest&quot;</span>) {
+    options = [<span class="tok-string">&quot;Tools&quot;</span>, <span class="tok-string">&quot;Games&quot;</span>, <span class="tok-string">&quot;WebAssembly&quot;</span>];
+  }
+  <span class="tok-type">Button</span> Join(<span class="tok-string">&quot;Join the list&quot;</span>);
+  <span class="tok-type">Output</span> Confirmation(<span class="tok-string">&quot;Ready&quot;</span>);
+};
+</code></pre>
+<form id="slam-signup" method="post">
+<label>Name<input type="text" id="slam-name" placeholder="Ada" required></label>
+<label>Interest<select id="slam-interest"><option>Tools</option><option>Games</option><option>WebAssembly</option></select></label>
+<button type="button" id="slam-join">Join the list</button>
+<output id="slam-confirmation" aria-live="polite">Ready</output>
+</form>
+<p>The result above is real generated HTML: labels, inputs, a select, a touch-sized
+button, and a live output region.</p>
+<h2 id="a-typed-calculator">
+A typed calculator
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">Column</span> Calculator() {
+  <span class="tok-type">Number</span> Left(<span class="tok-string">&quot;Left&quot;</span>) { value = <span class="tok-number">2</span>; }
+  <span class="tok-type">Number</span> Right(<span class="tok-string">&quot;Right&quot;</span>) { value = <span class="tok-number">3</span>; }
+  <span class="tok-type">Button</span> Add(<span class="tok-string">&quot;Add&quot;</span>) {
+    <span class="tok-type">on</span> Click =&gt; AddNumbers(Left, Right) -&gt; Answer;
+  }
+  <span class="tok-type">Output</span> Answer(<span class="tok-string">&quot;Waiting...&quot;</span>);
+};
+
+</code></pre>
+<div id="slam-calculator" data-slam-layout="column">
+<label>Left<input type="number" id="slam-left" value="2"></label>
+<label>Right<input type="number" id="slam-right" value="3"></label>
+<button type="button" id="slam-add">Add</button>
+<output id="slam-answer" aria-live="polite">Waiting...</output>
+</div>
+<p>Press <strong>Add</strong> above: the generated bridge passes both values to C++ and writes
+the returned number into <code>Answer</code>.</p>
+<p>The calculator and maze use one small executable module. The C++ is ordinary
+typed behavior: the page declares controls and outputs, while the module owns
+the calculation and game state.</p>
+<p>The same module is shown here as ordinary C++ so it remains readable in the
+documentation. The executable <code>cpp wasm</code> fence above is what the compiler
+embeds into this page.</p>
+<pre><code class="language-cpp"><span class="tok-comment">// Calculator behavior.</span>
+<span class="tok-keyword">auto</span> AddNumbers(<span class="tok-type">int32</span> A, <span class="tok-type">int32</span> B) -&gt; <span class="tok-type">int32</span> {
+  <span class="tok-keyword">return</span> A + B;
+}
+
+<span class="tok-comment">// Maze behavior.</span>
+<span class="tok-keyword">namespace</span> {
+<span class="tok-type">int32</span> MazeX = <span class="tok-number">1</span>;
+<span class="tok-type">int32</span> MazeY = <span class="tok-number">1</span>;
+
+<span class="tok-keyword">auto</span> MazeFrame() -&gt; <span class="tok-type">FString</span> {
+  <span class="tok-type">FString</span> Frame =
+      <span class="tok-string">&quot;#######\n#.....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######&quot;</span>;
+  <span class="tok-keyword">const</span> <span class="tok-keyword">auto</span> Index = static_cast&lt;std::<span class="tok-type">size_t</span>&gt;(MazeY * <span class="tok-number">8</span> + MazeX);
+  Frame[Index] = (MazeX == <span class="tok-number">4</span> &amp;&amp; MazeY == <span class="tok-number">5</span>) ? &#39;*&#39; : &#39;@&#39;;
+  <span class="tok-keyword">return</span> Frame;
+}
+
+<span class="tok-keyword">auto</span> TryMazeMove(<span class="tok-type">int32</span> X, <span class="tok-type">int32</span> Y) -&gt; <span class="tok-type">FString</span> {
+  <span class="tok-keyword">const</span> <span class="tok-type">FString</span> Walls =
+      <span class="tok-string">&quot;#######\n#.....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######&quot;</span>;
+  <span class="tok-keyword">if</span> (X &gt;= <span class="tok-number">0</span> &amp;&amp; X &lt; <span class="tok-number">7</span> &amp;&amp; Y &gt;= <span class="tok-number">0</span> &amp;&amp; Y &lt; <span class="tok-number">7</span> &amp;&amp;
+      Walls[static_cast&lt;std::<span class="tok-type">size_t</span>&gt;(Y * <span class="tok-number">8</span> + X)] != &#39;#&#39;) {
+    MazeX = X;
+    MazeY = Y;
+  }
+  <span class="tok-keyword">return</span> MazeFrame();
+}
+} <span class="tok-comment">// namespace</span>
+
+<span class="tok-keyword">auto</span> MoveMazeUp() -&gt; <span class="tok-type">FString</span> { <span class="tok-keyword">return</span> TryMazeMove(MazeX, MazeY - <span class="tok-number">1</span>); }
+<span class="tok-keyword">auto</span> MoveMazeLeft() -&gt; <span class="tok-type">FString</span> { <span class="tok-keyword">return</span> TryMazeMove(MazeX - <span class="tok-number">1</span>, MazeY); }
+<span class="tok-keyword">auto</span> MoveMazeDown() -&gt; <span class="tok-type">FString</span> { <span class="tok-keyword">return</span> TryMazeMove(MazeX, MazeY + <span class="tok-number">1</span>); }
+<span class="tok-keyword">auto</span> MoveMazeRight() -&gt; <span class="tok-type">FString</span> { <span class="tok-keyword">return</span> TryMazeMove(MazeX + <span class="tok-number">1</span>, MazeY); }
+</code></pre>
+<h2 id="a-tiny-playable-maze">
+A tiny playable maze
+</h2>
+<p>The same model works for a tiny game loop: state stays in typed C++, while the
+page owns the controls and the output surface.</p>
+<pre><code class="language-cpp"><span class="tok-type">Column</span> MazeGame() {
+  <span class="tok-type">Output</span> MazeMap(<span class="tok-string">&quot;#######\n#@....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######&quot;</span>) {
+    <span class="tok-keyword">class</span> = <span class="tok-string">&quot;maze-board&quot;</span>;
+  }
+  <span class="tok-type">Row</span> MazeControls() {
+    <span class="tok-keyword">class</span> = <span class="tok-string">&quot;maze-controls&quot;</span>;
+    <span class="tok-type">Button</span> MazeUpButton(<span class="tok-string">&quot;↑&quot;</span>) {
+      <span class="tok-keyword">class</span> = <span class="tok-string">&quot;maze-up&quot;</span>;
+      <span class="tok-type">on</span> Click =&gt; MoveMazeUp() -&gt; MazeMap;
+    }
+    <span class="tok-type">Button</span> MazeLeftButton(<span class="tok-string">&quot;←&quot;</span>) {
+      <span class="tok-keyword">class</span> = <span class="tok-string">&quot;maze-left&quot;</span>;
+      <span class="tok-type">on</span> Click =&gt; MoveMazeLeft() -&gt; MazeMap;
+    }
+    <span class="tok-type">Button</span> MazeDownButton(<span class="tok-string">&quot;↓&quot;</span>) {
+      <span class="tok-keyword">class</span> = <span class="tok-string">&quot;maze-down&quot;</span>;
+      <span class="tok-type">on</span> Click =&gt; MoveMazeDown() -&gt; MazeMap;
+    }
+    <span class="tok-type">Button</span> MazeRightButton(<span class="tok-string">&quot;→&quot;</span>) {
+      <span class="tok-keyword">class</span> = <span class="tok-string">&quot;maze-right&quot;</span>;
+      <span class="tok-type">on</span> Click =&gt; MoveMazeRight() -&gt; MazeMap;
+    }
+  }
+  <span class="tok-type">Output</span> MazeHint(<span class="tok-string">&quot;Reach the star with the touch-sized D-pad.&quot;</span>);
+};
+</code></pre>
+<div id="slam-mazegame" data-slam-layout="column">
+<output id="slam-mazemap" class="maze-board" aria-live="polite">#######
+#@....#
+#.###.#
+#...#.#
+###.#.#
+#...*.#
+#######</output>
+<div id="slam-mazecontrols" class="maze-controls" data-slam-layout="row">
+<button type="button" id="slam-mazeupbutton" class="maze-up">↑</button>
+<button type="button" id="slam-mazeleftbutton" class="maze-left">←</button>
+<button type="button" id="slam-mazedownbutton" class="maze-down">↓</button>
+<button type="button" id="slam-mazerightbutton" class="maze-right">→</button>
+</div>
+<output id="slam-mazehint" aria-live="polite">Reach the star with the touch-sized D-pad.</output>
+</div>
+<p><strong>Result:</strong> a real generated output board with touch-sized controls. The maze is
+intentionally tiny: the point is the shape of the
+interaction, not a proprietary game engine hidden inside the site generator.</p>
+<h2 id="ascii-motion-without-javascript">
+ASCII motion without JavaScript
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">Element</span> Orbit() {
+  tag = <span class="tok-string">&quot;div&quot;</span>;
+  <span class="tok-keyword">class</span> = <span class="tok-string">&quot;ascii-stage&quot;</span>;
+  <span class="tok-type">Text</span> Frame(<span class="tok-string">&quot;S L A M // *&quot;</span>);
+};
+</code></pre>
+<div id="slam-orbit" class="ascii-stage">
+<span id="slam-frame">S L A M // *</span>
+</div>
+<p>The result is the animated terminal-style panel below. It is CSS motion over a
+semantic DOM element, so it works without a runtime and respects reduced-motion
+preferences.</p>
+<h2 id="a-responsive-canvas-declaration">
+A responsive canvas declaration
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">Canvas</span> Game() {
+  width = <span class="tok-number">1280</span>;
+  height = <span class="tok-number">720</span>;
+  responsive = <span class="tok-keyword">true</span>;
+};
+</code></pre>
+<canvas id="slam-game" width="1280" height="720" data-slam-responsive></canvas>
+<p>The result is a responsive canvas element ready for an application lifecycle.
+The SDK deliberately leaves drawing to the project or renderer you choose.</p>
+<h2 id="what-the-compiler-adds">
+What the compiler adds
+</h2>
+<ul>
+<li>semantic HTML and accessible labels;</li>
+<li>private component IDs and typed event wiring;</li>
+<li>responsive base styles and focus states;</li>
+<li>route, link, asset, and partial validation;</li>
+<li>optional Emscripten modules and manifests;</li>
+<li>a complete <code>dist/</code> directory that can be hosted anywhere.</li>
+</ul>
+<script type="application/json" data-slamhaus-bindings>[{"application":false,"args":["#slam-left","#slam-right"],"event":"click","function":"AddNumbers","module":"../modules/showcase.js","output":"#slam-answer","target":"#slam-add"},{"application":false,"args":[],"event":"click","function":"MoveMazeUp","module":"../modules/showcase.js","output":"#slam-mazemap","target":"#slam-mazeupbutton"},{"application":false,"args":[],"event":"click","function":"MoveMazeLeft","module":"../modules/showcase.js","output":"#slam-mazemap","target":"#slam-mazeleftbutton"},{"application":false,"args":[],"event":"click","function":"MoveMazeDown","module":"../modules/showcase.js","output":"#slam-mazemap","target":"#slam-mazedownbutton"},{"application":false,"args":[],"event":"click","function":"MoveMazeRight","module":"../modules/showcase.js","output":"#slam-mazemap","target":"#slam-mazerightbutton"}]</script>
+<script type="module" src="../slamhaus-runtime.js"></script>
+</main>
+<footer class="slamhaus-footer">
+<p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>
+</footer>
+</body>
+</html>

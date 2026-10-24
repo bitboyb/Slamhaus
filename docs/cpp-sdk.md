@@ -1,5 +1,15 @@
 # C++ SDK reference
 
+The public SDK headers are Doxygen-compatible. With Doxygen installed, build
+the generated API reference with:
+
+```sh
+cmake --build build --target doxygen
+```
+
+The HTML reference is written to `build/docs-build/doxygen/html/` and is not
+committed.
+
 Page-local `cpp wasm` fences automatically receive `<slam/slam.hpp>` and
 `using namespace Slam`. Sources under `code/` are ordinary C++ and include the
 header explicitly. The installed header is available to IDE indexers.

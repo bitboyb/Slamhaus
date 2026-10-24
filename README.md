@@ -1,5 +1,11 @@
 # Slamhaus
 
+<div align="center">
+  <a href="https://www.slamhaus.com">
+    <img src="media/slamhaus-logo.png" width="256" height="256" alt="Slamhaus Logo"/>
+  </a>
+</div>
+
 Slamhaus is a C++17 command-line static-site compiler for game developers. It
 turns GitHub Flavored Markdown into static HTML and connects typed C++ to the
 browser through WebAssembly without handwritten JavaScript.
@@ -36,10 +42,17 @@ my-site/
   AGENTS.md
   pages/
     index.slam
+  partials/
+    footer.md
 ```
 
 Optional `partials/`, `assets/`, and `code/` directories are added only when
 needed. Generated files go to `dist/`.
+
+The repository's GitHub Pages deployment publishes the committed `dist/`
+directory. Regenerate it locally with `scripts/build-pages.sh`; the script
+uses the ignored `.emscripten_cache/` directory and rewrites local URLs for a
+GitHub Pages project path.
 
 - `.md` is portable GFM with optional YAML front matter.
 - `.slam` adds `slam-ui` and one optional executable `cpp wasm` fence.
@@ -49,9 +62,9 @@ needed. Generated files go to `dist/`.
 
 ````markdown
 ```slam-ui
-Number Left("Left", value: 2);
-Number Right("Right", value: 3);
-Button Calculate("Add") => Add(Left, Right) -> Result;
+Number Left("Left") { value = 2; }
+Number Right("Right") { value = 3; }
+Button Calculate("Add") { on Click => Add(Left, Right) -> Result; }
 Output Result("Ready");
 ```
 
@@ -85,7 +98,11 @@ runtime:
 
 ````markdown
 ```slam-ui
-Canvas Game(width: 1280, height: 720, responsive: true);
+Canvas Game() {
+  width = 1280;
+  height = 720;
+  responsive = true;
+};
 ```
 
 ```cpp wasm
@@ -151,9 +168,11 @@ files. Behavior adapters use a language-neutral module manifest. C++ is the
 only executable adapter in `0.1.0`; `csharp wasm` and `python wasm` are reserved
 for future Unity- and scripting-oriented adapters.
 
-See the [language reference](docs/syntax-reference.md),
+See the [documentation homepage](docs/index.md),
+[language reference](docs/syntax-reference.md),
 [project configuration](docs/project-configuration.md),
-[C++ SDK reference](docs/cpp-sdk.md), and [PWA guide](docs/pwa.md).
+[C++ SDK reference](docs/cpp-sdk.md), [deployment guide](docs/deployment.md),
+and [PWA guide](docs/pwa.md).
 
 ## Development
 
@@ -163,6 +182,12 @@ cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ./build/slamhaus check . --strict
 ./build/slamhaus fmt . --check
+```
+
+To regenerate the deployable site:
+
+```sh
+./scripts/build-pages.sh
 ```
 
 Architecture and contribution constraints are recorded in [AGENTS.md](AGENTS.md).

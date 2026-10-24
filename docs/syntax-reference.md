@@ -30,10 +30,13 @@ named `Canvas` component.
 
 ## Slam UI grammar
 
-Slam UI is declarative and C-like:
+Slam UI is declarative and C++-like:
 
 ```text
-Type [Name](positional, property: value) [on Event => Function(args) -> Output];
+Type [Name](positional) {
+  property = value;
+  on Event => Function(args) -> Output;
+}
 ```
 
 Values are strings, numbers, booleans, identifiers, or lists. Commas are
@@ -41,12 +44,14 @@ required between arguments. `//` and `/* */` comments are supported.
 
 ```slam-ui
 Column Settings() {
-  TextInput Player("Player", placeholder: "Ada");
-  Number Lives("Lives", value: 3, min: 1);
-  Range Volume("Volume", value: 75, min: 0, max: 100);
-  Checkbox Sound("Sound", checked: true);
-  Select Difficulty("Difficulty", options: ["Easy", "Hard"]);
-  Button Save("Save") => Store(Player, Lives, Volume, Sound, Difficulty) -> Status;
+  TextInput Player("Player") { placeholder = "Ada"; }
+  Number Lives("Lives") { value = 3; min = 1; }
+  Range Volume("Volume") { value = 75; min = 0; max = 100; }
+  Checkbox Sound("Sound") { checked = true; }
+  Select Difficulty("Difficulty") { options = ["Easy", "Hard"]; }
+  Button Save("Save") {
+    on Click => Store(Player, Lives, Volume, Sound, Difficulty) -> Status;
+  }
   Output Status("Ready");
 };
 ```
@@ -61,16 +66,34 @@ bindings refer to symbols, never CSS selectors.
   `TextArea`.
 - Content: `Text`, `Output`, `Image`, `Audio`, `Video`, `Canvas`.
 - Composition: `Include("name")` loads `.md` or `.slam` from `partials/`.
-- Escape hatch: `Element("details")` accepts only safe semantic container tags.
+- Escape hatch: `Element("details")` accepts only safe semantic container tags,
+  including `article`, `aside`, `details`, `div`, `footer`, `form`, `header`,
+  `main`, `nav`, `section`, and `summary`.
 
 Controls require accessible labels and images require `alt`. `Output` is an
 ARIA live region. Inline event handlers, unsafe URLs, and `srcdoc` are not part
 of the language.
 
+Use configured layout partials for site-wide regions:
+
+```yaml
+layout:
+  footer: footer
+```
+
+Use `Include("name");` inside a `slam-ui` fence when composition belongs inside
+the page body. Layout partials are rendered inside semantic `header`, `nav`, or
+`footer` elements; inline includes are expanded where they appear.
+
 Default events are `Click` for buttons, `Submit` for forms, `Input` for ranges,
 and `Change` for other controls. Use `on Event` to override the default.
 
 ## Embedded behavior
+
+`Canvas` provides a semantic, responsive canvas element and the SDK exposes
+application lifecycle and input state. Slamhaus 0.1.0 does not yet provide a
+portable C++ drawing API; use DOM components for visible examples until a
+documented 2D rendering surface is added.
 
 A `.slam` page may contain one executable fence:
 

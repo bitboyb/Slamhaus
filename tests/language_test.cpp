@@ -101,6 +101,31 @@ Column Calculator() {
   REQUIRE(html.find("aria-live=\"polite\"") != std::string::npos);
 }
 
+TEST_CASE("slam ui accepts C++-style property and event blocks") {
+  const auto source = R"SLAM(```slam-ui
+Column ContactForm() {
+  TextInput Name("Name") {
+    placeholder = "Ada";
+    required = true;
+  }
+  Button Send("Send") {
+    on Click => Submit(Name) -> Status;
+  }
+  Output Status("Ready");
+}
+```
+```cpp wasm
+auto Submit(FString Name) -> FString { return Name; }
+```
+)SLAM";
+  const auto document = Language::Parse(source, "blocks.slam");
+  REQUIRE_FALSE(Language::HasErrors(document.diagnostics));
+  const auto html = Language::Render(document).html;
+  REQUIRE(html.find("placeholder=\"Ada\"") != std::string::npos);
+  REQUIRE(html.find("required") != std::string::npos);
+  REQUIRE(html.find("data-slamhaus-bindings") != std::string::npos);
+}
+
 TEST_CASE("slam ui renders layout media and canvas primitives") {
   const auto source = R"SLAM(```slam-ui
 Row Media() {
@@ -306,15 +331,17 @@ TEST_CASE("semantic tokens cover markdown ui and cpp regions") {
 
 TEST_CASE("language schema exposes only the new public syntax") {
   const auto schema = Language::SchemaJson();
-  REQUIRE(schema["schema"] == 3);
+  REQUIRE(schema["schema"] == 4);
   REQUIRE(schema["fences"]["ui"] == "slam-ui");
   REQUIRE(schema["fences"]["behavior"] == "cpp wasm");
+  REQUIRE(schema["syntax"]["style"] == "cpp-blocks");
   REQUIRE(schema.dump().find("@wasm") == std::string::npos);
   REQUIRE(schema.dump().find(".smd") == std::string::npos);
 }
 
 TEST_CASE("formatter is conservative and idempotent") {
-  const std::string source = "# Prose\n\n```slam-ui\nButton Go(\"Go\");\n```\n";
+  const std::string source =
+      "# Prose\n\n```slam-ui\nButton Go(\"Go\") {\n  label = \"Go\";\n}\n```\n";
   REQUIRE(Language::Format(source) == source);
   REQUIRE(Language::Format(Language::Format(source)) == source);
 }

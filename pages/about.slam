@@ -1,0 +1,109 @@
+---
+title: About Slamhaus
+description: The ideas, systems, and build pipeline behind Slamhaus.
+---
+# About Slamhaus
+
+Slamhaus is a small, opinionated web tool for people who think in systems,
+tools, levels, simulations, and source files. It keeps content in Markdown and
+puts browser behavior in typed, game-oriented C++.
+
+## The idea
+
+Most static-site tools are built around a scripting ecosystem. Most frontend
+tools assume the browser is the centre of the universe. Slamhaus takes a third
+route: treat a website like a buildable project.
+
+Pages are source files. Routes are data. Components are declarations. C++ is an
+optional behavior module. The compiler turns those pieces into a complete,
+inspectable website without asking a runtime to stay alive after deployment.
+
+## The build pipeline
+
+The pipeline is deliberately visible: each stage has a narrow job and produces
+an inspectable hand-off for the next one.
+
+```slam-ui
+Column BuildPipeline() {
+  class = "pipeline-grid";
+  Element SourceStep() {
+    tag = "div";
+    class = "pipeline-step pipeline-source";
+    Text SourceKicker("01 / source");
+    Text SourceLabel("Markdown + .slam");
+  }
+  Element ParseStep() {
+    tag = "div";
+    class = "pipeline-step";
+    Text ParseKicker("02 / understand");
+    Text ParseLabel("parse + validate");
+  }
+  Element RenderStep() {
+    tag = "div";
+    class = "pipeline-step";
+    Text RenderKicker("03 / compose");
+    Text RenderLabel("route + render");
+  }
+  Element CompileStep() {
+    tag = "div";
+    class = "pipeline-step pipeline-optional";
+    Text CompileKicker("04 / optional");
+    Text CompileLabel("C++ → Emscripten");
+  }
+  Element ShipStep() {
+    tag = "div";
+    class = "pipeline-step pipeline-output";
+    Text ShipKicker("05 / ship");
+    Text ShipLabel("atomic dist/");
+  }
+};
+```
+
+The result above is a real Slam UI component, not a decorative image. Its
+layout is responsive CSS, its labels are generated semantic HTML, and its
+optional WebAssembly stage is shown as part of the same flow rather than as a
+separate product story.
+
+## A game-developer's web stack
+
+Slamhaus borrows useful instincts from game development:
+
+- explicit data flow instead of ambient global state;
+- named systems with narrow responsibilities;
+- deterministic builds and reproducible toolchains;
+- small value types and clear ownership at boundaries;
+- a fast edit-check-build loop;
+- an escape hatch when the built-in primitive is not enough.
+
+It does not pretend to be an engine. There is no scene graph, reflection
+system, garbage collector, proprietary renderer, or fake browser abstraction.
+The SDK gives you useful browser capabilities and leaves rendering choices to
+you.
+
+## Designed for real sites
+
+Slamhaus validates missing pages, route collisions, unsafe paths, partial
+cycles, unsupported behavior adapters, and invalid component properties before
+replacing output. Generated HTML includes semantic regions, labels, live output,
+focus states, and responsive defaults. The result can be served from a folder,
+an object store, a CDN, or GitHub Pages.
+
+## The honest trade-offs
+
+Slamhaus is a good choice if you value readable source, a small toolchain, C++
+behavior, and a static deployment. It is not trying to replace a CMS, a mature
+JavaScript application framework, or a visual page builder. If you need a huge
+plugin marketplace or a client-side state graph with hundreds of screens,
+another tool may be the better fit.
+
+## Project status
+
+The project is young and intentionally experimental, but its contracts are
+treated seriously: stable diagnostics, shared language specifications, pinned
+toolchains, automated tests, generated API documentation, and examples that
+exercise the real compiler.
+
+Start with the [syntax guide](syntax.md), browse the [examples](examples.md),
+or inspect the [live showcase](showcase.slam) and [API cheatsheet](syntax.md).
+
+[Return home](index.slam)

@@ -111,7 +111,7 @@ auto CompletionItems() -> Json {
     items.push_back({{"label", name},
                      {"kind", 7},
                      {"detail", "Slam UI component"},
-                     {"insertText", name + " ${1:Name}($2);"},
+                     {"insertText", name + " ${1:Name}($2) {\n\t$0\n}"},
                      {"insertTextFormat", 2}});
   }
   for (const auto *field : {"title", "description", "draft", "date", "tags",

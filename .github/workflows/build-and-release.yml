@@ -5,6 +5,13 @@ on:
     branches: [main]
     tags: ["v*"]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      rebuild_site:
+        description: Rebuild dist with Slamhaus before deploying (optional)
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -84,6 +91,37 @@ jobs:
           server=$!
           trap 'kill "$server"' EXIT
           npm test --prefix tests/browser
+
+  deploy-pages:
+    name: Deploy committed dist (recommended)
+    needs: [test]
+    if: >-
+      github.event_name == 'push' && github.ref == 'refs/heads/main' ||
+      github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Rebuild site in Actions (optional)
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_site == true
+        shell: bash
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+          cmake --build build --target slamhaus --parallel 2
+          ./build/slamhaus toolchain install
+          ./scripts/build-pages.sh
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')

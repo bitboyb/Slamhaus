@@ -1,0 +1,13 @@
+{
+  "abi": 1,
+  "application": "",
+  "exports": [
+    "AddNumbers",
+    "MoveMazeUp",
+    "MoveMazeLeft",
+    "MoveMazeDown",
+    "MoveMazeRight"
+  ],
+  "language": "cpp",
+  "module": "showcase"
+}

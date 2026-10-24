@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Getting started</title>
+<meta name="description" content="Install Slamhaus from a release binary or compile it from source, then build your first site.">
+<link rel="stylesheet" href="../slamhaus.css">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="slamhaus-header">
+<p><img src="../assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><strong>Slamhaus</strong></p>
+</header>
+<nav class="slamhaus-navigation" aria-label="Primary">
+<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
+</nav>
+<main>
+<nav class="table-of-contents" aria-label="Table of contents"><ol><li class="toc-level-1"><a href="#getting-started">Getting started</a></li><li class="toc-level-2"><a href="#option-1-download-a-release-binary">Option 1: download a release binary</a></li><li class="toc-level-2"><a href="#option-2-compile-from-source">Option 2: compile from source</a></li><li class="toc-level-2"><a href="#create-your-first-site">Create your first site</a></li><li class="toc-level-2"><a href="#add-c-browser-behavior">Add C++ browser behavior</a></li><li class="toc-level-2"><a href="#validate-before-shipping">Validate before shipping</a></li><li class="toc-level-2"><a href="#deploy-the-generated-site">Deploy the generated site</a></li></ol></nav>
+<h1 id="getting-started">
+Getting started
+</h1>
+<p>Slamhaus is a native C++17 command-line compiler. Choose a release binary when
+you want to make a site quickly; compile from source when you are contributing
+to Slamhaus or want to work on the compiler itself.</p>
+<h2 id="option-1-download-a-release-binary">
+Option 1: download a release binary
+</h2>
+<p>Download the latest package for your platform from the
+<a href="https://github.com/bitboyb/Slamhaus/releases/latest">Slamhaus releases page</a>.
+The release workflow publishes packages for Linux, macOS, and Windows when a
+version tag is created.</p>
+<p>After extracting the package, put the <code>slamhaus</code> executable on your <code>PATH</code>.
+On Linux and macOS, a user-local install might look like this:</p>
+<pre><code class="language-cpp">mkdir -<span class="tok-string">p &quot;$HOME/.local/bin&quot;
+install</span> -m <span class="tok-number">755</span> <span class="tok-string">slamhaus &quot;$HOME/.local/bin/slamhaus&quot;
+slamhaus</span> --version
+</code></pre>
+<p>On Windows, place <code>slamhaus.exe</code> in a directory on <code>PATH</code>, or invoke it from
+the extracted directory. The package also contains the public
+<code>&lt;slam/slam.hpp&gt;</code> SDK header for C++ editor indexing and WebAssembly projects.</p>
+<h2 id="option-2-compile-from-source">
+Option 2: compile from source
+</h2>
+<p>Clone the repository and configure a Release build with CMake. A C++17 compiler,
+CMake, and a working standard library are required.</p>
+<pre><code class="language-cpp"><span class="tok-type">git</span> clone https:<span class="tok-comment">//github.com/bitboyb/Slamhaus.git</span>
+cd Slamhaus
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+cmake --install build --<span class="tok-string">prefix &quot;$HOME/.local&quot;
+slamhaus</span> --version
+</code></pre>
+<p>For a development build with tests enabled:</p>
+<pre><code class="language-cpp">cmake -S . -B build -DBUILD_TESTING=ON
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+</code></pre>
+<p>If you are changing the parser, compiler, SDK, or runtime, follow the full
+verification commands in <a href="https://github.com/bitboyb/Slamhaus/blob/main/AGENTS.md"><code>AGENTS.md</code></a>.</p>
+<h2 id="create-your-first-site">
+Create your first site
+</h2>
+<p>The initializer creates a small universal project:</p>
+<pre><code class="language-cpp"><span class="tok-type">slamhaus</span> init my-site
+cd my-site
+slamhaus check --strict
+slamhaus build
+slamhaus serve
+</code></pre>
+<p>Open the local address printed by <code>slamhaus serve</code>. The generated site is in
+<code>dist/</code> and can be copied to a static host, object store, CDN, or GitHub Pages.</p>
+<p>Use <code>.md</code> for portable GFM content. Use <code>.slam</code> when a page needs Slam UI,
+front-matter behavior, or an executable <code>cpp wasm</code> fence.</p>
+<h2 id="add-c-browser-behavior">
+Add C++ browser behavior
+</h2>
+<p>Install the pinned Emscripten toolchain only when a page actually needs
+WebAssembly:</p>
+<pre><code class="language-cpp"><span class="tok-type">slamhaus</span> toolchain install
+slamhaus build my-site
+</code></pre>
+<p>The <a href="../showcase/">live showcase</a> demonstrates the complete shape: named
+controls, typed event bindings, readable C++, generated output, and a small
+game-like interaction.</p>
+<h2 id="validate-before-shipping">
+Validate before shipping
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">slamhaus</span> check my-site --strict
+<span class="tok-type">slamhaus</span> fmt my-site --check
+<span class="tok-type">slamhaus</span> build my-site
+</code></pre>
+<p>For editor integration, run <code>slamhaus lsp</code>; for shell completion, use
+<code>slamhaus completion bash</code>, <code>zsh</code>, or <code>fish</code>. Use <code>slamhaus doctor</code> when a
+compiler or Emscripten installation needs diagnosis.</p>
+<h2 id="deploy-the-generated-site">
+Deploy the generated site
+</h2>
+<p>The preferred deployment path is to build locally and publish the committed
+<code>dist/</code> directory. For this repository:</p>
+<pre><code class="language-cpp">./scripts/build-pages.sh
+git add dist
+git commit -<span class="tok-string">m &quot;Regenerate site&quot;
+git push</span>
+</code></pre>
+<p>The optional GitHub Actions rebuild is useful for verification, but committed
+output is the recommended release path because it matches the site tested
+locally and avoids requiring the toolchain in the deployment job.</p>
+</main>
+<footer class="slamhaus-footer">
+<p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>
+</footer>
+</body>
+</html>
