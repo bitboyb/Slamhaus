@@ -96,6 +96,7 @@ TEST_CASE("generated minimal and complete examples check cleanly") {
 
 TEST_CASE("in memory workspace compiles without filesystem effects") {
   Project::Workspace workspace;
+  workspace.basePath = "/docs/v2/";
   workspace.files = {{"index.md", "# Memory\n"},
                      {"counter.slam", "```slam-ui\nButton Go(\"Go\") => Run();\n```\n"
                                       "```cpp wasm\nauto Run() -> void {}\n```\n"}};
@@ -104,6 +105,8 @@ TEST_CASE("in memory workspace compiles without filesystem effects") {
   REQUIRE(result.artifacts.size() == 2);
   REQUIRE(result.artifacts.front().path == "index.html");
   REQUIRE(result.artifacts.front().content.find("id=\"memory\"") != std::string::npos);
+  REQUIRE(result.artifacts.back().content.find("/docs/v2/modules/counter.js") !=
+          std::string::npos);
 }
 
 TEST_CASE("blank project checks and builds to dist") {
@@ -317,6 +320,32 @@ TEST_CASE("real embedded behavior emits module and manifest when compiler exists
   REQUIRE(html.find("/modules/index.js") != std::string::npos);
   REQUIRE(html.find("slamhaus-runtime.js") != std::string::npos);
   REQUIRE(html.find("data-slamhaus-bindings") == html.rfind("data-slamhaus-bindings"));
+}
+
+TEST_CASE("configured base path prefixes interactive resources") {
+  if (Wasm::DiscoverCompiler().empty())
+    return;
+  TemporaryDirectory directory;
+  REQUIRE(Project::Examples({directory.path, Project::ExampleProfile::Complete, false})
+              .success);
+  Write(directory.path / "slamhaus.yaml",
+        "slamhaus:\n  version: 0.1.0\nsite:\n  name: Nested\n"
+        "  base_path: /docs/v2/\n");
+  Project::Options options;
+  options.root = directory.path;
+  const auto result = Project::Build(options);
+  INFO(Diagnostics(result));
+  REQUIRE(result.success);
+  const auto html = Read(directory.path / "dist/index.html");
+  REQUIRE(html.find("href=\"/docs/v2/slamhaus.css\"") != std::string::npos);
+  REQUIRE(html.find("\"module\":\"/docs/v2/modules/index.js\"") !=
+          std::string::npos);
+  REQUIRE(html.find("src=\"/docs/v2/slamhaus-runtime.js\"") != std::string::npos);
+}
+
+TEST_CASE("runtime resolves modules relative to its own URL") {
+  REQUIRE(std::string(Wasm::Runtime()).find("new URL(url,import.meta.url)") !=
+          std::string::npos);
 }
 
 TEST_CASE("pwa project emits generated application files") {

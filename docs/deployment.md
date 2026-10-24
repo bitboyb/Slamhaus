@@ -17,10 +17,10 @@ git commit
 ```
 
 The workflow uploads the repository root's `dist/` directory, including the
-generated Doxygen reference at `/api/`. It does not
-upload `output/`, `wasm-output/`, `browser-fixture/dist/`, or a build directory.
-`build-pages.sh` also converts local root-relative URLs to paths that work under
-a GitHub Pages project URL.
+generated Doxygen reference at `/api/`. It does not upload `output/`,
+`wasm-output/`, `browser-fixture/dist/`, or a build directory. `build-pages.sh`
+builds the site using the configured `site.base_path`, so generated links do not
+need a deployment-specific post-processing step.
 
 ### Optional Actions rebuild
 
@@ -31,3 +31,9 @@ Emscripten, cache, and toolchain version dependencies to deployment.
 
 The regular `wasm` and `browser` jobs may still compile examples for validation.
 Those validation outputs are separate from the Pages artifact.
+
+For this repository, `site.base_path: /Slamhaus/` matches the project Pages URL.
+Other sites should use `/` for a domain root, or set the path prefix used by
+their static host, such as `/docs/v2/`. The prefix is applied consistently to
+navigation, stylesheets, runtime scripts, module URLs, manifests, feeds, and
+sitemaps.

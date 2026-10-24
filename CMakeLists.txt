@@ -100,6 +100,9 @@ file(READ "${CMAKE_CURRENT_SOURCE_DIR}/sdk/slam/slam.hpp" SLAMHAUS_SDK_HEADER)
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/src/wasm/runtime.js" SLAMHAUS_RUNTIME_SOURCE)
 configure_file(src/wasm/sdk.hpp.in generated/wasm_sdk.hpp @ONLY)
 configure_file(src/wasm/runtime.hpp.in generated/wasm_runtime.hpp @ONLY)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+  "${CMAKE_CURRENT_SOURCE_DIR}/sdk/slam/slam.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/wasm/runtime.js")
 
 add_library(slamhaus_lib
   src/core/project.cpp

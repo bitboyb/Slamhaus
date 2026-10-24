@@ -24,6 +24,8 @@ struct BuildArtifact {
 /** In-memory project input for deterministic compilation. */
 struct Workspace {
   std::vector<SourceFile> files;
+  /** Deployment prefix used when rendering generated module URLs. */
+  std::string basePath = "/";
 };
 
 /** Result of compiling a workspace without performing filesystem effects. */

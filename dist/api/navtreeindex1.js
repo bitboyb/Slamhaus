@@ -217,8 +217,10 @@ var NAVTREEINDEX1 =
 "structProject_1_1UrlResolution.html#af22890eb168ebb2aafd9a4493410fd3c":[2,0,1,6,2],
 "structProject_1_1Workspace.html":[1,0,4,7],
 "structProject_1_1Workspace.html":[2,0,1,7],
-"structProject_1_1Workspace.html#af5a21ee83126d71f089f427120438aef":[1,0,4,7,0],
-"structProject_1_1Workspace.html#af5a21ee83126d71f089f427120438aef":[2,0,1,7,0],
+"structProject_1_1Workspace.html#a41e33b3ca5c815d3ee5b9798759a8527":[1,0,4,7,0],
+"structProject_1_1Workspace.html#a41e33b3ca5c815d3ee5b9798759a8527":[2,0,1,7,0],
+"structProject_1_1Workspace.html#af5a21ee83126d71f089f427120438aef":[1,0,4,7,1],
+"structProject_1_1Workspace.html#af5a21ee83126d71f089f427120438aef":[2,0,1,7,1],
 "structProject_1_1WorkspaceResult.html":[1,0,4,8],
 "structProject_1_1WorkspaceResult.html":[2,0,1,8],
 "structProject_1_1WorkspaceResult.html#a4818ce2bf8cce11315be753068ba9989":[1,0,4,8,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "structSlam_1_1FCanvasSize.html#ab5217c58b781f584f645b2891b3e2cd8":[2,0,2,5,2],
 "structSlam_1_1FColor.html":[1,0,5,5],
 "structSlam_1_1FColor.html":[2,0,2,4],
-"structSlam_1_1FColor.html#a0a191f1d3f4c3306c1f9a9f076dc420e":[1,0,5,5,0],
-"structSlam_1_1FColor.html#a0a191f1d3f4c3306c1f9a9f076dc420e":[2,0,2,4,0],
-"structSlam_1_1FColor.html#a742c55eaba20733ae70eedc8a24541e5":[1,0,5,5,2]
+"structSlam_1_1FColor.html#a0a191f1d3f4c3306c1f9a9f076dc420e":[1,0,5,5,0]
 };

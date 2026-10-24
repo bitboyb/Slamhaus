@@ -3,8 +3,9 @@ const encoder=new TextEncoder();
 const state=globalThis.__slamhaus??={input:{keys:new Set(),pressed:new Set(),released:new Set(),buttons:new Set(),touches:new Map(),x:0,y:0,dx:0,dy:0,wheelX:0,wheelY:0}};
 
 function moduleFor(url,canvas){
-  if(!modules.has(url))modules.set(url,import(url).then(({default:init})=>init({canvas})).catch(error=>{modules.delete(url);throw error}));
-  return modules.get(url);
+  const resolved=new URL(url,import.meta.url).href;
+  if(!modules.has(resolved))modules.set(resolved,import(resolved).then(({default:init})=>init({canvas})).catch(error=>{modules.delete(resolved);throw new Error(`Failed to load Slamhaus module ${resolved}: ${error}`)}));
+  return modules.get(resolved);
 }
 
 function elementValue(selector){

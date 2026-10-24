@@ -90,7 +90,27 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 --directory browser-fixture/dist &
           server=$!
           trap 'kill "$server"' EXIT
-          npm test --prefix tests/browser
+          SLAMHAUS_TEST_URL=http://127.0.0.1:4173/ \
+            SLAMHAUS_TEST_BASE_PATH=/ npm test --prefix tests/browser
+          kill "$server"
+          wait "$server" || true
+          python3 - <<'PY'
+          from pathlib import Path
+          config = Path("browser-fixture/slamhaus.yaml")
+          text = config.read_text()
+          text = text.replace("site:\n", "site:\n  base_path: /Slamhaus/\n", 1)
+          config.write_text(text)
+          PY
+          ./build/slamhaus build browser-fixture
+          rm -rf browser-fixture-nested
+          mkdir -p browser-fixture-nested/Slamhaus
+          cp -a browser-fixture/dist/. browser-fixture-nested/Slamhaus/
+          python3 -m http.server 4173 --bind 127.0.0.1 \
+            --directory browser-fixture-nested &
+          server=$!
+          trap 'kill "$server"' EXIT
+          SLAMHAUS_TEST_URL=http://127.0.0.1:4173/Slamhaus/ \
+            SLAMHAUS_TEST_BASE_PATH=/Slamhaus/ npm test --prefix tests/browser
 
   deploy-pages:
     name: Deploy committed dist (recommended)

@@ -3,7 +3,7 @@ slamhaus:
 site:
   name: Slamhaus
   description: Markdown-first static sites with typed C++ and WebAssembly
-  base_path: /
+  base_path: /Slamhaus/
 theme:
   styles: [assets/site.css]
 layout:

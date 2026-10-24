@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Slamhaus</title>
 <meta name="description" content="Build static sites and interactive browser applications with Markdown and C++.">
-<link rel="stylesheet" href="slamhaus.css">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="/Slamhaus/slamhaus.css">
+<link rel="stylesheet" href="/Slamhaus/assets/site.css">
 </head>
 <body>
 <header class="slamhaus-header">
-<p><img src="assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><img src="/Slamhaus/assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
 <p><strong>Slamhaus</strong></p>
 </header>
 <nav class="slamhaus-navigation" aria-label="Primary">
-<p><a href="./">Home</a> | <a href="getting-started/">Getting started</a> | <a href="syntax/">API cheatsheet</a> | <a href="api/">C++ API docs</a> | <a href="examples/">Examples</a> | <a href="showcase/">Live showcase</a> | <a href="about/">About</a></p>
+<p><a href="/Slamhaus/">Home</a> | <a href="/Slamhaus/getting-started/">Getting started</a> | <a href="/Slamhaus/syntax/">API cheatsheet</a> | <a href="/Slamhaus/api/">C++ API docs</a> | <a href="/Slamhaus/examples/">Examples</a> | <a href="/Slamhaus/showcase/">Live showcase</a> | <a href="/Slamhaus/about/">About</a></p>
 </nav>
 <main>
 <h1 id="slamhaus">
@@ -27,7 +27,7 @@ Markdown in. C++ out. Ship something weird.
 people, and anyone who would rather build a tiny tool than wrestle a frontend
 stack. Write ordinary Markdown, add typed UI when you need interaction, and
 embed C++ that compiles to WebAssembly.</p>
-<p><a href="getting-started/">Getting started</a> · <a href="examples/">View examples</a> · <a href="showcase/">Open the live showcase</a> · <a href="syntax/">API cheatsheet</a></p>
+<p><a href="/Slamhaus/getting-started/">Getting started</a> · <a href="/Slamhaus/examples/">View examples</a> · <a href="/Slamhaus/showcase/">Open the live showcase</a> · <a href="/Slamhaus/syntax/">API cheatsheet</a></p>
 <p>No package maze. No hydration tax. No handwritten JavaScript for supported
 interaction. Just a compiler, a project folder, and a <code>dist/</code> directory you can
 put anywhere.</p>
@@ -76,7 +76,7 @@ Slam UI or executable code. Site configuration lives in <code>slamhaus.yaml</cod
 <div id="slam-signal" class="ascii-stage home-signal">
 <span id="slam-frame">S L A M // *</span>
 </div>
-<p>The complete working version is on the <a href="showcase/">live showcase</a>.</p>
+<p>The complete working version is on the <a href="/Slamhaus/showcase/">live showcase</a>.</p>
 <h2 id="start-a-project">
 Start a project
 </h2>
@@ -106,8 +106,8 @@ dist/         -&gt; a boring, portable website you can ship
 <p>It is deliberately not a full game engine, CMS, SPA framework, or proprietary
 renderer. Bring your own rendering technology when you need one; Slamhaus
 handles the site, the document, and the bridge to the browser.</p>
-<script type="application/json" data-slamhaus-bindings>[{"application":false,"args":["#slam-left","#slam-right"],"event":"click","function":"Add","module":"./modules/index.js","output":"#slam-result","target":"#slam-calculate"}]</script>
-<script type="module" src="slamhaus-runtime.js"></script>
+<script type="application/json" data-slamhaus-bindings>[{"application":false,"args":["#slam-left","#slam-right"],"event":"click","function":"Add","module":"/Slamhaus/modules/index.js","output":"#slam-result","target":"#slam-calculate"}]</script>
+<script type="module" src="/Slamhaus/slamhaus-runtime.js"></script>
 </main>
 <footer class="slamhaus-footer">
 <p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>

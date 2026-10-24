@@ -11,6 +11,10 @@ The local HTML reference is written to `build/docs-build/doxygen/html/`. The
 site deployment script copies it into `dist/api/`, making the generated API
 reference available from the published site's `/api/` subpage.
 
+Generated Emscripten loaders resolve their `.wasm` file from the loader's own
+`import.meta.url`, so module and binary requests remain together under the
+configured deployment prefix.
+
 Page-local `cpp wasm` fences automatically receive `<slam/slam.hpp>` and
 `using namespace Slam`. Sources under `code/` are ordinary C++ and include the
 header explicitly. The installed header is available to IDE indexers.

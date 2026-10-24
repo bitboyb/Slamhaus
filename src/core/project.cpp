@@ -644,7 +644,10 @@ auto BlankProjectFiles() -> std::vector<std::pair<std::filesystem::path, std::st
       {"AGENTS.md",
        "# Slamhaus site\n\nPages are GFM `.md` or enhanced `.slam` files. "
        "Use C++-style `slam-ui` and `cpp wasm` fences for interaction; do not write "
-       "JavaScript for supported behavior. Run `slamhaus check --strict` and "
+       "JavaScript for supported behavior. Before editing, review "
+       "`slamhaus.yaml`'s `slamhaus.version` against the installed compiler, "
+       "read the changelog and syntax reference for parser or component changes, "
+       "then run `slamhaus check --strict`, `slamhaus fmt . --check`, and "
        "`slamhaus build` before publishing. Generated output belongs in `dist/`.\n"},
       {".gitignore", "dist/\n.slamhaus/\n"}};
 }
@@ -706,7 +709,8 @@ auto Compile(const Workspace &workspace, bool unsafeHtml) -> WorkspaceResult {
     options.unsafeHtml = unsafeHtml;
     if (!document.behavior.source.empty())
       options.moduleUrl =
-          "/modules/" + ModuleName(file.path, file.path.parent_path()) + ".js";
+          NormalizeBasePath(workspace.basePath) + "modules/" +
+          ModuleName(file.path, file.path.parent_path()) + ".js";
     auto rendered = Language::Render(document, options);
     result.diagnostics.insert(result.diagnostics.end(), rendered.diagnostics.begin(),
                               rendered.diagnostics.end());
