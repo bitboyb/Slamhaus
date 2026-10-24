@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
       - name: Configure
@@ -109,10 +109,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Verify committed website artifact
+        run: test -f dist/index.html && test -f dist/api/index.html
       - name: Rebuild site in Actions (optional)
         if: github.event_name == 'workflow_dispatch' && inputs.rebuild_site == true
         shell: bash
         run: |
+          sudo apt-get update
+          sudo apt-get install --yes doxygen
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
           cmake --build build --target slamhaus --parallel 2
           ./build/slamhaus toolchain install

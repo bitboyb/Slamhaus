@@ -16,7 +16,8 @@ git add dist
 git commit
 ```
 
-The workflow uploads the repository root's `dist/` directory. It does not
+The workflow uploads the repository root's `dist/` directory, including the
+generated Doxygen reference at `/api/`. It does not
 upload `output/`, `wasm-output/`, `browser-fixture/dist/`, or a build directory.
 `build-pages.sh` also converts local root-relative URLs to paths that work under
 a GitHub Pages project URL.

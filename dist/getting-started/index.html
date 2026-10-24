@@ -14,7 +14,7 @@
 <p><strong>Slamhaus</strong></p>
 </header>
 <nav class="slamhaus-navigation" aria-label="Primary">
-<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
+<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../api/">C++ API docs</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
 </nav>
 <main>
 <nav class="table-of-contents" aria-label="Table of contents"><ol><li class="toc-level-1"><a href="#getting-started">Getting started</a></li><li class="toc-level-2"><a href="#option-1-download-a-release-binary">Option 1: download a release binary</a></li><li class="toc-level-2"><a href="#option-2-compile-from-source">Option 2: compile from source</a></li><li class="toc-level-2"><a href="#create-your-first-site">Create your first site</a></li><li class="toc-level-2"><a href="#add-c-browser-behavior">Add C++ browser behavior</a></li><li class="toc-level-2"><a href="#validate-before-shipping">Validate before shipping</a></li><li class="toc-level-2"><a href="#deploy-the-generated-site">Deploy the generated site</a></li></ol></nav>
@@ -29,10 +29,10 @@ Option 1: download a release binary
 </h2>
 <p>Download the latest package for your platform from the
 <a href="https://github.com/bitboyb/Slamhaus/releases/latest">Slamhaus releases page</a>.
-The release workflow publishes packages for Linux, macOS, and Windows when a
+The release workflow publishes packages for Linux and Windows when a
 version tag is created.</p>
 <p>After extracting the package, put the <code>slamhaus</code> executable on your <code>PATH</code>.
-On Linux and macOS, a user-local install might look like this:</p>
+On Linux, a user-local install might look like this:</p>
 <pre><code class="language-cpp">mkdir -<span class="tok-string">p &quot;$HOME/.local/bin&quot;
 install</span> -m <span class="tok-number">755</span> <span class="tok-string">slamhaus &quot;$HOME/.local/bin/slamhaus&quot;
 slamhaus</span> --version

@@ -59,4 +59,15 @@ for page in output.rglob('*.html'):
         page.write_text(rewritten, encoding='utf-8')
 PY
 
+# Publish the generated Doxygen reference as a stable subpage of the site.
+# The checked-in dist/ artifact therefore contains both the public website and
+# its API documentation, while the Pages job itself only uploads dist/.
+DOC_BUILD_DIR="$ROOT/build"
+if [[ "$COMPILER" == "$BUILD_DIR/slamhaus" ]]; then
+  DOC_BUILD_DIR="$BUILD_DIR"
+fi
+cmake --build "$DOC_BUILD_DIR" --target doxygen --parallel
+rm -rf "$OUTPUT_DIR/api"
+cp -a "$DOC_BUILD_DIR/docs-build/doxygen/html" "$OUTPUT_DIR/api"
+
 echo "GitHub Pages output is ready in $OUTPUT_DIR (EM_CACHE=$EM_CACHE)"

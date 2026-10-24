@@ -13,11 +13,11 @@ to Slamhaus or want to work on the compiler itself.
 
 Download the latest package for your platform from the
 [Slamhaus releases page](https://github.com/bitboyb/Slamhaus/releases/latest).
-The release workflow publishes packages for Linux, macOS, and Windows when a
+The release workflow publishes packages for Linux and Windows when a
 version tag is created.
 
 After extracting the package, put the `slamhaus` executable on your `PATH`.
-On Linux and macOS, a user-local install might look like this:
+On Linux, a user-local install might look like this:
 
 ```cpp
 mkdir -p "$HOME/.local/bin"

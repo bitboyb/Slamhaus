@@ -7,8 +7,9 @@ the generated API reference with:
 cmake --build build --target doxygen
 ```
 
-The HTML reference is written to `build/docs-build/doxygen/html/` and is not
-committed.
+The local HTML reference is written to `build/docs-build/doxygen/html/`. The
+site deployment script copies it into `dist/api/`, making the generated API
+reference available from the published site's `/api/` subpage.
 
 Page-local `cpp wasm` fences automatically receive `<slam/slam.hpp>` and
 `using namespace Slam`. Sources under `code/` are ordinary C++ and include the
