@@ -51,8 +51,18 @@ needed. Generated files go to `dist/`.
 
 The repository's GitHub Pages deployment publishes the committed `dist/`
 directory. Regenerate it locally with `scripts/build-pages.sh`; the script
-uses the ignored `.emscripten_cache/` directory and rewrites local URLs for a
-GitHub Pages project path.
+uses the ignored `.emscripten_cache/` directory and the repository's configured
+deployment base path. For a domain-root site, the default is `/`. For a
+project Pages site, configure the prefix explicitly:
+
+```yaml
+site:
+  base_path: /Slamhaus/
+```
+
+The same setting is used for navigation, stylesheets, runtime scripts,
+generated WebAssembly module loaders, manifests, feeds, and sitemaps. It is a
+URL path, not a hostname; use `/docs/v2/` for a site hosted below that prefix.
 
 - `.md` is portable GFM with optional YAML front matter.
 - `.slam` adds `slam-ui` and one optional executable `cpp wasm` fence.

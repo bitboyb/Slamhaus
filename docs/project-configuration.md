@@ -39,6 +39,11 @@ changelog for syntax and rendering changes, then run `slamhaus check --strict`,
 `build.output` must stay inside the project and may not replace `pages/`,
 `partials/`, `assets/`, `code/`, or the project root. CLI `-o` overrides it.
 
+`site.base_path` is normalized to a leading and trailing slash. Use `/` for a
+domain root, or a deployment prefix such as `/Slamhaus/` or `/docs/v2/` for a
+static subdirectory. It is applied to routes, canonical URLs, stylesheets,
+manifests, runtime files, JavaScript modules, feeds, and sitemaps.
+
 Layout names resolve to `.md` or `.slam` files under `partials/`. The generated
 default project includes a footer linking to [slamhaus.com](https://www.slamhaus.com).
 Custom styles must exist under `assets/`, and `theme.builtin` currently accepts `default`.
