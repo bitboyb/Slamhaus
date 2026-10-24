@@ -1,9 +1,35 @@
 # Project stuff
 /build/
+/build-*/
 /slamhaus
-/tests/
 /output/
+/browser-fixture/
+/wasm-output/
+/.emscripten_cache/
 output.zip
+/slamhaus-*.zip
+/_CPack_Packages/
+
+# Browser test output
+/tests/browser/node_modules/
+/tests/browser/test-results/
+/tests/browser/playwright-report/
+
+# Local project and IDE state
+/.codex
+/.vscode/
+/.idea/
+CMakeUserPresets.json
+compile_commands.json
+*.log
+*.pid
+
+# Doxygen generated documentation
+/docs/html/
+/docs/latex/
+/docs/xml/
+/docs-build/
+/output/docs/
 
 # macOS
 .DS_Store
@@ -49,4 +75,3 @@ ehthumbs.db
 
 # Clangd
 *.clangd
-server.pid

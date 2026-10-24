@@ -1,0 +1,107 @@
+---
+title: Slamhaus
+description: Build static sites and interactive browser applications with Markdown and C++.
+---
+# Slamhaus
+
+## Markdown in. C++ out. Ship something weird.
+
+Slamhaus is a command-line static-site compiler for game developers, systems
+people, and anyone who would rather build a tiny tool than wrestle a frontend
+stack. Write ordinary Markdown, add typed UI when you need interaction, and
+embed C++ that compiles to WebAssembly.
+
+[Getting started](getting-started.md) · [View examples](examples.md) · [Open the live showcase](showcase.slam) · [API cheatsheet](syntax.md)
+
+No package maze. No hydration tax. No handwritten JavaScript for supported
+interaction. Just a compiler, a project folder, and a `dist/` directory you can
+put anywhere.
+
+## Why Slamhaus?
+
+### Built like a game-engine subsystem
+
+The compiler is modular C++17: parsing, validation, routing, rendering, the
+language server, and the WebAssembly bridge are explicit systems. It is fast to
+run, straightforward to inspect, and comfortable to extend.
+
+### Markdown stays the source of truth
+
+Portable `.md` remains portable GFM. `.slam` adds only the things a site needs:
+metadata, typed UI, and optional C++ behavior. Your content is still readable
+in a text editor, a diff, or a terminal.
+
+### Interactive without the frontend ceremony
+
+Name a component, bind an event, write a typed function, and let Slamhaus
+generate the DOM IDs, module manifest, argument conversion, and accessible
+output. The browser gets the runtime; you get to think in C++.
+
+### Static by default, capable when needed
+
+Landing pages, docs, portfolios, release notes, and blogs emit plain HTML and
+CSS. Add Emscripten only to the pages that actually need it: calculators,
+tools, toys, canvas experiments, and game-like interfaces.
+
+### Deterministic and deployable
+
+Routes, links, partials, assets, metadata, and accessibility checks happen at
+build time. The result is a complete site in `dist/`, ready for GitHub Pages,
+an object bucket, a CDN, or a USB stick.
+
+## A small language
+
+Pages use `.md` when they should remain portable and `.slam` when they need
+Slam UI or executable code. Site configuration lives in `slamhaus.yaml`.
+
+```slam-ui
+Number Left("Left") { value = 2; }
+Number Right("Right") { value = 3; }
+Button Calculate("Add") { on Click => Add(Left, Right) -> Result; }
+Output Result("Ready");
+Element Signal() {
+  tag = "div";
+  class = "ascii-stage home-signal";
+  Text Frame("S L A M // *");
+};
+```
+
+The complete working version is on the [live showcase](showcase.slam).
+
+```cpp wasm
+auto Add(int32 A, int32 B) -> int32 {
+  return A + B;
+}
+```
+
+## Start a project
+
+```sh
+slamhaus init my-site
+cd my-site
+slamhaus check --strict
+slamhaus build
+slamhaus serve
+```
+
+## The short version
+
+```cpp
+content       -> Markdown and Slam UI you can read
+compiler      -> routes, HTML, CSS, diagnostics, and modules
+typed C++     -> optional WebAssembly behavior
+dist/         -> a boring, portable website you can ship
+```
+
+Slamhaus is a good fit when you want:
+
+- a personal site or studio landing page without a JavaScript framework;
+- documentation that stays close to source control and the command line;
+- game-dev-flavoured UI and browser toys written in familiar C++;
+- a small, inspectable compiler instead of a cloud build service;
+- accessible semantic HTML with responsive controls from the start;
+- a static deployment story that remains cheap, cacheable, and portable.
+
+It is deliberately not a full game engine, CMS, SPA framework, or proprietary
+renderer. Bring your own rendering technology when you need one; Slamhaus
+handles the site, the document, and the bridge to the browser.

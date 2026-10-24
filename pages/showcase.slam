@@ -1,0 +1,268 @@
+---
+title: Live showcase
+description: Slamhaus source examples followed by their actual rendered results.
+---
+# Live showcase
+
+This page is deliberately executable. Each source example is followed directly
+by the result it produces.
+
+## A labelled form
+
+```cpp
+Form Signup() {
+  TextInput Name("Name") {
+    placeholder = "Ada";
+    required = true;
+  }
+  Select Interest("Interest") {
+    options = ["Tools", "Games", "WebAssembly"];
+  }
+  Button Join("Join the list");
+  Output Confirmation("Ready");
+};
+```
+
+```slam-ui
+Form Signup() {
+  TextInput Name("Name") {
+    placeholder = "Ada";
+    required = true;
+  }
+  Select Interest("Interest") {
+    options = ["Tools", "Games", "WebAssembly"];
+  }
+  Button Join("Join the list");
+  Output Confirmation("Ready");
+};
+```
+
+The result above is real generated HTML: labels, inputs, a select, a touch-sized
+button, and a live output region.
+
+## A typed calculator
+
+```cpp
+Column Calculator() {
+  Number Left("Left") { value = 2; }
+  Number Right("Right") { value = 3; }
+  Button Add("Add") {
+    on Click => AddNumbers(Left, Right) -> Answer;
+  }
+  Output Answer("Waiting...");
+};
+
+```
+
+```slam-ui
+Column Calculator() {
+  Number Left("Left") { value = 2; }
+  Number Right("Right") { value = 3; }
+  Button Add("Add") {
+    on Click => AddNumbers(Left, Right) -> Answer;
+  }
+  Output Answer("Waiting...");
+};
+```
+
+Press **Add** above: the generated bridge passes both values to C++ and writes
+the returned number into `Answer`.
+
+The calculator and maze use one small executable module. The C++ is ordinary
+typed behavior: the page declares controls and outputs, while the module owns
+the calculation and game state.
+
+```cpp wasm
+// Calculator behavior.
+auto AddNumbers(int32 A, int32 B) -> int32 {
+  return A + B;
+}
+
+// Maze behavior.
+namespace {
+int32 MazeX = 1;
+int32 MazeY = 1;
+
+auto MazeFrame() -> FString {
+  FString Frame =
+      "#######\n#.....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######";
+  const auto Index = static_cast<std::size_t>(MazeY * 8 + MazeX);
+  Frame[Index] = (MazeX == 4 && MazeY == 5) ? '*' : '@';
+  return Frame;
+}
+
+auto TryMazeMove(int32 X, int32 Y) -> FString {
+  const FString Walls =
+      "#######\n#.....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######";
+  if (X >= 0 && X < 7 && Y >= 0 && Y < 7 &&
+      Walls[static_cast<std::size_t>(Y * 8 + X)] != '#') {
+    MazeX = X;
+    MazeY = Y;
+  }
+  return MazeFrame();
+}
+} // namespace
+
+auto MoveMazeUp() -> FString { return TryMazeMove(MazeX, MazeY - 1); }
+auto MoveMazeLeft() -> FString { return TryMazeMove(MazeX - 1, MazeY); }
+auto MoveMazeDown() -> FString { return TryMazeMove(MazeX, MazeY + 1); }
+auto MoveMazeRight() -> FString { return TryMazeMove(MazeX + 1, MazeY); }
+```
+
+The same module is shown here as ordinary C++ so it remains readable in the
+documentation. The executable `cpp wasm` fence above is what the compiler
+embeds into this page.
+
+```cpp
+// Calculator behavior.
+auto AddNumbers(int32 A, int32 B) -> int32 {
+  return A + B;
+}
+
+// Maze behavior.
+namespace {
+int32 MazeX = 1;
+int32 MazeY = 1;
+
+auto MazeFrame() -> FString {
+  FString Frame =
+      "#######\n#.....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######";
+  const auto Index = static_cast<std::size_t>(MazeY * 8 + MazeX);
+  Frame[Index] = (MazeX == 4 && MazeY == 5) ? '*' : '@';
+  return Frame;
+}
+
+auto TryMazeMove(int32 X, int32 Y) -> FString {
+  const FString Walls =
+      "#######\n#.....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######";
+  if (X >= 0 && X < 7 && Y >= 0 && Y < 7 &&
+      Walls[static_cast<std::size_t>(Y * 8 + X)] != '#') {
+    MazeX = X;
+    MazeY = Y;
+  }
+  return MazeFrame();
+}
+} // namespace
+
+auto MoveMazeUp() -> FString { return TryMazeMove(MazeX, MazeY - 1); }
+auto MoveMazeLeft() -> FString { return TryMazeMove(MazeX - 1, MazeY); }
+auto MoveMazeDown() -> FString { return TryMazeMove(MazeX, MazeY + 1); }
+auto MoveMazeRight() -> FString { return TryMazeMove(MazeX + 1, MazeY); }
+```
+
+## A tiny playable maze
+
+The same model works for a tiny game loop: state stays in typed C++, while the
+page owns the controls and the output surface.
+
+```cpp
+Column MazeGame() {
+  Output MazeMap("#######\n#@....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######") {
+    class = "maze-board";
+  }
+  Row MazeControls() {
+    class = "maze-controls";
+    Button MazeUpButton("↑") {
+      class = "maze-up";
+      on Click => MoveMazeUp() -> MazeMap;
+    }
+    Button MazeLeftButton("←") {
+      class = "maze-left";
+      on Click => MoveMazeLeft() -> MazeMap;
+    }
+    Button MazeDownButton("↓") {
+      class = "maze-down";
+      on Click => MoveMazeDown() -> MazeMap;
+    }
+    Button MazeRightButton("→") {
+      class = "maze-right";
+      on Click => MoveMazeRight() -> MazeMap;
+    }
+  }
+  Output MazeHint("Reach the star with the touch-sized D-pad.");
+};
+```
+
+```slam-ui
+Column MazeGame() {
+  Output MazeMap("#######\n#@....#\n#.###.#\n#...#.#\n###.#.#\n#...*.#\n#######") {
+    class = "maze-board";
+  }
+  Row MazeControls() {
+    class = "maze-controls";
+    Button MazeUpButton("↑") {
+      class = "maze-up";
+      on Click => MoveMazeUp() -> MazeMap;
+    }
+    Button MazeLeftButton("←") {
+      class = "maze-left";
+      on Click => MoveMazeLeft() -> MazeMap;
+    }
+    Button MazeDownButton("↓") {
+      class = "maze-down";
+      on Click => MoveMazeDown() -> MazeMap;
+    }
+    Button MazeRightButton("→") {
+      class = "maze-right";
+      on Click => MoveMazeRight() -> MazeMap;
+    }
+  }
+  Output MazeHint("Reach the star with the touch-sized D-pad.");
+};
+```
+
+**Result:** a real generated output board with touch-sized controls. The maze is
+intentionally tiny: the point is the shape of the
+interaction, not a proprietary game engine hidden inside the site generator.
+
+## ASCII motion without JavaScript
+
+```cpp
+Element Orbit() {
+  tag = "div";
+  class = "ascii-stage";
+  Text Frame("S L A M // *");
+};
+```
+
+```slam-ui
+Element Orbit() {
+  tag = "div";
+  class = "ascii-stage";
+  Text Frame("S L A M // *");
+};
+```
+
+The result is the animated terminal-style panel below. It is CSS motion over a
+semantic DOM element, so it works without a runtime and respects reduced-motion
+preferences.
+
+## A responsive canvas declaration
+
+```cpp
+Canvas Game() {
+  width = 1280;
+  height = 720;
+  responsive = true;
+};
+```
+
+```slam-ui
+Canvas Game() {
+  width = 1280;
+  height = 720;
+  responsive = true;
+};
+```
+
+The result is a responsive canvas element ready for an application lifecycle.
+The SDK deliberately leaves drawing to the project or renderer you choose.
+
+## What the compiler adds
+
+- semantic HTML and accessible labels;
+- private component IDs and typed event wiring;
+- responsive base styles and focus states;
+- route, link, asset, and partial validation;
+- optional Emscripten modules and manifests;
+- a complete `dist/` directory that can be hosted anywhere.

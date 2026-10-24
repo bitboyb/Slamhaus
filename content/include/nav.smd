@@ -1,8 +1,0 @@
-<!-- Navigation -->
-
-- [Home](index.slam)
-    - [Nested Link Example](index.slam#partners)
-- [About](about.slam)
-- [Examples](examples.slam)
-    - [WASM Basics](wasm.slam)
-- [Contact Us](contact.slam)

@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Slamhaus API cheatsheet</title>
+<meta name="description" content="A compact reference for Slamhaus components, properties, events, and SDK helpers.">
+<link rel="stylesheet" href="../slamhaus.css">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="slamhaus-header">
+<p><img src="../assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><strong>Slamhaus</strong></p>
+</header>
+<nav class="slamhaus-navigation" aria-label="Primary">
+<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../api/">C++ API docs</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
+</nav>
+<main>
+<nav class="table-of-contents" aria-label="Table of contents"><ol><li class="toc-level-1"><a href="#slamhaus-api-cheatsheet">Slamhaus API cheatsheet</a></li><li class="toc-level-2"><a href="#page-files">Page files</a></li><li class="toc-level-2"><a href="#front-matter">Front matter</a></li><li class="toc-level-2"><a href="#slam-ui-grammar">Slam UI grammar</a></li><li class="toc-level-2"><a href="#components">Components</a></li><li class="toc-level-2"><a href="#common-properties">Common properties</a></li><li class="toc-level-2"><a href="#default-events">Default events</a></li><li class="toc-level-2"><a href="#typed-behavior">Typed behavior</a></li><li class="toc-level-2"><a href="#sdk-quick-reference">SDK quick reference</a></li><li class="toc-level-2"><a href="#cli-loop">CLI loop</a></li></ol></nav>
+<h1 id="slamhaus-api-cheatsheet">
+Slamhaus API cheatsheet
+</h1>
+<p>Use the <a href="../examples/">examples</a> as the guided, live version of this reference.
+This page is the quick lookup sheet.</p>
+<h2 id="page-files">
+Page files
+</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.md</code></td>
+<td>Portable GitHub Flavored Markdown</td>
+</tr>
+<tr>
+<td><code>.slam</code></td>
+<td>Markdown plus Slam UI and optional executable C++</td>
+</tr>
+<tr>
+<td><code>partials/</code></td>
+<td>Reusable Markdown or Slamhaus regions</td>
+</tr>
+<tr>
+<td><code>code/</code></td>
+<td>Shared C++ modules</td>
+</tr>
+<tr>
+<td><code>assets/</code></td>
+<td>CSS, fonts, images, audio, and other public files</td>
+</tr>
+<tr>
+<td><code>dist/</code></td>
+<td>Complete generated site</td>
+</tr>
+</tbody>
+</table>
+<h2 id="front-matter">
+Front matter
+</h2>
+<pre><code class="language-yaml">---
+title: Page title
+description: Search description
+tags: [one, two]
+draft: false
+noindex: false
+toc: true
+permalink: /custom/route/
+runtime:
+  module: shared-module
+  application: FGame
+  canvas: Game
+---
+</code></pre>
+<h2 id="slam-ui-grammar">
+Slam UI grammar
+</h2>
+<pre><code class="language-cpp"><span class="tok-type">Type</span> Name(<span class="tok-string">&quot;Label&quot;</span>) {
+  property = value;
+  <span class="tok-type">on</span> Event =&gt; Function(Input, Other) -&gt; Output;
+  Child(<span class="tok-string">&quot;Label&quot;</span>);
+};
+</code></pre>
+<p>Values: strings, numbers, booleans, identifiers, and lists.</p>
+<h2 id="components">
+Components
+</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Components</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layout</td>
+<td><code>Row</code>, <code>Column</code>, <code>Panel</code>, <code>Form</code></td>
+</tr>
+<tr>
+<td>Inputs</td>
+<td><code>TextInput</code>, <code>Number</code>, <code>Range</code>, <code>Checkbox</code>, <code>Select</code>, <code>TextArea</code></td>
+</tr>
+<tr>
+<td>Actions</td>
+<td><code>Button</code></td>
+</tr>
+<tr>
+<td>Output</td>
+<td><code>Text</code>, <code>Output</code></td>
+</tr>
+<tr>
+<td>Media</td>
+<td><code>Image</code>, <code>Audio</code>, <code>Video</code></td>
+</tr>
+<tr>
+<td>Surface</td>
+<td><code>Canvas</code></td>
+</tr>
+<tr>
+<td>Composition</td>
+<td><code>Include</code></td>
+</tr>
+<tr>
+<td>Semantic</td>
+<td><code>Element</code> with safe tags</td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-properties">
+Common properties
+</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Values</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td>string or number</td>
+<td>inputs</td>
+</tr>
+<tr>
+<td><code>placeholder</code></td>
+<td>string</td>
+<td>text inputs</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td>boolean</td>
+<td>form inputs</td>
+</tr>
+<tr>
+<td><code>min</code>, <code>max</code>, <code>step</code></td>
+<td>number</td>
+<td>number/range</td>
+</tr>
+<tr>
+<td><code>checked</code></td>
+<td>boolean</td>
+<td>checkbox</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td>list</td>
+<td>select</td>
+</tr>
+<tr>
+<td><code>src</code></td>
+<td>local or external URL</td>
+<td>media</td>
+</tr>
+<tr>
+<td><code>alt</code></td>
+<td>string</td>
+<td>image</td>
+</tr>
+<tr>
+<td><code>controls</code></td>
+<td>boolean</td>
+<td>audio/video</td>
+</tr>
+<tr>
+<td><code>playsinline</code></td>
+<td>boolean</td>
+<td>video</td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>number</td>
+<td>canvas</td>
+</tr>
+<tr>
+<td><code>responsive</code></td>
+<td>boolean</td>
+<td>canvas</td>
+</tr>
+<tr>
+<td><code>class</code></td>
+<td>string</td>
+<td>any component</td>
+</tr>
+<tr>
+<td><code>tag</code></td>
+<td>safe semantic tag</td>
+<td><code>Element</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="default-events">
+Default events
+</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Default event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Button</code></td>
+<td><code>Click</code></td>
+</tr>
+<tr>
+<td><code>Form</code></td>
+<td><code>Submit</code></td>
+</tr>
+<tr>
+<td><code>Range</code></td>
+<td><code>Input</code></td>
+</tr>
+<tr>
+<td>Other controls</td>
+<td><code>Change</code></td>
+</tr>
+</tbody>
+</table>
+<p>Override them with <code>on Event =&gt; Function(...) -&gt; Output;</code>.</p>
+<h2 id="typed-behavior">
+Typed behavior
+</h2>
+<pre><code class="language-cpp wasm">auto Add(int32 A, int32 B) -&gt; int32 { return A + B; }
+</code></pre>
+<p>Supported boundary values include <code>FString</code>, <code>bool</code>, fixed-width integers,
+floating-point values, and <code>void</code>. Functions are namespace-scope and cannot be
+overloaded when exported from a page.</p>
+<h2 id="sdk-quick-reference">
+SDK quick reference
+</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FInput</code></td>
+<td>Keyboard, mouse, pointer, touch, and gamepads</td>
+</tr>
+<tr>
+<td><code>FCanvas</code></td>
+<td>Canvas size, fullscreen, and pointer lock</td>
+</tr>
+<tr>
+<td><code>FDisplay</code></td>
+<td>Viewport, device scale, orientation</td>
+</tr>
+<tr>
+<td><code>FDocument</code></td>
+<td>Safe text, values, classes, visibility, and focus</td>
+</tr>
+<tr>
+<td><code>FStorage</code></td>
+<td>Local and session storage</td>
+</tr>
+<tr>
+<td><code>FAudio</code></td>
+<td>Play, pause, stop, volume, resume</td>
+</tr>
+<tr>
+<td><code>FHttpClient</code></td>
+<td>Async HTTP requests</td>
+</tr>
+<tr>
+<td><code>FAssetManager</code></td>
+<td>Async text asset loading</td>
+</tr>
+<tr>
+<td><code>FNavigation</code></td>
+<td>Internal and external navigation</td>
+</tr>
+<tr>
+<td><code>FAccessibility</code></td>
+<td>Announcements and reduced-motion preference</td>
+</tr>
+<tr>
+<td><code>FSensors</code></td>
+<td>Orientation and acceleration</td>
+</tr>
+<tr>
+<td><code>FPwa</code></td>
+<td>Install capability and prompt</td>
+</tr>
+<tr>
+<td><code>FApplication</code></td>
+<td><code>BeginPlay</code>, <code>Tick</code>, <code>EndPlay</code>, suspend/resume, resize</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cli-loop">
+CLI loop
+</h2>
+<pre><code class="language-sh">slamhaus init my-site
+slamhaus check my-site --strict
+slamhaus fmt my-site --check
+slamhaus build my-site
+slamhaus serve my-site
+</code></pre>
+<p>Use <code>slamhaus check . --format json</code> for tooling, <code>slamhaus language-schema</code> for
+editor integrations, and <code>slamhaus lsp</code> for the editor-neutral language server.</p>
+</main>
+<footer class="slamhaus-footer">
+<p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About Slamhaus</title>
+<meta name="description" content="The ideas, systems, and build pipeline behind Slamhaus.">
+<link rel="stylesheet" href="../slamhaus.css">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="slamhaus-header">
+<p><img src="../assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><strong>Slamhaus</strong></p>
+</header>
+<nav class="slamhaus-navigation" aria-label="Primary">
+<p><a href="../">Home</a> | <a href="../getting-started/">Getting started</a> | <a href="../syntax/">API cheatsheet</a> | <a href="../api/">C++ API docs</a> | <a href="../examples/">Examples</a> | <a href="../showcase/">Live showcase</a> | <a href="../about/">About</a></p>
+</nav>
+<main>
+<h1 id="about-slamhaus">
+About Slamhaus
+</h1>
+<p>Slamhaus is a small, opinionated web tool for people who think in systems,
+tools, levels, simulations, and source files. It keeps content in Markdown and
+puts browser behavior in typed, game-oriented C++.</p>
+<h2 id="the-idea">
+The idea
+</h2>
+<p>Most static-site tools are built around a scripting ecosystem. Most frontend
+tools assume the browser is the centre of the universe. Slamhaus takes a third
+route: treat a website like a buildable project.</p>
+<p>Pages are source files. Routes are data. Components are declarations. C++ is an
+optional behavior module. The compiler turns those pieces into a complete,
+inspectable website without asking a runtime to stay alive after deployment.</p>
+<h2 id="the-build-pipeline">
+The build pipeline
+</h2>
+<p>The pipeline is deliberately visible: each stage has a narrow job and produces
+an inspectable hand-off for the next one.</p>
+<div id="slam-buildpipeline" class="pipeline-grid" data-slam-layout="column">
+<div id="slam-sourcestep" class="pipeline-step pipeline-source">
+<span id="slam-sourcekicker">01 / source</span>
+<span id="slam-sourcelabel">Markdown + .slam</span>
+</div>
+<div id="slam-parsestep" class="pipeline-step">
+<span id="slam-parsekicker">02 / understand</span>
+<span id="slam-parselabel">parse + validate</span>
+</div>
+<div id="slam-renderstep" class="pipeline-step">
+<span id="slam-renderkicker">03 / compose</span>
+<span id="slam-renderlabel">route + render</span>
+</div>
+<div id="slam-compilestep" class="pipeline-step pipeline-optional">
+<span id="slam-compilekicker">04 / optional</span>
+<span id="slam-compilelabel">C++ → Emscripten</span>
+</div>
+<div id="slam-shipstep" class="pipeline-step pipeline-output">
+<span id="slam-shipkicker">05 / ship</span>
+<span id="slam-shiplabel">atomic dist/</span>
+</div>
+</div>
+<p>The result above is a real Slam UI component, not a decorative image. Its
+layout is responsive CSS, its labels are generated semantic HTML, and its
+optional WebAssembly stage is shown as part of the same flow rather than as a
+separate product story.</p>
+<h2 id="a-game-developer-s-web-stack">
+A game-developer's web stack
+</h2>
+<p>Slamhaus borrows useful instincts from game development:</p>
+<ul>
+<li>explicit data flow instead of ambient global state;</li>
+<li>named systems with narrow responsibilities;</li>
+<li>deterministic builds and reproducible toolchains;</li>
+<li>small value types and clear ownership at boundaries;</li>
+<li>a fast edit-check-build loop;</li>
+<li>an escape hatch when the built-in primitive is not enough.</li>
+</ul>
+<p>It does not pretend to be an engine. There is no scene graph, reflection
+system, garbage collector, proprietary renderer, or fake browser abstraction.
+The SDK gives you useful browser capabilities and leaves rendering choices to
+you.</p>
+<h2 id="designed-for-real-sites">
+Designed for real sites
+</h2>
+<p>Slamhaus validates missing pages, route collisions, unsafe paths, partial
+cycles, unsupported behavior adapters, and invalid component properties before
+replacing output. Generated HTML includes semantic regions, labels, live output,
+focus states, and responsive defaults. The result can be served from a folder,
+an object store, a CDN, or GitHub Pages.</p>
+<h2 id="the-honest-trade-offs">
+The honest trade-offs
+</h2>
+<p>Slamhaus is a good choice if you value readable source, a small toolchain, C++
+behavior, and a static deployment. It is not trying to replace a CMS, a mature
+JavaScript application framework, or a visual page builder. If you need a huge
+plugin marketplace or a client-side state graph with hundreds of screens,
+another tool may be the better fit.</p>
+<h2 id="project-status">
+Project status
+</h2>
+<p>The project is young and intentionally experimental, but its contracts are
+treated seriously: stable diagnostics, shared language specifications, pinned
+toolchains, automated tests, generated API documentation, and examples that
+exercise the real compiler.</p>
+<p>Start with the <a href="../syntax/">syntax guide</a>, browse the <a href="../examples/">examples</a>,
+or inspect the <a href="../showcase/">live showcase</a> and <a href="../syntax/">API cheatsheet</a>.</p>
+<p><a href="../">Return home</a></p>
+</main>
+<footer class="slamhaus-footer">
+<p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+slamhaus:
+  version: 0.1.0
+site:
+  name: Slamhaus
+  description: Markdown-first static sites with typed C++ and WebAssembly
+  base_path: /
+theme:
+  styles: [assets/site.css]
+layout:
+  header: header
+  navigation: navigation
+  footer: footer

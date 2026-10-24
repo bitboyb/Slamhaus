@@ -1,0 +1,7 @@
+#pragma once
+#include <string_view>
+namespace Wasm {
+inline constexpr std::string_view RuntimeSource = R"SLAMHAUS_RUNTIME(
+@SLAMHAUS_RUNTIME_SOURCE@
+)SLAMHAUS_RUNTIME";
+}

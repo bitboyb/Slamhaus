@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Slamhaus</title>
+<meta name="description" content="Build static sites and interactive browser applications with Markdown and C++.">
+<link rel="stylesheet" href="slamhaus.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="slamhaus-header">
+<p><img src="assets/slamhaus-logo.png" alt="Slamhaus logo" /></p>
+<p><strong>Slamhaus</strong></p>
+</header>
+<nav class="slamhaus-navigation" aria-label="Primary">
+<p><a href="./">Home</a> | <a href="getting-started/">Getting started</a> | <a href="syntax/">API cheatsheet</a> | <a href="api/">C++ API docs</a> | <a href="examples/">Examples</a> | <a href="showcase/">Live showcase</a> | <a href="about/">About</a></p>
+</nav>
+<main>
+<h1 id="slamhaus">
+Slamhaus
+</h1>
+<h2 id="markdown-in-c-out-ship-something-weird">
+Markdown in. C++ out. Ship something weird.
+</h2>
+<p>Slamhaus is a command-line static-site compiler for game developers, systems
+people, and anyone who would rather build a tiny tool than wrestle a frontend
+stack. Write ordinary Markdown, add typed UI when you need interaction, and
+embed C++ that compiles to WebAssembly.</p>
+<p><a href="getting-started/">Getting started</a> · <a href="examples/">View examples</a> · <a href="showcase/">Open the live showcase</a> · <a href="syntax/">API cheatsheet</a></p>
+<p>No package maze. No hydration tax. No handwritten JavaScript for supported
+interaction. Just a compiler, a project folder, and a <code>dist/</code> directory you can
+put anywhere.</p>
+<h2 id="why-slamhaus">
+Why Slamhaus?
+</h2>
+<h3 id="built-like-a-game-engine-subsystem">
+Built like a game-engine subsystem
+</h3>
+<p>The compiler is modular C++17: parsing, validation, routing, rendering, the
+language server, and the WebAssembly bridge are explicit systems. It is fast to
+run, straightforward to inspect, and comfortable to extend.</p>
+<h3 id="markdown-stays-the-source-of-truth">
+Markdown stays the source of truth
+</h3>
+<p>Portable <code>.md</code> remains portable GFM. <code>.slam</code> adds only the things a site needs:
+metadata, typed UI, and optional C++ behavior. Your content is still readable
+in a text editor, a diff, or a terminal.</p>
+<h3 id="interactive-without-the-frontend-ceremony">
+Interactive without the frontend ceremony
+</h3>
+<p>Name a component, bind an event, write a typed function, and let Slamhaus
+generate the DOM IDs, module manifest, argument conversion, and accessible
+output. The browser gets the runtime; you get to think in C++.</p>
+<h3 id="static-by-default-capable-when-needed">
+Static by default, capable when needed
+</h3>
+<p>Landing pages, docs, portfolios, release notes, and blogs emit plain HTML and
+CSS. Add Emscripten only to the pages that actually need it: calculators,
+tools, toys, canvas experiments, and game-like interfaces.</p>
+<h3 id="deterministic-and-deployable">
+Deterministic and deployable
+</h3>
+<p>Routes, links, partials, assets, metadata, and accessibility checks happen at
+build time. The result is a complete site in <code>dist/</code>, ready for GitHub Pages,
+an object bucket, a CDN, or a USB stick.</p>
+<h2 id="a-small-language">
+A small language
+</h2>
+<p>Pages use <code>.md</code> when they should remain portable and <code>.slam</code> when they need
+Slam UI or executable code. Site configuration lives in <code>slamhaus.yaml</code>.</p>
+<label>Left<input type="number" id="slam-left" value="2"></label>
+<label>Right<input type="number" id="slam-right" value="3"></label>
+<button type="button" id="slam-calculate">Add</button>
+<output id="slam-result" aria-live="polite">Ready</output>
+<div id="slam-signal" class="ascii-stage home-signal">
+<span id="slam-frame">S L A M // *</span>
+</div>
+<p>The complete working version is on the <a href="showcase/">live showcase</a>.</p>
+<h2 id="start-a-project">
+Start a project
+</h2>
+<pre><code class="language-sh">slamhaus init my-site
+cd my-site
+slamhaus check --strict
+slamhaus build
+slamhaus serve
+</code></pre>
+<h2 id="the-short-version">
+The short version
+</h2>
+<pre><code class="language-cpp">content       -&gt; Markdown and Slam UI you can read
+compiler      -&gt; routes, HTML, CSS, diagnostics, and modules
+typed C++     -&gt; optional WebAssembly behavior
+dist/         -&gt; a boring, portable website you can ship
+</code></pre>
+<p>Slamhaus is a good fit when you want:</p>
+<ul>
+<li>a personal site or studio landing page without a JavaScript framework;</li>
+<li>documentation that stays close to source control and the command line;</li>
+<li>game-dev-flavoured UI and browser toys written in familiar C++;</li>
+<li>a small, inspectable compiler instead of a cloud build service;</li>
+<li>accessible semantic HTML with responsive controls from the start;</li>
+<li>a static deployment story that remains cheap, cacheable, and portable.</li>
+</ul>
+<p>It is deliberately not a full game engine, CMS, SPA framework, or proprietary
+renderer. Bring your own rendering technology when you need one; Slamhaus
+handles the site, the document, and the bridge to the browser.</p>
+<script type="application/json" data-slamhaus-bindings>[{"application":false,"args":["#slam-left","#slam-right"],"event":"click","function":"Add","module":"./modules/index.js","output":"#slam-result","target":"#slam-calculate"}]</script>
+<script type="module" src="slamhaus-runtime.js"></script>
+</main>
+<footer class="slamhaus-footer">
+<p>Made with <a href="https://www.slamhaus.com">Slamhaus</a>.</p>
+</footer>
+</body>
+</html>
